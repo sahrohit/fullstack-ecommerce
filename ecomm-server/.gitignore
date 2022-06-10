@@ -1,0 +1,22 @@
+# Text Editor
+.idea/
+.vscode/
+
+# Logs
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Generated Builds
+build/
+tmp/
+temp/
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local

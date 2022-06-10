@@ -1,0 +1,21 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore all HTML files:
+*.html
+
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+**/*.d.ts
+**/*.config.js

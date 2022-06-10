@@ -1,0 +1,280 @@
+import argon2 from "argon2";
+import {
+	Arg,
+	Ctx,
+	Field,
+	FieldResolver,
+	Mutation,
+	ObjectType,
+	Query,
+	Resolver,
+	Root,
+} from "type-graphql";
+import { v4 } from "uuid";
+import {
+	COOKIE_NAME,
+	FORGOT_PASSWORD_PREFIX,
+	VERIFY_EMAIL_PREFIX,
+} from "../constants";
+import { AppDataSource } from "../data-source";
+import { User } from "../entities/User";
+import { forgetPasswordTemplate } from "../static/forgetPasswordTemplate";
+import { verifyEmailTemplate } from "../static/verifyEmailTemplate";
+import { sendEmail } from "../utils/sendEmail";
+import { validateRegister } from "../utils/validator";
+import { MyContext } from "../types";
+import { RegisterInput } from "./GqlObjets/RegisterInput";
+
+@ObjectType()
+class FieldError {
+	@Field()
+	field!: string;
+
+	@Field()
+	message!: string;
+}
+
+@ObjectType()
+class UserResponse {
+	@Field(() => [FieldError], { nullable: true })
+	errors?: FieldError[];
+
+	@Field(() => User, { nullable: true })
+	user?: User;
+}
+
+@Resolver(User)
+export class UserResolver {
+	@FieldResolver(() => String)
+	email(@Root() user: User, @Ctx() { req }: MyContext) {
+		if (req.session.userId === user.id) {
+			return user.email;
+		}
+		return "";
+	}
+
+	@Query(() => User, { nullable: true })
+	me(@Ctx() { req }: MyContext) {
+		//Not Logged in
+		if (!req.session?.userId) {
+			return null;
+		}
+		return User.findOne({ where: { id: req.session?.userId } });
+	}
+
+	@Mutation(() => UserResponse)
+	async register(
+		@Arg("options") options: RegisterInput,
+		@Ctx() { req, redis }: MyContext
+	): Promise<UserResponse> {
+		const errors = validateRegister(options);
+		if (errors) {
+			return { errors };
+		}
+
+		const hashedPassword = await argon2.hash(options.password);
+		let user;
+		try {
+			const result = await AppDataSource.createQueryBuilder()
+				.insert()
+				.into(User)
+				.values({
+					username: options.username,
+					password: hashedPassword,
+					first_name: options.first_name,
+					last_name: options.last_name,
+					email: options.email,
+					phone_number: options.phone_number,
+				})
+				.returning("*")
+				.execute();
+			user = result.raw[0];
+		} catch (err: any) {
+			if (err.code === "23505" || err.detail.includes("already exists")) {
+				return {
+					errors: [{ field: "username", message: err.detail }],
+				};
+			}
+		}
+
+		const token = v4();
+		await redis.set(
+			VERIFY_EMAIL_PREFIX + token,
+			user.id,
+			"EX",
+			1000 * 60 * 60 * 24 * 3 //3 day
+		);
+
+		await sendEmail(
+			options.email,
+			"Verify Email",
+			verifyEmailTemplate(
+				`${process.env.CLIENT_URL}/verify-email?token=${token}`
+			)
+		);
+
+		req.session.userId = user.id;
+		return { user };
+	}
+
+	@Mutation(() => Boolean)
+	async resendVerificationEmail(@Ctx() { req, redis }: MyContext) {
+		const user = await User.findOne({ where: { id: req.session.userId } });
+
+		if (!user) {
+			return false;
+		}
+
+		const token = v4();
+		await redis.set(
+			VERIFY_EMAIL_PREFIX + token,
+			user.id,
+			"EX",
+			1000 * 60 * 60 * 24 * 3
+		); //3 day
+
+		await sendEmail(
+			user.email,
+			"Verify Email",
+			verifyEmailTemplate(`${process.env.CLIENT_URL}/change-password/${token}`)
+		);
+
+		return true;
+	}
+
+	@Mutation(() => Boolean)
+	async verifyEmail(
+		@Arg("token") token: string,
+		@Ctx() { redis }: MyContext
+	): Promise<boolean> {
+		const userId = await redis.get(VERIFY_EMAIL_PREFIX + token);
+
+		if (!userId) {
+			return false;
+		}
+
+		const user = await User.findOne({ where: { id: parseInt(userId) } });
+
+		if (!user) {
+			return false;
+		}
+
+		User.update({ id: parseInt(userId) }, { email_verified: true });
+		await redis.del(VERIFY_EMAIL_PREFIX + token);
+
+		return true;
+	}
+
+	@Mutation(() => UserResponse)
+	async login(
+		@Arg("usernameOrEmail") usernameOrEmail: string,
+		@Arg("password") password: string,
+		@Ctx() { req }: MyContext
+	): Promise<UserResponse> {
+		const user = await User.findOne({
+			where: usernameOrEmail.includes("@")
+				? { email: usernameOrEmail }
+				: { username: usernameOrEmail },
+		});
+		if (!user) {
+			return {
+				errors: [{ field: "usernameOrEmail", message: "User doesn't exist " }],
+			};
+		}
+
+		const valid = await argon2.verify(user.password, password);
+
+		if (!valid) {
+			return {
+				errors: [{ field: "password", message: "Incorrect Password" }],
+			};
+		}
+
+		req.session.userId = user.id;
+
+		return { user };
+	}
+
+	@Mutation(() => Boolean)
+	logout(@Ctx() { req, res }: MyContext) {
+		return new Promise((resolve) =>
+			req.session.destroy((err) => {
+				res.clearCookie(COOKIE_NAME);
+				if (err) {
+					console.log(err);
+					resolve(false);
+					return;
+				}
+				resolve(true);
+			})
+		);
+	}
+
+	@Mutation(() => Boolean)
+	async forgotPassword(
+		@Arg("email") email: string,
+		@Ctx() { redis }: MyContext
+	) {
+		const user = await User.findOne({ where: { email } });
+
+		if (!user) {
+			return true;
+		}
+
+		const token = v4();
+		await redis.set(
+			FORGOT_PASSWORD_PREFIX + token,
+			user.id,
+			"EX",
+			1000 * 60 * 60 * 24 * 3
+		); //3 day
+
+		await sendEmail(
+			email,
+			"Forgot Password",
+			forgetPasswordTemplate(
+				`${process.env.CLIENT_URL}/change-password/${token}`
+			)
+		);
+		return true;
+	}
+
+	@Mutation(() => UserResponse)
+	async changePassword(
+		@Arg("token") token: string,
+		@Arg("newPassword") newPassword: string,
+		@Ctx() { req, redis }: MyContext
+	): Promise<UserResponse> {
+		if (newPassword.length <= 2) {
+			return {
+				errors: [{ field: "newPassword", message: "Password Too short" }],
+			};
+		}
+
+		const userId = await redis.get(FORGOT_PASSWORD_PREFIX + token);
+
+		if (!userId) {
+			return { errors: [{ field: "token", message: "Token Expired" }] };
+		}
+
+		const user = await User.findOne({ where: { id: parseInt(userId) } });
+
+		if (!user) {
+			return {
+				errors: [{ field: "token", message: "User no longer exists." }],
+			};
+		}
+
+		User.update(
+			{ id: parseInt(userId) },
+			{ password: await argon2.hash(newPassword) }
+		);
+
+		await redis.del(FORGOT_PASSWORD_PREFIX + token);
+
+		//Logging in User
+		req.session.userId = user.id;
+
+		return { user };
+	}
+}

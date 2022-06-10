@@ -1,0 +1,22 @@
+import { InputType, Field } from "type-graphql";
+
+@InputType()
+export default class AddAddressInput {
+	@Field()
+	address_line1!: string;
+
+	@Field({ nullable: true })
+	address_line2?: string;
+
+	@Field()
+	city!: string;
+
+	@Field()
+	postal_code!: string;
+
+	@Field()
+	country!: string;
+
+	@Field()
+	phone_number!: string;
+}
