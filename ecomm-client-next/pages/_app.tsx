@@ -1,16 +1,21 @@
-import "../styles/globals.css";
+import { ApolloProvider } from "@apollo/client";
+import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-
-const client = new ApolloClient({
-	uri: process.env.NEXT_PUBLIC_API_URL,
-	cache: new InMemoryCache(),
-});
+import DarkModeSwitch from "../components/utils/DarkModeSwitch";
+import { useApollo } from "../components/utils/withApollo";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
+	const client = useApollo(pageProps);
+
 	return (
 		<ApolloProvider client={client}>
-			<Component {...pageProps} />
+			<ThemeProvider enableSystem={true} attribute="class">
+				<Component {...pageProps} />
+				<div className="fixed bottom-4 right-4">
+					<DarkModeSwitch />
+				</div>
+			</ThemeProvider>
 		</ApolloProvider>
 	);
 }

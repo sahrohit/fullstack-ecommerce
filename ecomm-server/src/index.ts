@@ -10,12 +10,12 @@ import { buildSchema } from "type-graphql";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import { AppDataSource } from "./data-source";
 import { AddressResolver } from "./resolvers/address";
+import { CategoryResolver } from "./resolvers/category";
+import { DiscountResolver } from "./resolvers/discount";
 import { HelloResolver } from "./resolvers/hello";
 import { ProductResolver } from "./resolvers/product";
 import { UserResolver } from "./resolvers/user";
 import { MyContext } from "./types";
-import { DiscountResolver } from "./resolvers/discount";
-import { CategoryResolver } from "./resolvers/category";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -49,7 +49,7 @@ const Server = async () => {
 			cookie: {
 				maxAge: 1000 * 60 * 60 * 24 * 365 * 10, //10yrs
 				httpOnly: true,
-				sameSite: "none", //CSRF
+				sameSite: "lax", //CSRF
 				secure: __prod__, //Cookie only works in https
 			},
 			saveUninitialized: false,
