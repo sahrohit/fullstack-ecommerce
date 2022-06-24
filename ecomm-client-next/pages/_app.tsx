@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<ApolloProvider client={client}>
-			<ThemeProvider enableSystem={true} attribute="class">
+			<ThemeProvider enableSystem={true} attribute="data-theme">
 				<Component {...pageProps} />
 				<div className="fixed bottom-4 right-4">
 					<DarkModeSwitch />
