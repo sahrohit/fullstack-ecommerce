@@ -1,114 +1,32 @@
-import { Form, Formik } from "formik";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { MdMailOutline, MdOutlinePassword } from "react-icons/md";
-import Button from "../../components/ui/Button";
-import InputField from "../../components/ui/InputField";
-import { toErrorMap } from "../../components/utils/toErrorMap";
-import { useRegisterMutation } from "../../generated/graphql";
+import Image from "next/image";
+import Link from "next/link";
+import RegisterForm from "@components/Auth/RegisterForm";
+import { __register_page_image__ } from "../../constants";
 
-const RegisterPage: NextPage = () => {
-	const router = useRouter();
-
-	const [register] = useRegisterMutation();
-
+const LoginPage: NextPage = () => {
 	return (
-		<div className="grid place-items-center h-screen">
-			<Formik
-				initialValues={{
-					email: "",
-					password: "",
-					username: "",
-					first_name: "",
-					last_name: "",
-					phone_number: "",
-				}}
-				onSubmit={async (values, { setErrors }) => {
-					const response = await register({
-						variables: {
-							options: {
-								email: values.email,
-								username: values.username,
-								password: values.password,
-								first_name: values.first_name,
-								last_name: values.last_name,
-								phone_number: values.phone_number,
-							},
-						},
-					});
-					if (response.data?.register.errors) {
-						console.log(toErrorMap(response.data.register.errors));
-						setErrors(toErrorMap(response.data.register.errors));
-					} else if (response.data?.register.user) {
-						router.push("/");
-					}
-				}}
-			>
-				{({ isSubmitting }) => (
-					<Form>
-						<div className="grid grid-cols-2 gap-x-8">
-							<InputField
-								icon={<MdMailOutline />}
-								name="username"
-								label="Username"
-								placeholder="Username"
-								type="text"
-								autoComplete="username"
-							/>
-							<InputField
-								icon={<MdOutlinePassword />}
-								name="password"
-								label="Password"
-								placeholder="Password"
-								type="password"
-								autoComplete="current-password"
-							/>
-							<InputField
-								icon={<MdMailOutline />}
-								name="email"
-								label="Email"
-								placeholder="Email"
-								type="email"
-								autoComplete="email"
-							/>
-							<InputField
-								icon={<MdMailOutline />}
-								name="phone_number"
-								label="Phone Number"
-								placeholder="Phone Number"
-								type="text"
-								autoComplete="tel-local"
-							/>
-							<InputField
-								icon={<MdOutlinePassword />}
-								name="first_name"
-								label="First Name"
-								placeholder="First Name"
-								type="text"
-								autoComplete="first_name"
-							/>
-							<InputField
-								icon={<MdOutlinePassword />}
-								name="last_name"
-								label="Last Name"
-								placeholder="Last Name"
-								type="text"
-								autoComplete="last_name"
-							/>
-						</div>
+		<div className="flex flex-row">
+			<div className="basis-0 xl:basis-3/5 h-screen w-full bg-gradient-to-r from-sky-500 to-indigo-500 sm:basis-0 relative">
+				<Image src={__register_page_image__} layout="fill" alt="Login Page" />
+			</div>
+			<div className="xl:basis-2/5 lg:basis-full w-full h-screen grid place-items-center">
+				<div className="w-full max-w-sm space-y-8">
+					<div>
+						<h1 className="text-3xl font-bold py-1">Sign up for a account</h1>
+						<p className="text-md ">
+							Already have a account,{" "}
+							<Link href="/auth/login" passHref>
+								<span className="link link-secondary link-hover">Login ?</span>
+							</Link>
+						</p>
+					</div>
 
-						<Button
-							className="w-full mx-auto"
-							type="submit"
-							isLoading={isSubmitting}
-						>
-							Login
-						</Button>
-					</Form>
-				)}
-			</Formik>
+					<RegisterForm />
+				</div>
+			</div>
 		</div>
 	);
 };
 
-export default RegisterPage;
+export default LoginPage;

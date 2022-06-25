@@ -1,9 +1,24 @@
 import { NextPage } from "next";
-import React from "react";
-import FullPageLoadingSpinner from "../components/shared/FullPageLoadingSpinner";
+import { toast } from "react-hot-toast";
 
 const Test: NextPage = () => {
-	return <FullPageLoadingSpinner />;
+	return (
+		<button
+			onClick={() => {
+				toast.success(
+					() => (
+						<div>
+							<strong>Successfully Registered !</strong>
+							<p>Verify you email to continue.</p>
+						</div>
+					),
+					{ duration: 9000 }
+				);
+			}}
+		>
+			Toast
+		</button>
+	);
 };
 
 export default Test;

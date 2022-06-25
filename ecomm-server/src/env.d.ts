@@ -7,6 +7,7 @@ declare global {
       SESSION_SECRET: string;
       CLIENT_URL: string;
       PORT: string;
+      SENDGRID_API_KEY: string;
     }
   }
 }

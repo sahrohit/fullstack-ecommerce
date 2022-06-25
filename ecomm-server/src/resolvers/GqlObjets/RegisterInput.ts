@@ -3,9 +3,6 @@ import { InputType, Field } from "type-graphql";
 @InputType()
 export class RegisterInput {
 	@Field()
-	username!: string;
-
-	@Field()
 	password!: string;
 
 	@Field()
@@ -16,7 +13,4 @@ export class RegisterInput {
 
 	@Field()
 	email!: string;
-
-	@Field()
-	phone_number?: string;
 }

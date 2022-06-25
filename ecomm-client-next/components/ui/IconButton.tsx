@@ -8,13 +8,7 @@ interface IconButtonProps {
 	style?: Record<string, string>;
 }
 
-const IconButton = ({
-	onClick,
-	active,
-	className,
-	style,
-	icon,
-}: IconButtonProps) => {
+const IconButton = ({ onClick, style, icon }: IconButtonProps) => {
 	return (
 		<button
 			style={style}
@@ -32,8 +26,8 @@ const IconButton = ({
 };
 
 IconButton.defaultProps = {
-    active: false,
-    style: {},
-  };
+	active: false,
+	style: {},
+};
 
 export default IconButton;

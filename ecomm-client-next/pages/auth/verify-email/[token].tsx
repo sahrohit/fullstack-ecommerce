@@ -1,15 +1,13 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import FullPageLoadingSpinner from "../../../components/shared/FullPageLoadingSpinner";
-import Alert from "../../../components/ui/Alert";
-import { useVerifyEmailMutation } from "../../../generated/graphql";
+import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
+import Alert from "@components/ui/Alert";
+import { useVerifyEmailMutation } from "@generated/graphql";
 
 const VerifyEmailPage: NextPage = () => {
 	const router = useRouter();
-
 	const { token } = router.query;
-
 	const [emailVerified, setEmailVerified] = useState<
 		"loading" | "verified" | "not-verified"
 	>("loading");
@@ -25,6 +23,7 @@ const VerifyEmailPage: NextPage = () => {
 			});
 			if (response.data?.verifyEmail) {
 				setEmailVerified("verified");
+				router.replace("/");
 				return;
 			}
 			setEmailVerified("not-verified");
@@ -32,7 +31,7 @@ const VerifyEmailPage: NextPage = () => {
 		if (typeof window !== "undefined" && token) {
 			asyncFuntion();
 		}
-	}, [token, verifyEmail]);
+	}, [router, token, verifyEmail]);
 
 	if (emailVerified === "loading") {
 		return <FullPageLoadingSpinner />;

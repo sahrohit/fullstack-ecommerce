@@ -1,15 +1,17 @@
-import { Form, Formik } from "formik";
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { MdMailOutline, MdOutlinePassword } from "react-icons/md";
-import InputField from "../../components/ui/InputField";
-import { useLoginMutation } from "../../generated/graphql";
 import { BsFacebook, BsGoogle, BsTwitter } from "react-icons/bs";
+import LoginForm from "@components/Auth/LoginForm";
 import { __login_page_image__ } from "../../constants";
+import { useState } from "react";
+import { useResendVerificationEmailMutation } from "@generated/graphql";
 
 const LoginPage: NextPage = () => {
-	const [login, { data, loading }] = useLoginMutation();
+	const [resendVerificationEmail] = useResendVerificationEmailMutation();
+	const [globalError, setGlobalError] = useState("");
+	const [unVerifiedEmail, setUnVerifiedEmail] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	return (
 		<div className="flex flex-row">
@@ -20,7 +22,9 @@ const LoginPage: NextPage = () => {
 						<p className="text-md ">
 							Dont have a account,{" "}
 							<Link href="/auth/register" passHref>
-								<span className="text-blue-800 cursor-pointer">Register ?</span>
+								<span className="link link-secondary link-hover">
+									Register ?
+								</span>
 							</Link>
 						</p>
 					</div>
@@ -42,63 +46,68 @@ const LoginPage: NextPage = () => {
 
 					<div className="divider text-sm text-gray-500">or continue with</div>
 
-					<Formik
-						initialValues={{ usernameOrEmail: "", password: "" }}
-						onSubmit={async (values, { setErrors }) => {
-							const response = await login({
-								variables: {
-									usernameOrEmail: values.usernameOrEmail,
-									password: values.password,
-								},
-							});
-							console.log(response);
-						}}
-					>
-						{({ isSubmitting }) => (
-							<Form>
-								<div className="flex flex-col gap-2">
-									<InputField
-										icon={<MdMailOutline />}
-										name="usernameOrEmail"
-										label="Username or Email"
-										placeholder="Username or Email"
-										type="text"
-										autoComplete="username"
-									/>
-									<InputField
-										icon={<MdOutlinePassword />}
-										name="password"
-										label="Password"
-										placeholder="Password"
-										type="password"
-										autoComplete="current-password"
-									/>
-
-									<p className="text-sm my-2 text-right">
-										<Link href="/auth/forgot-password" passHref>
-											<span className="text-blue-800 cursor-pointer">
-												Forgot your Password ?
-											</span>
-										</Link>
-									</p>
-
-									<button
-										className={`btn btn-primary w-full gap-2 rounded-md ${
-											isSubmitting && "loading"
-										}`}
-										type="submit"
-									>
-										{isSubmitting ? "Loading" : "Sign In"}
-									</button>
-								</div>
-							</Form>
-						)}
-					</Formik>
+					<LoginForm
+						setGlobalError={setGlobalError}
+						setUnVerifiedEmail={setUnVerifiedEmail}
+					/>
 				</div>
 			</div>
 			<div className="basis-0 xl:basis-3/5 h-screen w-full bg-gradient-to-r from-sky-500 to-indigo-500 sm:basis-0 relative">
 				<Image src={__login_page_image__} layout="fill" alt="Login Page" />
 			</div>
+
+			{globalError && (
+				<div className="alert alert-warning shadow-lg absolute rounded-t-none">
+					<div>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							className="stroke-info flex-shrink-0 w-6 h-6"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth="2"
+								d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							></path>
+						</svg>
+						<div>
+							<h3 className="font-bold">{globalError}</h3>
+							<div className="text-xs">
+								Verify your email first to continue.
+							</div>
+						</div>
+					</div>
+					<div className="flex-none">
+						<button
+							className="btn btn-sm btn-ghost"
+							onClick={() => {
+								setGlobalError("");
+							}}
+						>
+							Dismiss
+						</button>
+						<button
+							className={`btn btn-sm ${loading && "loading btn-disabled"}`}
+							onClick={async () => {
+								setLoading(true);
+								const response = await resendVerificationEmail({
+									variables: {
+										email: unVerifiedEmail,
+									},
+								});
+								if (response.data?.resendVerificationEmail) {
+									setGlobalError("");
+								}
+								setLoading(false);
+							}}
+						>
+							Resend link
+						</button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

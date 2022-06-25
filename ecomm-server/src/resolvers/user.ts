@@ -8,21 +8,21 @@ import {
 	ObjectType,
 	Query,
 	Resolver,
-	Root,
+	Root
 } from "type-graphql";
 import { v4 } from "uuid";
 import {
 	COOKIE_NAME,
 	FORGOT_PASSWORD_PREFIX,
-	VERIFY_EMAIL_PREFIX,
+	VERIFY_EMAIL_PREFIX
 } from "../constants";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/User";
 import { forgetPasswordTemplate } from "../static/forgetPasswordTemplate";
 import { verifyEmailTemplate } from "../static/verifyEmailTemplate";
+import { MyContext } from "../types";
 import { sendEmail } from "../utils/sendEmail";
 import { validateRegister } from "../utils/validator";
-import { MyContext } from "../types";
 import { RegisterInput } from "./GqlObjets/RegisterInput";
 
 @ObjectType()
@@ -56,7 +56,7 @@ export class UserResolver {
 	@Query(() => User, { nullable: true })
 	me(@Ctx() { req }: MyContext) {
 		//Not Logged in
-    console.log(req.session?.userId)
+		console.log(req.session?.userId);
 		if (!req.session?.userId) {
 			return null;
 		}
@@ -66,7 +66,7 @@ export class UserResolver {
 	@Mutation(() => UserResponse)
 	async register(
 		@Arg("options") options: RegisterInput,
-		@Ctx() { req, redis }: MyContext
+		@Ctx() { redis }: MyContext
 	): Promise<UserResponse> {
 		const errors = validateRegister(options);
 		if (errors) {
@@ -80,12 +80,10 @@ export class UserResolver {
 				.insert()
 				.into(User)
 				.values({
-					username: options.username,
 					password: hashedPassword,
 					first_name: options.first_name,
 					last_name: options.last_name,
 					email: options.email,
-					phone_number: options.phone_number,
 				})
 				.returning("*")
 				.execute();
@@ -102,7 +100,7 @@ export class UserResolver {
 		await redis.set(
 			VERIFY_EMAIL_PREFIX + token,
 			user.id,
-			"EX",
+			"PX",
 			1000 * 60 * 60 * 24 * 3 //3 day
 		);
 
@@ -110,17 +108,20 @@ export class UserResolver {
 			options.email,
 			"Verify Email",
 			verifyEmailTemplate(
-				`${process.env.CLIENT_URL}/verify-email?token=${token}`
+				`${process.env.CLIENT_URL}/auth/verify-email/${token}`
 			)
 		);
 
-		req.session.userId = user.id;
+		// req.session.userId = user.id;
 		return { user };
 	}
 
 	@Mutation(() => Boolean)
-	async resendVerificationEmail(@Ctx() { req, redis }: MyContext) {
-		const user = await User.findOne({ where: { id: req.session.userId } });
+	async resendVerificationEmail(
+		@Ctx() { redis }: MyContext,
+		@Arg("email") email: string
+	) {
+		const user = await User.findOne({ where: { email } });
 
 		if (!user) {
 			return false;
@@ -130,14 +131,16 @@ export class UserResolver {
 		await redis.set(
 			VERIFY_EMAIL_PREFIX + token,
 			user.id,
-			"EX",
+			"PX",
 			1000 * 60 * 60 * 24 * 3
 		); //3 day
 
 		await sendEmail(
 			user.email,
 			"Verify Email",
-			verifyEmailTemplate(`${process.env.CLIENT_URL}/change-password/${token}`)
+			verifyEmailTemplate(
+				`${process.env.CLIENT_URL}/auth/verify-email/${token}`
+			)
 		);
 
 		return true;
@@ -146,7 +149,7 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async verifyEmail(
 		@Arg("token") token: string,
-		@Ctx() { redis }: MyContext
+		@Ctx() { req, redis }: MyContext
 	): Promise<boolean> {
 		const userId = await redis.get(VERIFY_EMAIL_PREFIX + token);
 
@@ -163,36 +166,36 @@ export class UserResolver {
 		User.update({ id: parseInt(userId) }, { email_verified: true });
 		await redis.del(VERIFY_EMAIL_PREFIX + token);
 
+		req.session.userId = user.id;
 		return true;
 	}
 
 	@Mutation(() => UserResponse)
 	async login(
-		@Arg("usernameOrEmail") usernameOrEmail: string,
+		@Arg("email") email: string,
 		@Arg("password") password: string,
 		@Ctx() { req }: MyContext
 	): Promise<UserResponse> {
 		const user = await User.findOne({
-			where: usernameOrEmail.includes("@")
-				? { email: usernameOrEmail }
-				: { username: usernameOrEmail },
+			where: { email: email },
 		});
 		if (!user) {
 			return {
-				errors: [{ field: "usernameOrEmail", message: "User doesn't exist " }],
+				errors: [{ field: "email", message: "User doesn't exist " }],
 			};
 		}
-
 		const valid = await argon2.verify(user.password, password);
-
 		if (!valid) {
 			return {
 				errors: [{ field: "password", message: "Incorrect Password" }],
 			};
 		}
-
+		if (!user.email_verified) {
+			return {
+				errors: [{ field: "global", message: "Email not verified" }],
+			};
+		}
 		req.session.userId = user.id;
-
 		return { user };
 	}
 
@@ -226,7 +229,7 @@ export class UserResolver {
 		await redis.set(
 			FORGOT_PASSWORD_PREFIX + token,
 			user.id,
-			"EX",
+			"PX",
 			1000 * 60 * 60 * 24 * 3
 		); //3 day
 
@@ -234,9 +237,10 @@ export class UserResolver {
 			email,
 			"Forgot Password",
 			forgetPasswordTemplate(
-				`${process.env.CLIENT_URL}/change-password/${token}`
+				`${process.env.CLIENT_URL}/auth/change-password/${token}`
 			)
 		);
+
 		return true;
 	}
 

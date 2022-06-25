@@ -17,10 +17,6 @@ export class User extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Field()
-	@Column({ unique: true })
-	username!: string;
-
 	@Column()
 	password!: string;
 
@@ -40,7 +36,7 @@ export class User extends BaseEntity {
 	@Column({ default: false })
 	email_verified!: boolean;
 
-	@Field()
+	@Field({ nullable: true })
 	@Column({ unique: true, nullable: true })
 	phone_number!: string;
 

@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import FullPageLoadingSpinner from "../components/shared/FullPageLoadingSpinner";
-import Alert from "../components/ui/Alert";
-import { useMeQuery } from "../generated/graphql";
+import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
+import Alert from "@components/ui/Alert";
+import { useMeQuery } from "@generated/graphql";
 
 const Home: NextPage = () => {
 	const { data, loading, error } = useMeQuery();
