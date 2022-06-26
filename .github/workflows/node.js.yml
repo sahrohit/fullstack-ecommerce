@@ -24,7 +24,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Check Frontend Build
-      run: npm run build
+      run: |
+        yarn
+        yarn build
       working-directory: ${{env.frontend-working-directory}}
 
   build-backend:
@@ -40,7 +42,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Check Backend Build
-      run: npm run build
+      run: |
+        yarn
+        yarn build
       working-directory: ${{env.backend-working-directory}}
       
 
