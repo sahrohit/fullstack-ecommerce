@@ -5,7 +5,7 @@
     <img src="" alt="Logo" width="160" height="80">
   </a>
 
-<h3 align="center">Ecommerce Site</h3>
+  <h3 align="center">Ecommerce Site</h3>
 
   <p align="center">
     Built with Next.js & Expressjs with Graphql
@@ -20,12 +20,11 @@
 
 ## About The Project
 
-
 <a href="https://drawsql.app/student-460/diagrams/shop">SQL Diagram for the Database</a>
-
 
 ### Built With
 
+<div style="display: flex; flex-wrap: wrap;">
 <img src="https://img.icons8.com/color/48/000000/typescript.png" title="Typescript" alt="Typescript" width="50" height="50" />
 <img src="https://img.icons8.com/color/48/000000/nodejs.png" title="Nodejs" alt="Nodejs" width="50" height="50" />
 <img src="https://img.icons8.com/color/48/000000/graphql.png" title="Graphql" alt="Graphql" width="50" height="50" />
@@ -33,8 +32,10 @@
 <img src="https://img.icons8.com/color/48/000000/redis.png" title="Redis" alt="Redis" width="50" height="50" /><img src="https://img.icons8.com/color/48/000000/apollo.png" title="Apollo" alt="Apollo" width="50" height="50" />
 <img src="https://img.icons8.com/color/48/000000/nextjs.png" title="Nextjs" alt="Nextjs" width="50" height="50" />
 <img src="https://tailwindcss.com/_next/static/media/tailwindcss-mark.79614a5f61617ba49a0891494521226b.svg" title="Tailwind CSS" alt="Tailwind CSS" width="50" height="50"/>
+</div>
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps.
@@ -60,8 +61,9 @@ To get a local copy up and running follow these simple example steps.
        $ cd ecomm-client-next
        $ yarn
    ```
+
 3. Rename the `env.example` to `env.local` & update you enviroment variables in both frontend and backend folders.
-   
+
    ```js
    API_KEY = YOUR API KEYS
    ```
@@ -74,14 +76,11 @@ To initialize the backend,
 
 `yarn dev` - Start a Nodejs server on the port specified in .env
 
-
 To initialize the frontend,
 
 `yarn dev` - Starts a Next App at http://localhost:3000
 
 For other commands, check `scripts` in package.json.
-
-
 
 <!-- ROADMAP -->
 <!--
