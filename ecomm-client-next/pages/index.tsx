@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 		);
 	}
 
-	return <div>{JSON.stringify(data)}</div>;
+	return <p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p>;
 };
 
 export default Home;

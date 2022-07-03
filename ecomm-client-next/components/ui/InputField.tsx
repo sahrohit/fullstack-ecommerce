@@ -13,7 +13,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 const InputField = (props: InputFieldProps) => {
 	const [field, { error }] = useField(props);
 	return (
-		<div>
+		<div className="w-full">
 			<label htmlFor={field.name} className={"label"}>
 				<span className="label-text">{props.label}</span>
 				{error && (
