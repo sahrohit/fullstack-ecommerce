@@ -1,3 +1,4 @@
+import AddressInformationForm from "@components/Profile/Address/AddressInformationForm";
 import PersonalInformationForm from "@components/Profile/PersonalInformationForm";
 import { withProtected } from "@components/utils/routes";
 import { NextPage } from "next";
@@ -17,7 +18,7 @@ const ProfilePage: NextPage = () => {
 				title="Address"
 				description="This information will be displayed publicly so be careful what you
 						share."
-				content={<PersonalInformationForm />}
+				content={<AddressInformationForm />}
 			/>
 		</div>
 	);
@@ -43,7 +44,7 @@ const ProfilePageBlockLayout = ({
 				<p>{description}</p>
 			</div>
 			<div className="basis-2/3">
-				<div className="rounded-lg p-4">{content}</div>
+				<div className="rounded-lg">{content}</div>
 			</div>
 		</div>
 	);

@@ -40,6 +40,7 @@ export type Address = {
   country: Scalars['String'];
   created_at: Scalars['String'];
   id: Scalars['Int'];
+  nickname: Scalars['String'];
   phone_number: Scalars['String'];
   postal_code: Scalars['String'];
   updated_at: Scalars['String'];
@@ -269,6 +270,8 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type AddressFragmentFragment = { __typename?: 'Address', id: number, nickname: string, address_line1: string, address_line2?: string | null, city: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string };
+
 export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
 export type UserFragmentFragment = { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, created_at: string, updated_at: string };
@@ -322,6 +325,11 @@ export type VerifyEmailMutationVariables = Exact<{
 
 export type VerifyEmailMutation = { __typename?: 'Mutation', verifyEmail: boolean };
 
+export type AddressQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AddressQuery = { __typename?: 'Query', addresses?: Array<{ __typename?: 'Address', id: number, nickname: string, address_line1: string, address_line2?: string | null, city: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string }> | null };
+
 export type HelloQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -332,6 +340,20 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, created_at: string, updated_at: string } | null };
 
+export const AddressFragmentFragmentDoc = gql`
+    fragment AddressFragment on Address {
+  id
+  nickname
+  address_line1
+  address_line2
+  city
+  postal_code
+  phone_number
+  country
+  created_at
+  updated_at
+}
+    `;
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   field
@@ -593,6 +615,40 @@ export function useVerifyEmailMutation(baseOptions?: Apollo.MutationHookOptions<
 export type VerifyEmailMutationHookResult = ReturnType<typeof useVerifyEmailMutation>;
 export type VerifyEmailMutationResult = Apollo.MutationResult<VerifyEmailMutation>;
 export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<VerifyEmailMutation, VerifyEmailMutationVariables>;
+export const AddressDocument = gql`
+    query Address {
+  addresses {
+    ...AddressFragment
+  }
+}
+    ${AddressFragmentFragmentDoc}`;
+
+/**
+ * __useAddressQuery__
+ *
+ * To run a query within a React component, call `useAddressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAddressQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAddressQuery(baseOptions?: Apollo.QueryHookOptions<AddressQuery, AddressQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AddressQuery, AddressQueryVariables>(AddressDocument, options);
+      }
+export function useAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AddressQuery, AddressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AddressQuery, AddressQueryVariables>(AddressDocument, options);
+        }
+export type AddressQueryHookResult = ReturnType<typeof useAddressQuery>;
+export type AddressLazyQueryHookResult = ReturnType<typeof useAddressLazyQuery>;
+export type AddressQueryResult = Apollo.QueryResult<AddressQuery, AddressQueryVariables>;
 export const HelloQueryDocument = gql`
     query HelloQuery {
   hello

@@ -19,6 +19,10 @@ export class Address extends BaseEntity {
 
 	@Field()
 	@Column()
+	nickname!: string;
+
+	@Field()
+	@Column()
 	address_line1!: string;
 
 	@Field({ nullable: true })
