@@ -5,6 +5,17 @@ import { Form, Formik } from "formik";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
+import * as Yup from "yup";
+
+const RegisterSchema = Yup.object().shape({
+	first_name: Yup.string().required("Required"),
+	last_name: Yup.string().required("Required"),
+	email: Yup.string().email("Invalid Email").required("Required"),
+	password: Yup.string()
+		.min(6, "Too Short")
+		.max(30, "Too Long")
+		.required("Required"),
+});
 
 const RegisterForm: NextPage = () => {
 	const [register] = useRegisterMutation();
@@ -18,6 +29,7 @@ const RegisterForm: NextPage = () => {
 				email: "",
 				password: "",
 			}}
+			validationSchema={RegisterSchema}
 			onSubmit={async (values, { setErrors }) => {
 				const response = await register({
 					variables: {

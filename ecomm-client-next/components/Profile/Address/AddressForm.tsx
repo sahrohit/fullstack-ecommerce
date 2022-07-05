@@ -9,21 +9,34 @@ import {
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import { __available_countries__, __nepal_states__ } from "../../../constants";
+import * as Yup from "yup";
 
 interface AddressFormProps {
 	setModalOpen: (value: boolean) => void;
 	currentValues?: AddressFragmentFragment;
 }
 
-const AddressForm = ({
-	setModalOpen,
-	currentValues,
-}: AddressFormProps) => {
+const AddressFormSchema = Yup.object().shape({
+	nickname: Yup.string().required("Required"),
+	address_line1: Yup.string().required("Required"),
+	address_line2: Yup.string(),
+	state: Yup.string().required("Required"),
+	city: Yup.string().required("Required"),
+	postal_code: Yup.string().required("Required"),
+	country: Yup.string().required("Required"),
+	phone_number: Yup.string()
+		.min(10, "Invalid Number")
+		.max(10, "Invalid Number")
+		.required("Required"),
+});
+
+const AddressForm = ({ setModalOpen, currentValues }: AddressFormProps) => {
 	const [addAddressMutation] = useAddAddressMutation();
 	const [updateAddressMutation] = useUpdateAddressMutation();
 
 	return (
 		<Formik
+			validateOnBlur
 			initialValues={
 				currentValues
 					? {
@@ -54,6 +67,7 @@ const AddressForm = ({
 							phone_number: "",
 					  }
 			}
+			validationSchema={AddressFormSchema}
 			onSubmit={async (values, actions) => {
 				if (currentValues) {
 					toast.promise(

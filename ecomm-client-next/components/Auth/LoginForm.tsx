@@ -4,21 +4,28 @@ import { useLoginMutation } from "@generated/graphql";
 import { Form, Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import * as Yup from "yup";
 
 interface LoginFormProps {
 	setGlobalError: (error: string) => void;
 	setUnVerifiedEmail: (email: string) => void;
 }
 
+const LoginSchema = Yup.object().shape({
+	email: Yup.string().email("Invalid Email").required("Required"),
+	password: Yup.string().required("Required"),
+});
+
 const LoginForm = ({ setGlobalError, setUnVerifiedEmail }: LoginFormProps) => {
+	const router = useRouter();
 	const [login] = useLoginMutation({
 		update: (cache) => cache.evict({ fieldName: "me" }),
 	});
-	const router = useRouter();
 
 	return (
 		<Formik
 			initialValues={{ email: "", password: "" }}
+			validationSchema={LoginSchema}
 			onSubmit={async (values, { setErrors }) => {
 				const response = await login({
 					variables: {

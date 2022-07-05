@@ -12,15 +12,13 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const InputField = (props: InputFieldProps) => {
-	const [field, { error }] = useField(props);
+	const [field, { error, touched }] = useField(props);
 	return (
 		<div className="w-full">
 			<label htmlFor={field.name} className={"label"}>
 				<span className="label-text">{props.label}</span>
-				{error && (
-					<span className="label-text-alt text-red-600">
-						Oh, snapp! {error}
-					</span>
+				{error && touched && (
+					<span className="label-text-alt text-red-600">{error}</span>
 				)}
 			</label>
 			{props.leftAddon ? (
@@ -33,7 +31,7 @@ const InputField = (props: InputFieldProps) => {
 						autoComplete={props.autoComplete}
 						placeholder={props.placeholder}
 						className={`input input-md input-bordered w-full ${
-							error && "input-error"
+							error && touched && "input-error"
 						}`}
 					/>
 				</label>
@@ -45,7 +43,7 @@ const InputField = (props: InputFieldProps) => {
 					autoComplete={props.autoComplete}
 					placeholder={props.placeholder}
 					className={`input input-md input-bordered w-full ${
-						error && "input-error"
+						error && touched && "input-error"
 					}`}
 				/>
 			)}
