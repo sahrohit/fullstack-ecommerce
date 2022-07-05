@@ -13,6 +13,9 @@ export default class AddAddressInput {
 
 	@Field()
 	city!: string;
+	
+	@Field()
+	state!: string;
 
 	@Field()
 	postal_code!: string;

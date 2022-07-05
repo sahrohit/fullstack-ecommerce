@@ -35,6 +35,10 @@ export class Address extends BaseEntity {
 
 	@Field()
 	@Column()
+	state!: string;
+
+	@Field()
+	@Column()
 	postal_code!: string;
 
 	@Field()

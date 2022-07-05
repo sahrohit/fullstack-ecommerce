@@ -8,6 +8,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 	type?: HTMLInputTypeAttribute;
 	autoComplete?: string;
 	className?: string;
+	leftAddon?: string;
 };
 
 const InputField = (props: InputFieldProps) => {
@@ -22,16 +23,32 @@ const InputField = (props: InputFieldProps) => {
 					</span>
 				)}
 			</label>
-			<input
-				{...field}
-				type={props.type}
-				id={field.name}
-				autoComplete={props.autoComplete}
-				className={`input input-md input-bordered w-full ${
-					error && "input-error"
-				}`}
-				placeholder={props.placeholder}
-			/>
+			{props.leftAddon ? (
+				<label className="input-group">
+					<span>{props.leftAddon}</span>
+					<input
+						{...field}
+						type={props.type}
+						id={field.name}
+						autoComplete={props.autoComplete}
+						placeholder={props.placeholder}
+						className={`input input-md input-bordered w-full ${
+							error && "input-error"
+						}`}
+					/>
+				</label>
+			) : (
+				<input
+					{...field}
+					type={props.type}
+					id={field.name}
+					autoComplete={props.autoComplete}
+					placeholder={props.placeholder}
+					className={`input input-md input-bordered w-full ${
+						error && "input-error"
+					}`}
+				/>
+			)}
 		</div>
 	);
 };

@@ -15,6 +15,9 @@ export default class UpdateAddressInput {
 	city?: string;
 
 	@Field({ nullable: true })
+	state!: string;
+
+	@Field({ nullable: true })
 	postal_code?: string;
 
 	@Field({ nullable: true })

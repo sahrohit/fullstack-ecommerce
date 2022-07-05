@@ -1,9 +1,11 @@
 import { useAddressQuery } from "@generated/graphql";
-import React from "react";
+import { useState } from "react";
+import AddAddressForm from "./AddAddressForm";
 import AddressCard from "./AddressCard";
 
 const AddressInformationForm = () => {
 	const { data } = useAddressQuery();
+	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
 	return (
 		<>
@@ -13,11 +15,36 @@ const AddressInformationForm = () => {
 				))}
 			</div>
 			<div className="w-full flex justify-center my-4">
-				<button className="btn btn-secondary btn-sm btn-wide">
+				<label
+					htmlFor="create-new-address-modal"
+					className="btn btn-secondary btn-sm btn-wide"
+				>
 					Add Address
-				</button>
+				</label>
+
+				<input
+					type="checkbox"
+					id="create-new-address-modal"
+					className="modal-toggle"
+					checked={modalOpen}
+					onChange={(e) => setModalOpen(e.target.checked)}
+				/>
+				<label
+					htmlFor="create-new-address-modal"
+					className="modal modal-bottom sm:modal-middle cursor-pointer"
+				>
+					<label className="modal-box relative" htmlFor="">
+						<label
+							htmlFor="create-new-address-modal"
+							className="btn btn-sm btn-circle absolute right-2 top-2"
+						>
+							X
+						</label>
+						<h3 className="text-lg font-bold">Add New Address</h3>
+						<AddAddressForm setModalOpen={setModalOpen} />
+					</label>
+				</label>
 			</div>
-			<p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p>
 		</>
 	);
 };
