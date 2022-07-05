@@ -1,11 +1,11 @@
 import ConfirmationModal from "@components/ui/ConfirmationModal";
 import {
 	AddressFragmentFragment,
-	useDeleteAddressMutation,
+	useDeleteAddressMutation
 } from "@generated/graphql";
 import toast from "react-hot-toast";
 import { AiOutlineDelete } from "react-icons/ai";
-import { FiEdit } from "react-icons/fi";
+import UpdateAddress from "./UpdateAddress";
 
 interface AddressCardProps {
 	address: AddressFragmentFragment;
@@ -30,9 +30,8 @@ const AddressCard = ({ address }: AddressCardProps) => {
 					{address.city}, {address.state}, {address.postal_code}
 				</p>
 				<div className="justify-end card-actions">
-					<button className="btn btn-square btn-sm btn-outline flex-grow md:flex-grow-0">
-						<FiEdit transform="scale(1.2)" />
-					</button>
+					<UpdateAddress address={address} />
+
 					<ConfirmationModal
 						id={`delete-address-${address.id}`}
 						className="btn-square btn-sm btn-outline btn-error flex-grow md:flex-grow-0"

@@ -1,30 +1,88 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import InputField from "@components/ui/InputField";
 import SelectField from "@components/ui/Select";
-import { useAddAddressMutation } from "@generated/graphql";
+import {
+	AddressFragmentFragment,
+	useAddAddressMutation,
+	useUpdateAddressMutation,
+} from "@generated/graphql";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import { __available_countries__, __nepal_states__ } from "../../../constants";
 
-interface AddAddressFormProps {
+interface AddressFormProps {
 	setModalOpen: (value: boolean) => void;
+	currentValues?: AddressFragmentFragment;
 }
 
-const AddAddressForm = ({ setModalOpen }: AddAddressFormProps) => {
+const AddressForm = ({
+	setModalOpen,
+	currentValues,
+}: AddressFormProps) => {
 	const [addAddressMutation] = useAddAddressMutation();
+	const [updateAddressMutation] = useUpdateAddressMutation();
 
 	return (
 		<Formik
-			initialValues={{
-				nickname: "",
-				address_line1: "",
-				address_line2: "",
-				state: "Bagmati Province",
-				city: "",
-				postal_code: "",
-				country: "Nepal",
-				phone_number: "",
-			}}
+			initialValues={
+				currentValues
+					? {
+							nickname: currentValues.nickname,
+							address_line1: currentValues.address_line1,
+							address_line2: currentValues.address_line2,
+							state: currentValues.state,
+							city: currentValues.city,
+							postal_code: currentValues.postal_code,
+							country: currentValues.country,
+							phone_number: currentValues.phone_number.replace(
+								`${
+									__available_countries__.find(
+										(country) => country.name == currentValues.country
+									)?.country_code
+								}`,
+								""
+							),
+					  }
+					: {
+							nickname: "",
+							address_line1: "",
+							address_line2: "",
+							state: "Bagmati Province",
+							city: "",
+							postal_code: "",
+							country: "Nepal",
+							phone_number: "",
+					  }
+			}
 			onSubmit={async (values, actions) => {
+				if (currentValues) {
+					toast.promise(
+						updateAddressMutation({
+							variables: {
+								updateAddressId: currentValues.id,
+								input: {
+									...values,
+									phone_number: `${
+										__available_countries__.find(
+											(country) => country.name == values.country
+										)?.country_code
+									}${values.phone_number}`,
+								},
+							},
+							update: (cache) => cache.evict({ fieldName: "addresses" }),
+						}),
+						{
+							loading: "Updating Address ...",
+							success: () => {
+								actions.resetForm();
+								setModalOpen(false);
+								return "Address Updated Successfully!";
+							},
+							error: "Something went wrong!",
+						}
+					);
+					return;
+				}
 				toast.promise(
 					addAddressMutation({
 						variables: {
@@ -51,7 +109,7 @@ const AddAddressForm = ({ setModalOpen }: AddAddressFormProps) => {
 				);
 			}}
 		>
-			{({ isSubmitting, values }) => (
+			{({ isSubmitting, values, dirty }) => (
 				<Form>
 					<div className="flex flex-col md:flex-row w-full justify-between grow gap-x-4">
 						<InputField
@@ -120,20 +178,23 @@ const AddAddressForm = ({ setModalOpen }: AddAddressFormProps) => {
 					/>
 
 					<div className="flex justify-end mt-4 space-x-4">
-						<button
-							className={`btn btn-error btn-outline btn-sm gap-2 rounded-md`}
-							type="button"
-							onClick={() => setModalOpen(false)}
+						<label
+							htmlFor={
+								!currentValues
+									? "create-new-address-modal"
+									: `update-address-modal-${currentValues.id}`
+							}
+							className="btn btn-error btn-outline btn-sm gap-2 rounded-md"
 						>
 							Cancel
-						</button>
+						</label>
 						<button
 							className={`btn btn-secondary btn-sm gap-2 rounded-md ${
 								isSubmitting && "loading"
-							}`}
+							} ${currentValues && !dirty && "btn-disabled"}`}
 							type="submit"
 						>
-							{isSubmitting ? "Loading" : "Save"}
+							{isSubmitting ? "Loading" : currentValues ? "Update" : "Add"}
 						</button>
 					</div>
 				</Form>
@@ -142,4 +203,4 @@ const AddAddressForm = ({ setModalOpen }: AddAddressFormProps) => {
 	);
 };
 
-export default AddAddressForm;
+export default AddressForm;

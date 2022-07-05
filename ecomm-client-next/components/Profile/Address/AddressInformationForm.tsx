@@ -1,6 +1,6 @@
 import { useAddressQuery } from "@generated/graphql";
 import { useState } from "react";
-import AddAddressForm from "./AddAddressForm";
+import AddressForm from "./AddressForm";
 import AddressCard from "./AddressCard";
 
 const AddressInformationForm = () => {
@@ -41,7 +41,7 @@ const AddressInformationForm = () => {
 							X
 						</label>
 						<h3 className="text-lg font-bold">Add New Address</h3>
-						<AddAddressForm setModalOpen={setModalOpen} />
+						<AddressForm setModalOpen={setModalOpen} />
 					</label>
 				</label>
 			</div>
