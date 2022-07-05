@@ -11,7 +11,9 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ setGlobalError, setUnVerifiedEmail }: LoginFormProps) => {
-	const [login] = useLoginMutation();
+	const [login] = useLoginMutation({
+		update: (cache) => cache.evict({ fieldName: "me" }),
+	});
 	const router = useRouter();
 
 	return (
