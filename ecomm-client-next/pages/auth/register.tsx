@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import RegisterForm from "@components/Auth/RegisterForm";
 import { __register_page_image__ } from "../../constants";
+import { withAuthPages } from "@components/utils/routes";
 
 const LoginPage: NextPage = () => {
 	return (
@@ -29,4 +30,4 @@ const LoginPage: NextPage = () => {
 	);
 };
 
-export default LoginPage;
+export default withAuthPages(LoginPage);

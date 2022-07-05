@@ -1,6 +1,7 @@
 import PersonalInformationForm from "@components/Profile/PersonalInformationForm";
+import { withProtected } from "@components/utils/routes";
 import { NextPage } from "next";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 const ProfilePage: NextPage = () => {
 	return (
@@ -22,7 +23,7 @@ const ProfilePage: NextPage = () => {
 	);
 };
 
-export default ProfilePage;
+export default withProtected(ProfilePage);
 
 interface ProfilePageBlockLayoutProps {
 	title: string;

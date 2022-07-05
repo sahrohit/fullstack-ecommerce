@@ -2,24 +2,17 @@ import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import InputField from "@components/ui/InputField";
 import {
 	useMeQuery,
-	useResendVerificationEmailMutation,
+	useResendVerificationEmailMutation
 } from "@generated/graphql";
 import { Form, Formik } from "formik";
-import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import { BsCheck } from "react-icons/bs";
 
 const PersonalInformationForm = () => {
-	const router = useRouter();
-	const { data, loading } = useMeQuery();
+	const { data, loading } = useMeQuery({ fetchPolicy: "cache-first" });
 	const [resendVerificationEmail] = useResendVerificationEmailMutation();
 
 	if (loading) {
-		return <FullPageLoadingSpinner />;
-	}
-
-	if (!data?.me) {
-		router.replace("/auth/login");
 		return <FullPageLoadingSpinner />;
 	}
 

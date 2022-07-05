@@ -6,6 +6,7 @@ import LoginForm from "@components/Auth/LoginForm";
 import { __login_page_image__ } from "../../constants";
 import { useState } from "react";
 import { useResendVerificationEmailMutation } from "@generated/graphql";
+import { withAuthPages } from "@components/utils/routes";
 
 const LoginPage: NextPage = () => {
 	const [resendVerificationEmail] = useResendVerificationEmailMutation();
@@ -112,4 +113,4 @@ const LoginPage: NextPage = () => {
 	);
 };
 
-export default LoginPage;
+export default withAuthPages(LoginPage);
