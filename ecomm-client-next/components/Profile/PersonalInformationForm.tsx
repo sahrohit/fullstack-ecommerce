@@ -5,14 +5,21 @@ import {
 	useResendVerificationEmailMutation,
 } from "@generated/graphql";
 import { Form, Formik } from "formik";
+import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import { BsCheck } from "react-icons/bs";
 
 const PersonalInformationForm = () => {
+	const router = useRouter();
 	const { data, loading } = useMeQuery();
 	const [resendVerificationEmail] = useResendVerificationEmailMutation();
 
 	if (loading) {
+		return <FullPageLoadingSpinner />;
+	}
+
+	if (!data?.me) {
+		router.replace("/auth/login");
 		return <FullPageLoadingSpinner />;
 	}
 
@@ -61,6 +68,7 @@ const PersonalInformationForm = () => {
 								</div>
 							) : (
 								<button
+									type="button"
 									className="btn btn-link self-end"
 									onClick={async () => {
 										if (data?.me?.email) {
@@ -97,6 +105,7 @@ const PersonalInformationForm = () => {
 								</div>
 							) : (
 								<button
+									type="button"
 									className="btn btn-link self-end"
 									onClick={() => {
 										toast.error(
