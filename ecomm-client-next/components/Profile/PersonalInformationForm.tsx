@@ -28,7 +28,7 @@ const PersonalInformationForm = () => {
 				toast.error("Profile Updation has not been implemented yet.");
 			}}
 		>
-			{({ isSubmitting }) => (
+			{({ isSubmitting, dirty }) => (
 				<Form>
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-col md:flex-row w-full justify-between grow gap-4">
@@ -123,7 +123,7 @@ const PersonalInformationForm = () => {
 							<button
 								className={`btn btn-secondary btn-sm gap-2 rounded-md ${
 									isSubmitting && "loading"
-								}`}
+								} ${!dirty && "btn-disabled"}`}
 								type="submit"
 							>
 								{isSubmitting ? "Loading" : "Save"}
