@@ -56,7 +56,6 @@ const Server = async () => {
 				httpOnly: true,
 				sameSite: "none", //CSRF
 				secure: __prod__, //Cookie only works in https
-				domain: __prod__ ? "hamropasal.vercel.app" : undefined,
 			},
 			saveUninitialized: false,
 			secret: process.env.SESSION_SECRET,
