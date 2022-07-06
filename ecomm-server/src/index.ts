@@ -15,6 +15,7 @@ import { DiscountResolver } from "./resolvers/discount";
 import { HelloResolver } from "./resolvers/hello";
 import { ProductResolver } from "./resolvers/product";
 import { UserResolver } from "./resolvers/user";
+import helmet from "helmet";
 import { MyContext } from "./types";
 
 const Server = async () => {
@@ -25,6 +26,10 @@ const Server = async () => {
 		.catch((error) => console.log(error));
 
 	const app = Express();
+
+	app.use(helmet());
+
+	app.set("trust proxy", 1);
 
 	app.use(
 		cors({
@@ -49,8 +54,9 @@ const Server = async () => {
 			cookie: {
 				maxAge: 1000 * 60 * 60 * 24 * 365 * 10, //10yrs
 				httpOnly: true,
-				sameSite: "lax", //CSRF
+				sameSite: false, //CSRF
 				secure: __prod__, //Cookie only works in https
+				domain: __prod__ ? ".vercel.app" : undefined,
 			},
 			saveUninitialized: false,
 			secret: process.env.SESSION_SECRET,
