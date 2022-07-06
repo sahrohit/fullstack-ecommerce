@@ -59,7 +59,7 @@ const Server = async () => {
 	);
 
 	app.get("/", (_req, res) => {
-		res.send("Hello World!");
+		res.json({ status: "ok" });
 	});
 
 	const apolloServer = new ApolloServer({
