@@ -18,9 +18,7 @@ const LoginSchema = Yup.object().shape({
 
 const LoginForm = ({ setGlobalError, setUnVerifiedEmail }: LoginFormProps) => {
 	const router = useRouter();
-	const [login] = useLoginMutation({
-		update: (cache) => cache.evict({ fieldName: "me" }),
-	});
+	const [login] = useLoginMutation();
 
 	return (
 		<Formik
@@ -32,6 +30,7 @@ const LoginForm = ({ setGlobalError, setUnVerifiedEmail }: LoginFormProps) => {
 						email: values.email,
 						password: values.password,
 					},
+					update: (cache) => cache.evict({ fieldName: "me" }),
 				});
 				if (response.data?.login.errors) {
 					if (response.data?.login.errors[0].field === "global") {

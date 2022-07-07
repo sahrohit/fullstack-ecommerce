@@ -3,6 +3,7 @@ import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
 import { useLogoutMutation, useMeQuery } from "@generated/graphql";
 import toast from "react-hot-toast";
+import Navbar from "@components/Navbar";
 
 const Home: NextPage = () => {
 	const { data, loading, error } = useMeQuery();
@@ -26,6 +27,7 @@ const Home: NextPage = () => {
 
 	return (
 		<>
+			<Navbar />
 			<p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p>
 			<button
 				type="button"
