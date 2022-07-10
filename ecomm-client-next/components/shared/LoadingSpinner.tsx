@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 
 export const LoadingSpinner = () => {
+	return (
+		<div
+			className={`spinner-merge h-8 w-8 relative animate-loader-spin before:animate-loader-grow after:animate-loader-grow before:bg-primary after:bg-secondary`}
+		/>
+	);
+};
+
+export const BooringSpinner = () => {
 	const [color, setColor] = useState<string>("blue");
 
 	useEffect(() => {
@@ -14,9 +22,8 @@ export const LoadingSpinner = () => {
 				"pink",
 				"purple",
 			];
-			const randomIndex = Math.floor(Math.random() * colors.length);
-			setColor(colors[randomIndex]);
-		}, 1000);
+			setColor(colors[Math.floor(Math.random() * colors.length)]);
+		}, 1333);
 		return () => clearInterval(interval);
 	}, []);
 

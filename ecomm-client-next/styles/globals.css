@@ -7,3 +7,19 @@
 		font-family: Inter, system-ui, sans-serif;
 	}
 }
+
+.spinner-merge:after,
+.spinner-merge:before {
+	content: "";
+	height: 30px;
+	width: 30px;
+	border-radius: 100%;
+	opacity: 0.75;
+	position: absolute;
+	-webkit-transform-origin: -200% -80%;
+	transform-origin: -200% -80%;
+}
+.spinner-merge:before {
+	-webkit-transform-origin: 200% 80%;
+	transform-origin: 200% 80%;
+}
