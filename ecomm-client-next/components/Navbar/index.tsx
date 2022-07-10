@@ -16,8 +16,6 @@ const Navbar = () => {
 
 	const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
-	console.log(dropdownOpen);
-
 	if (loading) {
 		return <FullPageLoadingSpinner />;
 	}

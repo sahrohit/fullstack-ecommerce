@@ -2,7 +2,7 @@ import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import InputField from "@components/ui/InputField";
 import {
 	useMeQuery,
-	useResendVerificationEmailMutation,
+	useResendVerificationEmailMutation
 } from "@generated/graphql";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
@@ -110,6 +110,7 @@ const PersonalInformationForm = () => {
 								</button>
 							)}
 						</div>
+
 						{data?.me?.created_at && (
 							<p className="">
 								Your account is{" "}

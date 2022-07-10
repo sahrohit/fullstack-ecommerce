@@ -27,7 +27,6 @@ const InputField = (props: InputFieldProps) => {
 					<input
 						{...field}
 						type={props.type}
-						id={field.name}
 						autoComplete={props.autoComplete}
 						placeholder={props.placeholder}
 						className={`input input-md input-bordered w-full ${
@@ -39,7 +38,6 @@ const InputField = (props: InputFieldProps) => {
 				<input
 					{...field}
 					type={props.type}
-					id={field.name}
 					autoComplete={props.autoComplete}
 					placeholder={props.placeholder}
 					className={`input input-md input-bordered w-full ${

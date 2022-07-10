@@ -1,3 +1,5 @@
+import Navbar from "@components/Navbar";
+import AccountOptions from "@components/Profile/AccountOptions";
 import AddressInformationForm from "@components/Profile/Address/AddressInformationForm";
 import PersonalInformationForm from "@components/Profile/PersonalInformationForm";
 import { withProtected } from "@components/utils/routes";
@@ -6,21 +8,30 @@ import { ReactNode } from "react";
 
 const ProfilePage: NextPage = () => {
 	return (
-		<div className="m-6 rounded-lg p-4 space-y-4">
-			<ProfilePageBlockLayout
-				title="Profile"
-				description="This information will be displayed publicly so be careful what you
+		<>
+			<Navbar />
+			<div className="m-6 rounded-lg p-4 space-y-4">
+				<ProfilePageBlockLayout
+					title="Profile"
+					description="This information will be displayed publicly so be careful what you
 						share."
-				content={<PersonalInformationForm />}
-			/>
-			<div className="divider"></div>
-			<ProfilePageBlockLayout
-				title="Address"
-				description="This information will be displayed publicly so be careful what you
+					content={<PersonalInformationForm />}
+				/>
+				<div className="divider" />
+				<ProfilePageBlockLayout
+					title="Address"
+					description="This information will be displayed publicly so be careful what you
 						share."
-				content={<AddressInformationForm />}
-			/>
-		</div>
+					content={<AddressInformationForm />}
+				/>
+				<div className="divider" />
+				<ProfilePageBlockLayout
+					title="Account Settings"
+					description="Please be careful with your cursor down here."
+					content={<AccountOptions />}
+				/>
+			</div>
+		</>
 	);
 };
 

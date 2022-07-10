@@ -17,7 +17,6 @@ const SelectField = (props: SelectFieldProps) => {
 			</label>
 			<select
 				{...field}
-				id={field.name}
 				name={field.name}
 				className="select select-bordered w-full max-w-xs"
 			>

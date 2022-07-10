@@ -14,6 +14,7 @@ import * as Yup from "yup";
 interface AddressFormProps {
 	setModalOpen: (value: boolean) => void;
 	currentValues?: AddressFragmentFragment;
+	idPrefix?: string;
 }
 
 const AddressFormSchema = Yup.object().shape({
