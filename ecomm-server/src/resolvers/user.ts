@@ -8,13 +8,13 @@ import {
 	ObjectType,
 	Query,
 	Resolver,
-	Root
+	Root,
 } from "type-graphql";
 import { v4 } from "uuid";
 import {
 	COOKIE_NAME,
 	FORGOT_PASSWORD_PREFIX,
-	VERIFY_EMAIL_PREFIX
+	VERIFY_EMAIL_PREFIX,
 } from "../constants";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/User";
@@ -279,6 +279,55 @@ export class UserResolver {
 
 		//Logging in User
 		req.session.userId = user.id;
+
+		return { user };
+	}
+
+	@Mutation(() => UserResponse)
+	async updatePassword(
+		@Arg("currentPassword") currentPassword: string,
+		@Arg("newPassword") newPassword: string,
+		@Arg("confirmPassword") confirmPassword: string,
+		@Ctx() { req }: MyContext
+	): Promise<UserResponse> {
+		if (newPassword !== confirmPassword) {
+			return {
+				errors: [
+					{ field: "confirmPassword", message: "Passwords do not match" },
+				],
+			};
+		}
+
+		if (!req.session.userId) {
+			return {
+				errors: [{ field: "global", message: "Not Logged In." }],
+			};
+		}
+
+		const user = await User.findOne({
+			where: { id: req.session.userId },
+		});
+
+		if (!user) {
+			return {
+				errors: [{ field: "global", message: "Not a valid User." }],
+			};
+		}
+
+		const valid = await argon2.verify(user.password, currentPassword);
+
+		if (!valid) {
+			return {
+				errors: [
+					{ field: "currentPassword", message: "Invalid Current Password." },
+				],
+			};
+		}
+
+		User.update(
+			{ id: req.session.userId },
+			{ password: await argon2.hash(newPassword) }
+		);
 
 		return { user };
 	}
