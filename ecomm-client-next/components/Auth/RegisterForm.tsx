@@ -50,7 +50,12 @@ const RegisterForm: NextPage = () => {
 						),
 						{ duration: 9000 }
 					);
-					router.push("/auth/login");
+					router.push({
+						pathname: "/auth/login",
+						query: router.query.redirect
+							? { redirect: router.query.redirect }
+							: {},
+					});
 				}
 			}}
 		>

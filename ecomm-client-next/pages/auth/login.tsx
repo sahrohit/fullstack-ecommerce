@@ -7,12 +7,15 @@ import { __login_page_image__ } from "../../constants";
 import { useState } from "react";
 import { useResendVerificationEmailMutation } from "@generated/graphql";
 import { withAuthPages } from "@components/utils/routes";
+import { useRouter } from "next/router";
 
 const LoginPage: NextPage = () => {
 	const [resendVerificationEmail] = useResendVerificationEmailMutation();
 	const [globalError, setGlobalError] = useState("");
 	const [unVerifiedEmail, setUnVerifiedEmail] = useState("");
 	const [loading, setLoading] = useState(false);
+
+	const router = useRouter();
 
 	return (
 		<div className="flex flex-row">
@@ -22,7 +25,15 @@ const LoginPage: NextPage = () => {
 						<h1 className="text-3xl font-bold py-1">Sign in to your account</h1>
 						<p className="text-md ">
 							Dont have a account,{" "}
-							<Link href="/auth/register" passHref>
+							<Link
+								href={{
+									pathname: "/auth/register",
+									query: router.query.redirect
+										? { redirect: router.query.redirect }
+										: {},
+								}}
+								passHref
+							>
 								<span className="link link-secondary link-hover">
 									Register ?
 								</span>

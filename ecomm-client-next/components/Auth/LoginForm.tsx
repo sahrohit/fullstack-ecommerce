@@ -39,7 +39,11 @@ const LoginForm = ({ setGlobalError, setUnVerifiedEmail }: LoginFormProps) => {
 					}
 					setErrors(toErrorMap(response.data.login.errors));
 				} else if (response.data?.login.user) {
-					router.push("/");
+					if (typeof router.query.redirect === "string") {
+						router.replace(router.query.redirect);
+					} else {
+						router.replace("/");
+					}
 				}
 			}}
 		>

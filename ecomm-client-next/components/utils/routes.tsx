@@ -15,8 +15,20 @@ export const withProtected = (Component: any) => {
 		}
 
 		if (!data?.me) {
-			toast.error("Not Logged In.");
-			router.replace("/auth/login");
+			router
+				.replace(
+					{
+						pathname: "/auth/login",
+						query: {
+							redirect: router.pathname,
+						},
+					},
+					undefined,
+					{
+						shallow: true,
+					}
+				)
+				.then(() => toast.error("Not Logged In."));
 			return <FullPageLoadingSpinner />;
 		}
 
