@@ -3,6 +3,7 @@ import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import DarkModeSwitch from "@components/utils/DarkModeSwitch";
 import { useApollo } from "@components/utils/withApollo";
+import Footer from "@components/Footer";
 import "../styles/globals.css";
 
 import { Toaster } from "react-hot-toast";
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<ApolloProvider client={client}>
 			<ThemeProvider enableSystem={true} attribute="data-theme">
 				<Component {...pageProps} />
+				<Footer />
 				<div className="fixed bottom-4 right-4">
 					<DarkModeSwitch />
 				</div>
