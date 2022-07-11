@@ -56,6 +56,7 @@ const ChangePasswordForm = ({
 		>
 			{({ isSubmitting }) => (
 				<Form>
+					<input hidden type="email" name="email" autoComplete="email" />
 					<InputField
 						name="currentPassword"
 						label="Current Password"
