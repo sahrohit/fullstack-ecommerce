@@ -1,7 +1,7 @@
 import ConfirmationModal from "@components/ui/ConfirmationModal";
 import {
 	AddressFragmentFragment,
-	useDeleteAddressMutation
+	useDeleteAddressMutation,
 } from "@generated/graphql";
 import toast from "react-hot-toast";
 import { AiOutlineDelete } from "react-icons/ai";
