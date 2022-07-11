@@ -1,4 +1,4 @@
-export const __light_theme__ = "emerald";
+export const __light_theme__ = "winter";
 export const __dark_theme__ = "business";
 export const __available_themes__ = [
 	"light",
