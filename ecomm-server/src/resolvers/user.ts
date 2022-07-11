@@ -314,6 +314,8 @@ export class UserResolver {
 			};
 		}
 
+		console.log(user.role);
+
 		const valid = await argon2.verify(user.password, currentPassword);
 
 		if (!valid) {

@@ -22,7 +22,7 @@ const PersonalInformationForm = () => {
 				email: data?.me?.email,
 				first_name: data?.me?.first_name,
 				last_name: data?.me?.last_name,
-				phone_number: data?.me?.phone_number,
+				phone_number: data?.me?.phone_number || "",
 			}}
 			onSubmit={async () => {
 				toast.error("Profile Updation has not been implemented yet.");

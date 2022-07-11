@@ -7,9 +7,8 @@ import {
 	JoinColumn,
 	JoinTable,
 	ManyToOne,
-	OneToOne,
-	PrimaryGeneratedColumn,
-	UpdateDateColumn,
+	OneToMany, PrimaryGeneratedColumn,
+	UpdateDateColumn
 } from "typeorm";
 import { Discount } from "./Discount";
 import { ProductCategory } from "./ProductCategory";
@@ -32,14 +31,6 @@ export class Product extends BaseEntity {
 
 	@Field()
 	@Column()
-	price!: number;
-
-	@Field()
-	@Column()
-	inventoryId!: number;
-
-	@Field()
-	@Column()
 	categoryId!: number;
 
 	@Field()
@@ -50,9 +41,9 @@ export class Product extends BaseEntity {
 	@JoinTable({ name: "category_id" })
 	category!: ProductCategory;
 
-	@OneToOne(() => ProductInventory, (inventory) => inventory.product)
+	@OneToMany(() => ProductInventory, (inventory) => inventory.product)
 	@JoinColumn()
-	inventory!: ProductInventory;
+	inventories!: ProductInventory[];
 
 	@ManyToOne(() => Discount, (discount) => discount.products)
 	@JoinTable({ name: "discount_id" })

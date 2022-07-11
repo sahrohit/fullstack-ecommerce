@@ -7,8 +7,11 @@ import {
 	UpdateDateColumn,
 	BaseEntity,
 	OneToMany,
+	OneToOne,
+	JoinColumn,
 } from "typeorm";
 import { Address } from "./Address";
+import { UserRole } from "./UserRole";
 
 @ObjectType()
 @Entity()
@@ -43,6 +46,14 @@ export class User extends BaseEntity {
 	@Field(() => Boolean)
 	@Column({ default: false })
 	phone_number_verified!: boolean;
+
+	@Field()
+	@Column({ default: 1 })
+	roleId!: number;
+
+	@OneToOne(() => UserRole, (role) => role.user)
+	@JoinColumn()
+	role!: UserRole;
 
 	@OneToMany(() => Address, (address) => address.user)
 	addresses!: Address[];

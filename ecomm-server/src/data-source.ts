@@ -6,6 +6,7 @@ import { Product } from "./entities/Product";
 import { ProductCategory } from "./entities/ProductCategory";
 import { ProductInventory } from "./entities/ProductInventory";
 import { User } from "./entities/User";
+import { UserRole } from "./entities/UserRole";
 
 export const AppDataSource = new DataSource({
 	type: "postgres",
@@ -19,6 +20,7 @@ export const AppDataSource = new DataSource({
 		ProductCategory,
 		ProductInventory,
 		Discount,
+		UserRole
 	],
 	migrations: [],
 	subscribers: [],

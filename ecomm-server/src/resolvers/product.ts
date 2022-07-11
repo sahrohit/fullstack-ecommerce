@@ -7,22 +7,30 @@ import ProductResponse from "./GqlObjets/ProductResponse";
 import UpdateProductInput from "./GqlObjets/UpdateProductInput";
 
 const PRODUCT_QUERY_SQL = `
-SELECT p.*, pi.quantity,
-d.name "discount_name", d.discount_percent "discount_percent",
-d.desc "discount_desc", d.active "discount_active",
-pc.name "category_name", pc."desc" "category_desc"
+SELECT p.*,
+       d.name                                        "discount_name",
+       d.discount_percent                            "discount_percent",
+       d.desc                                        "discount_desc",
+       d.active                                      "discount_active",
+       pc.name                                       "category_name",
+       pc."desc"                                     "category_desc",
+       COALESCE(pi.variants, '[]') AS variants
 FROM product p
-INNER JOIN product_inventory pi on pi.id = p."inventoryId"
-LEFT JOIN discount d on d.id = p."discountId"
-LEFT JOIN product_category pc on pc.id = p."categoryId"
+         LEFT JOIN LATERAL (
+    SELECT json_agg(json_build_object('quantity', pi.quantity
+        , 'variant', pi.variant, 'price', pi.price)) AS variants
+    FROM product_inventory pi
+    WHERE p.id = pi."productId"
+    ) pi ON true
+         LEFT JOIN discount d on d.id = p."discountId"
+         LEFT JOIN product_category pc on pc.id = p."categoryId"
 `;
 
 @Resolver(Product)
 export class ProductResolver {
 	@Query(() => [ProductResponse], { nullable: true })
 	async products() {
-		const products = await AppDataSource.query(PRODUCT_QUERY_SQL);
-		return products;
+		return AppDataSource.query(PRODUCT_QUERY_SQL);
 	}
 
 	@Mutation(() => ProductResponse, { nullable: true })
@@ -40,8 +48,6 @@ export class ProductResolver {
 		const insertedProduct = await Product.insert({
 			name: options.name,
 			desc: options.desc,
-			price: options.price,
-			inventoryId: inventory.raw[0].id,
 			categoryId: options.category_id,
 		});
 

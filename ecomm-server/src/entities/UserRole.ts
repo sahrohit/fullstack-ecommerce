@@ -4,32 +4,25 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	ManyToOne, PrimaryGeneratedColumn,
-	UpdateDateColumn
+	OneToOne,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
 } from "typeorm";
-import { Product } from "./Product";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export class ProductInventory extends BaseEntity {
+export class UserRole extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
 	id!: number;
 
 	@Field()
-	@Column({ type: "int" })
-	quantity!: number;
-
-	@Field()
 	@Column()
-	price!: number;
+	name!: string;
 
-	@Field()
-	@Column({ nullable: true })
-	variant!: string;
-
-	@ManyToOne(() => Product, (product) => product.inventories)
-	product!: Product;
+	@OneToOne(() => User, (user) => user.role)
+	user!: User;
 
 	@Field(() => String)
 	@CreateDateColumn()
