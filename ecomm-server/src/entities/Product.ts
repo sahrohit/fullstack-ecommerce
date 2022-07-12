@@ -12,6 +12,7 @@ import {
 } from "typeorm";
 import { Discount } from "./Discount";
 import { ProductCategory } from "./ProductCategory";
+import { ProductImage } from "./ProductImage";
 import { ProductInventory } from "./ProductInventory";
 
 @ObjectType()
@@ -36,6 +37,9 @@ export class Product extends BaseEntity {
 	@Field()
 	@Column({ nullable: true })
 	discountId?: number;
+
+	@OneToMany(() => ProductImage, (image) => image.product)
+	images!: ProductImage[];
 
 	@ManyToOne(() => ProductCategory, (category) => category.products)
 	@JoinTable({ name: "category_id" })

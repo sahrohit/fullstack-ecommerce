@@ -1,0 +1,237 @@
+import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
+import InputField from "@components/ui/InputField";
+import SelectField from "@components/ui/Select";
+import TextArea from "@components/ui/TextArea";
+import { useAddProductMutation, useCategoriesQuery } from "@generated/graphql";
+import { FieldArray, Form, Formik } from "formik";
+
+const AddProductForm = () => {
+	const { data, loading } = useCategoriesQuery();
+
+	const [addProduct] = useAddProductMutation();
+
+	if (loading) {
+		return <FullPageLoadingSpinner />;
+	}
+
+	return (
+		<Formik
+			validateOnBlur
+			initialValues={{
+				name: "",
+				desc: "",
+				categoryId: "",
+				variants: [
+					{
+						price: 0,
+						quantity: 0,
+						variant: "",
+					},
+				],
+				images: [
+					{
+						imageURL: "",
+					},
+				],
+			}}
+			onSubmit={async (values, actions) => {
+				addProduct({
+					variables: {
+						options: { ...values, categoryId: parseInt(values.categoryId) },
+					},
+				});
+
+				actions.setSubmitting(false);
+			}}
+		>
+			{({ isSubmitting, values }) => (
+				<Form>
+					<InputField
+						name="name"
+						label="Name"
+						placeholder="Name"
+						type="text"
+						autoComplete="name"
+					/>
+					<TextArea
+						name="desc"
+						label="Description"
+						placeholder="Description"
+						autoComplete="new-password"
+					/>
+					<SelectField
+						label="Category"
+						name="categoryId"
+						options={data?.categories?.map((category) => ({
+							option: category.name,
+							value: category.id.toString(),
+						}))}
+						placeholder="Category"
+					/>
+
+					<FieldArray name="variants">
+						{({ remove, push }) => (
+							<div className="my-4">
+								<div className="flex flex-row items-center">
+									<h1 className="">Variants</h1>
+									<div className="dropdown">
+										<label
+											tabIndex={0}
+											className="btn btn-circle btn-ghost btn-xs"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												fill="none"
+												viewBox="0 0 24 24"
+												className="w-4 h-4 stroke-current"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth="2"
+													d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+												></path>
+											</svg>
+										</label>
+										<div
+											tabIndex={0}
+											className="card compact dropdown-content shadow bg-base-100 rounded-box w-64"
+										>
+											<div className="card-body">
+												<h2 className="card-title">Variants</h2>
+												<p>Specifies the varaint of the products.</p>
+												<p>
+													For eg: 128GB, 256GB & 512GB can be the variants of a
+													SSD.
+												</p>
+												<p>
+													If variants doesn&apos;t exist, just create a single
+													variant with &quot;default&quot; as the variant
+													identifer.
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div className="flex flex-col space-y-4">
+									{values.variants.length > 0 &&
+										values.variants.map((friend, index) => (
+											<div key={index}>
+												<div className="flex flex-row justify-end items-end">
+													<button
+														type="button"
+														className="btn btn-xs btn-error"
+														onClick={() => remove(index)}
+													>
+														Delete Variant {index + 1}
+													</button>
+												</div>
+												<div className="flex flex-col sm:space-x-4 sm:flex-row">
+													<InputField
+														name={`variants.${index}.variant`}
+														label={`Variant Identifer for Variant ${index + 1}`}
+														placeholder="Variant"
+														type="text"
+														autoComplete="variant"
+													/>
+													<InputField
+														name={`variants.${index}.price`}
+														label={`Price for Variant ${index + 1}`}
+														placeholder="Price"
+														type="number"
+														autoComplete="price"
+													/>
+													<InputField
+														name={`variants.${index}.quantity`}
+														label={`Quantity for Variant ${index + 1}`}
+														placeholder="Quantity"
+														type="number"
+														autoComplete="quantity"
+													/>
+												</div>
+												<div className="col"></div>
+											</div>
+										))}
+								</div>
+								<div className="w-full flex my-4">
+									<button
+										type="button"
+										className="btn btn-success btn-sm mx-auto"
+										onClick={() =>
+											push({
+												price: "",
+												quantity: "",
+												variant: "",
+											})
+										}
+									>
+										Add Variant
+									</button>
+								</div>
+							</div>
+						)}
+					</FieldArray>
+
+					<FieldArray name="images">
+						{({ remove, push }) => (
+							<div className="my-4">
+								<div className="flex flex-row items-center">
+									<h1 className="">Images</h1>
+								</div>
+								<div className="flex flex-col space-y-4">
+									{values.images.length > 0 &&
+										values.images.map((friend, index) => (
+											<div key={index}>
+												<div className="flex flex-row justify-end items-end">
+													<button
+														type="button"
+														className="btn btn-xs btn-error"
+														onClick={() => remove(index)}
+													>
+														Delete Image {index + 1}
+													</button>
+												</div>
+												<InputField
+													name={`images.${index}.imageURL`}
+													label={`Image URL for Image ${index + 1}`}
+													placeholder="Image URL"
+													type="text"
+													autoComplete="url"
+												/>
+											</div>
+										))}
+								</div>
+								<div className="w-full flex my-4">
+									<button
+										type="button"
+										className="btn btn-success btn-sm mx-auto"
+										onClick={() =>
+											push({
+												imageURL: "",
+											})
+										}
+									>
+										Add Image
+									</button>
+								</div>
+							</div>
+						)}
+					</FieldArray>
+
+					<div className="flex mt-4 space-x-4">
+						<button
+							className={`btn btn-primary gap-2 rounded-md ${
+								isSubmitting && "loading"
+							}`}
+							type="submit"
+						>
+							{isSubmitting ? "Loading" : "Create Product"}
+						</button>
+					</div>
+				</Form>
+			)}
+		</Formik>
+	);
+};
+
+export default AddProductForm;

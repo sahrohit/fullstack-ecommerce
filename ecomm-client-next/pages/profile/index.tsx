@@ -1,4 +1,3 @@
-import Navbar from "@components/Navbar";
 import AccountOptions from "@components/Profile/AccountOptions";
 import AddressInformationForm from "@components/Profile/Address/AddressInformationForm";
 import PersonalInformationForm from "@components/Profile/PersonalInformationForm";
@@ -9,7 +8,6 @@ import { ReactNode } from "react";
 const ProfilePage: NextPage = () => {
 	return (
 		<>
-			<Navbar />
 			<div className="m-6 rounded-lg p-4 space-y-4">
 				<ProfilePageBlockLayout
 					title="Profile"

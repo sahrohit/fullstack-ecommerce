@@ -165,7 +165,9 @@ const AddressForm = ({ setModalOpen, currentValues }: AddressFormProps) => {
 					<SelectField
 						name="state"
 						label="State"
-						options={__nepal_states__}
+						options={__nepal_states__.map((state) => {
+							return { option: state, value: state };
+						})}
 						placeholder="Pick your State"
 					/>
 					<div className="flex flex-col md:flex-row w-full justify-between grow gap-x-4">
@@ -188,7 +190,11 @@ const AddressForm = ({ setModalOpen, currentValues }: AddressFormProps) => {
 					<SelectField
 						name="country"
 						label="Country"
-						options={__available_countries__.map((country) => country.name)}
+						options={__available_countries__
+							.map((country) => country.name)
+							.map((state) => {
+								return { option: state, value: state };
+							})}
 						placeholder="Pick your Country"
 					/>
 

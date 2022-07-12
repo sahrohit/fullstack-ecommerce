@@ -2,17 +2,23 @@ fragment ProductFragment on ProductResponse {
 	id
 	name
 	desc
-	category_desc
-	category_name
 	categoryId
+	category_name
+	category_desc
 	discount_name
+	discount_percent
 	discount_desc
 	discount_active
-	discount_percent
 	variants {
-		price
 		quantity
+		variant_id
+		product_id
+		price
 		variant
+	}
+	images {
+		image_id
+		imageURL
 	}
 	created_at
 	updated_at

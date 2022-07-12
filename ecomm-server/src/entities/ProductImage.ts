@@ -1,38 +1,31 @@
 import { Field, Int, ObjectType } from "type-graphql";
 import {
-	BaseEntity,
+	Entity,
+	PrimaryGeneratedColumn,
 	Column,
 	CreateDateColumn,
-	Entity,
-	ManyToOne, PrimaryGeneratedColumn,
-	UpdateDateColumn
+	UpdateDateColumn,
+	BaseEntity,
+	ManyToOne,
 } from "typeorm";
 import { Product } from "./Product";
 
 @ObjectType()
 @Entity()
-export class ProductInventory extends BaseEntity {
+export class ProductImage extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
 	id!: number;
 
 	@Field()
-	@Column({ type: "int" })
-	quantity!: number;
-
-	@Field()
 	@Column()
-	price!: number;
-
-	@Field()
-	@Column({ nullable: true })
-	variant!: string;
+	imageURL!: string;
 
 	@Field()
 	@Column()
 	productId!: number;
 
-	@ManyToOne(() => Product, (product) => product.inventories)
+	@ManyToOne(() => Product, (product) => product.images)
 	product!: Product;
 
 	@Field(() => String)

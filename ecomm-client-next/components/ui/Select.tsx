@@ -5,7 +5,7 @@ type SelectFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 	name: string;
 	label: string;
 	placeholder: string;
-	options: string[];
+	options: Record<string, string>[] | undefined;
 };
 
 const SelectField = (props: SelectFieldProps) => {
@@ -20,8 +20,10 @@ const SelectField = (props: SelectFieldProps) => {
 				name={field.name}
 				className="select select-bordered w-full max-w-xs"
 			>
-				{props.options.map((state: string) => (
-					<option key={state}>{state}</option>
+				{props.options?.map((option: Record<string, string>) => (
+					<option key={option.value} value={option.value}>
+						{option.option}
+					</option>
 				))}
 			</select>
 		</div>

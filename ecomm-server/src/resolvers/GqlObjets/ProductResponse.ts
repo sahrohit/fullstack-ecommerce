@@ -32,8 +32,11 @@ export default class ProductResponse {
 	@Field({ nullable: true })
 	discount_active?: boolean;
 
-	@Field(() => [ProductVariant])
-	variants!: ProductVariant[];
+	@Field(() => [ProductVariantResponse])
+	variants!: ProductVariantResponse[];
+
+	@Field(() => [ProductImageResponse])
+	images!: ProductImageResponse[];
 
 	@Field()
 	created_at!: Date;
@@ -43,13 +46,28 @@ export default class ProductResponse {
 }
 
 @ObjectType()
-export class ProductVariant {
+class ProductVariantResponse {
 	@Field(() => Int)
 	quantity!: number;
+
+	@Field(() => Int)
+	variant_id!: number;
+
+	@Field(() => Int)
+	product_id!: number;
 
 	@Field(() => Float)
 	price!: number;
 
 	@Field()
 	variant!: string;
+}
+
+@ObjectType()
+class ProductImageResponse {
+	@Field(() => Int)
+	image_id!: number;
+
+	@Field()
+	imageURL!: string;
 }

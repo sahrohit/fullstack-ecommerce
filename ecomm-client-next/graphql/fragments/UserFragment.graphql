@@ -6,6 +6,7 @@ fragment UserFragment on User {
 	email_verified
 	phone_number
 	phone_number_verified
+	roleId
 	created_at
 	updated_at
 }

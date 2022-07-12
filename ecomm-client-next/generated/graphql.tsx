@@ -29,11 +29,11 @@ export type AddAddressInput = {
 };
 
 export type AddProductInput = {
-  category_id: Scalars['Float'];
+  categoryId: Scalars['Float'];
   desc: Scalars['String'];
+  images: Array<ProductImageInput>;
   name: Scalars['String'];
-  price: Scalars['Float'];
-  quantity: Scalars['Float'];
+  variants: Array<ProductVariantInput>;
 };
 
 export type Address = {
@@ -203,6 +203,16 @@ export type ProductCategory = {
   updated_at: Scalars['String'];
 };
 
+export type ProductImageInput = {
+  imageURL: Scalars['String'];
+};
+
+export type ProductImageResponse = {
+  __typename?: 'ProductImageResponse';
+  imageURL: Scalars['String'];
+  image_id: Scalars['Int'];
+};
+
 export type ProductResponse = {
   __typename?: 'ProductResponse';
   categoryId: Scalars['Float'];
@@ -215,16 +225,25 @@ export type ProductResponse = {
   discount_name?: Maybe<Scalars['String']>;
   discount_percent?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
+  images: Array<ProductImageResponse>;
   name: Scalars['String'];
   updated_at: Scalars['DateTime'];
-  variants: Array<ProductVariant>;
+  variants: Array<ProductVariantResponse>;
 };
 
-export type ProductVariant = {
-  __typename?: 'ProductVariant';
+export type ProductVariantInput = {
   price: Scalars['Float'];
   quantity: Scalars['Int'];
   variant: Scalars['String'];
+};
+
+export type ProductVariantResponse = {
+  __typename?: 'ProductVariantResponse';
+  price: Scalars['Float'];
+  product_id: Scalars['Int'];
+  quantity: Scalars['Int'];
+  variant: Scalars['String'];
+  variant_id: Scalars['Int'];
 };
 
 export type Query = {
@@ -233,7 +252,13 @@ export type Query = {
   categories: Array<ProductCategory>;
   hello: Scalars['String'];
   me?: Maybe<User>;
+  product?: Maybe<ProductResponse>;
   products?: Maybe<Array<ProductResponse>>;
+};
+
+
+export type QueryProductArgs = {
+  id: Scalars['Float'];
 };
 
 export type RegisterInput = {
@@ -297,11 +322,11 @@ export type UserResponse = {
 
 export type AddressFragmentFragment = { __typename?: 'Address', id: number, nickname: string, address_line1: string, address_line2?: string | null, city: string, state: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string };
 
-export type ProductFragmentFragment = { __typename?: 'ProductResponse', id: number, name: string, desc: string, category_desc: string, category_name: string, categoryId: number, discount_name?: string | null, discount_desc?: string | null, discount_active?: boolean | null, discount_percent?: number | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariant', price: number, quantity: number, variant: string }> };
+export type ProductFragmentFragment = { __typename?: 'ProductResponse', id: number, name: string, desc: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> };
 
 export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type UserFragmentFragment = { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, created_at: string, updated_at: string };
+export type UserFragmentFragment = { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, created_at: string, updated_at: string };
 
 export type AddAddressMutationVariables = Exact<{
   input: AddAddressInput;
@@ -310,13 +335,20 @@ export type AddAddressMutationVariables = Exact<{
 
 export type AddAddressMutation = { __typename?: 'Mutation', addAddress: { __typename?: 'Address', id: number, nickname: string, address_line1: string, address_line2?: string | null, city: string, state: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string } };
 
+export type AddProductMutationVariables = Exact<{
+  options: AddProductInput;
+}>;
+
+
+export type AddProductMutation = { __typename?: 'Mutation', addProducts?: { __typename?: 'ProductResponse', id: number, name: string, desc: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> } | null };
+
 export type ChangePasswordMutationVariables = Exact<{
   newPassword: Scalars['String'];
   token: Scalars['String'];
 }>;
 
 
-export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, created_at: string, updated_at: string } | null } };
+export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, created_at: string, updated_at: string } | null } };
 
 export type DeleteAddressMutationVariables = Exact<{
   deleteAddressId: Scalars['Int'];
@@ -338,7 +370,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, created_at: string, updated_at: string } | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, created_at: string, updated_at: string } | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -350,7 +382,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, created_at: string, updated_at: string } | null } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, created_at: string, updated_at: string } | null } };
 
 export type ResendVerificationEmailMutationVariables = Exact<{
   email: Scalars['String'];
@@ -374,7 +406,7 @@ export type UpdatePasswordMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, created_at: string, updated_at: string } | null } };
+export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, created_at: string, updated_at: string } | null } };
 
 export type VerifyEmailMutationVariables = Exact<{
   token: Scalars['String'];
@@ -388,6 +420,11 @@ export type AddressQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AddressQuery = { __typename?: 'Query', addresses?: Array<{ __typename?: 'Address', id: number, nickname: string, address_line1: string, address_line2?: string | null, city: string, state: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string }> | null };
 
+export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'ProductCategory', id: number, name: string, desc: string, created_at: string, updated_at: string }> };
+
 export type HelloQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -396,12 +433,12 @@ export type HelloQueryQuery = { __typename?: 'Query', hello: string };
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, created_at: string, updated_at: string } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, created_at: string, updated_at: string } | null };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'ProductResponse', id: number, name: string, desc: string, category_desc: string, category_name: string, categoryId: number, discount_name?: string | null, discount_desc?: string | null, discount_active?: boolean | null, discount_percent?: number | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariant', price: number, quantity: number, variant: string }> }> | null };
+export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'ProductResponse', id: number, name: string, desc: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> }> | null };
 
 export const AddressFragmentFragmentDoc = gql`
     fragment AddressFragment on Address {
@@ -423,17 +460,23 @@ export const ProductFragmentFragmentDoc = gql`
   id
   name
   desc
-  category_desc
-  category_name
   categoryId
+  category_name
+  category_desc
   discount_name
+  discount_percent
   discount_desc
   discount_active
-  discount_percent
   variants {
-    price
     quantity
+    variant_id
+    product_id
+    price
     variant
+  }
+  images {
+    image_id
+    imageURL
   }
   created_at
   updated_at
@@ -454,6 +497,7 @@ export const UserFragmentFragmentDoc = gql`
   email_verified
   phone_number
   phone_number_verified
+  roleId
   created_at
   updated_at
 }
@@ -491,6 +535,39 @@ export function useAddAddressMutation(baseOptions?: Apollo.MutationHookOptions<A
 export type AddAddressMutationHookResult = ReturnType<typeof useAddAddressMutation>;
 export type AddAddressMutationResult = Apollo.MutationResult<AddAddressMutation>;
 export type AddAddressMutationOptions = Apollo.BaseMutationOptions<AddAddressMutation, AddAddressMutationVariables>;
+export const AddProductDocument = gql`
+    mutation AddProduct($options: AddProductInput!) {
+  addProducts(options: $options) {
+    ...ProductFragment
+  }
+}
+    ${ProductFragmentFragmentDoc}`;
+export type AddProductMutationFn = Apollo.MutationFunction<AddProductMutation, AddProductMutationVariables>;
+
+/**
+ * __useAddProductMutation__
+ *
+ * To run a mutation, you first call `useAddProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addProductMutation, { data, loading, error }] = useAddProductMutation({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useAddProductMutation(baseOptions?: Apollo.MutationHookOptions<AddProductMutation, AddProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddProductMutation, AddProductMutationVariables>(AddProductDocument, options);
+      }
+export type AddProductMutationHookResult = ReturnType<typeof useAddProductMutation>;
+export type AddProductMutationResult = Apollo.MutationResult<AddProductMutation>;
+export type AddProductMutationOptions = Apollo.BaseMutationOptions<AddProductMutation, AddProductMutationVariables>;
 export const ChangePasswordDocument = gql`
     mutation ChangePassword($newPassword: String!, $token: String!) {
   changePassword(newPassword: $newPassword, token: $token) {
@@ -877,6 +954,44 @@ export function useAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ad
 export type AddressQueryHookResult = ReturnType<typeof useAddressQuery>;
 export type AddressLazyQueryHookResult = ReturnType<typeof useAddressLazyQuery>;
 export type AddressQueryResult = Apollo.QueryResult<AddressQuery, AddressQueryVariables>;
+export const CategoriesDocument = gql`
+    query Categories {
+  categories {
+    id
+    name
+    desc
+    created_at
+    updated_at
+  }
+}
+    `;
+
+/**
+ * __useCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+      }
+export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+        }
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
+export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const HelloQueryDocument = gql`
     query HelloQuery {
   hello

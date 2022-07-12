@@ -1,9 +1,11 @@
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
+import { withAdminProtected } from "@components/utils/routes";
 import { useProductsQuery } from "@generated/graphql";
 import { NextPage } from "next";
+import React from "react";
 
-const Home: NextPage = () => {
+const AdminProducts: NextPage = () => {
 	const { data, loading, error } = useProductsQuery();
 
 	if (loading) {
@@ -20,11 +22,7 @@ const Home: NextPage = () => {
 		);
 	}
 
-	return (
-		<>
-			<p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p>
-		</>
-	);
+	return <p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p>;
 };
 
-export default Home;
+export default withAdminProtected(AdminProducts);

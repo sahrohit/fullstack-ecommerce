@@ -1,4 +1,4 @@
-import { InputType, Field } from "type-graphql";
+import { InputType, Field, Int, Float } from "type-graphql";
 
 @InputType()
 export default class AddProductInput {
@@ -9,11 +9,29 @@ export default class AddProductInput {
 	desc!: string;
 
 	@Field()
+	categoryId!: number;
+
+	@Field(() => [ProductVariantInput])
+	variants!: ProductVariantInput[];
+
+	@Field(() => [ProductImageInput])
+	images!: ProductImageInput[];
+}
+
+@InputType()
+class ProductVariantInput {
+	@Field(() => Int)
+	quantity!: number;
+
+	@Field(() => Float)
 	price!: number;
 
 	@Field()
-	quantity!: number;
+	variant!: string;
+}
 
+@InputType()
+class ProductImageInput {
 	@Field()
-	category_id!: number;
+	imageURL!: string;
 }

@@ -7,6 +7,7 @@ import Footer from "@components/Footer";
 import "../styles/globals.css";
 
 import { Toaster } from "react-hot-toast";
+import Navbar from "@components/Navbar";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const client = useApollo(pageProps);
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<ApolloProvider client={client}>
 			<ThemeProvider enableSystem={true} attribute="data-theme">
+				<Navbar />
 				<Component {...pageProps} />
 				<Footer />
 				<div className="fixed bottom-4 right-4">
