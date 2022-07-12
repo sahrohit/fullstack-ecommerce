@@ -4,10 +4,39 @@ import SelectField from "@components/ui/Select";
 import TextArea from "@components/ui/TextArea";
 import { useAddProductMutation, useCategoriesQuery } from "@generated/graphql";
 import { FieldArray, Form, Formik } from "formik";
+import toast from "react-hot-toast";
+import * as Yup from "yup";
+
+const AddProductFormValidation = Yup.object().shape({
+	name: Yup.string().required("Name is required"),
+	desc: Yup.string().required("Description is required"),
+	categoryId: Yup.number().required("Category is required"),
+	variants: Yup.array()
+		.of(
+			Yup.object().shape({
+				price: Yup.number()
+					.required("Price is required")
+					.min(0, "Price must be greater than 0"),
+				quantity: Yup.number()
+					.min(0, "Quantity must be greater than 0")
+					.required("Quantity is required"),
+				variant: Yup.string().required("Variant Name is required"),
+			})
+		)
+		.required("At least one variant is required"),
+	images: Yup.array()
+		.of(
+			Yup.object().shape({
+				imageURL: Yup.string()
+					.url("Invalid URL")
+					.required("Image URL is required"),
+			})
+		)
+		.required("At least one ImageURL is required"),
+});
 
 const AddProductForm = () => {
 	const { data, loading } = useCategoriesQuery();
-
 	const [addProduct] = useAddProductMutation();
 
 	if (loading) {
@@ -17,6 +46,7 @@ const AddProductForm = () => {
 	return (
 		<Formik
 			validateOnBlur
+			validationSchema={AddProductFormValidation}
 			initialValues={{
 				name: "",
 				desc: "",
@@ -35,11 +65,19 @@ const AddProductForm = () => {
 				],
 			}}
 			onSubmit={async (values, actions) => {
-				addProduct({
-					variables: {
-						options: { ...values, categoryId: parseInt(values.categoryId) },
-					},
-				});
+				toast.promise(
+					addProduct({
+						variables: {
+							options: { ...values, categoryId: parseInt(values.categoryId) },
+						},
+						update: (cache) => cache.evict({ fieldName: "products" }),
+					}),
+					{
+						loading: "Adding Product...",
+						success: "Product Added Successfully",
+						error: "An Error Occured",
+					}
+				);
 
 				actions.setSubmitting(false);
 			}}
