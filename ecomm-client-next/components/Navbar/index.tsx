@@ -3,16 +3,14 @@ import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import { useLogoutMutation, useMeQuery } from "@generated/graphql";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import {  useState } from "react";
 import toast from "react-hot-toast";
 import AuthLinks from "./AuthLinks";
 import NavbarLinks from "./NavbarLinks";
 
 const Navbar = () => {
 	const { data, loading } = useMeQuery();
-	const [logout] = useLogoutMutation({
-		update: (cache) => cache.evict({ fieldName: "me" }),
-	});
+	const [logout] = useLogoutMutation();
 
 	const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
@@ -96,7 +94,7 @@ const Navbar = () => {
 								<span>Profile</span>
 							</li>
 							<li>
-								<Link href="/profile">
+								<Link href="/profile" passHref>
 									<a>Profile</a>
 								</Link>
 							</li>
@@ -106,11 +104,16 @@ const Navbar = () => {
 							<li>
 								<a
 									onClick={() => {
-										toast.promise(logout(), {
-											loading: "Logging out...",
-											success: "Logged out Successfully!",
-											error: "Something went wrong!",
-										});
+										toast.promise(
+											logout({
+												update: (cache) => cache.evict({ fieldName: "me" }),
+											}),
+											{
+												loading: "Logging out...",
+												success: "Logged out Successfully!",
+												error: "Something went wrong!",
+											}
+										);
 									}}
 								>
 									Logout

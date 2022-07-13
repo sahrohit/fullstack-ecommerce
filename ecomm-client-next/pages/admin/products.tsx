@@ -1,3 +1,4 @@
+import ProductCard from "@components/Admin/Products/ProductCard";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
 import { withAdminProtected } from "@components/utils/routes";
@@ -22,7 +23,16 @@ const AdminProducts: NextPage = () => {
 		);
 	}
 
-	return <p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p>;
+	return (
+		<div className="flex flex-col sm:flex-row">
+			<div className="basis-1/5 text-center">Options</div>
+			<div className="basis-4/5 justify-evenly grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2">
+				{data?.products?.map((product) => (
+					<ProductCard {...product} key={product.id} />
+				))}
+			</div>
+		</div>
+	);
 };
 
 export default withAdminProtected(AdminProducts);
