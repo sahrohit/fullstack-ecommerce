@@ -25,8 +25,8 @@ const AdminProducts: NextPage = () => {
 
 	return (
 		<div className="flex flex-col sm:flex-row">
-			<div className="basis-1/5 text-center">Options</div>
-			<div className="basis-4/5 justify-evenly grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2">
+			<div className="basis-1/4 text-center">Options</div>
+			<div className="basis-3/4 justify-evenly grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2">
 				{data?.products?.map((product) => (
 					<ProductCard {...product} key={product.id} />
 				))}
