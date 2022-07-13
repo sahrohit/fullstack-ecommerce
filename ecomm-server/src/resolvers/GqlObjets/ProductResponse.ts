@@ -12,6 +12,9 @@ export default class ProductResponse {
 	desc!: string;
 
 	@Field()
+	identifier!: string;
+
+	@Field()
 	categoryId!: number;
 
 	@Field()

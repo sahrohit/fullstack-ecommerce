@@ -225,6 +225,7 @@ export type ProductResponse = {
   discount_name?: Maybe<Scalars['String']>;
   discount_percent?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
+  identifier: Scalars['String'];
   images: Array<ProductImageResponse>;
   name: Scalars['String'];
   updated_at: Scalars['DateTime'];
@@ -322,7 +323,7 @@ export type UserResponse = {
 
 export type AddressFragmentFragment = { __typename?: 'Address', id: number, nickname: string, address_line1: string, address_line2?: string | null, city: string, state: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string };
 
-export type ProductFragmentFragment = { __typename?: 'ProductResponse', id: number, name: string, desc: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> };
+export type ProductFragmentFragment = { __typename?: 'ProductResponse', id: number, name: string, desc: string, identifier: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> };
 
 export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
@@ -340,7 +341,7 @@ export type AddProductMutationVariables = Exact<{
 }>;
 
 
-export type AddProductMutation = { __typename?: 'Mutation', addProducts?: { __typename?: 'ProductResponse', id: number, name: string, desc: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> } | null };
+export type AddProductMutation = { __typename?: 'Mutation', addProducts?: { __typename?: 'ProductResponse', id: number, name: string, desc: string, identifier: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> } | null };
 
 export type ChangePasswordMutationVariables = Exact<{
   newPassword: Scalars['String'];
@@ -438,7 +439,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: nu
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'ProductResponse', id: number, name: string, desc: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> }> | null };
+export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'ProductResponse', id: number, name: string, desc: string, identifier: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> }> | null };
 
 export const AddressFragmentFragmentDoc = gql`
     fragment AddressFragment on Address {
@@ -460,6 +461,7 @@ export const ProductFragmentFragmentDoc = gql`
   id
   name
   desc
+  identifier
   categoryId
   category_name
   category_desc

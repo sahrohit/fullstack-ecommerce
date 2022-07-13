@@ -4,11 +4,13 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	Index,
 	JoinColumn,
 	JoinTable,
 	ManyToOne,
-	OneToMany, PrimaryGeneratedColumn,
-	UpdateDateColumn
+	OneToMany,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
 } from "typeorm";
 import { Discount } from "./Discount";
 import { ProductCategory } from "./ProductCategory";
@@ -21,6 +23,11 @@ export class Product extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
 	id!: number;
+
+	@Field()
+	@Index({ unique: true })
+	@Column()
+	identifier: string;
 
 	@Field()
 	@Column()

@@ -2,6 +2,7 @@ fragment ProductFragment on ProductResponse {
 	id
 	name
 	desc
+	identifier
 	categoryId
 	category_name
 	category_desc
