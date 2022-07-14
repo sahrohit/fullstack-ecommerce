@@ -9,6 +9,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 	autoComplete?: string;
 	className?: string;
 	leftAddon?: string;
+	disabled?: boolean;
 };
 
 const InputField = (props: InputFieldProps) => {
@@ -26,27 +27,33 @@ const InputField = (props: InputFieldProps) => {
 					<span>{props.leftAddon}</span>
 					<input
 						{...field}
+						disabled={props.disabled}
 						type={props.type}
 						autoComplete={props.autoComplete}
 						placeholder={props.placeholder}
 						className={`input input-md input-bordered w-full ${
 							error && touched && "input-error"
-						}`}
+						} ${props.className}`}
 					/>
 				</label>
 			) : (
 				<input
+					disabled={props.disabled}
 					{...field}
 					type={props.type}
 					autoComplete={props.autoComplete}
 					placeholder={props.placeholder}
 					className={`input input-md input-bordered w-full ${
 						error && touched && "input-error"
-					}`}
+					} ${props.className}`}
 				/>
 			)}
 		</div>
 	);
+};
+
+InputField.defaultProps = {
+	disabled: false,
 };
 
 export default InputField;

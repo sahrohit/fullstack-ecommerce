@@ -31,6 +31,7 @@ export type AddAddressInput = {
 export type AddProductInput = {
   categoryId: Scalars['Float'];
   desc: Scalars['String'];
+  identifier: Scalars['String'];
   images: Array<ProductImageInput>;
   name: Scalars['String'];
   variants: Array<ProductVariantInput>;
@@ -259,7 +260,7 @@ export type Query = {
 
 
 export type QueryProductArgs = {
-  id: Scalars['Float'];
+  identifier: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -435,6 +436,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, created_at: string, updated_at: string } | null };
+
+export type ProductQueryVariables = Exact<{
+  identifier: Scalars['String'];
+}>;
+
+
+export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'ProductResponse', id: number, name: string, desc: string, identifier: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> } | null };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1060,6 +1068,41 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const ProductDocument = gql`
+    query Product($identifier: String!) {
+  product(identifier: $identifier) {
+    ...ProductFragment
+  }
+}
+    ${ProductFragmentFragmentDoc}`;
+
+/**
+ * __useProductQuery__
+ *
+ * To run a query within a React component, call `useProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductQuery({
+ *   variables: {
+ *      identifier: // value for 'identifier'
+ *   },
+ * });
+ */
+export function useProductQuery(baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+      }
+export function useProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+        }
+export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
+export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
+export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = gql`
     query Products {
   products {

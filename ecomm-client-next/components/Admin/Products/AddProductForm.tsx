@@ -3,7 +3,14 @@ import InputField from "@components/ui/InputField";
 import SelectField from "@components/ui/Select";
 import TextArea from "@components/ui/TextArea";
 import { useAddProductMutation, useCategoriesQuery } from "@generated/graphql";
-import { FieldArray, Form, Formik } from "formik";
+import {
+	Field,
+	FieldArray,
+	FieldInputProps,
+	FieldProps,
+	Form,
+	Formik,
+} from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 
@@ -35,6 +42,16 @@ const AddProductFormValidation = Yup.object().shape({
 		.required("At least one ImageURL is required"),
 });
 
+const encodeURL = (url: string) => {
+	return encodeURI(
+		url
+			.toLowerCase()
+
+			.replace(/ /g, "-")
+			.replace(/[!"#$%&'()*+,./:;<=>?@[\]^_`’{|}~]/g, "")
+	);
+};
+
 const AddProductForm = () => {
 	const { data, loading } = useCategoriesQuery();
 	const [addProduct] = useAddProductMutation();
@@ -51,6 +68,7 @@ const AddProductForm = () => {
 				name: "",
 				desc: "",
 				categoryId: "",
+				identifier: "",
 				variants: [
 					{
 						price: 0,
@@ -68,14 +86,18 @@ const AddProductForm = () => {
 				toast.promise(
 					addProduct({
 						variables: {
-							options: { ...values, categoryId: parseInt(values.categoryId) },
+							options: {
+								...values,
+								identifier: encodeURL(values.name),
+								categoryId: parseInt(values.categoryId),
+							},
 						},
 						update: (cache) => cache.evict({ fieldName: "products" }),
 					}),
 					{
 						loading: "Adding Product...",
 						success: "Product Added Successfully",
-						error: "An Error Occured",
+						error: (error) => error.message,
 					}
 				);
 
@@ -84,13 +106,42 @@ const AddProductForm = () => {
 		>
 			{({ isSubmitting, values }) => (
 				<Form>
-					<InputField
-						name="name"
-						label="Name"
-						placeholder="Name"
-						type="text"
-						autoComplete="name"
-					/>
+					<div className="flex flex-col md:space-x-4 md:flex-row">
+						<InputField
+							name="name"
+							label="Name"
+							placeholder="Name"
+							type="text"
+							autoComplete="name"
+						/>
+						<Field name="identifier">
+							{({ field, form }: FieldProps) => (
+								<div className="w-full">
+									<label htmlFor={field.name} className={"label"}>
+										<span className="label-text">Identifier</span>
+										{form.errors.identifier && form.touched.identifier && (
+											<span className="label-text-alt text-red-600">
+												{form.errors.identifier as string}
+											</span>
+										)}
+									</label>
+									<input
+										disabled
+										{...field}
+										value={encodeURL(values.name)}
+										type="text"
+										autoComplete="id"
+										placeholder="Identifier"
+										className={`input input-md input-bordered w-full ${
+											form.errors.identifer &&
+											form.touched.identifer &&
+											"input-error"
+										}`}
+									/>
+								</div>
+							)}
+						</Field>
+					</div>
 					<TextArea
 						name="desc"
 						label="Description"

@@ -49,13 +49,15 @@ export class ProductResolver {
 	}
 
 	@Query(() => ProductResponse, { nullable: true })
-	async product(@Arg("id") id: number): Promise<ProductResponse> {
+	async product(
+		@Arg("identifier") identifier: string
+	): Promise<ProductResponse> {
 		const product = await AppDataSource.query(
 			`
 			${PRODUCT_QUERY_SQL}
-			WHERE p.id = $1
+			WHERE p.identifier = $1
     		`,
-			[id]
+			[identifier]
 		);
 		return product[0];
 	}
@@ -71,6 +73,7 @@ export class ProductResolver {
 					name: options.name,
 					desc: options.desc,
 					categoryId: options.categoryId,
+					identifier: options.identifier,
 				})
 				.returning("*")
 				.execute();

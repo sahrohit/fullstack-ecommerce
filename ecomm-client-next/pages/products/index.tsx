@@ -1,4 +1,4 @@
-import ProductCard from "@components/Admin/Products/AdminProductCard";
+import ProductCard from "@components/Product/ProductCard";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
 import { withAdminProtected } from "@components/utils/routes";

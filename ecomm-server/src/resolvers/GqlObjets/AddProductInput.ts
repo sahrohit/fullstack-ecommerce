@@ -11,6 +11,9 @@ export default class AddProductInput {
 	@Field()
 	categoryId!: number;
 
+	@Field()
+	identifier!: string;
+
 	@Field(() => [ProductVariantInput])
 	variants!: ProductVariantInput[];
 
