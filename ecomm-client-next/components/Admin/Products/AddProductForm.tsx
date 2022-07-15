@@ -5,11 +5,9 @@ import TextArea from "@components/ui/TextArea";
 import { useAddProductMutation, useCategoriesQuery } from "@generated/graphql";
 import {
 	Field,
-	FieldArray,
-	FieldInputProps,
-	FieldProps,
+	FieldArray, FieldProps,
 	Form,
-	Formik,
+	Formik
 } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";

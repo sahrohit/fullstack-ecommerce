@@ -1,6 +1,4 @@
 import { ProductImageResponse } from "@generated/graphql";
-import Image from "next/image";
-import { LoadingSpinner } from "./LoadingSpinner";
 
 interface ProductCarouselProps {
 	images: ProductImageResponse[];
@@ -8,8 +6,8 @@ interface ProductCarouselProps {
 
 const ProductCarousel = ({ images }: ProductCarouselProps) => {
 	return (
-		<>
-			<div className="carousel w-full m-4 rounded-md">
+		<div className="w-full p-4">
+			<div className="carousel w-full rounded-md">
 				{images.map((image) => (
 					<div
 						key={`${image.image_id}`}
@@ -17,7 +15,7 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
 						className="carousel-item w-full"
 						style={{
 							backgroundImage: `url(${image.imageURL})`,
-							height: "400px",
+							height: "600px",
 							objectFit: "cover",
 							objectPosition: "center",
 						}}
@@ -46,7 +44,7 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
 					></a>
 				))}
 			</div>
-		</>
+		</div>
 	);
 };
 

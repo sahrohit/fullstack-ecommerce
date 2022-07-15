@@ -1,5 +1,6 @@
 node_modules
 build
+generated
 
 **/*.config.js
 **/*.d.ts
