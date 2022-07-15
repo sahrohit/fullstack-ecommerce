@@ -3,12 +3,7 @@ import InputField from "@components/ui/InputField";
 import SelectField from "@components/ui/Select";
 import TextArea from "@components/ui/TextArea";
 import { useAddProductMutation, useCategoriesQuery } from "@generated/graphql";
-import {
-	Field,
-	FieldArray, FieldProps,
-	Form,
-	Formik
-} from "formik";
+import { Field, FieldArray, FieldProps, Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 
