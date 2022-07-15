@@ -1,5 +1,6 @@
 import { useField } from "formik";
 import { InputHTMLAttributes } from "react";
+import TextareaAutosize from 'react-textarea-autosize';
 
 type TextAreaProps = InputHTMLAttributes<HTMLInputElement> & {
 	name: string;
@@ -19,12 +20,13 @@ const TextArea = (props: TextAreaProps) => {
 					<span className="label-text-alt text-red-600">{error}</span>
 				)}
 			</label>
-			<textarea
+			<TextareaAutosize
 				{...field}
+				minRows={3}
 				autoComplete={props.autoComplete}
 				placeholder={props.placeholder}
-				className={`textarea textarea-bordered w-full ${
-					error && touched && "textarea-error"
+				className={`textarea textarea-bordered w-full h-max ${
+					error && touched && "textarea-error m-0"
 				}`}
 			/>
 		</div>

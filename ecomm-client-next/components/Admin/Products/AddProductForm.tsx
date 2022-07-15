@@ -5,7 +5,11 @@ import TextArea from "@components/ui/TextArea";
 import { useAddProductMutation, useCategoriesQuery } from "@generated/graphql";
 import { Field, FieldArray, FieldProps, Form, Formik } from "formik";
 import toast from "react-hot-toast";
+import ReactMarkdown from "react-markdown";
 import * as Yup from "yup";
+
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
 
 const AddProductFormValidation = Yup.object().shape({
 	name: Yup.string().required("Name is required"),
@@ -135,12 +139,28 @@ const AddProductForm = () => {
 							)}
 						</Field>
 					</div>
-					<TextArea
-						name="desc"
-						label="Description"
-						placeholder="Description"
-						autoComplete="new-password"
-					/>
+					<div className="flex flex-col space-x-4 md:flex-row">
+						<TextArea
+							className="w-1/2"
+							name="desc"
+							label="Description"
+							placeholder="Description"
+							autoComplete="desc"
+						/>
+						<div className="w-1/2">
+							<label className={"label"}>
+								<span className="label-text">Preview</span>
+							</label>
+							<ReactMarkdown
+								className="p-4"
+								remarkPlugins={[remarkGfm]}
+								rehypePlugins={[rehypeRaw]}
+								skipHtml={false}
+							>
+								{values.desc}
+							</ReactMarkdown>
+						</div>
+					</div>
 					<SelectField
 						label="Category"
 						name="categoryId"

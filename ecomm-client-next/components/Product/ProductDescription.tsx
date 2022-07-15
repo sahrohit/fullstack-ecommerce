@@ -29,7 +29,7 @@ const ProductDescription = ({ product }: ProductDescriptionProps) => {
 			</div>
 			<RadioGroup value={selectedVariant} onChange={setSelectedVariant}>
 				<RadioGroup.Label className="font-semibold">
-					{`Variants : Rs ${selectedVariant.variant}`}
+					{`Variants : ${selectedVariant.variant}`}
 				</RadioGroup.Label>
 				<div className="flex flex-row space-x-4 flex-wrap">
 					{product.variants.map((variant) => (
