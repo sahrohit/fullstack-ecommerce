@@ -1,12 +1,11 @@
 import ProductCard from "@components/Product/ProductCard";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
-import { withAdminProtected } from "@components/utils/routes";
 import { useProductsQuery } from "@generated/graphql";
 import { NextPage } from "next";
 import React from "react";
 
-const AdminProducts: NextPage = () => {
+const Products: NextPage = () => {
 	const { data, loading, error } = useProductsQuery();
 
 	if (loading) {
@@ -35,4 +34,4 @@ const AdminProducts: NextPage = () => {
 	);
 };
 
-export default withAdminProtected(AdminProducts);
+export default Products;

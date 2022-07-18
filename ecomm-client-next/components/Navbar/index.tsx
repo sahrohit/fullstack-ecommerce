@@ -1,10 +1,12 @@
 import Logo from "@components/Logo";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
+import RightDrawer from "@components/ui/RightDrawer";
 import { useLogoutMutation, useMeQuery } from "@generated/graphql";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { BsBag } from "react-icons/bs";
 import AuthLinks from "./AuthLinks";
 import NavbarLinks from "./NavbarLinks";
 
@@ -13,6 +15,7 @@ const Navbar = () => {
 	const [logout] = useLogoutMutation();
 
 	const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+	const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
 	if (loading) {
 		return <FullPageLoadingSpinner />;
@@ -73,7 +76,23 @@ const Navbar = () => {
 			{!(data && data.me) ? (
 				<AuthLinks />
 			) : (
-				<div className="navbar-end">
+				<div className="navbar-end space-x-2">
+					<RightDrawer
+						open={drawerOpen}
+						setOpen={setDrawerOpen}
+						buttonContent={
+							<>
+								<BsBag transform="scale(1.5)" />
+							</>
+						}
+						buttonStyle="btn-ghost btn-circle"
+						title="Cart"
+					>
+						
+						<div className="p-4">
+							<p className="text-center">You have no items in your cart.</p>
+						</div>
+					</RightDrawer>
 					<div className="dropdown dropdown-end">
 						<label tabIndex={0} className="btn btn-ghost btn-circle avatar">
 							<div className="w-10 rounded-full">
