@@ -11,6 +11,7 @@ import {
 	JoinColumn,
 } from "typeorm";
 import { Address } from "./Address";
+import { Payment } from "./Payment";
 import { UserRole } from "./UserRole";
 
 @ObjectType()
@@ -54,6 +55,9 @@ export class User extends BaseEntity {
 	@OneToOne(() => UserRole, (role) => role.user)
 	@JoinColumn()
 	role!: UserRole;
+
+	@OneToMany(() => Payment, (payment) => payment.user)
+	payments!: Payment[];
 
 	@OneToMany(() => Address, (address) => address.user)
 	addresses!: Address[];
