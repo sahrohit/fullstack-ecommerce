@@ -2,7 +2,6 @@ import nodemailer from "nodemailer";
 import { COMPANY_NAME } from "../constants";
 
 export async function sendEmail(to: string, subject: string, html: string) {
-
 	const transporter = nodemailer.createTransport({
 		host: "smtp.ethereal.email",
 		port: 587,
@@ -22,7 +21,6 @@ export async function sendEmail(to: string, subject: string, html: string) {
 		subject,
 		html,
 	});
-
 
 	console.log("Message sent: %s", info.messageId);
 	console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));

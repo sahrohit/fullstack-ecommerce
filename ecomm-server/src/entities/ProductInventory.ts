@@ -4,8 +4,9 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	ManyToOne, PrimaryGeneratedColumn,
-	UpdateDateColumn
+	ManyToOne,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
 } from "typeorm";
 import { Product } from "./Product";
 

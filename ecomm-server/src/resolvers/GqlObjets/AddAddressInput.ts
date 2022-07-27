@@ -13,7 +13,7 @@ export default class AddAddressInput {
 
 	@Field()
 	city!: string;
-	
+
 	@Field()
 	state!: string;
 
