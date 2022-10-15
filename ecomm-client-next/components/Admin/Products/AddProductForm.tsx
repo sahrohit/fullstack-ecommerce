@@ -8,8 +8,75 @@ import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import * as Yup from "yup";
 
-import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import { encodeURL } from "@components/utils/encodeURL";
+
+const descriptionTemplate = `## Markdown syntax guide
+
+# This is a Heading h1
+## This is a Heading h2 
+###### This is a Heading h6
+
+
+
+## Emphasis
+
+*This text will be italic*  
+_This will also be italic_
+
+**This text will be bold**  
+__This will also be bold__
+
+_You **can** combine them_
+
+
+
+## Lists
+
+
+### Unordered
+
+* Item 1
+* Item 2
+* Item 2a
+* Item 2b
+
+
+### Ordered
+
+1. Item 1
+1. Item 2
+1. Item 3
+  1. Item 3a
+  1. Item 3b
+
+
+
+## Images
+![This is an alt text.](https://images.unsplash.com/photo-1661956601349-f61c959a8fd4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80 "This is a sample image.")
+
+
+
+## Links
+
+You may be using [Markdown Live Preview](https://markdownlivepreview.com/).
+
+
+
+## Blockquotes
+
+> Markdown is a lightweight markup language with plain-text-formatting syntax, created in 2004 by John Gruber with Aaron Swartz.
+>
+>> Markdown is often used to format readme files, for writing messages in online discussion forums, and to create rich text using a plain text editor.
+
+
+
+## Tables
+| Left columns  | middle columns | Right columns |
+| ------------- |:-------------:|-------------:|
+| left foo      | middle foo     | right foo     |
+| left bar      | middle bar     | right foo    |
+| left baz      | right baz     | right foo     |`;
 
 const AddProductFormValidation = Yup.object().shape({
 	name: Yup.string().required("Name is required"),
@@ -39,16 +106,6 @@ const AddProductFormValidation = Yup.object().shape({
 		.required("At least one ImageURL is required"),
 });
 
-const encodeURL = (url: string) => {
-	return encodeURI(
-		url
-			.toLowerCase()
-
-			.replace(/ /g, "-")
-			.replace(/[!"#$%&'()*+,./:;<=>?@[\]^_`’{|}~]/g, "")
-	);
-};
-
 const AddProductForm = () => {
 	const { data, loading } = useCategoriesQuery();
 	const [addProduct] = useAddProductMutation();
@@ -63,7 +120,7 @@ const AddProductForm = () => {
 			validationSchema={AddProductFormValidation}
 			initialValues={{
 				name: "",
-				desc: "",
+				desc: descriptionTemplate,
 				categoryId: "",
 				identifier: "",
 				variants: [
@@ -80,6 +137,7 @@ const AddProductForm = () => {
 				],
 			}}
 			onSubmit={async (values, actions) => {
+				console.log(values);
 				toast.promise(
 					addProduct({
 						variables: {
@@ -97,7 +155,6 @@ const AddProductForm = () => {
 						error: (error) => error.message,
 					}
 				);
-
 				actions.setSubmitting(false);
 			}}
 		>
@@ -141,24 +198,21 @@ const AddProductForm = () => {
 					</div>
 					<div className="flex flex-col space-x-4 md:flex-row">
 						<TextArea
-							className="w-1/2"
+							className="w-1/2 grow"
 							name="desc"
 							label="Description"
 							placeholder="Description"
 							autoComplete="desc"
 						/>
-						<div className="w-1/2">
+						<div className="w-2/3">
 							<label className={"label"}>
 								<span className="label-text">Preview</span>
 							</label>
-							<ReactMarkdown
-								className="p-4"
-								remarkPlugins={[remarkGfm]}
-								rehypePlugins={[rehypeRaw]}
-								skipHtml={false}
-							>
-								{values.desc}
-							</ReactMarkdown>
+							<article className="prose prose-slate">
+								<ReactMarkdown remarkPlugins={[remarkGfm]}>
+									{values.desc}
+								</ReactMarkdown>
+							</article>
 						</div>
 					</div>
 					<SelectField

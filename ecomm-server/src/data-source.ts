@@ -3,13 +3,15 @@ import { DataSource } from "typeorm";
 import { Address } from "./entities/Address";
 import { Cart } from "./entities/Cart";
 import { Discount } from "./entities/Discount";
-import { Payment } from "./entities/Payment";
+import { OrderDetail } from "./entities/OrderDetail";
+import { OrderItem } from "./entities/OrderItem";
+import { PaymentDetail } from "./entities/PaymentDetail";
 import { Product } from "./entities/Product";
 import { ProductCategory } from "./entities/ProductCategory";
 import { ProductImage } from "./entities/ProductImage";
 import { ProductInventory } from "./entities/ProductInventory";
-import { ShoppingSession } from "./entities/ShoppingSession";
 import { User } from "./entities/User";
+import { UserPayment } from "./entities/UserPayment";
 import { UserRole } from "./entities/UserRole";
 
 export const AppDataSource = new DataSource({
@@ -27,8 +29,10 @@ export const AppDataSource = new DataSource({
 		Discount,
 		UserRole,
 		Cart,
-		Payment,
-		ShoppingSession,
+		UserPayment,
+		OrderDetail,
+		OrderItem,
+		PaymentDetail,
 	],
 	migrations: [],
 	subscribers: [],

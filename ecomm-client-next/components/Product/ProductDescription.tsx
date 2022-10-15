@@ -3,6 +3,7 @@ import { RadioGroup } from "@headlessui/react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import RatingStars from "./RatingStars";
+import remarkGfm from "remark-gfm";
 
 interface ProductDescriptionProps {
 	product: ProductResponse;
@@ -61,7 +62,11 @@ const ProductDescription = ({ product }: ProductDescriptionProps) => {
 
 			<div>
 				<h2 className="font-semibold">Description</h2>
-				<ReactMarkdown>{product.desc}</ReactMarkdown>
+				<article className="prose prose-slate">
+					<ReactMarkdown remarkPlugins={[remarkGfm]}>
+						{product.desc}
+					</ReactMarkdown>
+				</article>
 			</div>
 		</div>
 	);

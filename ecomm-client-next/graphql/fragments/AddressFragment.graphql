@@ -1,6 +1,6 @@
 fragment AddressFragment on Address {
 	id
-	nickname
+	name
 	address_line1
 	address_line2
 	city

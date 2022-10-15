@@ -11,7 +11,9 @@ import {
 	JoinColumn,
 } from "typeorm";
 import { Address } from "./Address";
-import { Payment } from "./Payment";
+import { Cart } from "./Cart";
+import { OrderDetail } from "./OrderDetail";
+import { UserPayment } from "./UserPayment";
 import { UserRole } from "./UserRole";
 
 @ObjectType()
@@ -56,11 +58,17 @@ export class User extends BaseEntity {
 	@JoinColumn()
 	role!: UserRole;
 
-	@OneToMany(() => Payment, (payment) => payment.user)
-	payments!: Payment[];
+	@OneToMany(() => UserPayment, (userpayment) => userpayment.user)
+	userpayments!: UserPayment[];
 
 	@OneToMany(() => Address, (address) => address.user)
 	addresses!: Address[];
+
+	@OneToMany(() => OrderDetail, (orderdetails) => orderdetails.user)
+	orderdetails!: OrderDetail[];
+
+	@OneToMany(() => Cart, (cart) => cart.user)
+	carts!: Cart[];
 
 	@Field(() => String)
 	@CreateDateColumn()

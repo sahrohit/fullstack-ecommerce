@@ -4,18 +4,20 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
+	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
-	Unique,
 	UpdateDateColumn,
 } from "typeorm";
-import { Product } from "./Product";
+import { OrderItem } from "./OrderItem";
+import { PaymentDetail } from "./PaymentDetail";
 import { User } from "./User";
 
-@ObjectType()
 @Entity()
-@Unique(["userId", "productId"])
-export class Cart extends BaseEntity {
+@ObjectType()
+export class OrderDetail extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
 	id!: number;
@@ -24,19 +26,23 @@ export class Cart extends BaseEntity {
 	@Column()
 	userId!: number;
 
-	@Field()
-	@Column()
-	quantity!: number;
-
-	@Field()
-	@Column()
-	productId!: number;
-
-	@ManyToOne(() => Product, (product) => product.carts)
-	product!: Product;
-
-	@ManyToOne(() => User, (user) => user.carts)
+	@ManyToOne(() => User, (user) => user.orderdetails)
 	user!: User;
+
+	@Field()
+	@Column()
+	total!: number;
+
+	@Field()
+	@Column()
+	payment_id: number;
+
+	@OneToOne(() => PaymentDetail, (paymentdetail) => paymentdetail.orderdetail)
+	@JoinColumn()
+	paymentdetail!: PaymentDetail;
+
+	@OneToMany(() => OrderItem, (orderitem) => orderitem.orderdetail)
+	orderitems!: OrderItem[];
 
 	@Field(() => String)
 	@CreateDateColumn()

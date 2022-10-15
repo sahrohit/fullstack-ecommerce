@@ -4,18 +4,19 @@ import cors from "cors";
 import "dotenv-safe/config";
 import Express from "express";
 import session from "express-session";
+import helmet from "helmet";
 import Redis from "ioredis";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import { AppDataSource } from "./data-source";
 import { AddressResolver } from "./resolvers/address";
+import { CartResolver } from "./resolvers/cart";
 import { CategoryResolver } from "./resolvers/category";
 import { DiscountResolver } from "./resolvers/discount";
 import { HelloResolver } from "./resolvers/hello";
 import { ProductResolver } from "./resolvers/product";
 import { UserResolver } from "./resolvers/user";
-import helmet from "helmet";
 import { MyContext } from "./types";
 
 const Server = async () => {
@@ -76,6 +77,7 @@ const Server = async () => {
 				ProductResolver,
 				DiscountResolver,
 				CategoryResolver,
+				CartResolver
 			],
 			validate: false,
 		}),

@@ -12,7 +12,7 @@ import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export class Payment extends BaseEntity {
+export class UserPayment extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
 	id: number;
@@ -21,7 +21,7 @@ export class Payment extends BaseEntity {
 	@Column()
 	userId!: number;
 
-	@ManyToOne(() => User, (user) => user.payments)
+	@ManyToOne(() => User, (user) => user.userpayments)
 	user!: User;
 
 	@Field(() => String)

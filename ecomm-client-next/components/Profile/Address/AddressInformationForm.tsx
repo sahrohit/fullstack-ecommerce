@@ -38,7 +38,7 @@ const AddressInformationForm = () => {
 							htmlFor="create-new-address-modal"
 							className="btn btn-sm btn-circle absolute right-2 top-2"
 						>
-							X
+							✕
 						</label>
 						<h3 className="text-lg font-bold">Add New Address</h3>
 						<AddressForm setModalOpen={setModalOpen} />

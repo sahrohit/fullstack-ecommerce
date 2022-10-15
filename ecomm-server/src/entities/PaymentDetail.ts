@@ -1,38 +1,40 @@
-import { Field, Int, ObjectType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import {
 	BaseEntity,
 	Column,
 	CreateDateColumn,
 	Entity,
-	JoinTable,
-	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
-import { Product } from "./Product";
+import { OrderDetail } from "./OrderDetail";
 
 @ObjectType()
 @Entity()
-export class ProductCategory extends BaseEntity {
-	@Field(() => Int)
+export class PaymentDetail extends BaseEntity {
+	@Column()
 	@PrimaryGeneratedColumn()
 	id!: number;
 
 	@Field()
 	@Column()
-	name!: string;
+	orderId!: number;
+
+	@OneToOne(() => OrderDetail, (orderdetail) => orderdetail.paymentdetail)
+	orderdetail!: OrderDetail;
 
 	@Field()
 	@Column()
-	identifier!: string;
+	amount!: number;
 
 	@Field()
-	@Column({ type: "text" })
-	desc!: string;
+	@Column()
+	provider!: string;
 
-	@OneToMany(() => Product, (product) => product.category)
-	@JoinTable({ name: "product_id" })
-	products!: Product[];
+	@Field()
+	@Column()
+	status!: string;
 
 	@Field(() => String)
 	@CreateDateColumn()

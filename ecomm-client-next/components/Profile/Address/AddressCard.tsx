@@ -18,7 +18,7 @@ const AddressCard = ({ address }: AddressCardProps) => {
 		<div className="card card-bordered ">
 			<div className="card-body p-4">
 				<h2 className="card-title">
-					{address.nickname}
+					{address.name}
 					<div className="badge mx-2 badge-secondary badge-outline badge-lg">
 						{address.phone_number}
 					</div>
@@ -38,8 +38,8 @@ const AddressCard = ({ address }: AddressCardProps) => {
 						heading="Are you sure you want to delete ?"
 						description={
 							<p className="py-4">
-								The address with nickname <strong>{address.nickname}</strong>{" "}
-								will be deleted. <br />
+								The address with name <strong>{address.name}</strong> will be
+								deleted. <br />
 								This action cannot be undone
 							</p>
 						}

@@ -19,7 +19,7 @@ export class Address extends BaseEntity {
 
 	@Field()
 	@Column()
-	nickname!: string;
+	name!: string;
 
 	@Field()
 	@Column()

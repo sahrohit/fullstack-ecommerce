@@ -8,16 +8,24 @@ import "../styles/globals.css";
 
 import { Toaster } from "react-hot-toast";
 import Navbar from "@components/Navbar";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const client = useApollo(pageProps);
 
+	const router = useRouter();
+
+	const isAuthPage =
+		router.pathname === "/auth/login" || router.pathname === "/auth/register";
+
+	console.log(router.pathname);
+
 	return (
 		<ApolloProvider client={client}>
 			<ThemeProvider enableSystem={true} attribute="data-theme">
-				<Navbar />
+				{!isAuthPage && <Navbar />}
 				<Component {...pageProps} />
-				<Footer />
+				{!isAuthPage && <Footer />}
 				<div className="fixed bottom-4 right-4">
 					<DarkModeSwitch />
 				</div>

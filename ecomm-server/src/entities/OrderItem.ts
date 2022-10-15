@@ -4,35 +4,42 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	JoinTable,
+	JoinColumn,
+	ManyToOne,
 	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
+import { OrderDetail } from "./OrderDetail";
+import { PaymentDetail } from "./PaymentDetail";
 import { Product } from "./Product";
+import { User } from "./User";
 
-@ObjectType()
 @Entity()
-export class ProductCategory extends BaseEntity {
+@ObjectType()
+export class OrderItem extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
 	id!: number;
 
 	@Field()
 	@Column()
-	name!: string;
+	orderId!: number;
+
+	@ManyToOne(() => OrderDetail, (orderdetail) => orderdetail.orderitems)
+	orderdetail!: OrderDetail;
 
 	@Field()
 	@Column()
-	identifier!: string;
+	productId!: number;
+
+	@OneToMany(() => Product, (product) => product.orderitem)
+	product!: Product;
 
 	@Field()
-	@Column({ type: "text" })
-	desc!: string;
-
-	@OneToMany(() => Product, (product) => product.category)
-	@JoinTable({ name: "product_id" })
-	products!: Product[];
+	@Column()
+	quantity!: number;
 
 	@Field(() => String)
 	@CreateDateColumn()

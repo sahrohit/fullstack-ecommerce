@@ -67,7 +67,7 @@ class ProductVariantResponse {
 }
 
 @ObjectType()
-class ProductImageResponse {
+export class ProductImageResponse {
 	@Field(() => Int)
 	image_id!: number;
 

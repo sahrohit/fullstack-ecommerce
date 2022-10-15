@@ -18,7 +18,7 @@ interface AddressFormProps {
 }
 
 const AddressFormSchema = Yup.object().shape({
-	nickname: Yup.string().required("Required"),
+	name: Yup.string().required("Required"),
 	address_line1: Yup.string().required("Required"),
 	address_line2: Yup.string(),
 	state: Yup.string().required("Required"),
@@ -41,7 +41,7 @@ const AddressForm = ({ setModalOpen, currentValues }: AddressFormProps) => {
 			initialValues={
 				currentValues
 					? {
-							nickname: currentValues.nickname,
+							name: currentValues.name,
 							address_line1: currentValues.address_line1,
 							address_line2: currentValues.address_line2,
 							state: currentValues.state,
@@ -58,7 +58,7 @@ const AddressForm = ({ setModalOpen, currentValues }: AddressFormProps) => {
 							),
 					  }
 					: {
-							nickname: "",
+							name: "",
 							address_line1: "",
 							address_line2: "",
 							state: "Bagmati Province",
@@ -70,6 +70,7 @@ const AddressForm = ({ setModalOpen, currentValues }: AddressFormProps) => {
 			}
 			validationSchema={AddressFormSchema}
 			onSubmit={async (values, actions) => {
+				console.log("Submission triggred");
 				if (currentValues) {
 					toast.promise(
 						updateAddressMutation({
@@ -128,11 +129,11 @@ const AddressForm = ({ setModalOpen, currentValues }: AddressFormProps) => {
 				<Form>
 					<div className="flex flex-col md:flex-row w-full justify-between grow gap-x-4">
 						<InputField
-							name="nickname"
-							label="Nickname"
-							placeholder="Home, Office, etc."
+							name="name"
+							label="Name"
+							placeholder="Joe Mama"
 							type="text"
-							autoComplete="nickname"
+							autoComplete="name"
 						/>
 						<InputField
 							name="phone_number"

@@ -3,7 +3,7 @@ import { InputType, Field } from "type-graphql";
 @InputType()
 export default class UpdateAddressInput {
 	@Field({ nullable: true })
-	nickname!: string;
+	name!: string;
 
 	@Field({ nullable: true })
 	address_line1?: string;
