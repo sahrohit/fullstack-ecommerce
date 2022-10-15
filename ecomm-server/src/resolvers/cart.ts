@@ -35,7 +35,6 @@ const CART_QUERY_SQL = `
 export class CartResolver {
 	@Query(() => [CartResponse], { nullable: true })
 	async fetchCartItems(@Ctx() { req }: MyContext): Promise<CartResponse> {
-		// return Cart.find({ where: { userId: 12 } });
 		const cart = await AppDataSource.query(
 			`
 			${CART_QUERY_SQL}
@@ -43,7 +42,6 @@ export class CartResolver {
     		`,
 			[12]
 		);
-		console.log(cart);
 		return cart;
 	}
 

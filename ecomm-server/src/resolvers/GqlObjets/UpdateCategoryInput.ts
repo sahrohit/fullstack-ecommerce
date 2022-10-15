@@ -7,4 +7,7 @@ export default class UpdateCategoryInput {
 
 	@Field({ nullable: true })
 	desc?: string;
+
+	@Field({ nullable: true })
+	identifier?: string;
 }

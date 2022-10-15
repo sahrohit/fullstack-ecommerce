@@ -1,0 +1,11 @@
+query CategoriesSummary {
+	categoriesSummary {
+		id
+		name
+		identifier
+		desc
+		product_count
+		created_at
+		updated_at
+	}
+}

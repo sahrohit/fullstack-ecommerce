@@ -53,6 +53,31 @@ export type Address = {
   userId: Scalars['Float'];
 };
 
+export type Cart = {
+  __typename?: 'Cart';
+  created_at: Scalars['String'];
+  id: Scalars['Int'];
+  productId: Scalars['Float'];
+  quantity: Scalars['Float'];
+  updated_at: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
+export type CartResponse = {
+  __typename?: 'CartResponse';
+  categoryId?: Maybe<Scalars['Float']>;
+  created_at: Scalars['DateTime'];
+  id: Scalars['Int'];
+  images?: Maybe<Array<ProductImageResponse>>;
+  productId: Scalars['Float'];
+  product_desc?: Maybe<Scalars['String']>;
+  product_identifier?: Maybe<Scalars['String']>;
+  product_name: Scalars['String'];
+  quantity: Scalars['Float'];
+  updated_at: Scalars['DateTime'];
+  userId: Scalars['Float'];
+};
+
 export type DiscountResponse = {
   __typename?: 'DiscountResponse';
   active: Scalars['Boolean'];
@@ -73,16 +98,20 @@ export type Mutation = {
   addCategory: ProductCategory;
   addDiscount?: Maybe<DiscountResponse>;
   addProducts?: Maybe<ProductResponse>;
+  addToCart: Cart;
   changePassword: UserResponse;
+  clearCart: Scalars['Boolean'];
   deleteAddress: Scalars['Boolean'];
   deleteCategory: Scalars['Boolean'];
   deleteDiscount?: Maybe<Scalars['Boolean']>;
+  deleteFromCart: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
   resendVerificationEmail: Scalars['Boolean'];
   updateAddress: Address;
+  updateCart: Cart;
   updateCategory: ProductCategory;
   updateDiscount?: Maybe<DiscountResponse>;
   updatePassword: UserResponse;
@@ -99,6 +128,7 @@ export type MutationAddAddressArgs = {
 
 export type MutationAddCategoryArgs = {
   desc: Scalars['String'];
+  identifier: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -110,6 +140,12 @@ export type MutationAddDiscountArgs = {
 
 export type MutationAddProductsArgs = {
   options: AddProductInput;
+};
+
+
+export type MutationAddToCartArgs = {
+  productId: Scalars['Int'];
+  quantity: Scalars['Int'];
 };
 
 
@@ -131,6 +167,12 @@ export type MutationDeleteCategoryArgs = {
 
 export type MutationDeleteDiscountArgs = {
   id: Scalars['Float'];
+};
+
+
+export type MutationDeleteFromCartArgs = {
+  productId: Scalars['Int'];
+  quantity: Scalars['Int'];
 };
 
 
@@ -158,6 +200,12 @@ export type MutationResendVerificationEmailArgs = {
 export type MutationUpdateAddressArgs = {
   id: Scalars['Int'];
   input: UpdateAddressInput;
+};
+
+
+export type MutationUpdateCartArgs = {
+  productId: Scalars['Int'];
+  quantity: Scalars['Int'];
 };
 
 
@@ -200,8 +248,20 @@ export type ProductCategory = {
   created_at: Scalars['String'];
   desc: Scalars['String'];
   id: Scalars['Int'];
+  identifier: Scalars['String'];
   name: Scalars['String'];
   updated_at: Scalars['String'];
+};
+
+export type ProductCategorySummary = {
+  __typename?: 'ProductCategorySummary';
+  created_at: Scalars['DateTime'];
+  desc: Scalars['String'];
+  id: Scalars['Int'];
+  identifier: Scalars['String'];
+  name: Scalars['String'];
+  product_count: Scalars['Float'];
+  updated_at: Scalars['DateTime'];
 };
 
 export type ProductImageInput = {
@@ -252,6 +312,8 @@ export type Query = {
   __typename?: 'Query';
   addresses?: Maybe<Array<Address>>;
   categories: Array<ProductCategory>;
+  categoriesSummary?: Maybe<Array<ProductCategorySummary>>;
+  fetchCartItems?: Maybe<Array<CartResponse>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
   product?: Maybe<ProductResponse>;
@@ -283,6 +345,7 @@ export type UpdateAddressInput = {
 
 export type UpdateCategoryInput = {
   desc?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -426,6 +489,11 @@ export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'ProductCategory', id: number, name: string, desc: string, created_at: string, updated_at: string }> };
+
+export type CategoriesSummaryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesSummaryQuery = { __typename?: 'Query', categoriesSummary?: Array<{ __typename?: 'ProductCategorySummary', id: number, name: string, identifier: string, desc: string, product_count: number, created_at: any, updated_at: any }> | null };
 
 export type HelloQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1002,6 +1070,46 @@ export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
+export const CategoriesSummaryDocument = gql`
+    query CategoriesSummary {
+  categoriesSummary {
+    id
+    name
+    identifier
+    desc
+    product_count
+    created_at
+    updated_at
+  }
+}
+    `;
+
+/**
+ * __useCategoriesSummaryQuery__
+ *
+ * To run a query within a React component, call `useCategoriesSummaryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesSummaryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesSummaryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesSummaryQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>(CategoriesSummaryDocument, options);
+      }
+export function useCategoriesSummaryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>(CategoriesSummaryDocument, options);
+        }
+export type CategoriesSummaryQueryHookResult = ReturnType<typeof useCategoriesSummaryQuery>;
+export type CategoriesSummaryLazyQueryHookResult = ReturnType<typeof useCategoriesSummaryLazyQuery>;
+export type CategoriesSummaryQueryResult = Apollo.QueryResult<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>;
 export const HelloQueryDocument = gql`
     query HelloQuery {
   hello
