@@ -1,9 +1,14 @@
-import { ProductResponse, ProductVariantResponse } from "@generated/graphql";
+import {
+	ProductResponse,
+	ProductVariantResponse,
+	useAddToCartMutation,
+} from "@generated/graphql";
 import { RadioGroup } from "@headlessui/react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import RatingStars from "./RatingStars";
 import remarkGfm from "remark-gfm";
+import toast from "react-hot-toast";
 
 interface ProductDescriptionProps {
 	product: ProductResponse;
@@ -14,6 +19,8 @@ const ProductDescription = ({ product }: ProductDescriptionProps) => {
 		useState<ProductVariantResponse>(
 			product.variants.filter((variant) => variant.quantity > 0)[0]
 		);
+
+	const [addToCart] = useAddToCartMutation();
 
 	return (
 		<div className="m-4 p-4 flex flex-col space-y-8">
@@ -58,7 +65,27 @@ const ProductDescription = ({ product }: ProductDescriptionProps) => {
 					))}
 				</div>
 			</RadioGroup>
-			<button className="w-full btn btn-primary">Add to Cart</button>
+			<button
+				className="w-full btn btn-primary"
+				onClick={() => {
+					toast.promise(
+						addToCart({
+							variables: {
+								inventoryId: selectedVariant.variant_id,
+								quantity: 1,
+							},
+							update: (cache) => cache.evict({ fieldName: "fetchCartItems" }),
+						}),
+						{
+							loading: "Updating Cart...",
+							success: "Updated Cart Successfully",
+							error: (error) => error.message,
+						}
+					);
+				}}
+			>
+				Add to Cart
+			</button>
 
 			<div>
 				<h2 className="font-semibold">Description</h2>

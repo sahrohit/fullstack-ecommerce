@@ -43,19 +43,19 @@ export class CartResolver {
 			${CART_QUERY_SQL}
 			WHERE "userId" = $1;
     		`,
-			[12]
+			[req.session?.userId]
 		);
 		return cart;
 	}
 
 	@Mutation(() => Cart)
-	// @UseMiddleware(isVerified)
+	@UseMiddleware(isVerified)
 	async addToCart(
 		@Arg("inventoryId", () => Int) inventoryId: number,
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<Cart> {
-		const cart = await Cart.findOne({ where: { userId: 12, inventoryId } });
+		const cart = await Cart.findOne({ where: { userId: req.session?.userId, inventoryId } });
 
 		if (cart) {
 			cart.quantity += quantity;
@@ -63,20 +63,20 @@ export class CartResolver {
 		}
 
 		return Cart.create({
-			userId: 12,
+			userId: req.session?.userId,
 			inventoryId: inventoryId,
 			quantity: quantity,
 		}).save();
 	}
 
 	@Mutation(() => Cart)
-	// @UseMiddleware(isVerified)
+	@UseMiddleware(isVerified)
 	async updateCart(
 		@Arg("inventoryId", () => Int) inventoryId: number,
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<Cart> {
-		const cart = await Cart.findOne({ where: { userId: 12, inventoryId } });
+		const cart = await Cart.findOne({ where: { userId: req.session?.userId, inventoryId } });
 
 		if (cart) {
 			cart.quantity = quantity;
@@ -84,50 +84,20 @@ export class CartResolver {
 		}
 
 		return Cart.create({
-			userId: 12,
+			userId: req.session?.userId,
 			inventoryId: inventoryId,
 			quantity: quantity,
 		}).save();
 	}
 
-	// @Mutation(() => Boolean)
-	// // @UseMiddleware(isVerified)
-	// async increamentCart(
-	// 	@Arg("cartId", () => Int) cartId: number,
-	// 	@Ctx() { req }: MyContext
-	// ): Promise<boolean> {
-	// 	const cart = await Cart.findOne({ where: { id: cartId } });
-	// 	if (cart) {
-	// 		cart.quantity = cart.quantity + 1;
-	// 		await cart.save();
-	// 		return true;
-	// 	}
-	// 	return false;
-	// }
-
-	// @Mutation(() => Boolean)
-	// // @UseMiddleware(isVerified)
-	// async decreamentCart(
-	// 	@Arg("cartId", () => Int) cartId: number,
-	// 	@Ctx() { req }: MyContext
-	// ): Promise<boolean> {
-	// 	const cart = await Cart.findOne({ where: { id: cartId } });
-	// 	if (cart) {
-	// 		cart.quantity = cart.quantity - 1;
-	// 		await cart.save();
-	// 		return true;
-	// 	}
-	// 	return false;
-	// }
-
 	@Mutation(() => Boolean)
-	// @UseMiddleware(isVerified)
+	@UseMiddleware(isVerified)
 	async deleteFromCart(
 		@Arg("inventoryId", () => Int) inventoryId: number,
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<boolean> {
-		const cart = await Cart.findOne({ where: { userId: 12, inventoryId } });
+		const cart = await Cart.findOne({ where: { userId: req.session?.userId, inventoryId } });
 
 		if (cart?.quantity === quantity) {
 			await cart.remove();
@@ -143,9 +113,9 @@ export class CartResolver {
 	}
 
 	@Mutation(() => Boolean)
-	// @UseMiddleware(isVerified)
+	@UseMiddleware(isVerified)
 	async clearCart(@Ctx() { req }: MyContext): Promise<boolean> {
-		await Cart.delete({ userId: 12 });
+		await Cart.delete({ userId: req.session?.userId });
 		return true;
 	}
 }

@@ -22,7 +22,9 @@ const Home: NextPage = () => {
 
 	return (
 		<>
-			<p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p>
+			<p>Hello World</p>
+
+			{/* <p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p> */}
 		</>
 	);
 };

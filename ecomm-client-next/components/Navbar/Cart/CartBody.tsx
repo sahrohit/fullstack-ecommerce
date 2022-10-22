@@ -1,12 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-import { CartResponse } from "@generated/graphql";
+import {
+	CartResponse,
+	useDeleteFromCartMutation,
+	useUpdateCartMutation,
+} from "@generated/graphql";
+import toast from "react-hot-toast";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { BsTrash } from "react-icons/bs";
 
 interface CartBodyProps {
 	products?: CartResponse[] | [];
 }
 
 const CartBody = ({ products }: CartBodyProps) => {
-	console.log(products);
+	const [updateCart] = useUpdateCartMutation();
+	const [deleteFromCart] = useDeleteFromCartMutation();
 
 	return (
 		<div className="flex-1 overflow-y-auto px-4 sm:px-6">
@@ -34,7 +42,7 @@ const CartBody = ({ products }: CartBodyProps) => {
 
 									<div className="ml-4 flex flex-1 flex-col">
 										<div>
-											<div className="flex justify-between text-base font-medium text-gray-900">
+											<div className="flex justify-between whitespace-nowrap text-base font-medium text-gray-900">
 												<h3>
 													<a href="#"> {product.product_name} </a>
 												</h3>
@@ -53,11 +61,57 @@ const CartBody = ({ products }: CartBodyProps) => {
 											</p>
 
 											<div className="btn-group">
-												<button className="btn btn-sm btn-outline btn-ghost">
-													+
+												<button
+													className="btn btn-sm btn-outline btn-ghost"
+													onClick={() => {
+														toast.promise(
+															updateCart({
+																variables: {
+																	inventoryId: product.inventoryId,
+																	updatedCartQuantity: product.quantity + 1,
+																},
+																update: (cache) =>
+																	cache.evict({ fieldName: "fetchCartItems" }),
+															}),
+															{
+																loading: "Updating Cart...",
+																success: "Updated Cart Successfully",
+																error: (error) => error.message,
+															}
+														);
+													}}
+												>
+													<AiOutlinePlus transform="scale(1.2)" />
 												</button>
-												<button className="btn btn-sm btn-outline btn-ghost">
-													-
+												<button
+													className={`btn btn-sm btn-outline btn-ghost ${
+														product.quantity <= 1 && "btn-error"
+													}`}
+													onClick={() => {
+														toast.promise(
+															deleteFromCart({
+																variables: {
+																	inventoryId: product.inventoryId,
+																	quantity: 1,
+																},
+																update: (cache) =>
+																	cache.evict({
+																		fieldName: "fetchCartItems",
+																	}),
+															}),
+															{
+																loading: "Updating Cart...",
+																success: "Updated Cart Successfully",
+																error: (error) => error.message,
+															}
+														);
+													}}
+												>
+													{product.quantity > 1 ? (
+														<AiOutlineMinus transform="scale(1.2)" />
+													) : (
+														<BsTrash transform="scale(1.2)" />
+													)}
 												</button>
 											</div>
 										</div>
