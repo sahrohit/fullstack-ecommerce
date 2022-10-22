@@ -1,0 +1,10 @@
+mutation UpdateCart($updatedCartQuantity: Int!, $inventoryId: Int!) {
+	updateCart(quantity: $updatedCartQuantity, inventoryId: $inventoryId) {
+		id
+		userId
+		quantity
+		inventoryId
+		created_at
+		updated_at
+	}
+}

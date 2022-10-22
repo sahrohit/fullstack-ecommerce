@@ -3,15 +3,16 @@ import { Dispatch, SetStateAction } from "react";
 interface CartFooterProps {
 	className?: string;
 	open: boolean;
+	total: number;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const CartFooter = ({ className, setOpen }: CartFooterProps) => {
+const CartFooter = ({ className, setOpen, total }: CartFooterProps) => {
 	return (
 		<div className={`border-t border-gray-200 py-6 px-4 sm:px-6 ${className}`}>
 			<div className="flex justify-between text-base font-medium text-gray-900">
 				<p>Subtotal</p>
-				<p>$262.00</p>
+				<p>Rs {total}</p>
 			</div>
 			<p className="mt-0.5 text-sm text-gray-500">
 				Shipping and taxes calculated at checkout.

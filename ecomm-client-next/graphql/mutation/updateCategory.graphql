@@ -1,0 +1,13 @@
+mutation UpdateCategory(
+	$options: UpdateCategoryInput!
+	$updateCategoryId: Float!
+) {
+	updateCategory(options: $options, id: $updateCategoryId) {
+		id
+		name
+		identifier
+		desc
+		created_at
+		updated_at
+	}
+}

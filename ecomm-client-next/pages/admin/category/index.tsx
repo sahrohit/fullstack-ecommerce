@@ -1,9 +1,14 @@
+import UpdateCategoryForm from "@components/Admin/Category/UpdateCategoryForm";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
 import ConfirmationModal from "@components/ui/ConfirmationModal";
-import { useCategoriesSummaryQuery } from "@generated/graphql";
+import {
+	useCategoriesSummaryQuery,
+	useDeleteCategoryMutation,
+} from "@generated/graphql";
 import Image from "next/image";
 import { AiOutlineDelete, AiOutlineMenu } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 const AdminCategoryPage = () => {
 	const { data, loading, error } = useCategoriesSummaryQuery();
@@ -24,13 +29,13 @@ const AdminCategoryPage = () => {
 
 	return (
 		<div className="overflow-x-auto w-full py-4 sm:px-4">
-			<table className="table w-full">
+			<table className="table w-full static top-0">
 				<thead>
 					<tr>
 						<th className="text-lg">Name</th>
-						<th className="text-lg"></th>
 						<th className="text-lg">Products</th>
 						<th className="text-lg">Description</th>
+						<th className="text-lg"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -48,9 +53,9 @@ const AdminCategoryPage = () => {
 				<tfoot>
 					<tr>
 						<th className="text-lg">Name</th>
-						<th className="text-lg"></th>
 						<th className="text-lg">Products</th>
 						<th className="text-lg">Description</th>
+						<th className="text-lg"></th>
 					</tr>
 				</tfoot>
 			</table>
@@ -61,7 +66,7 @@ const AdminCategoryPage = () => {
 export default AdminCategoryPage;
 
 interface CatergoryCardProps {
-	id: string | number;
+	id: number;
 	name: string;
 	identifer: string;
 	product_count: number;
@@ -75,6 +80,8 @@ const CategoryCard = ({
 	product_count,
 	desc,
 }: CatergoryCardProps) => {
+	const [deleteCategory] = useDeleteCategoryMutation();
+
 	return (
 		<tr>
 			<td>
@@ -96,6 +103,17 @@ const CategoryCard = ({
 				</div>
 			</td>
 
+			<td>
+				<strong className="text-lg">{product_count}</strong>
+			</td>
+
+			<td>
+				{desc}
+				<br />
+				<span className="badge badge-ghost badge-sm">
+					Desktop Support Technician
+				</span>
+			</td>
 			<th>
 				<div className="flex flex-row gap-4">
 					<ConfirmationModal
@@ -112,7 +130,20 @@ const CategoryCard = ({
 							</p>
 						}
 						onConfirm={() => {
-							console.log(`Delete Category ${id}`);
+							toast.promise(
+								deleteCategory({
+									variables: {
+										deleteCategoryId: id,
+									},
+									update: (cache) =>
+										cache.evict({ fieldName: "categoriesSummary" }),
+								}),
+								{
+									loading: "Adding Product...",
+									success: "Product Added Successfully",
+									error: (error) => error.message,
+								}
+							);
 						}}
 					>
 						<AiOutlineDelete transform="scale(1.2)" />
@@ -139,23 +170,17 @@ const CategoryCard = ({
 							>
 								✕
 							</label>
-							<h3 className="font-bold text-lg">{name}</h3>
-							<p className="py-4">{desc}</p>
+							<h3 className="font-bold text-lg">Edit {name}</h3>
+							<UpdateCategoryForm
+								categoryId={id}
+								name={name}
+								desc={desc}
+								identifier={identifer}
+							/>
 						</div>
 					</label>
 				</div>
 			</th>
-			<td>
-				<strong className="text-lg">{product_count}</strong>
-			</td>
-
-			<td>
-				{desc}
-				<br />
-				<span className="badge badge-ghost badge-sm">
-					Desktop Support Technician
-				</span>
-			</td>
 		</tr>
 	);
 };

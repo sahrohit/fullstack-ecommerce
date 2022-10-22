@@ -1,8 +1,11 @@
 import CartBody from "@components/Navbar/Cart/CartBody";
 import CartFooter from "@components/Navbar/Cart/CartFooter";
 import CartHeader from "@components/Navbar/Cart/CartHeader";
+import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
+import { useFetchCartItemsQuery } from "@generated/graphql";
 import { Dialog, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, ReactNode, SetStateAction } from "react";
+import Alert from "./Alert";
 
 const products = [
 	{
@@ -74,6 +77,22 @@ const RightDrawer = ({
 	open,
 	setOpen,
 }: RightDrawerProps) => {
+	const { data, loading, error } = useFetchCartItemsQuery();
+
+	if (loading) {
+		return <FullPageLoadingSpinner />;
+	}
+
+	if (error) {
+		return (
+			<Alert
+				message="An Error Occured"
+				title="Couldn't load Current User"
+				status="error"
+			/>
+		);
+	}
+
 	return (
 		<>
 			<button className={`btn ${buttonStyle}`} onClick={() => setOpen(true)}>
@@ -114,8 +133,16 @@ const RightDrawer = ({
 												title={title}
 												titleStyle={titleStyle}
 											/>
-											<CartBody products={products} />
-											<CartFooter open={open} setOpen={setOpen} />
+											<CartBody products={data?.fetchCartItems ?? []} />
+											<CartFooter
+												open={open}
+												setOpen={setOpen}
+												total={
+													data?.fetchCartItems
+														?.map((item) => item.price * item.quantity)
+														.reduce((a, b) => a + b, 0) ?? 0
+												}
+											/>
 										</div>
 									</Dialog.Panel>
 								</Transition.Child>

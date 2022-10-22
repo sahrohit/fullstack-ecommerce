@@ -23,7 +23,7 @@ export class ProductCategory extends BaseEntity {
 	name!: string;
 
 	@Field()
-	@Column()
+	@Column({ unique: true })
 	identifier!: string;
 
 	@Field()

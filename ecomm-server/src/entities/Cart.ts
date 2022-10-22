@@ -9,12 +9,12 @@ import {
 	Unique,
 	UpdateDateColumn,
 } from "typeorm";
-import { Product } from "./Product";
+import { ProductInventory } from "./ProductInventory";
 import { User } from "./User";
 
 @ObjectType()
 @Entity()
-@Unique(["userId", "productId"])
+@Unique(["userId", "inventoryId"])
 export class Cart extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
@@ -30,10 +30,13 @@ export class Cart extends BaseEntity {
 
 	@Field()
 	@Column()
-	productId!: number;
+	inventoryId!: number;
 
-	@ManyToOne(() => Product, (product) => product.carts)
-	product!: Product;
+	@ManyToOne(
+		() => ProductInventory,
+		(productinventory) => productinventory.carts
+	)
+	productinventory!: ProductInventory;
 
 	@ManyToOne(() => User, (user) => user.carts)
 	user!: User;

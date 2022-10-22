@@ -15,14 +15,17 @@ import CartResponse from "./GqlObjets/CartResponse";
 
 const CART_QUERY_SQL = `
 	SELECT c.*,
-		p.name "product_name",
-		p.desc "product_desc",
-		p.identifier "product_identifier",
+		p.name         "product_name",
+		p.desc         "product_desc",
+		p.identifier   "product_identifier",
+		pinv.price     "price",
+		pinv.variant   "variant",
 		p."categoryId" "categoryId",
-		pi.images "images"
+		pi.images      "images"
 	FROM cart c
-			LEFT JOIN product p ON c."productId" = p.id
-				LEFT JOIN LATERAL (
+			LEFT JOIN product_inventory pinv ON c."inventoryId" = pinv.id
+			LEFT JOIN product p ON pinv."productId" = p.id
+			LEFT JOIN LATERAL (
 		SELECT json_agg(json_build_object(
 				'image_id', pi.id,
 				'imageURL', pi."imageURL"
@@ -48,11 +51,11 @@ export class CartResolver {
 	@Mutation(() => Cart)
 	// @UseMiddleware(isVerified)
 	async addToCart(
-		@Arg("productId", () => Int) productId: number,
+		@Arg("inventoryId", () => Int) inventoryId: number,
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<Cart> {
-		const cart = await Cart.findOne({ where: { userId: 12, productId } });
+		const cart = await Cart.findOne({ where: { userId: 12, inventoryId } });
 
 		if (cart) {
 			cart.quantity += quantity;
@@ -61,7 +64,7 @@ export class CartResolver {
 
 		return Cart.create({
 			userId: 12,
-			productId: productId,
+			inventoryId: inventoryId,
 			quantity: quantity,
 		}).save();
 	}
@@ -69,11 +72,11 @@ export class CartResolver {
 	@Mutation(() => Cart)
 	// @UseMiddleware(isVerified)
 	async updateCart(
-		@Arg("productId", () => Int) productId: number,
+		@Arg("inventoryId", () => Int) inventoryId: number,
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<Cart> {
-		const cart = await Cart.findOne({ where: { userId: 12, productId } });
+		const cart = await Cart.findOne({ where: { userId: 12, inventoryId } });
 
 		if (cart) {
 			cart.quantity = quantity;
@@ -82,7 +85,7 @@ export class CartResolver {
 
 		return Cart.create({
 			userId: 12,
-			productId: productId,
+			inventoryId: inventoryId,
 			quantity: quantity,
 		}).save();
 	}
@@ -120,11 +123,11 @@ export class CartResolver {
 	@Mutation(() => Boolean)
 	// @UseMiddleware(isVerified)
 	async deleteFromCart(
-		@Arg("productId", () => Int) productId: number,
+		@Arg("inventoryId", () => Int) inventoryId: number,
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<boolean> {
-		const cart = await Cart.findOne({ where: { userId: 12, productId } });
+		const cart = await Cart.findOne({ where: { userId: 12, inventoryId } });
 
 		if (cart?.quantity === quantity) {
 			await cart.remove();

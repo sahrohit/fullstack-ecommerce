@@ -10,9 +10,8 @@ import {
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
-	UpdateDateColumn,
+	UpdateDateColumn
 } from "typeorm";
-import { Cart } from "./Cart";
 import { Discount } from "./Discount";
 import { OrderItem } from "./OrderItem";
 import { ProductCategory } from "./ProductCategory";
@@ -49,9 +48,6 @@ export class Product extends BaseEntity {
 
 	@OneToMany(() => ProductImage, (image) => image.product)
 	images!: ProductImage[];
-
-	@OneToMany(() => Cart, (cart) => cart.product)
-	carts!: Cart[];
 
 	@ManyToOne(() => ProductCategory, (category) => category.products)
 	@JoinTable({ name: "category_id" })

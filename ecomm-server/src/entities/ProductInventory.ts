@@ -5,9 +5,11 @@ import {
 	CreateDateColumn,
 	Entity,
 	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
+import { Cart } from "./Cart";
 import { Product } from "./Product";
 
 @ObjectType()
@@ -35,6 +37,9 @@ export class ProductInventory extends BaseEntity {
 
 	@ManyToOne(() => Product, (product) => product.inventories)
 	product!: Product;
+
+	@OneToMany(() => Cart, (cart) => cart.productinventory)
+	carts!: Cart[];
 
 	@Field(() => String)
 	@CreateDateColumn()

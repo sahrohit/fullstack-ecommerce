@@ -13,7 +13,7 @@ export default class CartResponse {
 	quantity!: number;
 
 	@Field()
-	productId!: number;
+	inventoryId!: number;
 
 	@Field()
 	product_name!: string;
@@ -24,8 +24,14 @@ export default class CartResponse {
 	@Field({ nullable: true })
 	product_identifier!: string;
 
-	@Field({ nullable: true })
+	@Field()
 	categoryId!: number;
+
+	@Field()
+	price!: number;
+
+	@Field()
+	variant!: string;
 
 	@Field(() => [ProductImageResponse], { nullable: true })
 	images!: ProductImageResponse[];
