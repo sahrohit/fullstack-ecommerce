@@ -36,7 +36,7 @@ export class Cart extends BaseEntity {
 		() => ProductInventory,
 		(productinventory) => productinventory.carts
 	)
-	productinventory!: ProductInventory;
+	inventory!: ProductInventory;
 
 	@ManyToOne(() => User, (user) => user.carts)
 	user!: User;

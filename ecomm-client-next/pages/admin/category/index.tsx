@@ -1,14 +1,18 @@
-import UpdateCategoryForm from "@components/Admin/Category/UpdateCategoryForm";
+import {
+	default as CategoryForm,
+	default as UpdateCategoryForm,
+} from "@components/Admin/Category/CategoryForm";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
 import ConfirmationModal from "@components/ui/ConfirmationModal";
+import PageHeading from "@components/ui/PageHeading";
 import {
 	useCategoriesSummaryQuery,
 	useDeleteCategoryMutation,
 } from "@generated/graphql";
 import Image from "next/image";
-import { AiOutlineDelete, AiOutlineMenu } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
 const AdminCategoryPage = () => {
 	const { data, loading, error } = useCategoriesSummaryQuery();
@@ -28,38 +32,67 @@ const AdminCategoryPage = () => {
 	}
 
 	return (
-		<div className="overflow-x-auto w-full py-4 sm:px-4">
-			<table className="table w-full static top-0">
-				<thead>
-					<tr>
-						<th className="text-lg">Name</th>
-						<th className="text-lg">Products</th>
-						<th className="text-lg">Description</th>
-						<th className="text-lg"></th>
-					</tr>
-				</thead>
-				<tbody>
-					{data?.categoriesSummary?.map((category) => (
-						<CategoryCard
-							key={category.id}
-							id={category.id}
-							name={category.name}
-							identifer={category.identifier}
-							product_count={category.product_count}
-							desc={category.desc}
-						/>
-					))}
-				</tbody>
-				<tfoot>
-					<tr>
-						<th className="text-lg">Name</th>
-						<th className="text-lg">Products</th>
-						<th className="text-lg">Description</th>
-						<th className="text-lg"></th>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
+		<>
+			<div className="flex flex-row justify-between align-middle py-2 mx-4 sticky top-0 z-10 bg-base-100">
+				<PageHeading text="Categories" />
+
+				<label htmlFor={`add-category-modal`} className="btn btn-secondary">
+					Create Category
+				</label>
+				<input
+					type="checkbox"
+					id={`add-category-modal`}
+					className="modal-toggle"
+				/>
+				<label
+					htmlFor={`add-category-modal`}
+					className="modal modal-bottom sm:modal-middle"
+				>
+					<div className="modal-box whitespace-normal">
+						<label
+							htmlFor={`add-category-modal`}
+							className="btn btn-sm btn-circle absolute right-2 top-2"
+						>
+							✕
+						</label>
+						<h3 className="font-bold text-lg">Add Category</h3>
+						<UpdateCategoryForm />
+					</div>
+				</label>
+			</div>
+			<div className="overflow-x-auto w-full py-4 sm:px-4">
+				<table className="table w-full">
+					<thead>
+						<tr>
+							<th className="text-lg !static">Name</th>
+							<th className="text-lg">Products</th>
+							<th className="text-lg">Description</th>
+							<th className="text-lg"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{data?.categoriesSummary?.map((category) => (
+							<CategoryCard
+								key={category.id}
+								id={category.id}
+								name={category.name}
+								identifer={category.identifier}
+								product_count={category.product_count}
+								desc={category.desc}
+							/>
+						))}
+					</tbody>
+					<tfoot>
+						<tr>
+							<th className="text-lg !static">Name</th>
+							<th className="text-lg">Products</th>
+							<th className="text-lg">Description</th>
+							<th className="text-lg"></th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</>
 	);
 };
 
@@ -152,7 +185,7 @@ const CategoryCard = ({
 						htmlFor={`category-details-${id}`}
 						className="btn btn-square btn-outline btn-sm"
 					>
-						<AiOutlineMenu transform="scale(1.2)" />
+						<AiOutlineEdit transform="scale(1.2)" />
 					</label>
 					<input
 						type="checkbox"
@@ -171,7 +204,7 @@ const CategoryCard = ({
 								✕
 							</label>
 							<h3 className="font-bold text-lg">Edit {name}</h3>
-							<UpdateCategoryForm
+							<CategoryForm
 								categoryId={id}
 								name={name}
 								desc={desc}

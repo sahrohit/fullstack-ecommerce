@@ -42,11 +42,13 @@ const CartBody = ({ products }: CartBodyProps) => {
 
 									<div className="ml-4 flex flex-1 flex-col">
 										<div>
-											<div className="flex justify-between whitespace-nowrap text-base font-medium text-gray-900">
+											<div className="flex justify-between text-base font-medium text-gray-900">
 												<h3>
 													<a href="#"> {product.product_name} </a>
 												</h3>
-												<p className="ml-4">Rs {product.price}</p>
+												<p className="ml-4 whitespace-nowrap">
+													Rs {product.price}
+												</p>
 											</div>
 											<div className="flex justify-between text-sm font-medium text-gray-500">
 												<h3>

@@ -7,6 +7,7 @@ import {
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
+	Unique,
 	UpdateDateColumn,
 } from "typeorm";
 import { Cart } from "./Cart";
@@ -14,6 +15,7 @@ import { Product } from "./Product";
 
 @ObjectType()
 @Entity()
+@Unique(["variant", "productId"])
 export class ProductInventory extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
@@ -38,7 +40,7 @@ export class ProductInventory extends BaseEntity {
 	@ManyToOne(() => Product, (product) => product.inventories)
 	product!: Product;
 
-	@OneToMany(() => Cart, (cart) => cart.productinventory)
+	@OneToMany(() => Cart, (cart) => cart.inventory)
 	carts!: Cart[];
 
 	@Field(() => String)

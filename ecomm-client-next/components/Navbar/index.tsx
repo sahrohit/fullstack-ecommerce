@@ -88,7 +88,6 @@ const Navbar = () => {
 						buttonStyle="btn-ghost btn-circle"
 						title="Cart"
 					>
-						
 						<div className="p-4">
 							<p className="text-center">You have no items in your cart.</p>
 						</div>
@@ -96,7 +95,6 @@ const Navbar = () => {
 					<div className="dropdown dropdown-end">
 						<label tabIndex={0} className="btn btn-ghost btn-circle avatar">
 							<div className="w-10 rounded-full">
-								{/* <img src="https://placeimg.com/80/80/people" /> */}
 								<Image
 									alt={data.me.first_name}
 									src="https://placeimg.com/80/80/people"

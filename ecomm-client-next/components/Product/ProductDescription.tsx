@@ -1,14 +1,14 @@
 import {
 	ProductResponse,
 	ProductVariantResponse,
-	useAddToCartMutation,
+	useAddToCartMutation
 } from "@generated/graphql";
 import { RadioGroup } from "@headlessui/react";
 import { useState } from "react";
-import ReactMarkdown from "react-markdown";
-import RatingStars from "./RatingStars";
-import remarkGfm from "remark-gfm";
 import toast from "react-hot-toast";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import RatingStars from "./RatingStars";
 
 interface ProductDescriptionProps {
 	product: ProductResponse;
