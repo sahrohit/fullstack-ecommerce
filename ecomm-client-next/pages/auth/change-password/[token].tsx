@@ -32,7 +32,7 @@ const ChangePasswordPage = () => {
 				if (response.data?.changePassword.user) {
 					router.push("/");
 				}
-			}} 
+			}}
 		>
 			{({ isSubmitting }) => (
 				<Form className="h-screen w-full grid place-items-center">

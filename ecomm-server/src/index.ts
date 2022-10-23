@@ -77,7 +77,7 @@ const Server = async () => {
 				ProductResolver,
 				DiscountResolver,
 				CategoryResolver,
-				CartResolver
+				CartResolver,
 			],
 			validate: false,
 		}),

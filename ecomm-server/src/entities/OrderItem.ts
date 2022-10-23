@@ -4,17 +4,13 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	JoinColumn,
 	ManyToOne,
 	OneToMany,
-	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
 import { OrderDetail } from "./OrderDetail";
-import { PaymentDetail } from "./PaymentDetail";
 import { Product } from "./Product";
-import { User } from "./User";
 
 @Entity()
 @ObjectType()

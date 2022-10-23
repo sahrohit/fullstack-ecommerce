@@ -10,7 +10,7 @@ import {
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
-	UpdateDateColumn
+	UpdateDateColumn,
 } from "typeorm";
 import { Discount } from "./Discount";
 import { OrderItem } from "./OrderItem";

@@ -55,7 +55,9 @@ export class CartResolver {
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<Cart> {
-		const cart = await Cart.findOne({ where: { userId: req.session?.userId, inventoryId } });
+		const cart = await Cart.findOne({
+			where: { userId: req.session?.userId, inventoryId },
+		});
 
 		if (cart) {
 			cart.quantity += quantity;
@@ -76,7 +78,9 @@ export class CartResolver {
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<Cart> {
-		const cart = await Cart.findOne({ where: { userId: req.session?.userId, inventoryId } });
+		const cart = await Cart.findOne({
+			where: { userId: req.session?.userId, inventoryId },
+		});
 
 		if (cart) {
 			cart.quantity = quantity;
@@ -97,7 +101,9 @@ export class CartResolver {
 		@Arg("quantity", () => Int) quantity: number,
 		@Ctx() { req }: MyContext
 	): Promise<boolean> {
-		const cart = await Cart.findOne({ where: { userId: req.session?.userId, inventoryId } });
+		const cart = await Cart.findOne({
+			where: { userId: req.session?.userId, inventoryId },
+		});
 
 		if (cart?.quantity === quantity) {
 			await cart.remove();

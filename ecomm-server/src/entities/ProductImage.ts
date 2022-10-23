@@ -8,7 +8,7 @@ import {
 	BaseEntity,
 	ManyToOne,
 } from "typeorm";
-import { Product } from "./Product";	
+import { Product } from "./Product";
 
 @ObjectType()
 @Entity()

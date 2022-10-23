@@ -1,6 +1,6 @@
 import { useField } from "formik";
 import { InputHTMLAttributes } from "react";
-import TextareaAutosize from 'react-textarea-autosize';
+import TextareaAutosize from "react-textarea-autosize";
 
 type TextAreaProps = InputHTMLAttributes<HTMLInputElement> & {
 	name: string;

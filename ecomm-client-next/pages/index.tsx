@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 		<>
 			<p>Hello World</p>
 
-			{/* <p className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</p> */}
+			<p className="whitespace-pre-wrap">{data?.products?.length}</p>
 		</>
 	);
 };

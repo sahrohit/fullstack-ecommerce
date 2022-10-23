@@ -1,7 +1,7 @@
 import {
 	ProductResponse,
 	ProductVariantResponse,
-	useAddToCartMutation
+	useAddToCartMutation,
 } from "@generated/graphql";
 import { RadioGroup } from "@headlessui/react";
 import { useState } from "react";
