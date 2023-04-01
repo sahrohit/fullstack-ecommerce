@@ -42,7 +42,7 @@ const CartBody = ({ products }: CartBodyProps) => {
 
 									<div className="ml-4 flex flex-1 flex-col">
 										<div>
-											<div className="flex justify-between text-base font-medium text-gray-900">
+											<div className="flex justify-between text-base font-medium ">
 												<h3>
 													<a href="#"> {product.product_name} </a>
 												</h3>
@@ -50,7 +50,7 @@ const CartBody = ({ products }: CartBodyProps) => {
 													Rs {product.price}
 												</p>
 											</div>
-											<div className="flex justify-between text-sm font-medium text-gray-500">
+											<div className="flex justify-between text-sm font-medium">
 												<h3>
 													<a href="#"> Variant: {product.variant} </a>
 												</h3>
@@ -58,7 +58,7 @@ const CartBody = ({ products }: CartBodyProps) => {
 											</div>
 										</div>
 										<div className="flex flex-1 items-end justify-between text-sm">
-											<p className="text-base font-medium text-gray-900 text-md">
+											<p className="text-base font-medium text-md">
 												Rs {product.quantity * product.price}
 											</p>
 
@@ -122,7 +122,7 @@ const CartBody = ({ products }: CartBodyProps) => {
 							))}
 						</ul>
 					) : (
-						<p className="text-center text-gray-500">No products in cart</p>
+						<p className="text-center">No products in cart</p>
 					)}
 				</div>
 			</div>

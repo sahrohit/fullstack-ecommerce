@@ -18,15 +18,13 @@ const CartHeader = ({
 }: CartHeaderProps) => {
 	return (
 		<div className={`flex items-start justify-between ${className}`}>
-			<Dialog.Title
-				className={`text-lg font-medium text-gray-900 ${titleStyle}`}
-			>
+			<Dialog.Title className={`text-lg font-medium ${titleStyle}`}>
 				{title}
 			</Dialog.Title>
 			<div className="ml-3 flex h-7 items-center">
 				<button
 					type="button"
-					className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+					className="-m-2 p-2"
 					onClick={() => setOpen(false)}
 				>
 					<span className="sr-only">Close panel</span>

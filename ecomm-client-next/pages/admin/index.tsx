@@ -1,7 +1,6 @@
-import { NextPage } from "next";
 import React from "react";
 
-const ManageAdmin: NextPage = () => {
+const ManageAdmin = () => {
 	return <div>ManageAdmin</div>;
 };
 

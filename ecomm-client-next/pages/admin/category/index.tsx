@@ -1,6 +1,6 @@
 import {
 	default as CategoryForm,
-	default as UpdateCategoryForm,
+	default as UpdateCategoryForm
 } from "@components/Admin/Category/CategoryForm";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
@@ -8,7 +8,7 @@ import ConfirmationModal from "@components/ui/ConfirmationModal";
 import PageHeading from "@components/ui/PageHeading";
 import {
 	useCategoriesSummaryQuery,
-	useDeleteCategoryMutation,
+	useDeleteCategoryMutation
 } from "@generated/graphql";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -27,6 +27,16 @@ const AdminCategoryPage = () => {
 				message="An Error Occured"
 				title="Couldn't load Current User"
 				status="error"
+			/>
+		);
+	}
+
+	if (!error && !loading && !data?.categoriesSummary) {
+		return (
+			<Alert
+				message="There are no categories."
+				title="Add a category & that will be shown here."
+				status="warning"
 			/>
 		);
 	}
@@ -140,13 +150,7 @@ const CategoryCard = ({
 				<strong className="text-lg">{product_count}</strong>
 			</td>
 
-			<td>
-				{desc}
-				<br />
-				<span className="badge badge-ghost badge-sm">
-					Desktop Support Technician
-				</span>
-			</td>
+			<td className="whitespace-normal min-w-[400px]">{desc}</td>
 			<th>
 				<div className="flex flex-row gap-4">
 					<ConfirmationModal
@@ -181,6 +185,8 @@ const CategoryCard = ({
 					>
 						<AiOutlineDelete transform="scale(1.2)" />
 					</ConfirmationModal>
+				</div>
+			</th>
 					<label
 						htmlFor={`category-details-${id}`}
 						className="btn btn-square btn-outline btn-sm"
@@ -212,8 +218,6 @@ const CategoryCard = ({
 							/>
 						</div>
 					</label>
-				</div>
-			</th>
 		</tr>
 	);
 };

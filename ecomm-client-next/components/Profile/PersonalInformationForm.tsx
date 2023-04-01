@@ -1,10 +1,13 @@
+/* eslint-disable @next/next/no-img-element */
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import InputField from "@components/ui/InputField";
+import UploadFile from "@components/ui/UploadFile";
 import {
 	useMeQuery,
-	useResendVerificationEmailMutation,
+	useResendVerificationEmailMutation
 } from "@generated/graphql";
 import { Form, Formik } from "formik";
+import Image from "next/image";
 import toast from "react-hot-toast";
 import { BsCheck } from "react-icons/bs";
 
@@ -30,7 +33,7 @@ const PersonalInformationForm = () => {
 		>
 			{({ isSubmitting, dirty }) => (
 				<Form>
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-4">
 						<div className="flex flex-col md:flex-row w-full justify-between grow gap-4">
 							<InputField
 								name="first_name"
@@ -111,13 +114,45 @@ const PersonalInformationForm = () => {
 							)}
 						</div>
 
+						<p>Photo</p>
+						<div className="w-full md:w-3/4 flex flex-row flex-nowrap space-x-6 items-center">
+							<div className="avatar">
+								<div className="w-24 rounded-full">
+									<Image
+										alt={data?.me?.first_name}
+										src={
+											data?.me?.imageUrl ??
+											"https://placeimg.com/192/192/people"
+										}
+										height={96}
+										width={96}
+									/>
+								</div>
+							</div>
+
+							<UploadFile
+								id={`upload-photo-modal`}
+								button={
+									<label
+										htmlFor={`upload-photo-modal`}
+										className="btn btn-sm btn-outline"
+									>
+										{data?.me?.imageUrl ? "Change Photo" : "Upload Photo"}
+									</label>
+								}
+							/>
+						</div>
+
 						{data?.me?.created_at && (
 							<p className="">
 								Your account is{" "}
-								{Math.floor(
-									(new Date().getTime() - parseInt(data?.me?.created_at)) /
-										86400000
-								)}{" "}
+								<strong>
+									{" "}
+									{Math.floor(
+										(new Date().getTime() - parseInt(data?.me?.created_at)) /
+											86400000
+									)}{" "}
+								</strong>
 								days old.
 							</p>
 						)}

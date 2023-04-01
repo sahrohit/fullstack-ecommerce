@@ -50,6 +50,10 @@ export class User extends BaseEntity {
 	@Column({ default: false })
 	phone_number_verified!: boolean;
 
+	@Field({ nullable: true })
+	@Column({ nullable: true })
+	imageUrl!: string;
+
 	@Field()
 	@Column({ default: 1 })
 	roleId!: number;

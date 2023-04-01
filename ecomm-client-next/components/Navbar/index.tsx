@@ -97,7 +97,7 @@ const Navbar = () => {
 							<div className="w-10 rounded-full">
 								<Image
 									alt={data.me.first_name}
-									src="https://placeimg.com/80/80/people"
+									src={data.me.imageUrl ?? "https://placeimg.com/80/80/people"}
 									height="80"
 									width="80"
 								/>

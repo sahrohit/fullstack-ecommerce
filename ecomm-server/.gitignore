@@ -14,6 +14,12 @@ build/
 tmp/
 temp/
 
+#IDE
+.vscode
+.vs
+.idea
+.fleet
+
 # dotenv environment variable files
 .env
 .env.development.local

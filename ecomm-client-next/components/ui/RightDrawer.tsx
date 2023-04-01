@@ -73,7 +73,7 @@ const RightDrawer = ({
 									leaveTo="translate-x-full"
 								>
 									<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-										<div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+										<div className="flex h-full flex-col overflow-y-scroll bg-base-100 shadow-xl">
 											<CartHeader
 												className="py-6 px-4"
 												open={open}

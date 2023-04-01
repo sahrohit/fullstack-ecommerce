@@ -8,13 +8,13 @@ import {
 	ObjectType,
 	Query,
 	Resolver,
-	Root,
+	Root
 } from "type-graphql";
 import { v4 } from "uuid";
 import {
 	COOKIE_NAME,
 	FORGOT_PASSWORD_PREFIX,
-	VERIFY_EMAIL_PREFIX,
+	VERIFY_EMAIL_PREFIX
 } from "../constants";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/User";
@@ -24,7 +24,8 @@ import { MyContext } from "../types";
 import { sendEmail } from "../utils/sendEmail";
 import { validateRegister } from "../utils/validator";
 import { RegisterInput } from "./GqlObjets/RegisterInput";
-
+// import {Upload} from "apollo-upload"
+	
 @ObjectType()
 class FieldError {
 	@Field()
@@ -333,4 +334,17 @@ export class UserResolver {
 
 		return { user };
 	}
+
+	// @Mutation(() => Boolean)
+	// async uploadFile(@Arg("file") file: Upload, @Ctx() { req }: MyContext) {
+	// 	const { createReadStream } = await file;
+
+	// 	await new Promise((res) =>
+	// 		createReadStream()
+	// 			.pipe(createWriteStream(path.join(__dirname, `../../images/test`)))
+	// 			.on("close", res)
+	// 	);
+
+	// 	return true;
+	// }
 }

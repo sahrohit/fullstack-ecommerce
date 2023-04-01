@@ -15,7 +15,7 @@ const AddressCard = ({ address }: AddressCardProps) => {
 	const [deleteAddressMutation] = useDeleteAddressMutation();
 
 	return (
-		<div className="card card-bordered ">
+		<div className="card card-bordered">
 			<div className="card-body p-4">
 				<h2 className="card-title">
 					{address.name}
