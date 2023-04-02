@@ -1,14 +1,15 @@
 {
 	"private": true,
 	"scripts": {
-		"build": "turbo run build",
-		"clean": "turbo run clean",
-		"dev": "turbo run dev --parallel --no-cache  --continue",
+		"build": "turbo run build --no-daemon",
+		"clean": "turbo run clean --no-daemon",
+		"dev": "turbo run dev --no-daemon --parallel --no-cache --continue --filter=admin --filter=api --filter=storefront",
+		"dev:all": "turbo run dev --parallel --no-cache --continue",
 		"format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"lint": "turbo run lint --no-daemon",
 		"test": "turbo run test",
-		"gen-env": "turbo run gen-env",
+		"gen-env": "turbo run gen-env --no-daemon",
 		"prepare": "husky install"
 	},
 	"devDependencies": {
