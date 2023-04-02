@@ -19,10 +19,14 @@
 		"sourceType": "module"
 	},
 	"plugins": ["react", "@typescript-eslint"],
-	"rules": {},
 	"settings": {
 		"react": {
 			"version": "detect"
 		}
+	},
+	"rules": {
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@next/next/no-img-element": "off"
 	}
 }

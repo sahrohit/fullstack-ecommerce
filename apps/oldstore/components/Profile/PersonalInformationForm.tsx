@@ -119,7 +119,7 @@ const PersonalInformationForm = () => {
 							<div className="avatar">
 								<div className="w-24 rounded-full">
 									<Image
-										alt={data?.me?.first_name}
+										alt={data?.me?.first_name ?? "Profile Picture"}
 										src={
 											data?.me?.imageUrl ??
 											"https://placeimg.com/192/192/people"

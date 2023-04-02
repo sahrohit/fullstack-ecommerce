@@ -2,7 +2,7 @@ import { UserRole } from "../entities/UserRole";
 import { Ctx, Query, Resolver, UseMiddleware } from "type-graphql";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/User";
-import { MyContext } from "../types";
+import {type MyContext } from "../types";
 import UserDataResponse from "./GqlObjets/UserDataResponse";
 import { isVerified } from "../middlewares/isVerified";
 

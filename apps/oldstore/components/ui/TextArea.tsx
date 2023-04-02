@@ -11,7 +11,7 @@ type TextAreaProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const TextArea = (props: TextAreaProps) => {
-	const [field, { error, touched }] = useField(props);
+	const [field, { error, touched }] = useField(props as any);
 	return (
 		<div className="w-full">
 			<label htmlFor={field.name} className={"label"}>

@@ -10,7 +10,7 @@ import {
 import { AppDataSource } from "../data-source";
 import { Address } from "../entities/Address";
 import { isVerified } from "../middlewares/isVerified";
-import { MyContext } from "../types";
+import { type MyContext } from "../types";
 import AddAddressInput from "./GqlObjets/AddAddressInput";
 import UpdateAddressInput from "./GqlObjets/UpdateAddressInput";
 

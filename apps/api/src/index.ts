@@ -19,6 +19,7 @@ import { HelloResolver } from "./resolvers/hello";
 import { ProductResolver } from "./resolvers/product";
 import { UserResolver } from "./resolvers/user";
 import { MyContext } from "./types";
+import "reflect-metadata";
 
 const Server = async () => {
 	AppDataSource.initialize()

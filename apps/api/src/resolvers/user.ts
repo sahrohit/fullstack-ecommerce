@@ -8,24 +8,24 @@ import {
 	ObjectType,
 	Query,
 	Resolver,
-	Root
+	Root,
 } from "type-graphql";
 import { v4 } from "uuid";
 import {
 	COOKIE_NAME,
 	FORGOT_PASSWORD_PREFIX,
-	VERIFY_EMAIL_PREFIX
+	VERIFY_EMAIL_PREFIX,
 } from "../constants";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/User";
 import { forgetPasswordTemplate } from "../static/forgetPasswordTemplate";
 import { verifyEmailTemplate } from "../static/verifyEmailTemplate";
-import { MyContext } from "../types";
+import { type MyContext } from "../types";
 import { sendEmail } from "../utils/sendEmail";
 import { validateRegister } from "../utils/validator";
 import { RegisterInput } from "./GqlObjets/RegisterInput";
 // import {Upload} from "apollo-upload"
-	
+
 @ObjectType()
 class FieldError {
 	@Field()

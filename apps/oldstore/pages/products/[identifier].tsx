@@ -32,7 +32,7 @@ const ProductPage = () => {
 					<ul>
 						<li>
 							<Link href="/products" passHref>
-								<a>Products</a>
+								Products
 							</Link>
 						</li>
 						<li>

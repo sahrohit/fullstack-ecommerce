@@ -9,7 +9,7 @@ type SelectFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const SelectField = (props: SelectFieldProps) => {
-	const [field] = useField(props);
+	const [field] = useField(props as any);
 	return (
 		<div>
 			<label className="label">

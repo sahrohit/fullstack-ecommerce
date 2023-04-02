@@ -10,7 +10,7 @@ import {
 	UseMiddleware,
 } from "type-graphql";
 import { Cart } from "../entities/Cart";
-import { MyContext } from "../types";
+import {type MyContext } from "../types";
 import CartResponse from "./GqlObjets/CartResponse";
 
 const CART_QUERY_SQL = `

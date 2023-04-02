@@ -112,7 +112,7 @@ const Navbar = () => {
 							</li>
 							<li>
 								<Link href="/profile" passHref>
-									<a>Profile</a>
+									Profile
 								</Link>
 							</li>
 							<li>
@@ -143,17 +143,17 @@ const Navbar = () => {
 									</li>
 									<li>
 										<Link href="/admin">
-											<a>Manage Admin</a>
+											Manage Admin
 										</Link>
 									</li>
 									<li>
 										<Link href="/admin/products">
-											<a>Products</a>
+											Products
 										</Link>
 									</li>
 									<li>
 										<Link href="/admin/add-product">
-											<a>Add Products</a>
+											Add Products
 										</Link>
 									</li>
 								</>

@@ -1,7 +1,9 @@
 {
+	"name": "oldstore",
+	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
+		"dev": "next dev -p 3002",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
@@ -19,14 +21,13 @@
 		"@headlessui/react": "^1.6.4",
 		"classnames": "^2.3.1",
 		"daisyui": "^2.17.0",
+		"deepmerge": "^4.3.1",
 		"formik": "^2.2.9",
 		"framer-motion": "^6.5.0",
 		"graphql": "^16.5.0",
 		"lodash": "^4.17.21",
 		"next": "latest",
 		"next-themes": "^0.2.0",
-		"react": "18.1.0",
-		"react-dom": "18.1.0",
 		"react-dropzone": "^14.2.3",
 		"react-horizontal-scrolling-menu": "^3.2.0",
 		"react-hot-toast": "^2.2.0",
@@ -50,13 +51,21 @@
 		"@typescript-eslint/parser": "^5.27.1",
 		"autoprefixer": "^10.4.7",
 		"eslint": "^8.17.0",
+		"eslint-config-custom": "workspace:*",
 		"eslint-config-next": "12.1.6",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-react": "^7.30.0",
 		"gen-env-types": "^1.3.4",
 		"postcss": "^8.4.14",
 		"prettier": "^2.6.2",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
 		"tailwindcss": "^3.0.24",
+		"tsconfig": "workspace:*",
 		"typescript": "4.7.2"
+	},
+	"peerDependencies": {
+		"react": "18.2.0",
+		"react-dom": "18.2.0"
 	}
 }

@@ -58,8 +58,12 @@ const ChangePasswordPage = () => {
 						{error && (
 							<p className="text-red-500">
 								{error}.{" "}
-								<Link href="/auth/forgot-password" passHref>
-									<a className="link link-error link-hover">Regenerate Link?</a>
+								<Link
+									href="/auth/forgot-password"
+									className="link link-error link-hover"
+									passHref
+								>
+									Regenerate Link?
 								</Link>
 							</p>
 						)}
