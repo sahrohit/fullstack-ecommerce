@@ -18,8 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const isAuthPage =
 		router.pathname === "/auth/login" || router.pathname === "/auth/register";
 
-	console.log(router.pathname);
-
 	return (
 		<ApolloProvider client={client}>
 			<ThemeProvider enableSystem={true} attribute="data-theme">

@@ -47,7 +47,6 @@ export class AddressResolver {
 			})
 			.returning("*")
 			.execute();
-		console.log(result);
 		return result.raw[0];
 	}
 

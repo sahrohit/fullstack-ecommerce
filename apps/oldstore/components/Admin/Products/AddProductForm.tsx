@@ -137,7 +137,6 @@ const AddProductForm = () => {
 				],
 			}}
 			onSubmit={async (values, actions) => {
-				console.log(values);
 				toast.promise(
 					addProduct({
 						variables: {
