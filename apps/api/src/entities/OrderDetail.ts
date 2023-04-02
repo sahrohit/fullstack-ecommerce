@@ -35,7 +35,7 @@ export class OrderDetail extends BaseEntity {
 
 	@Field()
 	@Column()
-	payment_id: number;
+	payment_id!: number;
 
 	@OneToOne(() => PaymentDetail, (paymentdetail) => paymentdetail.orderdetail)
 	@JoinColumn()

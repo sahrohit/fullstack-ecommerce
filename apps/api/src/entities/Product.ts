@@ -28,7 +28,7 @@ export class Product extends BaseEntity {
 	@Field()
 	@Index({ unique: true })
 	@Column()
-	identifier: string;
+	identifier!: string;
 
 	@Field()
 	@Column()

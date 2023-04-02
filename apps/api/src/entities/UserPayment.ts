@@ -15,7 +15,7 @@ import { User } from "./User";
 export class UserPayment extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
-	id: number;
+	id!: number;
 
 	@Field()
 	@Column()
@@ -26,19 +26,19 @@ export class UserPayment extends BaseEntity {
 
 	@Field(() => String)
 	@Column()
-	payment_type: string;
+	payment_type!: string;
 
 	@Field(() => String)
 	@Column()
-	provider: string;
+	provider!: string;
 
 	@Field(() => Int)
 	@Column()
-	account_no: number;
+	account_no!: number;
 
 	@Field(() => Int)
 	@Column({ type: "date" })
-	expiry: string;
+	expiry!: string;
 
 	@Field(() => String)
 	@CreateDateColumn()
