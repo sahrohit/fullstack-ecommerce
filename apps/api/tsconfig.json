@@ -1,4 +1,5 @@
 {
+	"extends": "tsconfig/base.json",
 	"compilerOptions": {
 		"sourceMap": true,
 		"outDir": "build",
@@ -19,5 +20,5 @@
 		"target": "es2020"
 	},
 	"exclude": ["node_modules"],
-	"include": ["./src/**/*.ts", "./src/types.ts"]
+	"include": ["./src/**/*.ts", "./src/types.ts", "./src/env.d.ts"]
 }

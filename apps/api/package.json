@@ -56,7 +56,8 @@
 		"reflect-metadata": "^0.1.13",
 		"type-graphql": "^1.1.1",
 		"typeorm": "0.3.6",
-		"uuid": "^8.3.2"
+		"uuid": "^8.3.2",
+		"tsconfig": "workspace:*"
 	},
 	"peerDependencies": {
 		"graphql": "^15.8.0",

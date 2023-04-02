@@ -5,8 +5,9 @@
     "clean": "turbo run clean",
     "dev": "turbo run dev --no-cache  --continue",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo run lint  --no-daemon",
-    "test": "turbo run test"
+    "lint": "turbo run lint --no-daemon",
+    "test": "turbo run test",
+    "gen-env": "turbo run gen-env"
   },
   "devDependencies": {
     "prettier": "^2.7.1",

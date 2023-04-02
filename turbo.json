@@ -26,6 +26,12 @@
       "cache": false,
       "persistent": true
     },
+    "gen-env": {
+      "dependsOn": []
+    },
+    "codegen": {
+      "outputs": ["./codegen-outputs/**"]
+    },
     "clean": {
       "cache": false
     }

@@ -108,9 +108,7 @@ export class UserResolver {
 		await sendEmail(
 			options.email,
 			"Verify Email",
-			verifyEmailTemplate(
-				`${process.env.CLIENT_URL}/auth/verify-email/${token}`
-			)
+			verifyEmailTemplate(`/auth/verify-email/${token}`)
 		);
 
 		// req.session.userId = user.id;
@@ -139,9 +137,7 @@ export class UserResolver {
 		await sendEmail(
 			user.email,
 			"Verify Email",
-			verifyEmailTemplate(
-				`${process.env.CLIENT_URL}/auth/verify-email/${token}`
-			)
+			verifyEmailTemplate(`/auth/verify-email/${token}`)
 		);
 
 		return true;
@@ -237,9 +233,7 @@ export class UserResolver {
 		await sendEmail(
 			email,
 			"Forgot Password",
-			forgetPasswordTemplate(
-				`${process.env.CLIENT_URL}/auth/change-password/${token}`
-			)
+			forgetPasswordTemplate(`/auth/change-password/${token}`)
 		);
 
 		return true;

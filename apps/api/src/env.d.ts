@@ -5,7 +5,6 @@ declare global {
       DATABASE_URL: string;
       REDIS_URL: string;
       SESSION_SECRET: string;
-      CLIENT_URL: string;
       PORT: string;
       SENDGRID_API_KEY: string;
     }
