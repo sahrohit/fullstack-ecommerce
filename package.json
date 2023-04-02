@@ -1,17 +1,21 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "clean": "turbo run clean",
-    "dev": "turbo run dev --parallel --no-cache  --continue",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo run lint --no-daemon",
-    "test": "turbo run test",
-    "gen-env": "turbo run gen-env"
-  },
-  "devDependencies": {
-    "prettier": "^2.7.1",
-    "turbo": "latest"
-  },
-  "packageManager": "pnpm@7.15.0"
+	"private": true,
+	"scripts": {
+		"build": "turbo run build",
+		"clean": "turbo run clean",
+		"dev": "turbo run dev --parallel --no-cache  --continue",
+		"format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"lint": "turbo run lint --no-daemon",
+		"test": "turbo run test",
+		"gen-env": "turbo run gen-env",
+		"prepare": "husky install"
+	},
+	"devDependencies": {
+		"husky": "^8.0.3",
+		"lint-staged": "^13.2.0",
+		"prettier": "^2.7.1",
+		"turbo": "latest"
+	},
+	"packageManager": "pnpm@7.15.0"
 }
