@@ -1,5 +1,6 @@
 import LoginForm, { UnderlineLink } from "@/components/auth/LoginForm";
 import { Logo } from "@/components/logo";
+import { Image } from "@chakra-ui/next-js";
 import {
 	Badge,
 	Box,
@@ -67,7 +68,7 @@ const LoginPage = () => {
 				bg="blue.600"
 				color="white"
 				px="20"
-				pt="32"
+				pt="28"
 			>
 				<Badge
 					bg="blue.700"
@@ -77,7 +78,7 @@ const LoginPage = () => {
 					letterSpacing="wide"
 					color="whiteAlpha.900"
 				>
-					New and Improved
+					Order for you and your loved ones 💖
 				</Badge>
 				<Text
 					mt="6"
@@ -87,34 +88,22 @@ const LoginPage = () => {
 					letterSpacing="tight"
 					lineHeight="normal"
 				>
-					Create Beautiful websites with Chakra Pro
+					One parcel a day, keeps sadness away
 				</Text>
-				<Text mt="5" maxW="md" fontSize="lg">
+				{/* <Text mt="5" maxW="md" fontSize="lg">
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
 					eiusmod tempor incididun.
-				</Text>
-				<HStack
-					as="a"
-					href="#"
-					justify="center"
-					display="inline-flex"
-					minW="2xs"
-					py="3"
-					px="2"
-					mt="5"
-					fontWeight="semibold"
-					border="2px solid white"
-					rounded="lg"
-					transition="all 0.2s"
-					_hover={{ bg: "whiteAlpha.200" }}
-				>
-					<Box>Learn more</Box>
-					<HiOutlineExternalLink />
-				</HStack>
+				</Text> */}
+
 				<Box mt="10" position="relative">
 					<Img
+						// width={20}
+						// height={20}
+						// layout=""
+						width={"90%"}
+						placeholder="blur"
 						alt="App screenshot"
-						src="https://res.cloudinary.com/chakra-ui-pro/image/upload/v1621082943/pro-website/screenshot-dark_w6jpks.png"
+						src="/assets/e-commerce.svg"
 					/>
 				</Box>
 			</Box>
