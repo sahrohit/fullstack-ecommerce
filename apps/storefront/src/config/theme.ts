@@ -1,4 +1,5 @@
 import { extendTheme, ColorMode } from "@chakra-ui/react";
+import { theme as proTheme } from "@chakra-ui/pro-theme";
 
 interface IThemeMode {
 	Light: ColorMode;
@@ -25,5 +26,6 @@ const config = {
 
 const theme = extendTheme({
 	config,
+	...proTheme,
 });
 export default theme;

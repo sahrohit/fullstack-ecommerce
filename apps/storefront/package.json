@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"@chakra-ui/next-js": "^2.1.2",
+		"@chakra-ui/pro-theme": "^0.0.65",
 		"@chakra-ui/react": "^2.5.5",
 		"@chakra-ui/theme-tools": "^2.0.16",
 		"@emotion/react": "^11.10.6",
