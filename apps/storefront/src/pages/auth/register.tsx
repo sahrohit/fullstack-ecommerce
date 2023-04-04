@@ -16,6 +16,7 @@ import { DividerWithText } from "@/components/ui/DividerWithText";
 import { Logo } from "@/components/logo";
 import RegisterForm from "@/components/auth/RegisterForm";
 import UnderlineLink from "@/components/ui/UnderlineLink";
+import { SignInWithGoogle } from "@/components/auth/AuthProvider";
 
 const RegisterPage = () => {
 	return (
@@ -58,14 +59,7 @@ const RegisterPage = () => {
 									mx={{ base: "auto", md: "unset" }}
 								/>
 							</HStack>
-							<Stack spacing="4">
-								<Button
-									variant="outline"
-									leftIcon={<Box as={FcGoogle} color="red.500" />}
-								>
-									Sign up with Google
-								</Button>
-							</Stack>
+							<SignInWithGoogle />
 
 							<DividerWithText>or</DividerWithText>
 							<RegisterForm />

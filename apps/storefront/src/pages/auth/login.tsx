@@ -1,3 +1,4 @@
+import { SignInWithGoogle } from "@/components/auth/AuthProvider";
 import LoginForm from "@/components/auth/LoginForm";
 import { Logo } from "@/components/logo";
 import UnderlineLink from "@/components/ui/UnderlineLink";
@@ -28,7 +29,7 @@ const LoginPage = () => {
 			>
 				<Box maxW="sm" mx="auto">
 					<Logo
-						mb={{ base: "14", md: "32" }}
+						mb={{ base: "14", md: "14" }}
 						w="auto"
 						h="12"
 						mx="auto"
@@ -43,6 +44,7 @@ const LoginPage = () => {
 						>
 							Sign in to your account
 						</Heading>
+
 						<Text
 							mt="3"
 							color={mode("gray.600", "gray.400")}
@@ -55,6 +57,9 @@ const LoginPage = () => {
 						</Text>
 					</Box>
 					<LoginForm />
+					<Box my="6">
+						<SignInWithGoogle />
+					</Box>
 				</Box>
 			</Box>
 
