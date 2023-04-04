@@ -22,17 +22,20 @@ type InputFieldProps = Omit<BoxProps, "apply"> &
 		disabled?: boolean;
 		error: FieldError | undefined;
 		isDirty: boolean | undefined;
+		showErrorMessage?: boolean;
 	};
 
 const InputField = (props: InputFieldProps) => {
-	const { error, isDirty, ...rest } = props;
+	const { error, isDirty, showErrorMessage, ...rest } = props;
 
 	return (
 		<>
 			<FormControl id={props.name} isInvalid={!!error && isDirty}>
 				<HStack justifyContent={"space-between"}>
 					<FormLabel srOnly>{props.label}</FormLabel>
-					<FormErrorMessage>{error?.message}</FormErrorMessage>
+					{showErrorMessage && (
+						<FormErrorMessage>{error?.message}</FormErrorMessage>
+					)}
 				</HStack>
 				<Input
 					type={props.type}
@@ -49,6 +52,7 @@ const InputField = (props: InputFieldProps) => {
 InputField.defaultProps = {
 	required: false,
 	disabled: false,
+	showErrorMessage: true,
 };
 
 export default InputField;

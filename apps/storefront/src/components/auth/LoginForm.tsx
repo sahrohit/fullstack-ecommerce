@@ -40,6 +40,7 @@ const LoginForm = () => {
 					register={{ ...register("email") }}
 					error={errors.email}
 					isDirty={dirtyFields.email}
+					showErrorMessage={false}
 					required
 					name="email"
 					type="email"
@@ -55,6 +56,7 @@ const LoginForm = () => {
 					register={{ ...register("password") }}
 					error={errors.password}
 					isDirty={dirtyFields.password}
+					showErrorMessage={false}
 					label="Password"
 					name="password"
 					type="password"
