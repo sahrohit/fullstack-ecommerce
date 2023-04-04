@@ -1,6 +1,7 @@
 import { Flex, Grid, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { Link } from "@chakra-ui/next-js";
+import ThemeSwitch from "@/components/shared/ThemeSwitch";
 
 const HomePage = () => {
 	return (
@@ -18,6 +19,7 @@ const HomePage = () => {
 						my={8}
 						fontSize={20}
 					>
+						<ThemeSwitch />
 						<Link href="/auth/login">Login Page</Link>
 						<Link href="/auth/register">Register Page</Link>
 						<Link href="/auth/forgot-password">Forgot Password Page</Link>
