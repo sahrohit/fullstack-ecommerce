@@ -32,7 +32,6 @@ const LoginPage = () => {
 						mb={{ base: "14", md: "14" }}
 						w="auto"
 						h="12"
-						mx="auto"
 						iconColor="green.600"
 					/>
 					<Box textAlign="center" mb={{ base: "10", md: "16" }}>
