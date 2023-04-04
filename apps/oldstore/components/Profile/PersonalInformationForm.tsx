@@ -4,7 +4,7 @@ import InputField from "@components/ui/InputField";
 import UploadFile from "@components/ui/UploadFile";
 import {
 	useMeQuery,
-	useResendVerificationEmailMutation
+	useResendVerificationEmailMutation,
 } from "@generated/graphql";
 import { Form, Formik } from "formik";
 import Image from "next/image";

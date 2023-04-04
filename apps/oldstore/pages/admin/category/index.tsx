@@ -1,6 +1,6 @@
 import {
 	default as CategoryForm,
-	default as UpdateCategoryForm
+	default as UpdateCategoryForm,
 } from "@components/Admin/Category/CategoryForm";
 import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
@@ -8,7 +8,7 @@ import ConfirmationModal from "@components/ui/ConfirmationModal";
 import PageHeading from "@components/ui/PageHeading";
 import {
 	useCategoriesSummaryQuery,
-	useDeleteCategoryMutation
+	useDeleteCategoryMutation,
 } from "@generated/graphql";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -187,37 +187,37 @@ const CategoryCard = ({
 					</ConfirmationModal>
 				</div>
 			</th>
+			<label
+				htmlFor={`category-details-${id}`}
+				className="btn btn-square btn-outline btn-sm"
+			>
+				<AiOutlineEdit transform="scale(1.2)" />
+			</label>
+			<input
+				type="checkbox"
+				id={`category-details-${id}`}
+				className="modal-toggle"
+			/>
+			<label
+				htmlFor={`category-details-${id}`}
+				className="modal modal-bottom sm:modal-middle"
+			>
+				<div className="modal-box whitespace-normal">
 					<label
 						htmlFor={`category-details-${id}`}
-						className="btn btn-square btn-outline btn-sm"
+						className="btn btn-sm btn-circle absolute right-2 top-2"
 					>
-						<AiOutlineEdit transform="scale(1.2)" />
+						✕
 					</label>
-					<input
-						type="checkbox"
-						id={`category-details-${id}`}
-						className="modal-toggle"
+					<h3 className="font-bold text-lg">Edit {name}</h3>
+					<CategoryForm
+						categoryId={id}
+						name={name}
+						desc={desc}
+						identifier={identifer}
 					/>
-					<label
-						htmlFor={`category-details-${id}`}
-						className="modal modal-bottom sm:modal-middle"
-					>
-						<div className="modal-box whitespace-normal">
-							<label
-								htmlFor={`category-details-${id}`}
-								className="btn btn-sm btn-circle absolute right-2 top-2"
-							>
-								✕
-							</label>
-							<h3 className="font-bold text-lg">Edit {name}</h3>
-							<CategoryForm
-								categoryId={id}
-								name={name}
-								desc={desc}
-								identifier={identifer}
-							/>
-						</div>
-					</label>
+				</div>
+			</label>
 		</tr>
 	);
 };

@@ -1,691 +1,1091 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+	[K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+	[SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+	[SubKey in K]: Maybe<T[SubKey]>;
+};
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
-  DateTime: any;
+	ID: string;
+	String: string;
+	Boolean: boolean;
+	Int: number;
+	Float: number;
+	/** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+	DateTime: any;
 };
 
 export type AddAddressInput = {
-  address_line1: Scalars['String'];
-  address_line2?: InputMaybe<Scalars['String']>;
-  city: Scalars['String'];
-  country: Scalars['String'];
-  name: Scalars['String'];
-  phone_number: Scalars['String'];
-  postal_code: Scalars['String'];
-  state: Scalars['String'];
+	address_line1: Scalars["String"];
+	address_line2?: InputMaybe<Scalars["String"]>;
+	city: Scalars["String"];
+	country: Scalars["String"];
+	name: Scalars["String"];
+	phone_number: Scalars["String"];
+	postal_code: Scalars["String"];
+	state: Scalars["String"];
 };
 
 export type AddProductInput = {
-  categoryId: Scalars['Float'];
-  desc: Scalars['String'];
-  identifier: Scalars['String'];
-  images: Array<ProductImageInput>;
-  name: Scalars['String'];
-  variants: Array<ProductVariantInput>;
+	categoryId: Scalars["Float"];
+	desc: Scalars["String"];
+	identifier: Scalars["String"];
+	images: Array<ProductImageInput>;
+	name: Scalars["String"];
+	variants: Array<ProductVariantInput>;
 };
 
 export type Address = {
-  __typename?: 'Address';
-  address_line1: Scalars['String'];
-  address_line2?: Maybe<Scalars['String']>;
-  city: Scalars['String'];
-  country: Scalars['String'];
-  created_at: Scalars['String'];
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  phone_number: Scalars['String'];
-  postal_code: Scalars['String'];
-  state: Scalars['String'];
-  updated_at: Scalars['String'];
-  userId: Scalars['Float'];
+	__typename?: "Address";
+	address_line1: Scalars["String"];
+	address_line2?: Maybe<Scalars["String"]>;
+	city: Scalars["String"];
+	country: Scalars["String"];
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	phone_number: Scalars["String"];
+	postal_code: Scalars["String"];
+	state: Scalars["String"];
+	updated_at: Scalars["String"];
+	userId: Scalars["Float"];
 };
 
 export type Cart = {
-  __typename?: 'Cart';
-  created_at: Scalars['String'];
-  id: Scalars['Int'];
-  inventoryId: Scalars['Float'];
-  quantity: Scalars['Float'];
-  updated_at: Scalars['String'];
-  userId: Scalars['Float'];
+	__typename?: "Cart";
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	inventoryId: Scalars["Float"];
+	quantity: Scalars["Float"];
+	updated_at: Scalars["String"];
+	userId: Scalars["Float"];
 };
 
 export type CartResponse = {
-  __typename?: 'CartResponse';
-  categoryId: Scalars['Float'];
-  created_at: Scalars['DateTime'];
-  id: Scalars['Int'];
-  images?: Maybe<Array<ProductImageResponse>>;
-  inventoryId: Scalars['Float'];
-  price: Scalars['Float'];
-  product_desc?: Maybe<Scalars['String']>;
-  product_identifier?: Maybe<Scalars['String']>;
-  product_name: Scalars['String'];
-  quantity: Scalars['Float'];
-  updated_at: Scalars['DateTime'];
-  userId: Scalars['Float'];
-  variant: Scalars['String'];
+	__typename?: "CartResponse";
+	categoryId: Scalars["Float"];
+	created_at: Scalars["DateTime"];
+	id: Scalars["Int"];
+	images?: Maybe<Array<ProductImageResponse>>;
+	inventoryId: Scalars["Float"];
+	price: Scalars["Float"];
+	product_desc?: Maybe<Scalars["String"]>;
+	product_identifier?: Maybe<Scalars["String"]>;
+	product_name: Scalars["String"];
+	quantity: Scalars["Float"];
+	updated_at: Scalars["DateTime"];
+	userId: Scalars["Float"];
+	variant: Scalars["String"];
 };
 
 export type DiscountResponse = {
-  __typename?: 'DiscountResponse';
-  active: Scalars['Boolean'];
-  desc: Scalars['String'];
-  discount_percent: Scalars['Float'];
-  name: Scalars['String'];
+	__typename?: "DiscountResponse";
+	active: Scalars["Boolean"];
+	desc: Scalars["String"];
+	discount_percent: Scalars["Float"];
+	name: Scalars["String"];
 };
 
 export type FieldError = {
-  __typename?: 'FieldError';
-  field: Scalars['String'];
-  message: Scalars['String'];
+	__typename?: "FieldError";
+	field: Scalars["String"];
+	message: Scalars["String"];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  addAddress: Address;
-  addCategory: ProductCategory;
-  addDiscount?: Maybe<DiscountResponse>;
-  addProducts?: Maybe<ProductResponse>;
-  addToCart: Cart;
-  changePassword: UserResponse;
-  clearCart: Scalars['Boolean'];
-  deleteAddress: Scalars['Boolean'];
-  deleteCategory: Scalars['Boolean'];
-  deleteDiscount?: Maybe<Scalars['Boolean']>;
-  deleteFromCart: Scalars['Boolean'];
-  forgotPassword: Scalars['Boolean'];
-  login: UserResponse;
-  logout: Scalars['Boolean'];
-  register: UserResponse;
-  resendVerificationEmail: Scalars['Boolean'];
-  updateAddress: Address;
-  updateCart: Cart;
-  updateCategory: ProductCategory;
-  updateDiscount?: Maybe<DiscountResponse>;
-  updatePassword: UserResponse;
-  updateProduct?: Maybe<ProductResponse>;
-  updateProductDiscount?: Maybe<ProductResponse>;
-  verifyEmail: Scalars['Boolean'];
+	__typename?: "Mutation";
+	addAddress: Address;
+	addCategory: ProductCategory;
+	addDiscount?: Maybe<DiscountResponse>;
+	addProducts?: Maybe<ProductResponse>;
+	addToCart: Cart;
+	changePassword: UserResponse;
+	clearCart: Scalars["Boolean"];
+	deleteAddress: Scalars["Boolean"];
+	deleteCategory: Scalars["Boolean"];
+	deleteDiscount?: Maybe<Scalars["Boolean"]>;
+	deleteFromCart: Scalars["Boolean"];
+	forgotPassword: Scalars["Boolean"];
+	login: UserResponse;
+	logout: Scalars["Boolean"];
+	register: UserResponse;
+	resendVerificationEmail: Scalars["Boolean"];
+	updateAddress: Address;
+	updateCart: Cart;
+	updateCategory: ProductCategory;
+	updateDiscount?: Maybe<DiscountResponse>;
+	updatePassword: UserResponse;
+	updateProduct?: Maybe<ProductResponse>;
+	updateProductDiscount?: Maybe<ProductResponse>;
+	verifyEmail: Scalars["Boolean"];
 };
-
 
 export type MutationAddAddressArgs = {
-  input: AddAddressInput;
+	input: AddAddressInput;
 };
-
 
 export type MutationAddCategoryArgs = {
-  desc: Scalars['String'];
-  identifier: Scalars['String'];
-  name: Scalars['String'];
+	desc: Scalars["String"];
+	identifier: Scalars["String"];
+	name: Scalars["String"];
 };
-
 
 export type MutationAddDiscountArgs = {
-  options: AddProductInput;
+	options: AddProductInput;
 };
-
 
 export type MutationAddProductsArgs = {
-  options: AddProductInput;
+	options: AddProductInput;
 };
-
 
 export type MutationAddToCartArgs = {
-  inventoryId: Scalars['Int'];
-  quantity: Scalars['Int'];
+	inventoryId: Scalars["Int"];
+	quantity: Scalars["Int"];
 };
-
 
 export type MutationChangePasswordArgs = {
-  newPassword: Scalars['String'];
-  token: Scalars['String'];
+	newPassword: Scalars["String"];
+	token: Scalars["String"];
 };
-
 
 export type MutationDeleteAddressArgs = {
-  id: Scalars['Int'];
+	id: Scalars["Int"];
 };
-
 
 export type MutationDeleteCategoryArgs = {
-  id: Scalars['Float'];
+	id: Scalars["Float"];
 };
-
 
 export type MutationDeleteDiscountArgs = {
-  id: Scalars['Float'];
+	id: Scalars["Float"];
 };
-
 
 export type MutationDeleteFromCartArgs = {
-  inventoryId: Scalars['Int'];
-  quantity: Scalars['Int'];
+	inventoryId: Scalars["Int"];
+	quantity: Scalars["Int"];
 };
-
 
 export type MutationForgotPasswordArgs = {
-  email: Scalars['String'];
+	email: Scalars["String"];
 };
-
 
 export type MutationLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+	email: Scalars["String"];
+	password: Scalars["String"];
 };
-
 
 export type MutationRegisterArgs = {
-  options: RegisterInput;
+	options: RegisterInput;
 };
-
 
 export type MutationResendVerificationEmailArgs = {
-  email: Scalars['String'];
+	email: Scalars["String"];
 };
-
 
 export type MutationUpdateAddressArgs = {
-  id: Scalars['Int'];
-  input: UpdateAddressInput;
+	id: Scalars["Int"];
+	input: UpdateAddressInput;
 };
-
 
 export type MutationUpdateCartArgs = {
-  inventoryId: Scalars['Int'];
-  quantity: Scalars['Int'];
+	inventoryId: Scalars["Int"];
+	quantity: Scalars["Int"];
 };
-
 
 export type MutationUpdateCategoryArgs = {
-  id: Scalars['Float'];
-  options: UpdateCategoryInput;
+	id: Scalars["Float"];
+	options: UpdateCategoryInput;
 };
-
 
 export type MutationUpdateDiscountArgs = {
-  options: UpdateDiscountInput;
+	options: UpdateDiscountInput;
 };
-
 
 export type MutationUpdatePasswordArgs = {
-  confirmPassword: Scalars['String'];
-  currentPassword: Scalars['String'];
-  newPassword: Scalars['String'];
+	confirmPassword: Scalars["String"];
+	currentPassword: Scalars["String"];
+	newPassword: Scalars["String"];
 };
-
 
 export type MutationUpdateProductArgs = {
-  id: Scalars['Float'];
-  options: UpdateProductInput;
+	id: Scalars["Float"];
+	options: UpdateProductInput;
 };
-
 
 export type MutationUpdateProductDiscountArgs = {
-  discount_id: Scalars['Float'];
-  product_id: Scalars['Float'];
+	discount_id: Scalars["Float"];
+	product_id: Scalars["Float"];
 };
 
-
 export type MutationVerifyEmailArgs = {
-  token: Scalars['String'];
+	token: Scalars["String"];
 };
 
 export type ProductCategory = {
-  __typename?: 'ProductCategory';
-  created_at: Scalars['String'];
-  desc: Scalars['String'];
-  id: Scalars['Int'];
-  identifier: Scalars['String'];
-  name: Scalars['String'];
-  updated_at: Scalars['String'];
+	__typename?: "ProductCategory";
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	name: Scalars["String"];
+	updated_at: Scalars["String"];
 };
 
 export type ProductCategorySummary = {
-  __typename?: 'ProductCategorySummary';
-  created_at: Scalars['DateTime'];
-  desc: Scalars['String'];
-  id: Scalars['Int'];
-  identifier: Scalars['String'];
-  name: Scalars['String'];
-  product_count: Scalars['Float'];
-  updated_at: Scalars['DateTime'];
+	__typename?: "ProductCategorySummary";
+	created_at: Scalars["DateTime"];
+	desc: Scalars["String"];
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	name: Scalars["String"];
+	product_count: Scalars["Float"];
+	updated_at: Scalars["DateTime"];
 };
 
 export type ProductImageInput = {
-  imageURL: Scalars['String'];
+	imageURL: Scalars["String"];
 };
 
 export type ProductImageResponse = {
-  __typename?: 'ProductImageResponse';
-  imageURL: Scalars['String'];
-  image_id: Scalars['Int'];
+	__typename?: "ProductImageResponse";
+	imageURL: Scalars["String"];
+	image_id: Scalars["Int"];
 };
 
 export type ProductResponse = {
-  __typename?: 'ProductResponse';
-  categoryId: Scalars['Float'];
-  category_desc: Scalars['String'];
-  category_name: Scalars['String'];
-  created_at: Scalars['DateTime'];
-  desc: Scalars['String'];
-  discount_active?: Maybe<Scalars['Boolean']>;
-  discount_desc?: Maybe<Scalars['String']>;
-  discount_name?: Maybe<Scalars['String']>;
-  discount_percent?: Maybe<Scalars['Float']>;
-  id: Scalars['Int'];
-  identifier: Scalars['String'];
-  images: Array<ProductImageResponse>;
-  name: Scalars['String'];
-  updated_at: Scalars['DateTime'];
-  variants: Array<ProductVariantResponse>;
+	__typename?: "ProductResponse";
+	categoryId: Scalars["Float"];
+	category_desc: Scalars["String"];
+	category_name: Scalars["String"];
+	created_at: Scalars["DateTime"];
+	desc: Scalars["String"];
+	discount_active?: Maybe<Scalars["Boolean"]>;
+	discount_desc?: Maybe<Scalars["String"]>;
+	discount_name?: Maybe<Scalars["String"]>;
+	discount_percent?: Maybe<Scalars["Float"]>;
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	images: Array<ProductImageResponse>;
+	name: Scalars["String"];
+	updated_at: Scalars["DateTime"];
+	variants: Array<ProductVariantResponse>;
 };
 
 export type ProductVariantInput = {
-  price: Scalars['Float'];
-  quantity: Scalars['Int'];
-  variant: Scalars['String'];
+	price: Scalars["Float"];
+	quantity: Scalars["Int"];
+	variant: Scalars["String"];
 };
 
 export type ProductVariantResponse = {
-  __typename?: 'ProductVariantResponse';
-  price: Scalars['Float'];
-  product_id: Scalars['Int'];
-  quantity: Scalars['Int'];
-  variant: Scalars['String'];
-  variant_id: Scalars['Int'];
+	__typename?: "ProductVariantResponse";
+	price: Scalars["Float"];
+	product_id: Scalars["Int"];
+	quantity: Scalars["Int"];
+	variant: Scalars["String"];
+	variant_id: Scalars["Int"];
 };
 
 export type Query = {
-  __typename?: 'Query';
-  addresses?: Maybe<Array<Address>>;
-  categories: Array<ProductCategory>;
-  categoriesSummary?: Maybe<Array<ProductCategorySummary>>;
-  fetchCartItems?: Maybe<Array<CartResponse>>;
-  hello: Scalars['String'];
-  me?: Maybe<User>;
-  product?: Maybe<ProductResponse>;
-  products?: Maybe<Array<ProductResponse>>;
-  roles: Array<UserRole>;
-  users: Array<UserDataResponse>;
+	__typename?: "Query";
+	addresses?: Maybe<Array<Address>>;
+	categories: Array<ProductCategory>;
+	categoriesSummary?: Maybe<Array<ProductCategorySummary>>;
+	fetchCartItems?: Maybe<Array<CartResponse>>;
+	hello: Scalars["String"];
+	me?: Maybe<User>;
+	product?: Maybe<ProductResponse>;
+	products?: Maybe<Array<ProductResponse>>;
+	roles: Array<UserRole>;
+	users: Array<UserDataResponse>;
 };
 
-
 export type QueryProductArgs = {
-  identifier: Scalars['String'];
+	identifier: Scalars["String"];
 };
 
 export type RegisterInput = {
-  email: Scalars['String'];
-  first_name: Scalars['String'];
-  last_name: Scalars['String'];
-  password: Scalars['String'];
+	email: Scalars["String"];
+	first_name: Scalars["String"];
+	last_name: Scalars["String"];
+	password: Scalars["String"];
 };
 
 export type UpdateAddressInput = {
-  address_line1?: InputMaybe<Scalars['String']>;
-  address_line2?: InputMaybe<Scalars['String']>;
-  city?: InputMaybe<Scalars['String']>;
-  country?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  phone_number?: InputMaybe<Scalars['String']>;
-  postal_code?: InputMaybe<Scalars['String']>;
-  state?: InputMaybe<Scalars['String']>;
+	address_line1?: InputMaybe<Scalars["String"]>;
+	address_line2?: InputMaybe<Scalars["String"]>;
+	city?: InputMaybe<Scalars["String"]>;
+	country?: InputMaybe<Scalars["String"]>;
+	name?: InputMaybe<Scalars["String"]>;
+	phone_number?: InputMaybe<Scalars["String"]>;
+	postal_code?: InputMaybe<Scalars["String"]>;
+	state?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateCategoryInput = {
-  desc?: InputMaybe<Scalars['String']>;
-  identifier?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+	desc?: InputMaybe<Scalars["String"]>;
+	identifier?: InputMaybe<Scalars["String"]>;
+	name?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateDiscountInput = {
-  active?: InputMaybe<Scalars['Boolean']>;
-  desc?: InputMaybe<Scalars['String']>;
-  discount_percent?: InputMaybe<Scalars['Float']>;
-  id: Scalars['Float'];
-  name?: InputMaybe<Scalars['String']>;
+	active?: InputMaybe<Scalars["Boolean"]>;
+	desc?: InputMaybe<Scalars["String"]>;
+	discount_percent?: InputMaybe<Scalars["Float"]>;
+	id: Scalars["Float"];
+	name?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateProductInput = {
-  category_id?: InputMaybe<Scalars['Float']>;
-  desc?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  price?: InputMaybe<Scalars['Float']>;
-  quantity?: InputMaybe<Scalars['Float']>;
+	category_id?: InputMaybe<Scalars["Float"]>;
+	desc?: InputMaybe<Scalars["String"]>;
+	name?: InputMaybe<Scalars["String"]>;
+	price?: InputMaybe<Scalars["Float"]>;
+	quantity?: InputMaybe<Scalars["Float"]>;
 };
 
 export type User = {
-  __typename?: 'User';
-  created_at: Scalars['String'];
-  email: Scalars['String'];
-  email_verified: Scalars['Boolean'];
-  first_name: Scalars['String'];
-  id: Scalars['Int'];
-  imageUrl?: Maybe<Scalars['String']>;
-  last_name: Scalars['String'];
-  phone_number?: Maybe<Scalars['String']>;
-  phone_number_verified: Scalars['Boolean'];
-  roleId: Scalars['Float'];
-  updated_at: Scalars['String'];
+	__typename?: "User";
+	created_at: Scalars["String"];
+	email: Scalars["String"];
+	email_verified: Scalars["Boolean"];
+	first_name: Scalars["String"];
+	id: Scalars["Int"];
+	imageUrl?: Maybe<Scalars["String"]>;
+	last_name: Scalars["String"];
+	phone_number?: Maybe<Scalars["String"]>;
+	phone_number_verified: Scalars["Boolean"];
+	roleId: Scalars["Float"];
+	updated_at: Scalars["String"];
 };
 
 export type UserDataResponse = {
-  __typename?: 'UserDataResponse';
-  created_at: Scalars['DateTime'];
-  email: Scalars['String'];
-  email_verified: Scalars['Boolean'];
-  first_name: Scalars['String'];
-  id: Scalars['Int'];
-  imageUrl?: Maybe<Scalars['String']>;
-  last_name: Scalars['String'];
-  phone_number?: Maybe<Scalars['String']>;
-  phone_number_verified: Scalars['Boolean'];
-  role: Scalars['String'];
-  roleId: Scalars['Float'];
-  updated_at: Scalars['DateTime'];
+	__typename?: "UserDataResponse";
+	created_at: Scalars["DateTime"];
+	email: Scalars["String"];
+	email_verified: Scalars["Boolean"];
+	first_name: Scalars["String"];
+	id: Scalars["Int"];
+	imageUrl?: Maybe<Scalars["String"]>;
+	last_name: Scalars["String"];
+	phone_number?: Maybe<Scalars["String"]>;
+	phone_number_verified: Scalars["Boolean"];
+	role: Scalars["String"];
+	roleId: Scalars["Float"];
+	updated_at: Scalars["DateTime"];
 };
 
 export type UserResponse = {
-  __typename?: 'UserResponse';
-  errors?: Maybe<Array<FieldError>>;
-  user?: Maybe<User>;
+	__typename?: "UserResponse";
+	errors?: Maybe<Array<FieldError>>;
+	user?: Maybe<User>;
 };
 
 export type UserRole = {
-  __typename?: 'UserRole';
-  created_at: Scalars['String'];
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  updated_at: Scalars['String'];
+	__typename?: "UserRole";
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	updated_at: Scalars["String"];
 };
 
-export type AddressFragmentFragment = { __typename?: 'Address', id: number, name: string, address_line1: string, address_line2?: string | null, city: string, state: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string };
+export type AddressFragmentFragment = {
+	__typename?: "Address";
+	id: number;
+	name: string;
+	address_line1: string;
+	address_line2?: string | null;
+	city: string;
+	state: string;
+	postal_code: string;
+	phone_number: string;
+	country: string;
+	created_at: string;
+	updated_at: string;
+};
 
-export type ProductFragmentFragment = { __typename?: 'ProductResponse', id: number, name: string, desc: string, identifier: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> };
+export type ProductFragmentFragment = {
+	__typename?: "ProductResponse";
+	id: number;
+	name: string;
+	desc: string;
+	identifier: string;
+	categoryId: number;
+	category_name: string;
+	category_desc: string;
+	discount_name?: string | null;
+	discount_percent?: number | null;
+	discount_desc?: string | null;
+	discount_active?: boolean | null;
+	created_at: any;
+	updated_at: any;
+	variants: Array<{
+		__typename?: "ProductVariantResponse";
+		quantity: number;
+		variant_id: number;
+		product_id: number;
+		price: number;
+		variant: string;
+	}>;
+	images: Array<{
+		__typename?: "ProductImageResponse";
+		image_id: number;
+		imageURL: string;
+	}>;
+};
 
-export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
+export type RegularErrorFragment = {
+	__typename?: "FieldError";
+	field: string;
+	message: string;
+};
 
-export type UserFragmentFragment = { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, imageUrl?: string | null, created_at: string, updated_at: string };
+export type UserFragmentFragment = {
+	__typename?: "User";
+	id: number;
+	first_name: string;
+	last_name: string;
+	email: string;
+	email_verified: boolean;
+	phone_number?: string | null;
+	phone_number_verified: boolean;
+	roleId: number;
+	imageUrl?: string | null;
+	created_at: string;
+	updated_at: string;
+};
 
 export type AddAddressMutationVariables = Exact<{
-  input: AddAddressInput;
+	input: AddAddressInput;
 }>;
 
-
-export type AddAddressMutation = { __typename?: 'Mutation', addAddress: { __typename?: 'Address', id: number, name: string, address_line1: string, address_line2?: string | null, city: string, state: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string } };
+export type AddAddressMutation = {
+	__typename?: "Mutation";
+	addAddress: {
+		__typename?: "Address";
+		id: number;
+		name: string;
+		address_line1: string;
+		address_line2?: string | null;
+		city: string;
+		state: string;
+		postal_code: string;
+		phone_number: string;
+		country: string;
+		created_at: string;
+		updated_at: string;
+	};
+};
 
 export type AddCategoryMutationVariables = Exact<{
-  identifier: Scalars['String'];
-  desc: Scalars['String'];
-  name: Scalars['String'];
+	identifier: Scalars["String"];
+	desc: Scalars["String"];
+	name: Scalars["String"];
 }>;
 
-
-export type AddCategoryMutation = { __typename?: 'Mutation', addCategory: { __typename?: 'ProductCategory', id: number, name: string, identifier: string, desc: string, created_at: string, updated_at: string } };
+export type AddCategoryMutation = {
+	__typename?: "Mutation";
+	addCategory: {
+		__typename?: "ProductCategory";
+		id: number;
+		name: string;
+		identifier: string;
+		desc: string;
+		created_at: string;
+		updated_at: string;
+	};
+};
 
 export type AddProductMutationVariables = Exact<{
-  options: AddProductInput;
+	options: AddProductInput;
 }>;
 
-
-export type AddProductMutation = { __typename?: 'Mutation', addProducts?: { __typename?: 'ProductResponse', id: number, name: string, desc: string, identifier: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> } | null };
+export type AddProductMutation = {
+	__typename?: "Mutation";
+	addProducts?: {
+		__typename?: "ProductResponse";
+		id: number;
+		name: string;
+		desc: string;
+		identifier: string;
+		categoryId: number;
+		category_name: string;
+		category_desc: string;
+		discount_name?: string | null;
+		discount_percent?: number | null;
+		discount_desc?: string | null;
+		discount_active?: boolean | null;
+		created_at: any;
+		updated_at: any;
+		variants: Array<{
+			__typename?: "ProductVariantResponse";
+			quantity: number;
+			variant_id: number;
+			product_id: number;
+			price: number;
+			variant: string;
+		}>;
+		images: Array<{
+			__typename?: "ProductImageResponse";
+			image_id: number;
+			imageURL: string;
+		}>;
+	} | null;
+};
 
 export type AddToCartMutationVariables = Exact<{
-  quantity: Scalars['Int'];
-  inventoryId: Scalars['Int'];
+	quantity: Scalars["Int"];
+	inventoryId: Scalars["Int"];
 }>;
 
-
-export type AddToCartMutation = { __typename?: 'Mutation', addToCart: { __typename?: 'Cart', id: number, userId: number, quantity: number, inventoryId: number, created_at: string, updated_at: string } };
+export type AddToCartMutation = {
+	__typename?: "Mutation";
+	addToCart: {
+		__typename?: "Cart";
+		id: number;
+		userId: number;
+		quantity: number;
+		inventoryId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
 
 export type ChangePasswordMutationVariables = Exact<{
-  newPassword: Scalars['String'];
-  token: Scalars['String'];
+	newPassword: Scalars["String"];
+	token: Scalars["String"];
 }>;
 
+export type ChangePasswordMutation = {
+	__typename?: "Mutation";
+	changePassword: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			roleId: number;
+			imageUrl?: string | null;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
 
-export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, imageUrl?: string | null, created_at: string, updated_at: string } | null } };
+export type MutationMutationVariables = Exact<{ [key: string]: never }>;
 
-export type MutationMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MutationMutation = { __typename?: 'Mutation', clearCart: boolean };
+export type MutationMutation = { __typename?: "Mutation"; clearCart: boolean };
 
 export type DeleteAddressMutationVariables = Exact<{
-  deleteAddressId: Scalars['Int'];
+	deleteAddressId: Scalars["Int"];
 }>;
 
-
-export type DeleteAddressMutation = { __typename?: 'Mutation', deleteAddress: boolean };
+export type DeleteAddressMutation = {
+	__typename?: "Mutation";
+	deleteAddress: boolean;
+};
 
 export type DeleteCategoryMutationVariables = Exact<{
-  deleteCategoryId: Scalars['Float'];
+	deleteCategoryId: Scalars["Float"];
 }>;
 
-
-export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: boolean };
+export type DeleteCategoryMutation = {
+	__typename?: "Mutation";
+	deleteCategory: boolean;
+};
 
 export type DeleteFromCartMutationVariables = Exact<{
-  quantity: Scalars['Int'];
-  inventoryId: Scalars['Int'];
+	quantity: Scalars["Int"];
+	inventoryId: Scalars["Int"];
 }>;
 
-
-export type DeleteFromCartMutation = { __typename?: 'Mutation', deleteFromCart: boolean };
+export type DeleteFromCartMutation = {
+	__typename?: "Mutation";
+	deleteFromCart: boolean;
+};
 
 export type ForgotPasswordMutationVariables = Exact<{
-  email: Scalars['String'];
+	email: Scalars["String"];
 }>;
 
-
-export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: boolean };
+export type ForgotPasswordMutation = {
+	__typename?: "Mutation";
+	forgotPassword: boolean;
+};
 
 export type LoginMutationVariables = Exact<{
-  password: Scalars['String'];
-  email: Scalars['String'];
+	password: Scalars["String"];
+	email: Scalars["String"];
 }>;
 
+export type LoginMutation = {
+	__typename?: "Mutation";
+	login: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			roleId: number;
+			imageUrl?: string | null;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, imageUrl?: string | null, created_at: string, updated_at: string } | null } };
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+export type LogoutMutation = { __typename?: "Mutation"; logout: boolean };
 
 export type RegisterMutationVariables = Exact<{
-  options: RegisterInput;
+	options: RegisterInput;
 }>;
 
-
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, imageUrl?: string | null, created_at: string, updated_at: string } | null } };
+export type RegisterMutation = {
+	__typename?: "Mutation";
+	register: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			roleId: number;
+			imageUrl?: string | null;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
 
 export type ResendVerificationEmailMutationVariables = Exact<{
-  email: Scalars['String'];
+	email: Scalars["String"];
 }>;
 
-
-export type ResendVerificationEmailMutation = { __typename?: 'Mutation', resendVerificationEmail: boolean };
+export type ResendVerificationEmailMutation = {
+	__typename?: "Mutation";
+	resendVerificationEmail: boolean;
+};
 
 export type UpdateCartMutationVariables = Exact<{
-  updatedCartQuantity: Scalars['Int'];
-  inventoryId: Scalars['Int'];
+	updatedCartQuantity: Scalars["Int"];
+	inventoryId: Scalars["Int"];
 }>;
 
-
-export type UpdateCartMutation = { __typename?: 'Mutation', updateCart: { __typename?: 'Cart', id: number, userId: number, quantity: number, inventoryId: number, created_at: string, updated_at: string } };
+export type UpdateCartMutation = {
+	__typename?: "Mutation";
+	updateCart: {
+		__typename?: "Cart";
+		id: number;
+		userId: number;
+		quantity: number;
+		inventoryId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
 
 export type UpdateCategoryMutationVariables = Exact<{
-  options: UpdateCategoryInput;
-  updateCategoryId: Scalars['Float'];
+	options: UpdateCategoryInput;
+	updateCategoryId: Scalars["Float"];
 }>;
 
-
-export type UpdateCategoryMutation = { __typename?: 'Mutation', updateCategory: { __typename?: 'ProductCategory', id: number, name: string, identifier: string, desc: string, created_at: string, updated_at: string } };
+export type UpdateCategoryMutation = {
+	__typename?: "Mutation";
+	updateCategory: {
+		__typename?: "ProductCategory";
+		id: number;
+		name: string;
+		identifier: string;
+		desc: string;
+		created_at: string;
+		updated_at: string;
+	};
+};
 
 export type UpdateAddressMutationVariables = Exact<{
-  input: UpdateAddressInput;
-  updateAddressId: Scalars['Int'];
+	input: UpdateAddressInput;
+	updateAddressId: Scalars["Int"];
 }>;
 
-
-export type UpdateAddressMutation = { __typename?: 'Mutation', updateAddress: { __typename?: 'Address', id: number, name: string, address_line1: string, address_line2?: string | null, city: string, state: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string } };
+export type UpdateAddressMutation = {
+	__typename?: "Mutation";
+	updateAddress: {
+		__typename?: "Address";
+		id: number;
+		name: string;
+		address_line1: string;
+		address_line2?: string | null;
+		city: string;
+		state: string;
+		postal_code: string;
+		phone_number: string;
+		country: string;
+		created_at: string;
+		updated_at: string;
+	};
+};
 
 export type UpdatePasswordMutationVariables = Exact<{
-  confirmPassword: Scalars['String'];
-  newPassword: Scalars['String'];
-  currentPassword: Scalars['String'];
+	confirmPassword: Scalars["String"];
+	newPassword: Scalars["String"];
+	currentPassword: Scalars["String"];
 }>;
 
-
-export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, imageUrl?: string | null, created_at: string, updated_at: string } | null } };
+export type UpdatePasswordMutation = {
+	__typename?: "Mutation";
+	updatePassword: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			roleId: number;
+			imageUrl?: string | null;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
 
 export type VerifyEmailMutationVariables = Exact<{
-  token: Scalars['String'];
+	token: Scalars["String"];
 }>;
 
+export type VerifyEmailMutation = {
+	__typename?: "Mutation";
+	verifyEmail: boolean;
+};
 
-export type VerifyEmailMutation = { __typename?: 'Mutation', verifyEmail: boolean };
+export type AddressQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AddressQueryVariables = Exact<{ [key: string]: never; }>;
+export type AddressQuery = {
+	__typename?: "Query";
+	addresses?: Array<{
+		__typename?: "Address";
+		id: number;
+		name: string;
+		address_line1: string;
+		address_line2?: string | null;
+		city: string;
+		state: string;
+		postal_code: string;
+		phone_number: string;
+		country: string;
+		created_at: string;
+		updated_at: string;
+	}> | null;
+};
 
+export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AddressQuery = { __typename?: 'Query', addresses?: Array<{ __typename?: 'Address', id: number, name: string, address_line1: string, address_line2?: string | null, city: string, state: string, postal_code: string, phone_number: string, country: string, created_at: string, updated_at: string }> | null };
+export type CategoriesQuery = {
+	__typename?: "Query";
+	categories: Array<{
+		__typename?: "ProductCategory";
+		id: number;
+		name: string;
+		desc: string;
+		created_at: string;
+		updated_at: string;
+	}>;
+};
 
-export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CategoriesSummaryQueryVariables = Exact<{ [key: string]: never }>;
 
+export type CategoriesSummaryQuery = {
+	__typename?: "Query";
+	categoriesSummary?: Array<{
+		__typename?: "ProductCategorySummary";
+		id: number;
+		name: string;
+		identifier: string;
+		desc: string;
+		product_count: number;
+		created_at: any;
+		updated_at: any;
+	}> | null;
+};
 
-export type CategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'ProductCategory', id: number, name: string, desc: string, created_at: string, updated_at: string }> };
+export type FetchCartItemsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CategoriesSummaryQueryVariables = Exact<{ [key: string]: never; }>;
+export type FetchCartItemsQuery = {
+	__typename?: "Query";
+	fetchCartItems?: Array<{
+		__typename?: "CartResponse";
+		id: number;
+		userId: number;
+		quantity: number;
+		inventoryId: number;
+		product_name: string;
+		product_desc?: string | null;
+		product_identifier?: string | null;
+		categoryId: number;
+		price: number;
+		variant: string;
+		created_at: any;
+		updated_at: any;
+		images?: Array<{
+			__typename?: "ProductImageResponse";
+			image_id: number;
+			imageURL: string;
+		}> | null;
+	}> | null;
+};
 
+export type HelloQueryQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CategoriesSummaryQuery = { __typename?: 'Query', categoriesSummary?: Array<{ __typename?: 'ProductCategorySummary', id: number, name: string, identifier: string, desc: string, product_count: number, created_at: any, updated_at: any }> | null };
+export type HelloQueryQuery = { __typename?: "Query"; hello: string };
 
-export type FetchCartItemsQueryVariables = Exact<{ [key: string]: never; }>;
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type FetchCartItemsQuery = { __typename?: 'Query', fetchCartItems?: Array<{ __typename?: 'CartResponse', id: number, userId: number, quantity: number, inventoryId: number, product_name: string, product_desc?: string | null, product_identifier?: string | null, categoryId: number, price: number, variant: string, created_at: any, updated_at: any, images?: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> | null }> | null };
-
-export type HelloQueryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type HelloQueryQuery = { __typename?: 'Query', hello: string };
-
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, imageUrl?: string | null, created_at: string, updated_at: string } | null };
+export type MeQuery = {
+	__typename?: "Query";
+	me?: {
+		__typename?: "User";
+		id: number;
+		first_name: string;
+		last_name: string;
+		email: string;
+		email_verified: boolean;
+		phone_number?: string | null;
+		phone_number_verified: boolean;
+		roleId: number;
+		imageUrl?: string | null;
+		created_at: string;
+		updated_at: string;
+	} | null;
+};
 
 export type ProductQueryVariables = Exact<{
-  identifier: Scalars['String'];
+	identifier: Scalars["String"];
 }>;
 
+export type ProductQuery = {
+	__typename?: "Query";
+	product?: {
+		__typename?: "ProductResponse";
+		id: number;
+		name: string;
+		desc: string;
+		identifier: string;
+		categoryId: number;
+		category_name: string;
+		category_desc: string;
+		discount_name?: string | null;
+		discount_percent?: number | null;
+		discount_desc?: string | null;
+		discount_active?: boolean | null;
+		created_at: any;
+		updated_at: any;
+		variants: Array<{
+			__typename?: "ProductVariantResponse";
+			quantity: number;
+			variant_id: number;
+			product_id: number;
+			price: number;
+			variant: string;
+		}>;
+		images: Array<{
+			__typename?: "ProductImageResponse";
+			image_id: number;
+			imageURL: string;
+		}>;
+	} | null;
+};
 
-export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'ProductResponse', id: number, name: string, desc: string, identifier: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> } | null };
+export type ProductsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsQuery = {
+	__typename?: "Query";
+	products?: Array<{
+		__typename?: "ProductResponse";
+		id: number;
+		name: string;
+		desc: string;
+		identifier: string;
+		categoryId: number;
+		category_name: string;
+		category_desc: string;
+		discount_name?: string | null;
+		discount_percent?: number | null;
+		discount_desc?: string | null;
+		discount_active?: boolean | null;
+		created_at: any;
+		updated_at: any;
+		variants: Array<{
+			__typename?: "ProductVariantResponse";
+			quantity: number;
+			variant_id: number;
+			product_id: number;
+			price: number;
+			variant: string;
+		}>;
+		images: Array<{
+			__typename?: "ProductImageResponse";
+			image_id: number;
+			imageURL: string;
+		}>;
+	}> | null;
+};
 
+export type RolesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'ProductResponse', id: number, name: string, desc: string, identifier: string, categoryId: number, category_name: string, category_desc: string, discount_name?: string | null, discount_percent?: number | null, discount_desc?: string | null, discount_active?: boolean | null, created_at: any, updated_at: any, variants: Array<{ __typename?: 'ProductVariantResponse', quantity: number, variant_id: number, product_id: number, price: number, variant: string }>, images: Array<{ __typename?: 'ProductImageResponse', image_id: number, imageURL: string }> }> | null };
+export type RolesQuery = {
+	__typename?: "Query";
+	roles: Array<{
+		__typename?: "UserRole";
+		id: number;
+		name: string;
+		created_at: string;
+		updated_at: string;
+	}>;
+};
 
-export type RolesQueryVariables = Exact<{ [key: string]: never; }>;
+export type UserDataQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type RolesQuery = { __typename?: 'Query', roles: Array<{ __typename?: 'UserRole', id: number, name: string, created_at: string, updated_at: string }> };
-
-export type UserDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UserDataQuery = { __typename?: 'Query', users: Array<{ __typename?: 'UserDataResponse', id: number, first_name: string, last_name: string, email: string, email_verified: boolean, phone_number?: string | null, phone_number_verified: boolean, roleId: number, role: string, created_at: any, updated_at: any }> };
+export type UserDataQuery = {
+	__typename?: "Query";
+	users: Array<{
+		__typename?: "UserDataResponse";
+		id: number;
+		first_name: string;
+		last_name: string;
+		email: string;
+		email_verified: boolean;
+		phone_number?: string | null;
+		phone_number_verified: boolean;
+		roleId: number;
+		role: string;
+		created_at: any;
+		updated_at: any;
+	}>;
+};
 
 export const AddressFragmentFragmentDoc = gql`
-    fragment AddressFragment on Address {
-  id
-  name
-  address_line1
-  address_line2
-  city
-  state
-  postal_code
-  phone_number
-  country
-  created_at
-  updated_at
-}
-    `;
+	fragment AddressFragment on Address {
+		id
+		name
+		address_line1
+		address_line2
+		city
+		state
+		postal_code
+		phone_number
+		country
+		created_at
+		updated_at
+	}
+`;
 export const ProductFragmentFragmentDoc = gql`
-    fragment ProductFragment on ProductResponse {
-  id
-  name
-  desc
-  identifier
-  categoryId
-  category_name
-  category_desc
-  discount_name
-  discount_percent
-  discount_desc
-  discount_active
-  variants {
-    quantity
-    variant_id
-    product_id
-    price
-    variant
-  }
-  images {
-    image_id
-    imageURL
-  }
-  created_at
-  updated_at
-}
-    `;
+	fragment ProductFragment on ProductResponse {
+		id
+		name
+		desc
+		identifier
+		categoryId
+		category_name
+		category_desc
+		discount_name
+		discount_percent
+		discount_desc
+		discount_active
+		variants {
+			quantity
+			variant_id
+			product_id
+			price
+			variant
+		}
+		images {
+			image_id
+			imageURL
+		}
+		created_at
+		updated_at
+	}
+`;
 export const RegularErrorFragmentDoc = gql`
-    fragment RegularError on FieldError {
-  field
-  message
-}
-    `;
+	fragment RegularError on FieldError {
+		field
+		message
+	}
+`;
 export const UserFragmentFragmentDoc = gql`
-    fragment UserFragment on User {
-  id
-  first_name
-  last_name
-  email
-  email_verified
-  phone_number
-  phone_number_verified
-  roleId
-  imageUrl
-  created_at
-  updated_at
-}
-    `;
+	fragment UserFragment on User {
+		id
+		first_name
+		last_name
+		email
+		email_verified
+		phone_number
+		phone_number_verified
+		roleId
+		imageUrl
+		created_at
+		updated_at
+	}
+`;
 export const AddAddressDocument = gql`
-    mutation AddAddress($input: AddAddressInput!) {
-  addAddress(input: $input) {
-    ...AddressFragment
-  }
-}
-    ${AddressFragmentFragmentDoc}`;
-export type AddAddressMutationFn = Apollo.MutationFunction<AddAddressMutation, AddAddressMutationVariables>;
+	mutation AddAddress($input: AddAddressInput!) {
+		addAddress(input: $input) {
+			...AddressFragment
+		}
+	}
+	${AddressFragmentFragmentDoc}
+`;
+export type AddAddressMutationFn = Apollo.MutationFunction<
+	AddAddressMutation,
+	AddAddressMutationVariables
+>;
 
 /**
  * __useAddAddressMutation__
@@ -704,26 +1104,43 @@ export type AddAddressMutationFn = Apollo.MutationFunction<AddAddressMutation, A
  *   },
  * });
  */
-export function useAddAddressMutation(baseOptions?: Apollo.MutationHookOptions<AddAddressMutation, AddAddressMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddAddressMutation, AddAddressMutationVariables>(AddAddressDocument, options);
-      }
-export type AddAddressMutationHookResult = ReturnType<typeof useAddAddressMutation>;
-export type AddAddressMutationResult = Apollo.MutationResult<AddAddressMutation>;
-export type AddAddressMutationOptions = Apollo.BaseMutationOptions<AddAddressMutation, AddAddressMutationVariables>;
-export const AddCategoryDocument = gql`
-    mutation AddCategory($identifier: String!, $desc: String!, $name: String!) {
-  addCategory(identifier: $identifier, desc: $desc, name: $name) {
-    id
-    name
-    identifier
-    desc
-    created_at
-    updated_at
-  }
+export function useAddAddressMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AddAddressMutation,
+		AddAddressMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<AddAddressMutation, AddAddressMutationVariables>(
+		AddAddressDocument,
+		options
+	);
 }
-    `;
-export type AddCategoryMutationFn = Apollo.MutationFunction<AddCategoryMutation, AddCategoryMutationVariables>;
+export type AddAddressMutationHookResult = ReturnType<
+	typeof useAddAddressMutation
+>;
+export type AddAddressMutationResult =
+	Apollo.MutationResult<AddAddressMutation>;
+export type AddAddressMutationOptions = Apollo.BaseMutationOptions<
+	AddAddressMutation,
+	AddAddressMutationVariables
+>;
+export const AddCategoryDocument = gql`
+	mutation AddCategory($identifier: String!, $desc: String!, $name: String!) {
+		addCategory(identifier: $identifier, desc: $desc, name: $name) {
+			id
+			name
+			identifier
+			desc
+			created_at
+			updated_at
+		}
+	}
+`;
+export type AddCategoryMutationFn = Apollo.MutationFunction<
+	AddCategoryMutation,
+	AddCategoryMutationVariables
+>;
 
 /**
  * __useAddCategoryMutation__
@@ -744,21 +1161,39 @@ export type AddCategoryMutationFn = Apollo.MutationFunction<AddCategoryMutation,
  *   },
  * });
  */
-export function useAddCategoryMutation(baseOptions?: Apollo.MutationHookOptions<AddCategoryMutation, AddCategoryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(AddCategoryDocument, options);
-      }
-export type AddCategoryMutationHookResult = ReturnType<typeof useAddCategoryMutation>;
-export type AddCategoryMutationResult = Apollo.MutationResult<AddCategoryMutation>;
-export type AddCategoryMutationOptions = Apollo.BaseMutationOptions<AddCategoryMutation, AddCategoryMutationVariables>;
-export const AddProductDocument = gql`
-    mutation AddProduct($options: AddProductInput!) {
-  addProducts(options: $options) {
-    ...ProductFragment
-  }
+export function useAddCategoryMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AddCategoryMutation,
+		AddCategoryMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(
+		AddCategoryDocument,
+		options
+	);
 }
-    ${ProductFragmentFragmentDoc}`;
-export type AddProductMutationFn = Apollo.MutationFunction<AddProductMutation, AddProductMutationVariables>;
+export type AddCategoryMutationHookResult = ReturnType<
+	typeof useAddCategoryMutation
+>;
+export type AddCategoryMutationResult =
+	Apollo.MutationResult<AddCategoryMutation>;
+export type AddCategoryMutationOptions = Apollo.BaseMutationOptions<
+	AddCategoryMutation,
+	AddCategoryMutationVariables
+>;
+export const AddProductDocument = gql`
+	mutation AddProduct($options: AddProductInput!) {
+		addProducts(options: $options) {
+			...ProductFragment
+		}
+	}
+	${ProductFragmentFragmentDoc}
+`;
+export type AddProductMutationFn = Apollo.MutationFunction<
+	AddProductMutation,
+	AddProductMutationVariables
+>;
 
 /**
  * __useAddProductMutation__
@@ -777,26 +1212,43 @@ export type AddProductMutationFn = Apollo.MutationFunction<AddProductMutation, A
  *   },
  * });
  */
-export function useAddProductMutation(baseOptions?: Apollo.MutationHookOptions<AddProductMutation, AddProductMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddProductMutation, AddProductMutationVariables>(AddProductDocument, options);
-      }
-export type AddProductMutationHookResult = ReturnType<typeof useAddProductMutation>;
-export type AddProductMutationResult = Apollo.MutationResult<AddProductMutation>;
-export type AddProductMutationOptions = Apollo.BaseMutationOptions<AddProductMutation, AddProductMutationVariables>;
-export const AddToCartDocument = gql`
-    mutation AddToCart($quantity: Int!, $inventoryId: Int!) {
-  addToCart(quantity: $quantity, inventoryId: $inventoryId) {
-    id
-    userId
-    quantity
-    inventoryId
-    created_at
-    updated_at
-  }
+export function useAddProductMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AddProductMutation,
+		AddProductMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<AddProductMutation, AddProductMutationVariables>(
+		AddProductDocument,
+		options
+	);
 }
-    `;
-export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, AddToCartMutationVariables>;
+export type AddProductMutationHookResult = ReturnType<
+	typeof useAddProductMutation
+>;
+export type AddProductMutationResult =
+	Apollo.MutationResult<AddProductMutation>;
+export type AddProductMutationOptions = Apollo.BaseMutationOptions<
+	AddProductMutation,
+	AddProductMutationVariables
+>;
+export const AddToCartDocument = gql`
+	mutation AddToCart($quantity: Int!, $inventoryId: Int!) {
+		addToCart(quantity: $quantity, inventoryId: $inventoryId) {
+			id
+			userId
+			quantity
+			inventoryId
+			created_at
+			updated_at
+		}
+	}
+`;
+export type AddToCartMutationFn = Apollo.MutationFunction<
+	AddToCartMutation,
+	AddToCartMutationVariables
+>;
 
 /**
  * __useAddToCartMutation__
@@ -816,27 +1268,44 @@ export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, Add
  *   },
  * });
  */
-export function useAddToCartMutation(baseOptions?: Apollo.MutationHookOptions<AddToCartMutation, AddToCartMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(AddToCartDocument, options);
-      }
-export type AddToCartMutationHookResult = ReturnType<typeof useAddToCartMutation>;
-export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
-export type AddToCartMutationOptions = Apollo.BaseMutationOptions<AddToCartMutation, AddToCartMutationVariables>;
-export const ChangePasswordDocument = gql`
-    mutation ChangePassword($newPassword: String!, $token: String!) {
-  changePassword(newPassword: $newPassword, token: $token) {
-    errors {
-      ...RegularError
-    }
-    user {
-      ...UserFragment
-    }
-  }
+export function useAddToCartMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AddToCartMutation,
+		AddToCartMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(
+		AddToCartDocument,
+		options
+	);
 }
-    ${RegularErrorFragmentDoc}
-${UserFragmentFragmentDoc}`;
-export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export type AddToCartMutationHookResult = ReturnType<
+	typeof useAddToCartMutation
+>;
+export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
+export type AddToCartMutationOptions = Apollo.BaseMutationOptions<
+	AddToCartMutation,
+	AddToCartMutationVariables
+>;
+export const ChangePasswordDocument = gql`
+	mutation ChangePassword($newPassword: String!, $token: String!) {
+		changePassword(newPassword: $newPassword, token: $token) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type ChangePasswordMutationFn = Apollo.MutationFunction<
+	ChangePasswordMutation,
+	ChangePasswordMutationVariables
+>;
 
 /**
  * __useChangePasswordMutation__
@@ -856,19 +1325,36 @@ export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMut
  *   },
  * });
  */
-export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordMutation, ChangePasswordMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, options);
-      }
-export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
-export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
-export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
-export const MutationDocument = gql`
-    mutation Mutation {
-  clearCart
+export function useChangePasswordMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ChangePasswordMutation,
+		ChangePasswordMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ChangePasswordMutation,
+		ChangePasswordMutationVariables
+	>(ChangePasswordDocument, options);
 }
-    `;
-export type MutationMutationFn = Apollo.MutationFunction<MutationMutation, MutationMutationVariables>;
+export type ChangePasswordMutationHookResult = ReturnType<
+	typeof useChangePasswordMutation
+>;
+export type ChangePasswordMutationResult =
+	Apollo.MutationResult<ChangePasswordMutation>;
+export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<
+	ChangePasswordMutation,
+	ChangePasswordMutationVariables
+>;
+export const MutationDocument = gql`
+	mutation Mutation {
+		clearCart
+	}
+`;
+export type MutationMutationFn = Apollo.MutationFunction<
+	MutationMutation,
+	MutationMutationVariables
+>;
 
 /**
  * __useMutationMutation__
@@ -886,19 +1372,33 @@ export type MutationMutationFn = Apollo.MutationFunction<MutationMutation, Mutat
  *   },
  * });
  */
-export function useMutationMutation(baseOptions?: Apollo.MutationHookOptions<MutationMutation, MutationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<MutationMutation, MutationMutationVariables>(MutationDocument, options);
-      }
+export function useMutationMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		MutationMutation,
+		MutationMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<MutationMutation, MutationMutationVariables>(
+		MutationDocument,
+		options
+	);
+}
 export type MutationMutationHookResult = ReturnType<typeof useMutationMutation>;
 export type MutationMutationResult = Apollo.MutationResult<MutationMutation>;
-export type MutationMutationOptions = Apollo.BaseMutationOptions<MutationMutation, MutationMutationVariables>;
+export type MutationMutationOptions = Apollo.BaseMutationOptions<
+	MutationMutation,
+	MutationMutationVariables
+>;
 export const DeleteAddressDocument = gql`
-    mutation DeleteAddress($deleteAddressId: Int!) {
-  deleteAddress(id: $deleteAddressId)
-}
-    `;
-export type DeleteAddressMutationFn = Apollo.MutationFunction<DeleteAddressMutation, DeleteAddressMutationVariables>;
+	mutation DeleteAddress($deleteAddressId: Int!) {
+		deleteAddress(id: $deleteAddressId)
+	}
+`;
+export type DeleteAddressMutationFn = Apollo.MutationFunction<
+	DeleteAddressMutation,
+	DeleteAddressMutationVariables
+>;
 
 /**
  * __useDeleteAddressMutation__
@@ -917,19 +1417,36 @@ export type DeleteAddressMutationFn = Apollo.MutationFunction<DeleteAddressMutat
  *   },
  * });
  */
-export function useDeleteAddressMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAddressMutation, DeleteAddressMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteAddressMutation, DeleteAddressMutationVariables>(DeleteAddressDocument, options);
-      }
-export type DeleteAddressMutationHookResult = ReturnType<typeof useDeleteAddressMutation>;
-export type DeleteAddressMutationResult = Apollo.MutationResult<DeleteAddressMutation>;
-export type DeleteAddressMutationOptions = Apollo.BaseMutationOptions<DeleteAddressMutation, DeleteAddressMutationVariables>;
-export const DeleteCategoryDocument = gql`
-    mutation DeleteCategory($deleteCategoryId: Float!) {
-  deleteCategory(id: $deleteCategoryId)
+export function useDeleteAddressMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		DeleteAddressMutation,
+		DeleteAddressMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		DeleteAddressMutation,
+		DeleteAddressMutationVariables
+	>(DeleteAddressDocument, options);
 }
-    `;
-export type DeleteCategoryMutationFn = Apollo.MutationFunction<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export type DeleteAddressMutationHookResult = ReturnType<
+	typeof useDeleteAddressMutation
+>;
+export type DeleteAddressMutationResult =
+	Apollo.MutationResult<DeleteAddressMutation>;
+export type DeleteAddressMutationOptions = Apollo.BaseMutationOptions<
+	DeleteAddressMutation,
+	DeleteAddressMutationVariables
+>;
+export const DeleteCategoryDocument = gql`
+	mutation DeleteCategory($deleteCategoryId: Float!) {
+		deleteCategory(id: $deleteCategoryId)
+	}
+`;
+export type DeleteCategoryMutationFn = Apollo.MutationFunction<
+	DeleteCategoryMutation,
+	DeleteCategoryMutationVariables
+>;
 
 /**
  * __useDeleteCategoryMutation__
@@ -948,19 +1465,36 @@ export type DeleteCategoryMutationFn = Apollo.MutationFunction<DeleteCategoryMut
  *   },
  * });
  */
-export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCategoryMutation, DeleteCategoryMutationVariables>(DeleteCategoryDocument, options);
-      }
-export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
-export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
-export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
-export const DeleteFromCartDocument = gql`
-    mutation DeleteFromCart($quantity: Int!, $inventoryId: Int!) {
-  deleteFromCart(quantity: $quantity, inventoryId: $inventoryId)
+export function useDeleteCategoryMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		DeleteCategoryMutation,
+		DeleteCategoryMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		DeleteCategoryMutation,
+		DeleteCategoryMutationVariables
+	>(DeleteCategoryDocument, options);
 }
-    `;
-export type DeleteFromCartMutationFn = Apollo.MutationFunction<DeleteFromCartMutation, DeleteFromCartMutationVariables>;
+export type DeleteCategoryMutationHookResult = ReturnType<
+	typeof useDeleteCategoryMutation
+>;
+export type DeleteCategoryMutationResult =
+	Apollo.MutationResult<DeleteCategoryMutation>;
+export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<
+	DeleteCategoryMutation,
+	DeleteCategoryMutationVariables
+>;
+export const DeleteFromCartDocument = gql`
+	mutation DeleteFromCart($quantity: Int!, $inventoryId: Int!) {
+		deleteFromCart(quantity: $quantity, inventoryId: $inventoryId)
+	}
+`;
+export type DeleteFromCartMutationFn = Apollo.MutationFunction<
+	DeleteFromCartMutation,
+	DeleteFromCartMutationVariables
+>;
 
 /**
  * __useDeleteFromCartMutation__
@@ -980,19 +1514,36 @@ export type DeleteFromCartMutationFn = Apollo.MutationFunction<DeleteFromCartMut
  *   },
  * });
  */
-export function useDeleteFromCartMutation(baseOptions?: Apollo.MutationHookOptions<DeleteFromCartMutation, DeleteFromCartMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteFromCartMutation, DeleteFromCartMutationVariables>(DeleteFromCartDocument, options);
-      }
-export type DeleteFromCartMutationHookResult = ReturnType<typeof useDeleteFromCartMutation>;
-export type DeleteFromCartMutationResult = Apollo.MutationResult<DeleteFromCartMutation>;
-export type DeleteFromCartMutationOptions = Apollo.BaseMutationOptions<DeleteFromCartMutation, DeleteFromCartMutationVariables>;
-export const ForgotPasswordDocument = gql`
-    mutation ForgotPassword($email: String!) {
-  forgotPassword(email: $email)
+export function useDeleteFromCartMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		DeleteFromCartMutation,
+		DeleteFromCartMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		DeleteFromCartMutation,
+		DeleteFromCartMutationVariables
+	>(DeleteFromCartDocument, options);
 }
-    `;
-export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+export type DeleteFromCartMutationHookResult = ReturnType<
+	typeof useDeleteFromCartMutation
+>;
+export type DeleteFromCartMutationResult =
+	Apollo.MutationResult<DeleteFromCartMutation>;
+export type DeleteFromCartMutationOptions = Apollo.BaseMutationOptions<
+	DeleteFromCartMutation,
+	DeleteFromCartMutationVariables
+>;
+export const ForgotPasswordDocument = gql`
+	mutation ForgotPassword($email: String!) {
+		forgotPassword(email: $email)
+	}
+`;
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<
+	ForgotPasswordMutation,
+	ForgotPasswordMutationVariables
+>;
 
 /**
  * __useForgotPasswordMutation__
@@ -1011,27 +1562,45 @@ export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMut
  *   },
  * });
  */
-export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
-      }
-export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
-export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
-export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
-export const LoginDocument = gql`
-    mutation Login($password: String!, $email: String!) {
-  login(password: $password, email: $email) {
-    errors {
-      ...RegularError
-    }
-    user {
-      ...UserFragment
-    }
-  }
+export function useForgotPasswordMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ForgotPasswordMutation,
+		ForgotPasswordMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ForgotPasswordMutation,
+		ForgotPasswordMutationVariables
+	>(ForgotPasswordDocument, options);
 }
-    ${RegularErrorFragmentDoc}
-${UserFragmentFragmentDoc}`;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+export type ForgotPasswordMutationHookResult = ReturnType<
+	typeof useForgotPasswordMutation
+>;
+export type ForgotPasswordMutationResult =
+	Apollo.MutationResult<ForgotPasswordMutation>;
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<
+	ForgotPasswordMutation,
+	ForgotPasswordMutationVariables
+>;
+export const LoginDocument = gql`
+	mutation Login($password: String!, $email: String!) {
+		login(password: $password, email: $email) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+	LoginMutation,
+	LoginMutationVariables
+>;
 
 /**
  * __useLoginMutation__
@@ -1051,19 +1620,33 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-      }
+export function useLoginMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		LoginMutation,
+		LoginMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+		LoginDocument,
+		options
+	);
+}
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+	LoginMutation,
+	LoginMutationVariables
+>;
 export const LogoutDocument = gql`
-    mutation Logout {
-  logout
-}
-    `;
-export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+	mutation Logout {
+		logout
+	}
+`;
+export type LogoutMutationFn = Apollo.MutationFunction<
+	LogoutMutation,
+	LogoutMutationVariables
+>;
 
 /**
  * __useLogoutMutation__
@@ -1081,27 +1664,42 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  *   },
  * });
  */
-export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
-      }
+export function useLogoutMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		LogoutMutation,
+		LogoutMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(
+		LogoutDocument,
+		options
+	);
+}
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+	LogoutMutation,
+	LogoutMutationVariables
+>;
 export const RegisterDocument = gql`
-    mutation Register($options: RegisterInput!) {
-  register(options: $options) {
-    errors {
-      ...RegularError
-    }
-    user {
-      ...UserFragment
-    }
-  }
-}
-    ${RegularErrorFragmentDoc}
-${UserFragmentFragmentDoc}`;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+	mutation Register($options: RegisterInput!) {
+		register(options: $options) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+	RegisterMutation,
+	RegisterMutationVariables
+>;
 
 /**
  * __useRegisterMutation__
@@ -1120,19 +1718,33 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  *   },
  * });
  */
-export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
-      }
+export function useRegisterMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		RegisterMutation,
+		RegisterMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+		RegisterDocument,
+		options
+	);
+}
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+	RegisterMutation,
+	RegisterMutationVariables
+>;
 export const ResendVerificationEmailDocument = gql`
-    mutation ResendVerificationEmail($email: String!) {
-  resendVerificationEmail(email: $email)
-}
-    `;
-export type ResendVerificationEmailMutationFn = Apollo.MutationFunction<ResendVerificationEmailMutation, ResendVerificationEmailMutationVariables>;
+	mutation ResendVerificationEmail($email: String!) {
+		resendVerificationEmail(email: $email)
+	}
+`;
+export type ResendVerificationEmailMutationFn = Apollo.MutationFunction<
+	ResendVerificationEmailMutation,
+	ResendVerificationEmailMutationVariables
+>;
 
 /**
  * __useResendVerificationEmailMutation__
@@ -1151,26 +1763,43 @@ export type ResendVerificationEmailMutationFn = Apollo.MutationFunction<ResendVe
  *   },
  * });
  */
-export function useResendVerificationEmailMutation(baseOptions?: Apollo.MutationHookOptions<ResendVerificationEmailMutation, ResendVerificationEmailMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ResendVerificationEmailMutation, ResendVerificationEmailMutationVariables>(ResendVerificationEmailDocument, options);
-      }
-export type ResendVerificationEmailMutationHookResult = ReturnType<typeof useResendVerificationEmailMutation>;
-export type ResendVerificationEmailMutationResult = Apollo.MutationResult<ResendVerificationEmailMutation>;
-export type ResendVerificationEmailMutationOptions = Apollo.BaseMutationOptions<ResendVerificationEmailMutation, ResendVerificationEmailMutationVariables>;
-export const UpdateCartDocument = gql`
-    mutation UpdateCart($updatedCartQuantity: Int!, $inventoryId: Int!) {
-  updateCart(quantity: $updatedCartQuantity, inventoryId: $inventoryId) {
-    id
-    userId
-    quantity
-    inventoryId
-    created_at
-    updated_at
-  }
+export function useResendVerificationEmailMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ResendVerificationEmailMutation,
+		ResendVerificationEmailMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ResendVerificationEmailMutation,
+		ResendVerificationEmailMutationVariables
+	>(ResendVerificationEmailDocument, options);
 }
-    `;
-export type UpdateCartMutationFn = Apollo.MutationFunction<UpdateCartMutation, UpdateCartMutationVariables>;
+export type ResendVerificationEmailMutationHookResult = ReturnType<
+	typeof useResendVerificationEmailMutation
+>;
+export type ResendVerificationEmailMutationResult =
+	Apollo.MutationResult<ResendVerificationEmailMutation>;
+export type ResendVerificationEmailMutationOptions = Apollo.BaseMutationOptions<
+	ResendVerificationEmailMutation,
+	ResendVerificationEmailMutationVariables
+>;
+export const UpdateCartDocument = gql`
+	mutation UpdateCart($updatedCartQuantity: Int!, $inventoryId: Int!) {
+		updateCart(quantity: $updatedCartQuantity, inventoryId: $inventoryId) {
+			id
+			userId
+			quantity
+			inventoryId
+			created_at
+			updated_at
+		}
+	}
+`;
+export type UpdateCartMutationFn = Apollo.MutationFunction<
+	UpdateCartMutation,
+	UpdateCartMutationVariables
+>;
 
 /**
  * __useUpdateCartMutation__
@@ -1190,26 +1819,46 @@ export type UpdateCartMutationFn = Apollo.MutationFunction<UpdateCartMutation, U
  *   },
  * });
  */
-export function useUpdateCartMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCartMutation, UpdateCartMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateCartMutation, UpdateCartMutationVariables>(UpdateCartDocument, options);
-      }
-export type UpdateCartMutationHookResult = ReturnType<typeof useUpdateCartMutation>;
-export type UpdateCartMutationResult = Apollo.MutationResult<UpdateCartMutation>;
-export type UpdateCartMutationOptions = Apollo.BaseMutationOptions<UpdateCartMutation, UpdateCartMutationVariables>;
-export const UpdateCategoryDocument = gql`
-    mutation UpdateCategory($options: UpdateCategoryInput!, $updateCategoryId: Float!) {
-  updateCategory(options: $options, id: $updateCategoryId) {
-    id
-    name
-    identifier
-    desc
-    created_at
-    updated_at
-  }
+export function useUpdateCartMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateCartMutation,
+		UpdateCartMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<UpdateCartMutation, UpdateCartMutationVariables>(
+		UpdateCartDocument,
+		options
+	);
 }
-    `;
-export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
+export type UpdateCartMutationHookResult = ReturnType<
+	typeof useUpdateCartMutation
+>;
+export type UpdateCartMutationResult =
+	Apollo.MutationResult<UpdateCartMutation>;
+export type UpdateCartMutationOptions = Apollo.BaseMutationOptions<
+	UpdateCartMutation,
+	UpdateCartMutationVariables
+>;
+export const UpdateCategoryDocument = gql`
+	mutation UpdateCategory(
+		$options: UpdateCategoryInput!
+		$updateCategoryId: Float!
+	) {
+		updateCategory(options: $options, id: $updateCategoryId) {
+			id
+			name
+			identifier
+			desc
+			created_at
+			updated_at
+		}
+	}
+`;
+export type UpdateCategoryMutationFn = Apollo.MutationFunction<
+	UpdateCategoryMutation,
+	UpdateCategoryMutationVariables
+>;
 
 /**
  * __useUpdateCategoryMutation__
@@ -1229,21 +1878,39 @@ export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMut
  *   },
  * });
  */
-export function useUpdateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateCategoryMutation, UpdateCategoryMutationVariables>(UpdateCategoryDocument, options);
-      }
-export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCategoryMutation>;
-export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
-export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
-export const UpdateAddressDocument = gql`
-    mutation UpdateAddress($input: UpdateAddressInput!, $updateAddressId: Int!) {
-  updateAddress(input: $input, id: $updateAddressId) {
-    ...AddressFragment
-  }
+export function useUpdateCategoryMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateCategoryMutation,
+		UpdateCategoryMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateCategoryMutation,
+		UpdateCategoryMutationVariables
+	>(UpdateCategoryDocument, options);
 }
-    ${AddressFragmentFragmentDoc}`;
-export type UpdateAddressMutationFn = Apollo.MutationFunction<UpdateAddressMutation, UpdateAddressMutationVariables>;
+export type UpdateCategoryMutationHookResult = ReturnType<
+	typeof useUpdateCategoryMutation
+>;
+export type UpdateCategoryMutationResult =
+	Apollo.MutationResult<UpdateCategoryMutation>;
+export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
+	UpdateCategoryMutation,
+	UpdateCategoryMutationVariables
+>;
+export const UpdateAddressDocument = gql`
+	mutation UpdateAddress($input: UpdateAddressInput!, $updateAddressId: Int!) {
+		updateAddress(input: $input, id: $updateAddressId) {
+			...AddressFragment
+		}
+	}
+	${AddressFragmentFragmentDoc}
+`;
+export type UpdateAddressMutationFn = Apollo.MutationFunction<
+	UpdateAddressMutation,
+	UpdateAddressMutationVariables
+>;
 
 /**
  * __useUpdateAddressMutation__
@@ -1263,31 +1930,53 @@ export type UpdateAddressMutationFn = Apollo.MutationFunction<UpdateAddressMutat
  *   },
  * });
  */
-export function useUpdateAddressMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAddressMutation, UpdateAddressMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateAddressMutation, UpdateAddressMutationVariables>(UpdateAddressDocument, options);
-      }
-export type UpdateAddressMutationHookResult = ReturnType<typeof useUpdateAddressMutation>;
-export type UpdateAddressMutationResult = Apollo.MutationResult<UpdateAddressMutation>;
-export type UpdateAddressMutationOptions = Apollo.BaseMutationOptions<UpdateAddressMutation, UpdateAddressMutationVariables>;
-export const UpdatePasswordDocument = gql`
-    mutation UpdatePassword($confirmPassword: String!, $newPassword: String!, $currentPassword: String!) {
-  updatePassword(
-    confirmPassword: $confirmPassword
-    newPassword: $newPassword
-    currentPassword: $currentPassword
-  ) {
-    errors {
-      ...RegularError
-    }
-    user {
-      ...UserFragment
-    }
-  }
+export function useUpdateAddressMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateAddressMutation,
+		UpdateAddressMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateAddressMutation,
+		UpdateAddressMutationVariables
+	>(UpdateAddressDocument, options);
 }
-    ${RegularErrorFragmentDoc}
-${UserFragmentFragmentDoc}`;
-export type UpdatePasswordMutationFn = Apollo.MutationFunction<UpdatePasswordMutation, UpdatePasswordMutationVariables>;
+export type UpdateAddressMutationHookResult = ReturnType<
+	typeof useUpdateAddressMutation
+>;
+export type UpdateAddressMutationResult =
+	Apollo.MutationResult<UpdateAddressMutation>;
+export type UpdateAddressMutationOptions = Apollo.BaseMutationOptions<
+	UpdateAddressMutation,
+	UpdateAddressMutationVariables
+>;
+export const UpdatePasswordDocument = gql`
+	mutation UpdatePassword(
+		$confirmPassword: String!
+		$newPassword: String!
+		$currentPassword: String!
+	) {
+		updatePassword(
+			confirmPassword: $confirmPassword
+			newPassword: $newPassword
+			currentPassword: $currentPassword
+		) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type UpdatePasswordMutationFn = Apollo.MutationFunction<
+	UpdatePasswordMutation,
+	UpdatePasswordMutationVariables
+>;
 
 /**
  * __useUpdatePasswordMutation__
@@ -1308,19 +1997,36 @@ export type UpdatePasswordMutationFn = Apollo.MutationFunction<UpdatePasswordMut
  *   },
  * });
  */
-export function useUpdatePasswordMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePasswordMutation, UpdatePasswordMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdatePasswordMutation, UpdatePasswordMutationVariables>(UpdatePasswordDocument, options);
-      }
-export type UpdatePasswordMutationHookResult = ReturnType<typeof useUpdatePasswordMutation>;
-export type UpdatePasswordMutationResult = Apollo.MutationResult<UpdatePasswordMutation>;
-export type UpdatePasswordMutationOptions = Apollo.BaseMutationOptions<UpdatePasswordMutation, UpdatePasswordMutationVariables>;
-export const VerifyEmailDocument = gql`
-    mutation VerifyEmail($token: String!) {
-  verifyEmail(token: $token)
+export function useUpdatePasswordMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdatePasswordMutation,
+		UpdatePasswordMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdatePasswordMutation,
+		UpdatePasswordMutationVariables
+	>(UpdatePasswordDocument, options);
 }
-    `;
-export type VerifyEmailMutationFn = Apollo.MutationFunction<VerifyEmailMutation, VerifyEmailMutationVariables>;
+export type UpdatePasswordMutationHookResult = ReturnType<
+	typeof useUpdatePasswordMutation
+>;
+export type UpdatePasswordMutationResult =
+	Apollo.MutationResult<UpdatePasswordMutation>;
+export type UpdatePasswordMutationOptions = Apollo.BaseMutationOptions<
+	UpdatePasswordMutation,
+	UpdatePasswordMutationVariables
+>;
+export const VerifyEmailDocument = gql`
+	mutation VerifyEmail($token: String!) {
+		verifyEmail(token: $token)
+	}
+`;
+export type VerifyEmailMutationFn = Apollo.MutationFunction<
+	VerifyEmailMutation,
+	VerifyEmailMutationVariables
+>;
 
 /**
  * __useVerifyEmailMutation__
@@ -1339,20 +2045,35 @@ export type VerifyEmailMutationFn = Apollo.MutationFunction<VerifyEmailMutation,
  *   },
  * });
  */
-export function useVerifyEmailMutation(baseOptions?: Apollo.MutationHookOptions<VerifyEmailMutation, VerifyEmailMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(VerifyEmailDocument, options);
-      }
-export type VerifyEmailMutationHookResult = ReturnType<typeof useVerifyEmailMutation>;
-export type VerifyEmailMutationResult = Apollo.MutationResult<VerifyEmailMutation>;
-export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<VerifyEmailMutation, VerifyEmailMutationVariables>;
-export const AddressDocument = gql`
-    query Address {
-  addresses {
-    ...AddressFragment
-  }
+export function useVerifyEmailMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		VerifyEmailMutation,
+		VerifyEmailMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(
+		VerifyEmailDocument,
+		options
+	);
 }
-    ${AddressFragmentFragmentDoc}`;
+export type VerifyEmailMutationHookResult = ReturnType<
+	typeof useVerifyEmailMutation
+>;
+export type VerifyEmailMutationResult =
+	Apollo.MutationResult<VerifyEmailMutation>;
+export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<
+	VerifyEmailMutation,
+	VerifyEmailMutationVariables
+>;
+export const AddressDocument = gql`
+	query Address {
+		addresses {
+			...AddressFragment
+		}
+	}
+	${AddressFragmentFragmentDoc}
+`;
 
 /**
  * __useAddressQuery__
@@ -1369,28 +2090,41 @@ export const AddressDocument = gql`
  *   },
  * });
  */
-export function useAddressQuery(baseOptions?: Apollo.QueryHookOptions<AddressQuery, AddressQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AddressQuery, AddressQueryVariables>(AddressDocument, options);
-      }
-export function useAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AddressQuery, AddressQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AddressQuery, AddressQueryVariables>(AddressDocument, options);
-        }
+export function useAddressQuery(
+	baseOptions?: Apollo.QueryHookOptions<AddressQuery, AddressQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<AddressQuery, AddressQueryVariables>(
+		AddressDocument,
+		options
+	);
+}
+export function useAddressLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<AddressQuery, AddressQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<AddressQuery, AddressQueryVariables>(
+		AddressDocument,
+		options
+	);
+}
 export type AddressQueryHookResult = ReturnType<typeof useAddressQuery>;
 export type AddressLazyQueryHookResult = ReturnType<typeof useAddressLazyQuery>;
-export type AddressQueryResult = Apollo.QueryResult<AddressQuery, AddressQueryVariables>;
+export type AddressQueryResult = Apollo.QueryResult<
+	AddressQuery,
+	AddressQueryVariables
+>;
 export const CategoriesDocument = gql`
-    query Categories {
-  categories {
-    id
-    name
-    desc
-    created_at
-    updated_at
-  }
-}
-    `;
+	query Categories {
+		categories {
+			id
+			name
+			desc
+			created_at
+			updated_at
+		}
+	}
+`;
 
 /**
  * __useCategoriesQuery__
@@ -1407,30 +2141,51 @@ export const CategoriesDocument = gql`
  *   },
  * });
  */
-export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
-      }
-export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
-        }
-export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
-export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
-export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
-export const CategoriesSummaryDocument = gql`
-    query CategoriesSummary {
-  categoriesSummary {
-    id
-    name
-    identifier
-    desc
-    product_count
-    created_at
-    updated_at
-  }
+export function useCategoriesQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		CategoriesQuery,
+		CategoriesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(
+		CategoriesDocument,
+		options
+	);
 }
-    `;
+export function useCategoriesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		CategoriesQuery,
+		CategoriesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
+		CategoriesDocument,
+		options
+	);
+}
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesLazyQueryHookResult = ReturnType<
+	typeof useCategoriesLazyQuery
+>;
+export type CategoriesQueryResult = Apollo.QueryResult<
+	CategoriesQuery,
+	CategoriesQueryVariables
+>;
+export const CategoriesSummaryDocument = gql`
+	query CategoriesSummary {
+		categoriesSummary {
+			id
+			name
+			identifier
+			desc
+			product_count
+			created_at
+			updated_at
+		}
+	}
+`;
 
 /**
  * __useCategoriesSummaryQuery__
@@ -1447,39 +2202,62 @@ export const CategoriesSummaryDocument = gql`
  *   },
  * });
  */
-export function useCategoriesSummaryQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>(CategoriesSummaryDocument, options);
-      }
-export function useCategoriesSummaryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>(CategoriesSummaryDocument, options);
-        }
-export type CategoriesSummaryQueryHookResult = ReturnType<typeof useCategoriesSummaryQuery>;
-export type CategoriesSummaryLazyQueryHookResult = ReturnType<typeof useCategoriesSummaryLazyQuery>;
-export type CategoriesSummaryQueryResult = Apollo.QueryResult<CategoriesSummaryQuery, CategoriesSummaryQueryVariables>;
-export const FetchCartItemsDocument = gql`
-    query FetchCartItems {
-  fetchCartItems {
-    id
-    userId
-    quantity
-    inventoryId
-    product_name
-    product_desc
-    product_identifier
-    categoryId
-    price
-    variant
-    images {
-      image_id
-      imageURL
-    }
-    created_at
-    updated_at
-  }
+export function useCategoriesSummaryQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		CategoriesSummaryQuery,
+		CategoriesSummaryQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		CategoriesSummaryQuery,
+		CategoriesSummaryQueryVariables
+	>(CategoriesSummaryDocument, options);
 }
-    `;
+export function useCategoriesSummaryLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		CategoriesSummaryQuery,
+		CategoriesSummaryQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		CategoriesSummaryQuery,
+		CategoriesSummaryQueryVariables
+	>(CategoriesSummaryDocument, options);
+}
+export type CategoriesSummaryQueryHookResult = ReturnType<
+	typeof useCategoriesSummaryQuery
+>;
+export type CategoriesSummaryLazyQueryHookResult = ReturnType<
+	typeof useCategoriesSummaryLazyQuery
+>;
+export type CategoriesSummaryQueryResult = Apollo.QueryResult<
+	CategoriesSummaryQuery,
+	CategoriesSummaryQueryVariables
+>;
+export const FetchCartItemsDocument = gql`
+	query FetchCartItems {
+		fetchCartItems {
+			id
+			userId
+			quantity
+			inventoryId
+			product_name
+			product_desc
+			product_identifier
+			categoryId
+			price
+			variant
+			images {
+				image_id
+				imageURL
+			}
+			created_at
+			updated_at
+		}
+	}
+`;
 
 /**
  * __useFetchCartItemsQuery__
@@ -1496,22 +2274,45 @@ export const FetchCartItemsDocument = gql`
  *   },
  * });
  */
-export function useFetchCartItemsQuery(baseOptions?: Apollo.QueryHookOptions<FetchCartItemsQuery, FetchCartItemsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FetchCartItemsQuery, FetchCartItemsQueryVariables>(FetchCartItemsDocument, options);
-      }
-export function useFetchCartItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchCartItemsQuery, FetchCartItemsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FetchCartItemsQuery, FetchCartItemsQueryVariables>(FetchCartItemsDocument, options);
-        }
-export type FetchCartItemsQueryHookResult = ReturnType<typeof useFetchCartItemsQuery>;
-export type FetchCartItemsLazyQueryHookResult = ReturnType<typeof useFetchCartItemsLazyQuery>;
-export type FetchCartItemsQueryResult = Apollo.QueryResult<FetchCartItemsQuery, FetchCartItemsQueryVariables>;
-export const HelloQueryDocument = gql`
-    query HelloQuery {
-  hello
+export function useFetchCartItemsQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		FetchCartItemsQuery,
+		FetchCartItemsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<FetchCartItemsQuery, FetchCartItemsQueryVariables>(
+		FetchCartItemsDocument,
+		options
+	);
 }
-    `;
+export function useFetchCartItemsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		FetchCartItemsQuery,
+		FetchCartItemsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<FetchCartItemsQuery, FetchCartItemsQueryVariables>(
+		FetchCartItemsDocument,
+		options
+	);
+}
+export type FetchCartItemsQueryHookResult = ReturnType<
+	typeof useFetchCartItemsQuery
+>;
+export type FetchCartItemsLazyQueryHookResult = ReturnType<
+	typeof useFetchCartItemsLazyQuery
+>;
+export type FetchCartItemsQueryResult = Apollo.QueryResult<
+	FetchCartItemsQuery,
+	FetchCartItemsQueryVariables
+>;
+export const HelloQueryDocument = gql`
+	query HelloQuery {
+		hello
+	}
+`;
 
 /**
  * __useHelloQueryQuery__
@@ -1528,24 +2329,46 @@ export const HelloQueryDocument = gql`
  *   },
  * });
  */
-export function useHelloQueryQuery(baseOptions?: Apollo.QueryHookOptions<HelloQueryQuery, HelloQueryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HelloQueryQuery, HelloQueryQueryVariables>(HelloQueryDocument, options);
-      }
-export function useHelloQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HelloQueryQuery, HelloQueryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HelloQueryQuery, HelloQueryQueryVariables>(HelloQueryDocument, options);
-        }
-export type HelloQueryQueryHookResult = ReturnType<typeof useHelloQueryQuery>;
-export type HelloQueryLazyQueryHookResult = ReturnType<typeof useHelloQueryLazyQuery>;
-export type HelloQueryQueryResult = Apollo.QueryResult<HelloQueryQuery, HelloQueryQueryVariables>;
-export const MeDocument = gql`
-    query Me {
-  me {
-    ...UserFragment
-  }
+export function useHelloQueryQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		HelloQueryQuery,
+		HelloQueryQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<HelloQueryQuery, HelloQueryQueryVariables>(
+		HelloQueryDocument,
+		options
+	);
 }
-    ${UserFragmentFragmentDoc}`;
+export function useHelloQueryLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		HelloQueryQuery,
+		HelloQueryQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<HelloQueryQuery, HelloQueryQueryVariables>(
+		HelloQueryDocument,
+		options
+	);
+}
+export type HelloQueryQueryHookResult = ReturnType<typeof useHelloQueryQuery>;
+export type HelloQueryLazyQueryHookResult = ReturnType<
+	typeof useHelloQueryLazyQuery
+>;
+export type HelloQueryQueryResult = Apollo.QueryResult<
+	HelloQueryQuery,
+	HelloQueryQueryVariables
+>;
+export const MeDocument = gql`
+	query Me {
+		me {
+			...UserFragment
+		}
+	}
+	${UserFragmentFragmentDoc}
+`;
 
 /**
  * __useMeQuery__
@@ -1562,24 +2385,29 @@ export const MeDocument = gql`
  *   },
  * });
  */
-export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-      }
-export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-        }
+export function useMeQuery(
+	baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export function useMeLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const ProductDocument = gql`
-    query Product($identifier: String!) {
-  product(identifier: $identifier) {
-    ...ProductFragment
-  }
-}
-    ${ProductFragmentFragmentDoc}`;
+	query Product($identifier: String!) {
+		product(identifier: $identifier) {
+			...ProductFragment
+		}
+	}
+	${ProductFragmentFragmentDoc}
+`;
 
 /**
  * __useProductQuery__
@@ -1597,24 +2425,38 @@ export const ProductDocument = gql`
  *   },
  * });
  */
-export function useProductQuery(baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
-      }
-export function useProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
-        }
+export function useProductQuery(
+	baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<ProductQuery, ProductQueryVariables>(
+		ProductDocument,
+		options
+	);
+}
+export function useProductLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(
+		ProductDocument,
+		options
+	);
+}
 export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
 export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
-export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
+export type ProductQueryResult = Apollo.QueryResult<
+	ProductQuery,
+	ProductQueryVariables
+>;
 export const ProductsDocument = gql`
-    query Products {
-  products {
-    ...ProductFragment
-  }
-}
-    ${ProductFragmentFragmentDoc}`;
+	query Products {
+		products {
+			...ProductFragment
+		}
+	}
+	${ProductFragmentFragmentDoc}
+`;
 
 /**
  * __useProductsQuery__
@@ -1631,27 +2473,45 @@ export const ProductsDocument = gql`
  *   },
  * });
  */
-export function useProductsQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
-      }
-export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
-        }
-export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
-export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
-export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
-export const RolesDocument = gql`
-    query Roles {
-  roles {
-    id
-    name
-    created_at
-    updated_at
-  }
+export function useProductsQuery(
+	baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(
+		ProductsDocument,
+		options
+	);
 }
-    `;
+export function useProductsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		ProductsQuery,
+		ProductsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(
+		ProductsDocument,
+		options
+	);
+}
+export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
+export type ProductsLazyQueryHookResult = ReturnType<
+	typeof useProductsLazyQuery
+>;
+export type ProductsQueryResult = Apollo.QueryResult<
+	ProductsQuery,
+	ProductsQueryVariables
+>;
+export const RolesDocument = gql`
+	query Roles {
+		roles {
+			id
+			name
+			created_at
+			updated_at
+		}
+	}
+`;
 
 /**
  * __useRolesQuery__
@@ -1668,34 +2528,47 @@ export const RolesDocument = gql`
  *   },
  * });
  */
-export function useRolesQuery(baseOptions?: Apollo.QueryHookOptions<RolesQuery, RolesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
-      }
-export function useRolesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RolesQuery, RolesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
-        }
+export function useRolesQuery(
+	baseOptions?: Apollo.QueryHookOptions<RolesQuery, RolesQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<RolesQuery, RolesQueryVariables>(
+		RolesDocument,
+		options
+	);
+}
+export function useRolesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<RolesQuery, RolesQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<RolesQuery, RolesQueryVariables>(
+		RolesDocument,
+		options
+	);
+}
 export type RolesQueryHookResult = ReturnType<typeof useRolesQuery>;
 export type RolesLazyQueryHookResult = ReturnType<typeof useRolesLazyQuery>;
-export type RolesQueryResult = Apollo.QueryResult<RolesQuery, RolesQueryVariables>;
+export type RolesQueryResult = Apollo.QueryResult<
+	RolesQuery,
+	RolesQueryVariables
+>;
 export const UserDataDocument = gql`
-    query UserData {
-  users {
-    id
-    first_name
-    last_name
-    email
-    email_verified
-    phone_number
-    phone_number_verified
-    roleId
-    role
-    created_at
-    updated_at
-  }
-}
-    `;
+	query UserData {
+		users {
+			id
+			first_name
+			last_name
+			email
+			email_verified
+			phone_number
+			phone_number_verified
+			roleId
+			role
+			created_at
+			updated_at
+		}
+	}
+`;
 
 /**
  * __useUserDataQuery__
@@ -1712,14 +2585,32 @@ export const UserDataDocument = gql`
  *   },
  * });
  */
-export function useUserDataQuery(baseOptions?: Apollo.QueryHookOptions<UserDataQuery, UserDataQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserDataQuery, UserDataQueryVariables>(UserDataDocument, options);
-      }
-export function useUserDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserDataQuery, UserDataQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserDataQuery, UserDataQueryVariables>(UserDataDocument, options);
-        }
+export function useUserDataQuery(
+	baseOptions?: Apollo.QueryHookOptions<UserDataQuery, UserDataQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<UserDataQuery, UserDataQueryVariables>(
+		UserDataDocument,
+		options
+	);
+}
+export function useUserDataLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		UserDataQuery,
+		UserDataQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<UserDataQuery, UserDataQueryVariables>(
+		UserDataDocument,
+		options
+	);
+}
 export type UserDataQueryHookResult = ReturnType<typeof useUserDataQuery>;
-export type UserDataLazyQueryHookResult = ReturnType<typeof useUserDataLazyQuery>;
-export type UserDataQueryResult = Apollo.QueryResult<UserDataQuery, UserDataQueryVariables>;
+export type UserDataLazyQueryHookResult = ReturnType<
+	typeof useUserDataLazyQuery
+>;
+export type UserDataQueryResult = Apollo.QueryResult<
+	UserDataQuery,
+	UserDataQueryVariables
+>;

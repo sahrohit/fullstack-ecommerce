@@ -142,19 +142,13 @@ const Navbar = () => {
 										<span>Admin</span>
 									</li>
 									<li>
-										<Link href="/admin">
-											Manage Admin
-										</Link>
+										<Link href="/admin">Manage Admin</Link>
 									</li>
 									<li>
-										<Link href="/admin/products">
-											Products
-										</Link>
+										<Link href="/admin/products">Products</Link>
 									</li>
 									<li>
-										<Link href="/admin/add-product">
-											Add Products
-										</Link>
+										<Link href="/admin/add-product">Add Products</Link>
 									</li>
 								</>
 							)}

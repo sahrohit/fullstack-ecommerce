@@ -66,8 +66,12 @@ const LoginForm = ({ setGlobalError, setUnVerifiedEmail }: LoginFormProps) => {
 						/>
 
 						<p className="text-sm my-2 text-right">
-							<Link href="/auth/forgot-password" className="link link-secondary link-hover" passHref>
-									Forgot your Password ?
+							<Link
+								href="/auth/forgot-password"
+								className="link link-secondary link-hover"
+								passHref
+							>
+								Forgot your Password ?
 							</Link>
 						</p>
 
