@@ -2,16 +2,13 @@ import {
 	Button,
 	Checkbox,
 	Flex,
-	FormControl,
-	FormLabel,
-	Input,
 	LightMode,
 	Stack,
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
-import { Link, type LinkProps } from "@chakra-ui/next-js";
 import InputField from "../ui/InputField";
 import { SubmitHandler, useForm } from "react-hook-form";
+import UnderlineLink from "@/components/ui/UnderlineLink";
 
 interface FormValues {
 	email: string;
@@ -41,6 +38,7 @@ const LoginForm = () => {
 					error={errors.email}
 					isDirty={dirtyFields.email}
 					showErrorMessage={false}
+					showLabel={false}
 					required
 					name="email"
 					type="email"
@@ -57,6 +55,7 @@ const LoginForm = () => {
 					error={errors.password}
 					isDirty={dirtyFields.password}
 					showErrorMessage={false}
+					showLabel={false}
 					label="Password"
 					name="password"
 					type="password"
@@ -108,26 +107,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
-export const UnderlineLink = (props: LinkProps) => {
-	return (
-		<Link
-			as="a"
-			pos="relative"
-			display="inline-block"
-			transition="opacity 0.2s"
-			_hover={{ opacity: 0.8 }}
-			_after={{
-				content: `""`,
-				display: "block",
-				w: "full",
-				h: "2px",
-				bottom: 0,
-				bg: "blue.500",
-				insetX: 0,
-				insetY: 0,
-			}}
-			{...props}
-		/>
-	);
-};

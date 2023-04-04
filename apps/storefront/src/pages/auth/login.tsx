@@ -1,17 +1,15 @@
-import LoginForm, { UnderlineLink } from "@/components/auth/LoginForm";
+import LoginForm from "@/components/auth/LoginForm";
 import { Logo } from "@/components/logo";
-import { Image } from "@chakra-ui/next-js";
+import UnderlineLink from "@/components/ui/UnderlineLink";
 import {
 	Badge,
 	Box,
 	Flex,
 	Heading,
-	HStack,
 	Img,
 	Text,
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
-import { HiOutlineExternalLink } from "react-icons/hi";
 
 const LoginPage = () => {
 	return (
@@ -90,16 +88,9 @@ const LoginPage = () => {
 				>
 					One parcel a day, keeps sadness away
 				</Text>
-				{/* <Text mt="5" maxW="md" fontSize="lg">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-					eiusmod tempor incididun.
-				</Text> */}
 
 				<Box mt="10" position="relative">
 					<Img
-						// width={20}
-						// height={20}
-						// layout=""
 						width={"90%"}
 						placeholder="blur"
 						alt="App screenshot"

@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 import {
 	BoxProps,
 	FormControl,
@@ -17,28 +17,29 @@ type InputFieldProps = Omit<BoxProps, "apply"> &
 		name: string;
 		label: string;
 		placeholder: string;
-		type?: HTMLInputTypeAttribute;
 		autoComplete?: string;
 		disabled?: boolean;
 		error: FieldError | undefined;
 		isDirty: boolean | undefined;
 		showErrorMessage?: boolean;
+		showLabel?: boolean;
 	};
 
 const InputField = (props: InputFieldProps) => {
-	const { error, isDirty, showErrorMessage, ...rest } = props;
+	const { error, isDirty, showErrorMessage, showLabel, ...rest } = props;
 
 	return (
 		<>
 			<FormControl id={props.name} isInvalid={!!error && isDirty}>
 				<HStack justifyContent={"space-between"}>
-					<FormLabel srOnly>{props.label}</FormLabel>
+					<FormLabel srOnly={showLabel ? undefined : true}>
+						{props.label}
+					</FormLabel>
 					{showErrorMessage && (
 						<FormErrorMessage>{error?.message}</FormErrorMessage>
 					)}
 				</HStack>
 				<Input
-					type={props.type}
 					autoComplete={props.autoComplete}
 					required={props.required}
 					{...props.register}
@@ -53,6 +54,7 @@ InputField.defaultProps = {
 	required: false,
 	disabled: false,
 	showErrorMessage: true,
+	showLabel: true,
 };
 
 export default InputField;
