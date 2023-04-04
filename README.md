@@ -2,13 +2,13 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="" alt="Logo" width="160" height="80">
+    <img src="./apps/storefront/public/logo_dark.svg" alt="Logo" width="160" height="80">
   </a>
 
-  <h3 align="center">Ecommerce Site</h3>
+  <h3 align="center">Hamro Pasal</h3>
 
   <p align="center">
-    Built with Next.js & Expressjs with Graphql
+    Built with god knows what
     <br />
     <a href="https://madre.vercel.app"></a>
 
@@ -20,19 +20,7 @@
 
 ## About The Project
 
-<a href="https://drawsql.app/student-460/diagrams/shop">SQL Diagram for the Database</a>
-
-### Built With
-
-<div style="display: flex; flex-wrap: wrap;">
-<img src="https://img.icons8.com/color/48/000000/typescript.png" title="Typescript" alt="Typescript" width="50" height="50" />
-<img src="https://img.icons8.com/color/48/000000/nodejs.png" title="Nodejs" alt="Nodejs" width="50" height="50" />
-<img src="https://img.icons8.com/color/48/000000/graphql.png" title="Graphql" alt="Graphql" width="50" height="50" />
-<img src="https://img.icons8.com/color/48/000000/postgresql.png" title="Postgresql" alt="Postgresql" width="50" height="50" />
-<img src="https://img.icons8.com/color/48/000000/redis.png" title="Redis" alt="Redis" width="50" height="50" /><img src="https://img.icons8.com/color/48/000000/apollo.png" title="Apollo" alt="Apollo" width="50" height="50" />
-<img src="https://img.icons8.com/color/48/000000/nextjs.png" title="Nextjs" alt="Nextjs" width="50" height="50" />
-<img src="https://tailwindcss.com/_next/static/media/tailwindcss-mark.79614a5f61617ba49a0891494521226b.svg" title="Tailwind CSS" alt="Tailwind CSS" width="50" height="50"/>
-</div>
+<a href="https://dbdiagram.io/d/6427f58e5758ac5f1725e8ce">SQL Diagram for the Database</a>
 
 <!-- GETTING STARTED -->
 
@@ -48,24 +36,20 @@ To get a local copy up and running follow these simple example steps.
    ```
 2. Install the project dependencies
 
-   a. Backend (Server)
-
    ```powershell
-       $ cd ecomm-server
-       $ yarn
+       $ pnpm install
    ```
 
-   b. Frontend
-
-   ```powershell
-       $ cd ecomm-client-next
-       $ yarn
-   ```
-
-3. Rename the `env.example` to `env.local` & update you enviroment variables in both frontend and backend folders.
+3. Rename the `env.example` to `env.local` & update you enviroment variables in all the apps.
 
    ```js
-   API_KEY = YOUR API KEYS
+   API_KEY = YOUR_API_KEY;
+   ```
+
+4. Run the following commands to start the development server
+
+   ```powershell
+   $ pnpm dev
    ```
 
 ### After Setting Up
@@ -82,18 +66,25 @@ To initialize the frontend,
 
 For other commands, check `scripts` in package.json.
 
-<!-- ROADMAP -->
-<!--
-## Roadmap
+## Apps
 
--   [] Feature 1
--   [] Feature 2
--   [] Feature 3
-    -   [] Nested Feature
+| Apps       | Description                           |
+| ---------- | ------------------------------------- |
+| api        | Backend Server for the infrastructure |
+| admin      | Frontend Nextjs app for Managment     |
+| storefront | Frontend Nextjs app for end users     |
+| oldstore   | Last iteration of frontend app        |
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues). -->
+## Built With
 
-<!-- CONTRIBUTING -->
+<div style="display: flex; flex-wrap: wrap;">
+<img src="https://img.icons8.com/color/48/000000/typescript.png" title="Typescript" alt="Typescript" width="50" height="50" />
+<img src="https://img.icons8.com/color/48/000000/nodejs.png" title="Nodejs" alt="Nodejs" width="50" height="50" />
+<img src="https://img.icons8.com/color/48/000000/graphql.png" title="Graphql" alt="Graphql" width="50" height="50" />
+<img src="https://img.icons8.com/color/256/postgreesql.png" title="Postgresql" alt="Postgresql" width="50" height="50" />
+<img src="https://img.icons8.com/color/48/000000/redis.png" title="Redis" alt="Redis" width="50" height="50" /><img src="https://img.icons8.com/color/48/000000/apollo.png" title="Apollo" alt="Apollo" width="50" height="50" />
+<img src="https://img.icons8.com/color/48/000000/nextjs.png" title="Nextjs" alt="Nextjs" width="50" height="50" />
+</div>
 
 ## Contributing
 
