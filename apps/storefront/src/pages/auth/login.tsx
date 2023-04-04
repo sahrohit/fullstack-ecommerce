@@ -31,16 +31,15 @@ const LoginPage = () => {
 					<Logo
 						mb={{ base: "14", md: "32" }}
 						w="auto"
-						h="7"
+						h="12"
 						mx="auto"
-						iconColor="blue.500"
+						iconColor="green.600"
 					/>
 					<Box textAlign="center" mb={{ base: "10", md: "16" }}>
 						<Heading
 							as="h1"
-							size="xl"
+							size="md"
 							fontWeight="extrabold"
-							letterSpacing="tight"
 							whiteSpace={{ base: "normal", md: "nowrap" }}
 						>
 							Sign in to your account
