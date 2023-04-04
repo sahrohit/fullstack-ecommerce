@@ -19,6 +19,7 @@
 		"@emotion/styled": "^11.10.6",
 		"framer-motion": "^6.5.0",
 		"next": "latest",
+		"react-hook-form": "^7.43.9",
 		"react-icons": "^4.6.0"
 	},
 	"devDependencies": {

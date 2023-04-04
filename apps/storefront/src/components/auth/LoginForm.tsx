@@ -1,6 +1,4 @@
 import {
-	Box,
-	BoxProps,
 	Button,
 	Checkbox,
 	Flex,
@@ -12,44 +10,62 @@ import {
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
 import { Link, type LinkProps } from "@chakra-ui/next-js";
+import InputField from "../ui/InputField";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+interface FormValues {
+	email: string;
+	password: string;
+}
+
+const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
 const LoginForm = () => {
+	const {
+		register,
+		handleSubmit,
+		control,
+		formState: { errors, dirtyFields },
+	} = useForm<FormValues>({
+		defaultValues: {
+			email: "",
+			password: "",
+		},
+	});
+
 	return (
-		<form
-			onSubmit={(e) => {
-				// add submit logic here
-				e.preventDefault();
-			}}
-		>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<Stack spacing="-px">
-				<FormControl id="email-address">
-					<FormLabel srOnly>Email address</FormLabel>
-					<Input
-						size="lg"
-						name="email"
-						type="email"
-						autoComplete="email"
-						required
-						placeholder="Email address"
-						bg={mode("white", "gray.700")}
-						fontSize="md"
-						roundedBottom="0"
-					/>
-				</FormControl>
-				<FormControl id="password">
-					<FormLabel srOnly>Email address</FormLabel>
-					<Input
-						name="password"
-						type="password"
-						autoComplete="current-password"
-						required
-						size="lg"
-						bg={mode("white", "gray.700")}
-						fontSize="md"
-						roundedTop="0"
-						placeholder="Password"
-					/>
-				</FormControl>
+				<InputField
+					register={{ ...register("email") }}
+					error={errors.email}
+					isDirty={dirtyFields.email}
+					required
+					name="email"
+					type="email"
+					label="Email address"
+					autoComplete="email"
+					placeholder="Email address"
+					size="lg"
+					bg={mode("white", "gray.700")}
+					fontSize="md"
+					roundedBottom="0"
+				/>
+				<InputField
+					register={{ ...register("password") }}
+					error={errors.password}
+					isDirty={dirtyFields.password}
+					label="Password"
+					name="password"
+					type="password"
+					autoComplete="current-password"
+					required
+					size="lg"
+					bg={mode("white", "gray.700")}
+					fontSize="md"
+					roundedTop="0"
+					placeholder="Password"
+				/>
 			</Stack>
 			<Flex align="center" justify="space-between" mt="8">
 				<LightMode>
