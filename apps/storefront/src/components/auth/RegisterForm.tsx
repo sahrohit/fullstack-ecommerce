@@ -1,17 +1,8 @@
-import {
-	Box,
-	Button,
-	Flex,
-	FormControl,
-	FormLabel,
-	HStack,
-	Input,
-	Stack,
-	useColorModeValue as mode,
-} from "@chakra-ui/react";
-import UnderlineLink from "@/components/ui/UnderlineLink";
+import { Button, FormControl, HStack, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import InputField from "../ui/InputField";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 type RegisterFormValues = {
 	firstName: string;
@@ -20,12 +11,22 @@ type RegisterFormValues = {
 	password: string;
 };
 
+const RegisterFormSchema = Yup.object({
+	firstName: Yup.string().required("Required"),
+	lastName: Yup.string().required("Required"),
+	email: Yup.string().email().required("Required"),
+	password: Yup.string()
+		.required("Required")
+		.min(8, "Too Short")
+		.max(20, "Too Long"),
+});
+
 const RegisterForm = () => {
 	const {
 		register,
 		handleSubmit,
 		control,
-		formState: { errors, dirtyFields },
+		formState: { errors, touchedFields },
 	} = useForm<RegisterFormValues>({
 		defaultValues: {
 			firstName: "",
@@ -33,6 +34,7 @@ const RegisterForm = () => {
 			email: "",
 			password: "",
 		},
+		resolver: yupResolver(RegisterFormSchema),
 	});
 
 	return (
@@ -46,7 +48,8 @@ const RegisterForm = () => {
 					<InputField
 						register={{ ...register("firstName") }}
 						error={errors.firstName}
-						isDirty={dirtyFields.firstName}
+						touched={touchedFields.firstName}
+						type="text"
 						name="firstName"
 						size="lg"
 						autoComplete="firstName"
@@ -56,8 +59,9 @@ const RegisterForm = () => {
 					<InputField
 						register={{ ...register("lastName") }}
 						error={errors.lastName}
-						isDirty={dirtyFields.lastName}
+						touched={touchedFields.lastName}
 						name="lastName"
+						type="text"
 						size="lg"
 						autoComplete="lastName"
 						label={"Last Name"}
@@ -67,7 +71,7 @@ const RegisterForm = () => {
 				<InputField
 					register={{ ...register("email") }}
 					error={errors.email}
-					isDirty={dirtyFields.email}
+					touched={touchedFields.email}
 					name="email"
 					size="lg"
 					type="email"
@@ -80,7 +84,7 @@ const RegisterForm = () => {
 					<InputField
 						register={{ ...register("password") }}
 						error={errors.password}
-						isDirty={dirtyFields.password}
+						touched={touchedFields.password}
 						name="password"
 						size="lg"
 						type="password"

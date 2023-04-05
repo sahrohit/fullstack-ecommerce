@@ -17,9 +17,12 @@ interface FormValues {
 	password: string;
 }
 
-const LoginSchema = Yup.object({
-	email: Yup.string().email().required(),
-	password: Yup.string().required().min(8, "Too Short").max(20, "Too Long"),
+const LoginFormSchema = Yup.object({
+	email: Yup.string().email().required("Required"),
+	password: Yup.string()
+		.required("Required")
+		.min(8, "Too Short")
+		.max(20, "Too Long"),
 });
 
 const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
@@ -28,14 +31,13 @@ const LoginForm = () => {
 	const {
 		register,
 		handleSubmit,
-		control,
 		formState: { errors, dirtyFields },
 	} = useForm<FormValues>({
 		defaultValues: {
 			email: "",
 			password: "",
 		},
-		resolver: yupResolver(LoginSchema),
+		resolver: yupResolver(LoginFormSchema),
 	});
 
 	return (
@@ -44,7 +46,7 @@ const LoginForm = () => {
 				<InputField
 					register={{ ...register("email") }}
 					error={errors.email}
-					isDirty={dirtyFields.email}
+					touched={dirtyFields.email}
 					showErrorMessage={false}
 					showLabel={false}
 					required
@@ -61,7 +63,7 @@ const LoginForm = () => {
 				<InputField
 					register={{ ...register("password") }}
 					error={errors.password}
-					isDirty={dirtyFields.password}
+					touched={dirtyFields.password}
 					showErrorMessage={false}
 					showLabel={false}
 					label="Password"

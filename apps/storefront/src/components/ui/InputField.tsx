@@ -20,24 +20,24 @@ type InputFieldProps = Omit<BoxProps, "apply"> &
 		autoComplete?: string;
 		disabled?: boolean;
 		error: FieldError | undefined;
-		isDirty: boolean | undefined;
+		touched: boolean | undefined;
 		showErrorMessage?: boolean;
 		showLabel?: boolean;
 	};
 
 const InputField = (props: InputFieldProps) => {
-	const { error, isDirty, showErrorMessage, showLabel, ...rest } = props;
+	const { error, touched, showErrorMessage, showLabel, ...rest } = props;
 
 	return (
 		<>
-			<FormControl id={props.name} isInvalid={!!error && isDirty}>
+			<FormControl id={props.name} isInvalid={!!error && touched}>
 				<HStack justifyContent={"space-between"}>
 					<FormLabel srOnly={showLabel ? undefined : true}>
 						{props.label}
 					</FormLabel>
-					{showErrorMessage && (
-						<FormErrorMessage>{error?.message}</FormErrorMessage>
-					)}
+					<FormErrorMessage>
+						{showErrorMessage && error?.message}
+					</FormErrorMessage>
 				</HStack>
 				<Input
 					autoComplete={props.autoComplete}
