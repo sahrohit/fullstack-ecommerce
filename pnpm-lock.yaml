@@ -331,6 +331,9 @@ importers:
       '@emotion/styled':
         specifier: ^11.10.6
         version: 11.10.6(@emotion/react@11.10.6)(@types/react@18.0.31)(react@18.2.0)
+      '@hookform/resolvers':
+        specifier: ^3.0.1
+        version: 3.0.1(react-hook-form@7.43.9)
       framer-motion:
         specifier: ^6.5.0
         version: 6.5.0(react-dom@18.2.0)(react@18.2.0)
@@ -343,6 +346,9 @@ importers:
       react-icons:
         specifier: ^4.6.0
         version: 4.6.0(react@18.2.0)
+      yup:
+        specifier: ^0.32.11
+        version: 0.32.11
     devDependencies:
       '@types/node':
         specifier: 18.15.11
@@ -3310,6 +3316,14 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@hookform/resolvers@3.0.1(react-hook-form@7.43.9):
+    resolution: {integrity: sha512-n5oOt0cLw9mQNW3/k9zWaPsNWQcc0k6Jpc7XUrg2Q/AqqsHp3IVa1juqHCxczXI6uXHBa69ILc4pdtsRGyuzsw==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.43.9(react@18.2.0)
     dev: false
 
   /@humanwhocodes/config-array@0.11.8:
