@@ -9,11 +9,18 @@ import {
 import InputField from "../ui/InputField";
 import { SubmitHandler, useForm } from "react-hook-form";
 import UnderlineLink from "@/components/ui/UnderlineLink";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 interface FormValues {
 	email: string;
 	password: string;
 }
+
+const LoginSchema = Yup.object({
+	email: Yup.string().email().required(),
+	password: Yup.string().required().min(8, "Too Short").max(20, "Too Long"),
+});
 
 const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
@@ -28,6 +35,7 @@ const LoginForm = () => {
 			email: "",
 			password: "",
 		},
+		resolver: yupResolver(LoginSchema),
 	});
 
 	return (

@@ -29,16 +29,20 @@ const RegisterPage = () => {
 				>
 					<Box w="full" maxW="xl" mx="auto">
 						<Box
-							bg={{ md: mode("white", "gray.700") }}
+							bg={{ md: mode("gray.50", "gray.700") }}
 							rounded={{ md: "2xl" }}
 							p={{ base: "4", md: "12" }}
 							borderWidth={{ md: "1px" }}
 							borderColor={mode("gray.200", "transparent")}
 							shadow={{ md: "lg" }}
 						>
-							<HStack
-								justifyContent={"space-between"}
-								alignItems={"flex-start"}
+							<Stack
+								justifyContent={{ base: "center", sm: "space-between" }}
+								alignItems={{ base: "center", sm: "flex-start" }}
+								direction={{
+									base: "column-reverse",
+									sm: "row",
+								}}
 							>
 								<Box mb="8" textAlign={{ base: "center", md: "start" }}>
 									<Heading size="lg" mb="2" fontWeight="extrabold">
@@ -53,12 +57,12 @@ const RegisterPage = () => {
 									</Text>
 								</Box>
 								<Logo
-									h="6"
-									mb={{ base: "16", md: "10" }}
+									h={{ base: 12, md: 6 }}
+									// mb={{ base: "16", md: "10" }}
 									iconColor="blue.600"
 									mx={{ base: "auto", md: "unset" }}
 								/>
-							</HStack>
+							</Stack>
 							<SignInWithGoogle />
 
 							<DividerWithText>or</DividerWithText>
