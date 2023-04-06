@@ -51,15 +51,6 @@ const ForgotPasswordFormSchema = Yup.object({
 const ForgotPasswordForm = () => {
 	const [timeOut, setTimeOut] = useLocalStorage("timeOut", 0);
 
-	useEffect(() => {
-		const interval = setInterval(() => {
-			if (timeOut > 0) {
-				setTimeOut(timeOut - 1);
-			}
-		}, 1000);
-		return () => clearInterval(interval);
-	}, [timeOut]);
-
 	const {
 		register,
 		handleSubmit,
@@ -70,6 +61,15 @@ const ForgotPasswordForm = () => {
 		},
 		resolver: yupResolver(ForgotPasswordFormSchema),
 	});
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (timeOut > 0) {
+				setTimeOut(timeOut - 1);
+			}
+		}, 1000);
+		return () => clearInterval(interval);
+	}, [timeOut]);
 
 	return (
 		<form
