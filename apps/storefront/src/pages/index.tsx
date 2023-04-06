@@ -2,6 +2,7 @@ import { Flex, Grid, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { Link } from "@chakra-ui/next-js";
 import ThemeSwitch from "@/components/shared/ThemeSwitch";
+import Footer from "@/components/shared/Footer";
 
 const HomePage = () => {
 	return (
@@ -27,6 +28,7 @@ const HomePage = () => {
 					</Flex>
 				</Grid>
 			</main>
+			<Footer />
 		</>
 	);
 };
