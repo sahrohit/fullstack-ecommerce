@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Link } from "@chakra-ui/next-js";
 import ThemeSwitch from "@/components/shared/ThemeSwitch";
 import Footer from "@/components/shared/Footer";
+import { Navbar } from "@/components/shared/navbar";
 
 const HomePage = () => {
 	return (
@@ -11,6 +12,7 @@ const HomePage = () => {
 				<title>Ecommerce App</title>
 			</Head>
 			<main>
+				<Navbar />
 				<Grid placeContent={"center"} h={"100vh"}>
 					<Heading>Home Page</Heading>
 					<Flex
