@@ -69,7 +69,7 @@ const ForgotPasswordForm = () => {
 			}
 		}, 1000);
 		return () => clearInterval(interval);
-	}, [timeOut]);
+	}, [timeOut, setTimeOut]);
 
 	return (
 		<form

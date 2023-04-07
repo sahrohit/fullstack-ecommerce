@@ -10,13 +10,13 @@ const useLocalStorage = <S>(
 	useEffect(() => {
 		const item = localStorage.getItem(key);
 		if (item) setState(parse(item));
-	}, []);
+	}, [key]);
 
 	useEffect(() => {
 		if (state !== initialState) {
 			localStorage.setItem(key, JSON.stringify(state));
 		}
-	}, [state]);
+	}, [state, initialState, key]);
 
 	return [state, setState];
 };
