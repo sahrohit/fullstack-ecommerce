@@ -1,8 +1,8 @@
+import { Link } from "@chakra-ui/next-js";
 import type { HTMLChakraProps } from "@chakra-ui/react";
 import {
 	Box,
 	Center,
-	chakra,
 	HStack,
 	Text,
 	useColorModeValue as mode,
@@ -19,7 +19,7 @@ interface SubmenuItemProps extends HTMLChakraProps<"a"> {
 export const SubmenuItem = (props: SubmenuItemProps) => {
 	const { title, icon, children, href, ...rest } = props;
 	return (
-		<chakra.a
+		<Link
 			className="group"
 			href={href}
 			m="-3"
@@ -66,6 +66,6 @@ export const SubmenuItem = (props: SubmenuItemProps) => {
 					{children}
 				</Text>
 			</Box>
-		</chakra.a>
+		</Link>
 	);
 };

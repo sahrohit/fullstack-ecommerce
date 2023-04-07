@@ -13,7 +13,7 @@ type OmitMotionProps<T> = Omit<
 export function useNavMenu() {
 	const { isOpen, onClose, onToggle, onOpen } = useDisclosure();
 	const menuRef = React.useRef<HTMLDivElement>(null);
-	const triggerRef = React.useRef<HTMLAnchorElement>(null);
+	const triggerRef = React.useRef<any>(null);
 	const timeoutRef = React.useRef<number>();
 
 	React.useEffect(() => {
@@ -31,7 +31,7 @@ export function useNavMenu() {
 	};
 
 	const getTriggerProps = () => {
-		const triggerProps: React.ComponentPropsWithRef<"a"> = {
+		const triggerProps: React.ComponentPropsWithRef<any> = {
 			ref: triggerRef,
 			"aria-expanded": isOpen,
 			"aria-controls": "menu",

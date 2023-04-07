@@ -3,8 +3,9 @@ import type { Variants } from "framer-motion";
 
 import type { MotionBoxProps } from "@/components/shared/navbar/MotionBox";
 import { MotionBox } from "@/components/shared/navbar/MotionBox";
+import { forwardRef } from "react";
 
-export const NavMenu = (props: MotionBoxProps) => (
+export const NavMenu = forwardRef((props: MotionBoxProps, _ref) => (
 	<MotionBox
 		initial="init"
 		variants={variants}
@@ -20,7 +21,7 @@ export const NavMenu = (props: MotionBoxProps) => (
 		pb="12"
 		{...props}
 	/>
-);
+));
 
 const variants: Variants = {
 	init: {

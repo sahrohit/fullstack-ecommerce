@@ -13,37 +13,37 @@ export interface Link {
 }
 
 export const links: Link[] = [
-	{ label: "For Designers", href: "#" },
-	{ label: "For Teams", href: "#" },
+	{ label: "For Designers", href: "/cart" },
+	{ label: "For Teams", href: "/cart" },
 	{
 		label: "Resources",
 		children: [
 			{
 				label: "Get Help",
 				description: "Read our documentation and FAQs, or get in touch.",
-				href: "#",
+				href: "/cart",
 				icon: <IoHelpBuoy />,
 			},
 			{
 				label: "Events & Meetups",
 				description: "Discover and join your local Sketch community.",
-				href: "#",
+				href: "/cart",
 				icon: <IoCalendar />,
 			},
 			{
 				label: "Extensions",
 				description: "Do even more with Assistants, plugins and integrations.",
-				href: "#",
+				href: "/cart",
 				icon: <IoGrid />,
 			},
 			{
 				label: "Blog",
 				description: "Get updates, articles and insights from the team.",
-				href: "#",
+				href: "/cart",
 				icon: <MdWeb />,
 			},
 		],
 	},
 
-	{ label: "Pricing", href: "#" },
+	{ label: "Pricing", href: "/cart" },
 ];

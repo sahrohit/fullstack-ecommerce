@@ -29,7 +29,7 @@ const MobileNavContext = (props: FlexProps) => {
 				<Box flexBasis="6rem">
 					<ToggleButton isOpen={isOpen} onClick={onToggle} />
 				</Box>
-				<Box as="a" rel="home" mx="auto">
+				<Box mx="auto">
 					<Logo h="7" iconColor="blue.400" />
 				</Box>
 				<Box visibility={{ base: "hidden", sm: "visible" }}>
@@ -64,7 +64,7 @@ const DesktopNavContent = (props: FlexProps) => {
 			justify="space-between"
 			{...props}
 		>
-			<Box as="a" href="#" rel="home">
+			<Box>
 				<VisuallyHidden>Envelope</VisuallyHidden>
 				<Logo h="8" iconColor="blue.500" />
 			</Box>
@@ -85,15 +85,10 @@ const DesktopNavContent = (props: FlexProps) => {
 				))}
 			</HStack>
 			<HStack spacing="8" minW="240px" justify="space-between">
-				<Box
-					as="a"
-					href="#"
-					color={mode("blue.600", "blue.300")}
-					fontWeight="bold"
-				>
+				<Box color={mode("blue.600", "blue.300")} fontWeight="bold">
 					Sign In
 				</Box>
-				<Button as="a" href="#" colorScheme="blue" fontWeight="bold">
+				<Button colorScheme="blue" fontWeight="bold">
 					Sign up for free
 				</Button>
 			</HStack>

@@ -56,6 +56,7 @@ const MobileSubMenu = (props: SubmenuProps) => {
 	return (
 		<Box>
 			<NavLink.Mobile
+				href={link.href!}
 				as="button"
 				textAlign="start"
 				type="button"
