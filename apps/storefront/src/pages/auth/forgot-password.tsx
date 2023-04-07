@@ -64,7 +64,7 @@ const ForgotPasswordForm = () => {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			if (timeOut > 0) {
+			if (timeOut >= 0) {
 				setTimeOut(timeOut - 1);
 			}
 		}, 1000);
