@@ -15,6 +15,7 @@ import { ToggleButton } from "./ToggleButton";
 import { Logo } from "@/components/logo";
 import { links } from "@/data/navbar";
 import { NavLink } from "@/components/shared/navbar/NavLink";
+import { Link } from "@chakra-ui/next-js";
 
 const MobileNavContext = (props: FlexProps) => {
 	const { isOpen, onToggle } = useDisclosure();
@@ -33,7 +34,7 @@ const MobileNavContext = (props: FlexProps) => {
 					<Logo h="7" iconColor="blue.400" />
 				</Box>
 				<Box visibility={{ base: "hidden", sm: "visible" }}>
-					<Button as="a" colorScheme="blue">
+					<Button href="/auth/register" as={Link} colorScheme="blue">
 						Get Started
 					</Button>
 				</Box>
@@ -48,7 +49,14 @@ const MobileNavContext = (props: FlexProps) => {
 						</NavLink.Mobile>
 					)
 				)}
-				<Button colorScheme="blue" w="full" size="lg" mt="5">
+				<Button
+					href="/auth/register"
+					as={Link}
+					colorScheme="blue"
+					w="full"
+					size="lg"
+					mt="5"
+				>
 					Get Started
 				</Button>
 			</NavMenu>
@@ -84,12 +92,21 @@ const DesktopNavContent = (props: FlexProps) => {
 					</Box>
 				))}
 			</HStack>
-			<HStack spacing="8" minW="240px" justify="space-between">
-				<Box color={mode("blue.600", "blue.300")} fontWeight="bold">
-					Sign In
-				</Box>
-				<Button colorScheme="blue" fontWeight="bold">
-					Sign up for free
+			<HStack spacing="8" minW="240px" justify="center">
+				<Link
+					href="/auth/login"
+					color={mode("blue.600", "blue.300")}
+					fontWeight="bold"
+				>
+					Login
+				</Link>
+				<Button
+					href="/auth/register"
+					as={Link}
+					colorScheme="blue"
+					fontWeight="bold"
+				>
+					Get Started
 				</Button>
 			</HStack>
 		</Flex>
