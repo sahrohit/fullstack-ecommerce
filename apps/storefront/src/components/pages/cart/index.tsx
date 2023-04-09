@@ -27,7 +27,7 @@ export const Cart = () => (
 			spacing={{ base: "8", md: "16" }}
 		>
 			<Stack spacing={{ base: "8", md: "10" }} flex="2">
-				<Heading fontSize="2xl" fontWeight="extrabold">
+				<Heading fontSize="2xl" fontWeight="bold">
 					Shopping Cart ({CART_DATA.length} items)
 				</Heading>
 

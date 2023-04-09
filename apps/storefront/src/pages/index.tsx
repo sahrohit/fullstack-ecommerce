@@ -4,6 +4,7 @@ import { Link } from "@chakra-ui/next-js";
 import ThemeSwitch from "@/components/shared/ThemeSwitch";
 import Footer from "@/components/shared/Footer";
 import { Navbar } from "@/components/shared/navbar";
+import DrawerCart from "@/components/pages/cart/DrawerCart";
 
 const HomePage = () => {
 	return (
@@ -13,7 +14,8 @@ const HomePage = () => {
 			</Head>
 			<main>
 				<Navbar />
-				<Grid placeContent={"center"} h={"100vh"}>
+				<Grid placeContent={"center"}>
+					<DrawerCart />
 					<Heading>Home Page</Heading>
 					<Flex
 						direction={"column"}

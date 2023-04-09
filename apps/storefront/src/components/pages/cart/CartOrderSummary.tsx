@@ -16,7 +16,7 @@ type OrderSummaryItemProps = {
 	children?: React.ReactNode;
 };
 
-const OrderSummaryItem = (props: OrderSummaryItemProps) => {
+export const OrderSummaryItem = (props: OrderSummaryItemProps) => {
 	const { label, value, children } = props;
 	return (
 		<Flex justify="space-between" fontSize="sm">
