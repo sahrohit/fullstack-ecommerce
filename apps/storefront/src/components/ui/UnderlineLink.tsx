@@ -3,10 +3,11 @@ import type { LinkProps } from "@chakra-ui/react";
 
 interface UnderlineLinkProps extends LinkProps {
 	href: string;
+	color?: string;
 }
 
 const UnderlineLink = (props: UnderlineLinkProps) => {
-	const { href, ...rest } = props;
+	const { href, color, ...rest } = props;
 	return (
 		<Link
 			href={href}
@@ -20,13 +21,17 @@ const UnderlineLink = (props: UnderlineLinkProps) => {
 				w: "full",
 				h: "2px",
 				bottom: 0,
-				bg: "blue.500",
+				bg: color,
 				insetX: 0,
 				insetY: 0,
 			}}
 			{...rest}
 		/>
 	);
+};
+
+UnderlineLink.defaultProps = {
+	color: "blue.500",
 };
 
 export default UnderlineLink;
