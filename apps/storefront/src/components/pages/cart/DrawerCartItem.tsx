@@ -11,8 +11,8 @@ import {
 	useColorModeValue as mode,
 	Text,
 } from "@chakra-ui/react";
-import { PriceTag } from "./PriceTag";
 import UnderlineLink from "@/components/ui/UnderlineLink";
+import { PriceTag } from "@/components/shared/product/PriceTag";
 
 type CartItemProps = {
 	isGiftWrapping?: boolean;

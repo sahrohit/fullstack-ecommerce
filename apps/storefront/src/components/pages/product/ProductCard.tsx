@@ -15,10 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { Rating } from "./Rating";
 import { FavouriteButton } from "./FavouriteButton";
-import { PriceTag } from "./PriceTag";
 import { Product } from "@/data/mock/temp";
 import { AiOutlineShoppingCart, AiOutlineEye } from "react-icons/ai";
 import { useState } from "react";
+import { PriceTag } from "@/components/shared/product/PriceTag";
 
 interface ProductCardProps {
 	product: Product;

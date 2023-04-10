@@ -18,7 +18,7 @@ import {
 import { BsBag, BsBoxSeam } from "react-icons/bs";
 import { DrawerCartItem } from "./DrawerCartItem";
 import { FaArrowRight } from "react-icons/fa";
-import { formatPrice } from "./PriceTag";
+import { formatPrice } from "@/components/shared/product/PriceTag";
 
 const DrawerCart = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();

@@ -1,3 +1,4 @@
+import { formatPrice } from "@/components/shared/product/PriceTag";
 import {
 	Button,
 	Flex,
@@ -8,7 +9,6 @@ import {
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
 import { FaArrowRight } from "react-icons/fa";
-import { formatPrice } from "./PriceTag";
 
 type OrderSummaryItemProps = {
 	label: string;

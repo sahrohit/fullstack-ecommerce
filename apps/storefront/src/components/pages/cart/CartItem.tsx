@@ -9,9 +9,9 @@ import {
 	VStack,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import { PriceTag } from "./PriceTag";
 import { CartProductMeta } from "./CartProductMeta";
 import UnderlineLink from "@/components/ui/UnderlineLink";
+import { PriceTag } from "@/components/shared/product/PriceTag";
 
 type CartItemProps = {
 	isGiftWrapping?: boolean;
