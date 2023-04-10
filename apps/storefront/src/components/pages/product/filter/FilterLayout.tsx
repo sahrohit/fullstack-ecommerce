@@ -15,22 +15,20 @@ import FilterOptions from "./FilterOptions";
 
 const FilterLayout = (props: BoxProps) => {
 	return (
-		<>
-			<Box>
-				<NavBreadrumb
-					py={4}
-					items={[
-						{
-							href: "/",
-							label: "Home",
-						},
-						{
-							href: "/",
-							label: "Nike",
-						},
-					]}
-				/>
-			</Box>
+		<Box mx={8}>
+			<NavBreadrumb
+				py={4}
+				items={[
+					{
+						href: "/",
+						label: "Home",
+					},
+					{
+						href: "/",
+						label: "Nike",
+					},
+				]}
+			/>
 			<HStack
 				mx={4}
 				my={2}
@@ -44,7 +42,7 @@ const FilterLayout = (props: BoxProps) => {
 				<FilterOptions display={{ base: "none", md: "flex" }} />
 				<Box {...props} />
 			</SimpleGrid>
-		</>
+		</Box>
 	);
 };
 
