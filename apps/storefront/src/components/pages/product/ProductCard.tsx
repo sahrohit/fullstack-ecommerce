@@ -13,12 +13,12 @@ import {
 	useBreakpointValue,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import { Rating } from "./Rating";
 import { FavouriteButton } from "./FavouriteButton";
 import { Product } from "@/data/mock/temp";
 import { AiOutlineShoppingCart, AiOutlineEye } from "react-icons/ai";
 import { useState } from "react";
 import { PriceTag } from "@/components/shared/product/PriceTag";
+import { Rating } from "@/components/shared/product/Rating";
 
 interface ProductCardProps {
 	product: Product;
@@ -114,18 +114,6 @@ export const ProductCard = (props: ProductCardProps) => {
 					</Text>
 				</HStack>
 			</Stack>
-			{/* <Stack align="center">
-				<Button colorScheme="blue" width="full">
-					Add to cart
-				</Button>
-				<Link
-					textDecoration="underline"
-					fontWeight="medium"
-					color={useColorModeValue("gray.600", "gray.400")}
-				>
-					Quick shop
-				</Link>
-			</Stack> */}
 		</Stack>
 	);
 };
