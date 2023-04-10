@@ -1,10 +1,12 @@
-import { Flex, Grid, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Head from "next/head";
-import { Link } from "@chakra-ui/next-js";
 import ThemeSwitch from "@/components/shared/ThemeSwitch";
 import Footer from "@/components/shared/Footer";
 import { Navbar } from "@/components/shared/navbar";
 import DrawerCart from "@/components/pages/cart/DrawerCart";
+import { ProductGrid } from "@/components/pages/product/ProductGrid";
+import { products } from "@/data/mock/temp";
+import { ProductCard } from "@/components/pages/product/ProductCard";
 
 const HomePage = () => {
 	return (
@@ -12,25 +14,23 @@ const HomePage = () => {
 			<Head>
 				<title>Ecommerce App</title>
 			</Head>
+			<Navbar />
 			<main>
-				<Navbar />
-				<Grid placeContent={"center"}>
-					<DrawerCart />
-					<Heading>Home Page</Heading>
-					<Flex
-						direction={"column"}
-						textAlign={"center"}
-						gap={4}
-						my={8}
-						fontSize={20}
-					>
-						<ThemeSwitch />
-						<Link href="/auth/login">Login Page</Link>
-						<Link href="/auth/register">Register Page</Link>
-						<Link href="/auth/forgot-password">Forgot Password Page</Link>
-						<Link href="/auth/verify-email">Verify Email</Link>
-					</Flex>
-				</Grid>
+				<DrawerCart />
+				<ThemeSwitch />
+
+				<Box
+					maxW="7xl"
+					mx="auto"
+					px={{ base: "4", md: "8", lg: "12" }}
+					py={{ base: "6", md: "8", lg: "12" }}
+				>
+					<ProductGrid>
+						{[...products, ...products].map((product) => (
+							<ProductCard key={product.id} product={product} />
+						))}
+					</ProductGrid>
+				</Box>
 			</main>
 			<Footer />
 		</>
