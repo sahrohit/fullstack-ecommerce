@@ -8,6 +8,7 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
+	Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
@@ -16,7 +17,7 @@ const BrandSelector = () => {
 	const [searchText, setSearchText] = useState<string>("");
 
 	return (
-		<FormControl px={8}>
+		<FormControl>
 			<FormLabel>Brands</FormLabel>
 			<InputGroup my={4}>
 				<Input
@@ -35,11 +36,18 @@ const BrandSelector = () => {
 					justifyContent={"flex-start"}
 					alignContent={"flex-start"}
 				>
-					{BRANDS.filter((brand) => {
-						return brand.name.toLowerCase().includes(searchText.toLowerCase());
-					}).map((brand) => (
+					{BRANDS.map((brand) => (
 						<Checkbox key={brand.id} value={brand.id}>
-							{brand.name}
+							<Text
+								fontWeight={
+									searchText &&
+									brand.name.toLowerCase().includes(searchText.toLowerCase())
+										? "extrabold"
+										: "normal"
+								}
+							>
+								{brand.name}
+							</Text>
 						</Checkbox>
 					))}
 				</Stack>
