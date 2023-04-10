@@ -9,7 +9,7 @@ import React from "react";
 
 const GenderSelector = () => {
 	return (
-		<FormControl px={8}>
+		<FormControl>
 			<FormLabel>Gender</FormLabel>
 			<CheckboxGroup colorScheme="green" defaultValue={[]}>
 				<Stack

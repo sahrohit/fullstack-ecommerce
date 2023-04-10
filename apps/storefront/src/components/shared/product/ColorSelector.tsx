@@ -18,13 +18,7 @@ export const ColorSelector = () => {
 	const options = ["red", "green", "blue", "yellow", "white", "gray"];
 
 	return (
-		<VStack
-			mx="auto"
-			maxW="5xl"
-			width="full"
-			px={{ base: 4, sm: 6, md: 8 }}
-			alignItems={"flex-start"}
-		>
+		<VStack mx="auto" maxW="5xl" width="full" alignItems={"flex-start"}>
 			<FormLabel>Color</FormLabel>
 			<RadioGroup
 				name="Colors"
