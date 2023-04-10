@@ -22,6 +22,7 @@ type CartItemProps = {
 	price: number;
 	currency: string;
 	imageUrl: string;
+	salePrice?: number;
 	onChangeQuantity?: (quantity: number) => void;
 	onClickGiftWrapping?: () => void;
 	onClickDelete?: () => void;
@@ -59,6 +60,7 @@ export const DrawerCartItem = (props: CartItemProps) => {
 		imageUrl,
 		currency,
 		price,
+		salePrice,
 		onChangeQuantity,
 		onClickDelete,
 	} = props;
@@ -91,7 +93,11 @@ export const DrawerCartItem = (props: CartItemProps) => {
 											{description}
 										</Text>
 									</Stack>
-									<PriceTag price={price} currency={currency} />
+									<PriceTag
+										salePrice={salePrice}
+										price={price}
+										currency={currency}
+									/>
 								</Flex>
 								<Flex
 									mt="4"

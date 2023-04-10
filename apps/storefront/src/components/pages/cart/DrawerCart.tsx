@@ -63,7 +63,7 @@ const DrawerCart = () => {
 							<Flex justify="flex-start" alignItems={"center"} gap="2">
 								<BsBoxSeam />
 
-								<Text color="gray.600" fontSize="md">
+								<Text color="gray.500" fontSize="md">
 									Shipping + taxes calculated at checkout
 								</Text>
 							</Flex>

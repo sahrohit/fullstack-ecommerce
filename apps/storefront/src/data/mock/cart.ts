@@ -13,6 +13,7 @@ export const CART_DATA = [
 	{
 		id: "2",
 		price: 39.99,
+		salePrice: 29.99,
 		currency: "GBP",
 		name: "Bamboo Tan",
 		description: "Tan, 40mm",
@@ -24,6 +25,7 @@ export const CART_DATA = [
 	{
 		id: "3",
 		price: 39.99,
+		salePrice: 29.99,
 		currency: "GBP",
 		name: "Yeezy Sneakers",
 		description: "Tan, 40mm",
@@ -35,6 +37,7 @@ export const CART_DATA = [
 	{
 		id: "3",
 		price: 39.99,
+		salePrice: 29.99,
 		currency: "GBP",
 		name: "Yeezy Sneakers",
 		description: "Tan, 40mm",
@@ -46,6 +49,7 @@ export const CART_DATA = [
 	{
 		id: "3",
 		price: 39.99,
+		salePrice: 29.99,
 		currency: "GBP",
 		name: "Yeezy Sneakers",
 		description: "Tan, 40mm",
@@ -57,6 +61,7 @@ export const CART_DATA = [
 	{
 		id: "3",
 		price: 39.99,
+		salePrice: 29.99,
 		currency: "GBP",
 		name: "Yeezy Sneakers",
 		description: "Tan, 40mm",

@@ -56,8 +56,8 @@ interface PriceProps {
 
 const Price = (props: PriceProps) => {
 	const { isOnSale, children, textProps } = props;
-	const defaultColor = mode("gray.700", "gray.400");
-	const onSaleColor = mode("gray.400", "gray.700");
+	const defaultColor = mode("gray.700", "gray.100");
+	const onSaleColor = mode("gray.400", "gray.500");
 	const color = isOnSale ? onSaleColor : defaultColor;
 	return (
 		<Text

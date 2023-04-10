@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 
 import { NavMenu } from "@/components/shared/navbar/NavMenu";
-import { Submenu } from "./Submenu";
-import { ToggleButton } from "./ToggleButton";
+import { Submenu } from "@/components/shared/navbar/Submenu";
+import { ToggleButton } from "@/components/shared/navbar/ToggleButton";
 import { Logo } from "@/components/logo";
 import { links } from "@/data/navbar";
 import { NavLink } from "@/components/shared/navbar/NavLink";
