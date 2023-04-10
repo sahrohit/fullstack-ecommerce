@@ -7,12 +7,14 @@ import { VStack, type StackProps } from "@chakra-ui/react";
 
 const FilterOptions = (props: StackProps) => {
 	return (
-		<VStack gap={4} px={{ base: 4, sm: 6, md: 8 }} {...props}>
-			<PriceSelector />
-			<GenderSelector />
-			<SizeSelector />
-			<ColorSelector />
-			<BrandSelector />
+		<VStack px={{ base: 4, sm: 6, md: 8 }} {...props}>
+			<VStack gap={4} position={"sticky"} top={4}>
+				<PriceSelector />
+				<GenderSelector />
+				<SizeSelector />
+				<ColorSelector />
+				{/* <BrandSelector /> */}
+			</VStack>
 		</VStack>
 	);
 };

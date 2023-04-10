@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 export const SizeSelector = () => {
-	const options = ["38", "40", "42"];
+	const options = ["38", "40", "42", "44"];
 
 	return (
 		<VStack mx="auto" maxW="5xl" width="full" alignItems={"flex-start"}>
@@ -44,7 +44,7 @@ const RadioGroup = (props: RadioGroupProps) => {
 
 	return (
 		<SimpleGrid
-			columns={3}
+			columns={{ base: 3, lg: 4 }}
 			spacing={{ base: 2, md: 4 }}
 			{...getRootProps(rest)}
 		>
