@@ -13,8 +13,8 @@ export interface Link {
 }
 
 export const links: Link[] = [
-	{ label: "For Designers", href: "/cart" },
-	{ label: "For Teams", href: "/cart" },
+	{ label: "Products", href: "/products" },
+	{ label: "Cart", href: "/cart" },
 	{
 		label: "Resources",
 		children: [
