@@ -27,5 +27,13 @@ const config = {
 const theme = extendTheme({
 	config,
 	...proTheme,
+	styles: {
+		global: {
+			body: {
+				transitionProperty: "all",
+				transitionDuration: "normal",
+			},
+		},
+	},
 });
 export default theme;

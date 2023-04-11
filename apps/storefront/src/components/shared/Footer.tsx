@@ -20,6 +20,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import InputField from "../ui/InputField";
 import { Logo } from "../logo";
+import ThemeSwitch, { ThemeSwitchButton } from "./ThemeSwitch";
 
 const Footer = () => (
 	<Box
@@ -35,7 +36,12 @@ const Footer = () => (
 				direction={{ base: "column", lg: "row" }}
 				spacing={{ base: "10", lg: "28" }}
 			>
-				<Logo h={8} alignContent={"center"} />
+				<Stack>
+					<Logo h={8} alignContent={"center"} />
+					<Box mt={2}>
+						<ThemeSwitchButton />
+					</Box>
+				</Stack>
 				<Stack
 					direction={{ base: "column", md: "row" }}
 					spacing={{ base: "10", md: "20" }}
