@@ -21,6 +21,7 @@ import * as Yup from "yup";
 import InputField from "../ui/InputField";
 import { Logo } from "../logo";
 import ThemeSwitch, { ThemeSwitchButton } from "./ThemeSwitch";
+import { BRAND_NAME } from "../../../constants";
 
 const Footer = () => (
 	<Box
@@ -78,7 +79,8 @@ const Footer = () => (
 				alignItems="center"
 			>
 				<Text fontSize="sm">
-					&copy; {new Date().getFullYear()} Envelope, Inc. All rights reserved.
+					&copy; {new Date().getFullYear()} {BRAND_NAME}, Inc. All rights
+					reserved.
 				</Text>
 				<SocialMediaLinks />
 			</Stack>

@@ -16,6 +16,7 @@ import { Logo } from "@/components/logo";
 import { links } from "@/data/navbar";
 import { NavLink } from "@/components/shared/navbar/NavLink";
 import { Link } from "@chakra-ui/next-js";
+import { BRAND_NAME } from "../../../../constants";
 
 const MobileNavContext = (props: FlexProps) => {
 	const { isOpen, onToggle } = useDisclosure();
@@ -73,7 +74,7 @@ const DesktopNavContent = (props: FlexProps) => {
 			{...props}
 		>
 			<Box>
-				<VisuallyHidden>Envelope</VisuallyHidden>
+				<VisuallyHidden>{BRAND_NAME}</VisuallyHidden>
 				<Logo h="8" iconColor="blue.500" />
 			</Box>
 			<HStack

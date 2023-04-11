@@ -7,12 +7,13 @@ import DrawerCart from "@/components/pages/cart/DrawerCart";
 import { ProductGrid } from "@/components/pages/product/ProductGrid";
 import { products } from "@/data/mock/temp";
 import { ProductCard } from "@/components/pages/product/ProductCard";
+import { BRAND_NAME } from "../../constants";
 
 const HomePage = () => {
 	return (
 		<>
 			<Head>
-				<title>Ecommerce App</title>
+				<title>{BRAND_NAME}</title>
 			</Head>
 			<Navbar />
 			<main>
