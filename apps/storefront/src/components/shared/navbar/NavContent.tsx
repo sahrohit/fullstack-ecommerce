@@ -9,8 +9,8 @@ import {
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
 
-import { NavMenu } from "@/components/shared/navbar/NavMenu";
-import { Submenu } from "@/components/shared/navbar/Submenu";
+import NavMenu from "@/components/shared/navbar/NavMenu";
+import Submenu from "@/components/shared/navbar/Submenu";
 import ToggleButton from "@/components/shared/navbar/ToggleButton";
 import Logo from "@/components/logo";
 import { links } from "@/data/navbar";
