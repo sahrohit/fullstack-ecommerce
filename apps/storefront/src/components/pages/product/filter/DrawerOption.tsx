@@ -7,7 +7,6 @@ import {
 	DrawerCloseButton,
 	DrawerHeader,
 	DrawerBody,
-	Input,
 	DrawerFooter,
 	ButtonProps,
 } from "@chakra-ui/react";
@@ -18,7 +17,7 @@ const DrawerOptions = (props: ButtonProps) => {
 
 	return (
 		<>
-			<Button size="sm" variant={"outline"} onClick={onOpen} {...props}>
+			<Button size="sm" variant="outline" onClick={onOpen} {...props}>
 				Open
 			</Button>
 			<Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>

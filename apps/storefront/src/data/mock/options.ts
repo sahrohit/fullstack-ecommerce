@@ -1,4 +1,4 @@
-export const BRANDS = [
+const BRANDS = [
 	{ id: "adidas", name: "Adidas" },
 	{ id: "nike", name: "Nike" },
 	{ id: "puma", name: "Puma" },
@@ -11,3 +11,5 @@ export const BRANDS = [
 	{ id: "armour", name: "Under Armour" },
 	{ id: "brooks", name: "Brooks" },
 ];
+
+export default BRANDS;

@@ -1,5 +1,5 @@
 import { Button, Fade, IconButton, useColorMode } from "@chakra-ui/react";
-import React from "react";
+
 import { BsMoon, BsSun } from "react-icons/bs";
 
 const ThemeSwitch = () => {
@@ -22,10 +22,10 @@ export const ThemeSwitchButton = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 
 	return (
-		<Fade in={true}>
+		<Fade in>
 			<Button
 				w="full"
-				justifyContent={"center"}
+				justifyContent="center"
 				aria-label="Theme Switch"
 				onClick={toggleColorMode}
 				leftIcon={colorMode === "light" ? <BsMoon /> : <BsSun />}

@@ -1,11 +1,9 @@
 import { Link } from "@chakra-ui/next-js";
 import { chakra, HTMLChakraProps, useToken } from "@chakra-ui/react";
 
-export const Logo = (
-	props: HTMLChakraProps<"svg"> & { iconColor?: string }
-) => {
-	const { iconColor = "currentColor", ...rest } = props;
-	const color = useToken("colors", iconColor);
+const Logo = (props: HTMLChakraProps<"svg"> & { iconColor?: string }) => {
+	const { iconColor, ...rest } = props;
+	const color = useToken("colors", iconColor!);
 	return (
 		<Link href="/">
 			<chakra.svg
@@ -41,3 +39,9 @@ export const Logo = (
 		</Link>
 	);
 };
+
+Logo.defaultProps = {
+	iconColor: "currentColor",
+};
+
+export default Logo;

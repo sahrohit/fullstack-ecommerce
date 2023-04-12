@@ -14,28 +14,22 @@ import {
 } from "@chakra-ui/react";
 import { BiCheck } from "react-icons/bi";
 
-export const ColorSelector = () => {
-	const options = ["red", "green", "blue", "yellow", "white", "gray"];
-
-	return (
-		<VStack mx="auto" maxW="5xl" width="full" alignItems={"flex-start"}>
-			<FormLabel>Color</FormLabel>
-			<RadioGroup
-				name="Colors"
-				options={options}
-				onChange={(value) => {
-					console.log(value);
-				}}
-			/>
-		</VStack>
-	);
-};
-
 interface RadioGroupProps extends Omit<StackProps, "onChange"> {
 	name: string;
 	options: string[];
 	onChange: (value: string) => void;
 }
+
+export const ColorSelector = () => {
+	const options = ["red", "green", "blue", "yellow", "white", "gray"];
+
+	return (
+		<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
+			<FormLabel>Color</FormLabel>
+			<RadioGroup name="Colors" options={options} onChange={() => {}} />
+		</VStack>
+	);
+};
 
 const RadioGroup = (props: RadioGroupProps) => {
 	const { name, options, onChange, ...rest } = props;
@@ -78,9 +72,9 @@ const RadioOption = (props: RadioOptionProps) => {
 				borderColor={
 					state.isChecked ? mode("gray.600", "gray.400") : mode("", "")
 				}
-				justifyContent={"center"}
-				alignItems={"center"}
-				borderWidth={"1px"}
+				justifyContent="center"
+				alignItems="center"
+				borderWidth="1px"
 				w={10}
 				p={1}
 				rounded="full"

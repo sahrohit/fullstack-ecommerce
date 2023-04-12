@@ -5,28 +5,23 @@ import type { MotionBoxProps } from "@/components/shared/navbar/MotionBox";
 import { MotionBox } from "@/components/shared/navbar/MotionBox";
 import { forwardRef } from "react";
 
-export const NavMenu = forwardRef(function NavMenuBox(
-	props: MotionBoxProps,
-	_ref
-) {
-	return (
-		<MotionBox
-			initial="init"
-			variants={variants}
-			outline="0"
-			opacity="0"
-			bg={useColorModeValue("white", "gray.700")}
-			w="full"
-			shadow="lg"
-			px="4"
-			pos="absolute"
-			insetX="0"
-			pt="6"
-			pb="12"
-			{...props}
-		/>
-	);
-});
+const NavMenu = forwardRef((props: MotionBoxProps) => (
+	<MotionBox
+		initial="init"
+		variants={variants}
+		outline="0"
+		opacity="0"
+		bg={useColorModeValue("white", "gray.700")}
+		w="full"
+		shadow="lg"
+		px="4"
+		pos="absolute"
+		insetX="0"
+		pt="6"
+		pb="12"
+		{...props}
+	/>
+));
 
 const variants: Variants = {
 	init: {
@@ -50,3 +45,5 @@ const variants: Variants = {
 		},
 	},
 };
+
+export default NavMenu;

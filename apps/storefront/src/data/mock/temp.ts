@@ -90,6 +90,7 @@ export const products = [
 ];
 
 export type ElementType<T extends ReadonlyArray<unknown>> =
+	// eslint-disable-next-line @typescript-eslint/no-shadow
 	T extends ReadonlyArray<infer ElementType> ? ElementType : never;
 
 export type Product = ElementType<typeof products>;

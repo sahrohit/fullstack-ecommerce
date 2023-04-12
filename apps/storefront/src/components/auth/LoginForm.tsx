@@ -6,11 +6,11 @@ import {
 	Stack,
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
-import InputField from "../ui/InputField";
 import { SubmitHandler, useForm } from "react-hook-form";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import InputField from "../ui/InputField";
 
 interface FormValues {
 	email: string;
@@ -25,7 +25,7 @@ const LoginFormSchema = Yup.object({
 		.max(20, "Too Long"),
 });
 
-const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+const onSubmit: SubmitHandler<FormValues> = () => {};
 
 const LoginForm = () => {
 	const {

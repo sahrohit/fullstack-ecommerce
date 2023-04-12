@@ -42,7 +42,7 @@ export const CartProductMeta = (props: CartProductMetaProps) => {
 					{isGiftWrapping && (
 						<HStack spacing="1" mt="3" color={mode("gray.600", "gray.400")}>
 							<Icon as={FiGift} boxSize="4" />
-							<Link fontSize="sm" textDecoration="underline">
+							<Link href="/" fontSize="sm" textDecoration="underline">
 								Add gift wrapping
 							</Link>
 						</HStack>
@@ -51,4 +51,8 @@ export const CartProductMeta = (props: CartProductMetaProps) => {
 			</Stack>
 		</Stack>
 	);
+};
+
+CartProductMeta.defaultProps = {
+	isGiftWrapping: false,
 };

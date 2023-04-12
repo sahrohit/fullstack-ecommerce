@@ -18,9 +18,9 @@ import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import InputField from "../ui/InputField";
-import { Logo } from "../logo";
-import ThemeSwitch, { ThemeSwitchButton } from "./ThemeSwitch";
+import InputField from "@/components/ui/InputField";
+import Logo from "@/components/logo";
+import { ThemeSwitchButton } from "./ThemeSwitch";
 import { BRAND_NAME } from "../../../constants";
 
 const Footer = () => (
@@ -38,7 +38,7 @@ const Footer = () => (
 				spacing={{ base: "10", lg: "28" }}
 			>
 				<Stack>
-					<Logo h={8} alignContent={"center"} />
+					<Logo h={8} alignContent="center" />
 					<Box mt={2}>
 						<ThemeSwitchButton />
 					</Box>
@@ -55,17 +55,17 @@ const Footer = () => (
 						<Box minW="130px">
 							<FooterHeading mb="4">Product</FooterHeading>
 							<Stack>
-								<Link>How it works</Link>
-								<Link>Pricing</Link>
-								<Link>Use Cases</Link>
+								<Link href="/">How it works</Link>
+								<Link href="/">Pricing</Link>
+								<Link href="/">Use Cases</Link>
 							</Stack>
 						</Box>
 						<Box minW="130px">
 							<FooterHeading mb="4">Legal</FooterHeading>
 							<Stack>
-								<Link>Privacy</Link>
-								<Link>Terms</Link>
-								<Link>License</Link>
+								<Link href="/">Privacy</Link>
+								<Link href="/">Terms</Link>
+								<Link href="/">License</Link>
 							</Stack>
 						</Box>
 					</SimpleGrid>
@@ -146,13 +146,7 @@ export const SubscribeForm = () => {
 	});
 
 	return (
-		<form
-			onSubmit={handleSubmit((data) => {
-				console.log(data);
-			})}
-
-			// width={{ base: "full", md: "sm" }}
-		>
+		<form onSubmit={handleSubmit(() => {})}>
 			<Stack spacing="4">
 				<FooterHeading>Subscribe to our newsletter</FooterHeading>
 				<Text>
@@ -161,7 +155,7 @@ export const SubscribeForm = () => {
 				</Text>
 				<Stack spacing="4" direction={{ base: "column", md: "row" }}>
 					<InputField
-						name={"email"}
+						name="email"
 						register={{ ...register("email") }}
 						error={errors.email}
 						touched={touchedFields.email}

@@ -11,10 +11,10 @@ import {
 
 import { NavMenu } from "@/components/shared/navbar/NavMenu";
 import { Submenu } from "@/components/shared/navbar/Submenu";
-import { ToggleButton } from "@/components/shared/navbar/ToggleButton";
-import { Logo } from "@/components/logo";
+import ToggleButton from "@/components/shared/navbar/ToggleButton";
+import Logo from "@/components/logo";
 import { links } from "@/data/navbar";
-import { NavLink } from "@/components/shared/navbar/NavLink";
+import NavLink from "@/components/shared/navbar/NavLink";
 import { Link } from "@chakra-ui/next-js";
 import { BRAND_NAME } from "../../../../constants";
 
@@ -41,11 +41,11 @@ const MobileNavContext = (props: FlexProps) => {
 				</Box>
 			</Flex>
 			<NavMenu animate={isOpen ? "open" : "closed"}>
-				{links.map((link, idx) =>
+				{links.map((link) =>
 					link.children ? (
-						<Submenu.Mobile key={idx} link={link} />
+						<Submenu.Mobile key={link.label} link={link} />
 					) : (
-						<NavLink.Mobile key={idx} href={link.href!}>
+						<NavLink.Mobile key={link.label} href={link.href!}>
 							{link.label}
 						</NavLink.Mobile>
 					)
@@ -65,56 +65,56 @@ const MobileNavContext = (props: FlexProps) => {
 	);
 };
 
-const DesktopNavContent = (props: FlexProps) => {
-	return (
-		<Flex
-			className="nav-content__desktop"
-			align="center"
-			justify="space-between"
-			{...props}
+const DesktopNavContent = (props: FlexProps) => (
+	<Flex
+		className="nav-content__desktop"
+		align="center"
+		justify="space-between"
+		{...props}
+	>
+		<Box>
+			<VisuallyHidden>{BRAND_NAME}</VisuallyHidden>
+			<Logo h="8" iconColor="blue.500" />
+		</Box>
+		<HStack
+			as="ul"
+			id="nav__primary-menu"
+			aria-label="Main Menu"
+			listStyleType="none"
 		>
-			<Box>
-				<VisuallyHidden>{BRAND_NAME}</VisuallyHidden>
-				<Logo h="8" iconColor="blue.500" />
-			</Box>
-			<HStack
-				as="ul"
-				id="nav__primary-menu"
-				aria-label="Main Menu"
-				listStyleType="none"
+			{links.map((link, idx) => (
+				<Box as="li" key={link.label} id={`nav__menuitem-${idx}`}>
+					{link.children ? (
+						<Submenu.Desktop link={link} />
+					) : (
+						<NavLink.Desktop href={link.href!}>{link.label}</NavLink.Desktop>
+					)}
+				</Box>
+			))}
+		</HStack>
+		<HStack spacing="8" minW="240px" justify="center">
+			<Link
+				href="/auth/login"
+				color={mode("blue.600", "blue.300")}
+				fontWeight="bold"
 			>
-				{links.map((link, idx) => (
-					<Box as="li" key={idx} id={`nav__menuitem-${idx}`}>
-						{link.children ? (
-							<Submenu.Desktop link={link} />
-						) : (
-							<NavLink.Desktop href={link.href!}>{link.label}</NavLink.Desktop>
-						)}
-					</Box>
-				))}
-			</HStack>
-			<HStack spacing="8" minW="240px" justify="center">
-				<Link
-					href="/auth/login"
-					color={mode("blue.600", "blue.300")}
-					fontWeight="bold"
-				>
-					Login
-				</Link>
-				<Button
-					href="/auth/register"
-					as={Link}
-					colorScheme="blue"
-					fontWeight="bold"
-				>
-					Get Started
-				</Button>
-			</HStack>
-		</Flex>
-	);
-};
+				Login
+			</Link>
+			<Button
+				href="/auth/register"
+				as={Link}
+				colorScheme="blue"
+				fontWeight="bold"
+			>
+				Get Started
+			</Button>
+		</HStack>
+	</Flex>
+);
 
-export const NavContent = {
+const NavContent = {
 	Mobile: MobileNavContext,
 	Desktop: DesktopNavContent,
 };
+
+export default NavContent;

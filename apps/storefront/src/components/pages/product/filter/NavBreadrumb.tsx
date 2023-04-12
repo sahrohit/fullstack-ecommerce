@@ -21,7 +21,7 @@ const NavBreadrumb = (props: NavBreadrumbProps) => {
 		<Breadcrumb
 			my={4}
 			mx={8}
-			as={"nav"}
+			as="nav"
 			{...rest}
 			separator={<AiOutlineRight color="gray.500" />}
 		>

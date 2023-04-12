@@ -1,5 +1,3 @@
-import React from "react";
-
 const TestingPage = () => {
 	return <div>TestingPage</div>;
 };

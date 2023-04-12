@@ -48,8 +48,15 @@ export const PriceTag = (props: PriceTagProps) => {
 	);
 };
 
+PriceTag.defaultProps = {
+	salePrice: undefined,
+	rootProps: {},
+	priceProps: {},
+	salePriceProps: {},
+};
+
 interface PriceProps {
-	children?: ReactNode;
+	children: ReactNode;
 	isOnSale?: boolean;
 	textProps?: TextProps;
 }
@@ -70,6 +77,11 @@ const Price = (props: PriceProps) => {
 			{children}
 		</Text>
 	);
+};
+
+Price.defaultProps = {
+	isOnSale: false,
+	textProps: {},
 };
 
 const SalePrice = (props: TextProps) => (

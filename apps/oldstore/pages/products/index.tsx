@@ -3,7 +3,6 @@ import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
 import { useProductsQuery } from "@generated/graphql";
 import { NextPage } from "next";
-import React from "react";
 
 const Products: NextPage = () => {
 	const { data, loading, error } = useProductsQuery();

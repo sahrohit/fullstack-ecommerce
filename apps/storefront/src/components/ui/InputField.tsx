@@ -17,7 +17,6 @@ type InputFieldProps = Omit<BoxProps, "apply"> &
 		name: string;
 		label: string;
 		placeholder: string;
-		autoComplete?: string;
 		disabled?: boolean;
 		error: FieldError | undefined;
 		touched: boolean | undefined;
@@ -26,27 +25,34 @@ type InputFieldProps = Omit<BoxProps, "apply"> &
 	};
 
 const InputField = (props: InputFieldProps) => {
-	const { error, touched, showErrorMessage, showLabel, ...rest } = props;
+	const {
+		error,
+		touched,
+		showErrorMessage,
+		showLabel,
+		name,
+		label,
+		autoComplete,
+		required,
+		register,
+		...rest
+	} = props;
 
 	return (
-		<>
-			<FormControl id={props.name} isInvalid={!!error && touched}>
-				<HStack justifyContent={"space-between"}>
-					<FormLabel srOnly={showLabel ? undefined : true}>
-						{props.label}
-					</FormLabel>
-					<FormErrorMessage>
-						{showErrorMessage && error?.message}
-					</FormErrorMessage>
-				</HStack>
-				<Input
-					autoComplete={props.autoComplete}
-					required={props.required}
-					{...props.register}
-					{...rest}
-				/>
-			</FormControl>
-		</>
+		<FormControl id={name} isInvalid={!!error && touched}>
+			<HStack justifyContent="space-between">
+				<FormLabel srOnly={showLabel ? undefined : true}>{label}</FormLabel>
+				<FormErrorMessage>
+					{showErrorMessage && error?.message}
+				</FormErrorMessage>
+			</HStack>
+			<Input
+				autoComplete={autoComplete}
+				required={required}
+				{...register}
+				{...rest}
+			/>
+		</FormControl>
 	);
 };
 
@@ -55,6 +61,7 @@ InputField.defaultProps = {
 	disabled: false,
 	showErrorMessage: true,
 	showLabel: true,
+	size: "md",
 };
 
 export default InputField;

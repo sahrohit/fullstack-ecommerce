@@ -18,7 +18,7 @@ interface CategoryCardProps {
 	rootProps?: StackProps;
 }
 
-export const CategoryCard = (props: CategoryCardProps) => {
+const CategoryCard = (props: CategoryCardProps) => {
 	const { category, rootProps } = props;
 	const { id, name, imageUrl } = category;
 	return (
@@ -35,20 +35,20 @@ export const CategoryCard = (props: CategoryCardProps) => {
 				</AspectRatio>
 				<Link
 					href={`/category/${id}`}
-					position={"absolute"}
+					position="absolute"
 					inset={0}
 					bgGradient="linear(to-b, transparent 60%, gray.900)"
 					borderRadius={{ base: "md", md: "xl" }}
 				/>
 				<Text
 					position="absolute"
-					w={"full"}
-					textAlign={"center"}
+					w="full"
+					textAlign="center"
 					bottom={6}
-					whiteSpace={"nowrap"}
-					fontSize={"xl"}
-					fontWeight={"semibold"}
-					color={"white"}
+					whiteSpace="nowrap"
+					fontSize="xl"
+					fontWeight="semibold"
+					color="white"
 				>
 					{name}
 				</Text>
@@ -56,3 +56,9 @@ export const CategoryCard = (props: CategoryCardProps) => {
 		</Stack>
 	);
 };
+
+CategoryCard.defaultProps = {
+	rootProps: {},
+};
+
+export default CategoryCard;

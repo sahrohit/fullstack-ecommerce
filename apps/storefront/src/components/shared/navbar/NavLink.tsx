@@ -1,12 +1,13 @@
 import { Link, LinkProps } from "@chakra-ui/next-js";
 import { chakra, useColorModeValue as mode } from "@chakra-ui/react";
-import React from "react";
+import { forwardRef } from "react";
 
 interface NavLinkProps extends LinkProps {
+	// eslint-disable-next-line react/require-default-props
 	active?: boolean;
 }
 
-const DesktopNavLink = React.forwardRef<any, NavLinkProps>((props, ref) => {
+const DesktopNavLink = forwardRef<any, NavLinkProps>((props, ref) => {
 	const { active, href, ...rest } = props;
 
 	const Component = href ? Link : chakra.a;
@@ -54,7 +55,9 @@ export const MobileNavLink = (props: NavLinkProps) => {
 	);
 };
 
-export const NavLink = {
+const NavLink = {
 	Mobile: MobileNavLink,
 	Desktop: DesktopNavLink,
 };
+
+export default NavLink;

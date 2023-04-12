@@ -2,10 +2,12 @@ import { Box, Collapse, SimpleGrid, useDisclosure } from "@chakra-ui/react";
 import { FaChevronDown } from "react-icons/fa";
 
 import type { Link } from "@/data/navbar";
-import { NavLink } from "./NavLink";
-import { NavMenu } from "./NavMenu";
-import { SubmenuItem as DesktopMenuItem } from "./SubmenuItem";
-import { useNavMenu } from "./useNavMenu";
+import NavLink from "./NavLink";
+import NavMenu from "./NavMenu";
+import useNavMenu from "./useNavMenu";
+import SubmenuItem from "./SubmenuItem";
+
+const DesktopMenuItem = SubmenuItem;
 
 interface SubmenuProps {
 	link: Link;
@@ -32,9 +34,9 @@ const DesktopSubmenu = (props: SubmenuProps) => {
 			<NavMenu {...getMenuProps()} animate={isOpen ? "open" : "closed"}>
 				<Box maxW="7xl" mx="auto" px="8">
 					<SimpleGrid spacing="10" columns={2}>
-						{link.children?.map((item, idx) => (
+						{link.children?.map((item) => (
 							<DesktopMenuItem
-								key={idx}
+								key={item.label}
 								title={item.label}
 								href={item.href}
 								icon={item.icon}
@@ -72,8 +74,8 @@ const MobileSubMenu = (props: SubmenuProps) => {
 			</NavLink.Mobile>
 			<Collapse in={isOpen}>
 				<Box pl="5">
-					{link.children?.map((item, idx) => (
-						<NavLink.Mobile key={idx} href={item.href}>
+					{link.children?.map((item) => (
+						<NavLink.Mobile key={item.label} href={item.href}>
 							{item.label}
 						</NavLink.Mobile>
 					))}
@@ -83,7 +85,9 @@ const MobileSubMenu = (props: SubmenuProps) => {
 	);
 };
 
-export const Submenu = {
+const Submenu = {
 	Mobile: MobileSubMenu,
 	Desktop: DesktopSubmenu,
 };
+
+export default Submenu;

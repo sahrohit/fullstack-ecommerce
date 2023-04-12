@@ -16,7 +16,7 @@ interface SubmenuItemProps extends HTMLChakraProps<"a"> {
 	href: string;
 }
 
-export const SubmenuItem = (props: SubmenuItemProps) => {
+const SubmenuItem = (props: SubmenuItemProps) => {
 	const { title, icon, children, href, ...rest } = props;
 	return (
 		<Link
@@ -69,3 +69,9 @@ export const SubmenuItem = (props: SubmenuItemProps) => {
 		</Link>
 	);
 };
+
+SubmenuItem.defaultProps = {
+	icon: <FaChevronRight />,
+};
+
+export default SubmenuItem;

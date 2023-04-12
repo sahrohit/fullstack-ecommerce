@@ -4,7 +4,6 @@ import Alert from "@components/ui/Alert";
 import { withAdminProtected } from "@components/utils/routes";
 import { useProductsQuery } from "@generated/graphql";
 import { NextPage } from "next";
-import React from "react";
 
 const AdminProducts: NextPage = () => {
 	const { data, loading, error } = useProductsQuery();

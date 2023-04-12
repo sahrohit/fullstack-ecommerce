@@ -16,15 +16,9 @@ export const SizeSelector = () => {
 	const options = ["38", "40", "42", "44"];
 
 	return (
-		<VStack mx="auto" maxW="5xl" width="full" alignItems={"flex-start"}>
+		<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
 			<FormLabel>Sizes</FormLabel>
-			<RadioGroup
-				name="Sizes"
-				options={options}
-				onChange={(value) => {
-					console.log(value);
-				}}
-			/>
+			<RadioGroup name="Sizes" options={options} onChange={() => {}} />
 		</VStack>
 	);
 };

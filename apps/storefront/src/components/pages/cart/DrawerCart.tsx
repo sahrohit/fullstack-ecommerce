@@ -1,4 +1,4 @@
-import { CART_DATA } from "@/data/mock/cart";
+import CART_DATA from "@/data/mock/cart";
 import {
 	useDisclosure,
 	Button,
@@ -16,9 +16,9 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import { BsBag, BsBoxSeam } from "react-icons/bs";
-import { DrawerCartItem } from "./DrawerCartItem";
 import { FaArrowRight } from "react-icons/fa";
 import { formatPrice } from "@/components/shared/product/PriceTag";
+import DrawerCartItem from "./DrawerCartItem";
 
 const DrawerCart = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,7 +33,7 @@ const DrawerCart = () => {
 				isOpen={isOpen}
 				placement="right"
 				onClose={onClose}
-				preserveScrollBarGap={true}
+				preserveScrollBarGap
 			>
 				<DrawerOverlay />
 				<DrawerContent>
@@ -41,7 +41,7 @@ const DrawerCart = () => {
 						<Heading fontSize="xl" fontWeight="bold">
 							Shopping Cart ({CART_DATA.length} items)
 						</Heading>
-						<DrawerCloseButton mt={4} mr={4} size={"xl"} />
+						<DrawerCloseButton mt={4} mr={4} size="xl" />
 					</DrawerHeader>
 
 					<DrawerBody>
@@ -60,7 +60,7 @@ const DrawerCart = () => {
 									{formatPrice(597)}
 								</Text>
 							</Flex>
-							<Flex justify="flex-start" alignItems={"center"} gap="2">
+							<Flex justify="flex-start" alignItems="center" gap="2">
 								<BsBoxSeam />
 
 								<Text color="gray.500" fontSize="md">

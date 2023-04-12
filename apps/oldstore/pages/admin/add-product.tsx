@@ -1,6 +1,5 @@
 import AddProductForm from "@components/Admin/Products/AddProductForm";
 import { NextPage } from "next";
-import React from "react";
 
 const AddProduct: NextPage = () => {
 	return (

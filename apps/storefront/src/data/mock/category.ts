@@ -1,4 +1,4 @@
-export const CATEGORIES = [
+const CATEGORIES = [
 	{
 		id: "athletic-shoes",
 		name: "Athletic shoes",
@@ -84,3 +84,5 @@ export const CATEGORIES = [
 			"https://image.made-in-china.com/155f0j00vjRWdQUlCBoD/2022-Happy-Slides-Fashion-Breathable-Branded-Shoes-Cool-Beach-Yeezy-Slides-Women-Pillow-Slides-Slippers-Yeezy-Sandals.jpg",
 	},
 ];
+
+export default CATEGORIES;

@@ -6,7 +6,7 @@ import {
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
 
-export const DividerWithText = (props: StackProps) => {
+const DividerWithText = (props: StackProps) => {
 	const { children, ...rest } = props;
 
 	return (
@@ -25,3 +25,5 @@ export const DividerWithText = (props: StackProps) => {
 		</HStack>
 	);
 };
+
+export default DividerWithText;

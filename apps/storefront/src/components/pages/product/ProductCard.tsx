@@ -13,19 +13,19 @@ import {
 	useBreakpointValue,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import { FavouriteButton } from "./FavouriteButton";
 import { Product } from "@/data/mock/temp";
 import { AiOutlineShoppingCart, AiOutlineEye } from "react-icons/ai";
 import { useState } from "react";
 import { PriceTag } from "@/components/shared/product/PriceTag";
-import { Rating } from "@/components/shared/product/Rating";
+import Rating from "@/components/shared/product/Rating";
+import FavouriteButton from "./FavouriteButton";
 
 interface ProductCardProps {
 	product: Product;
 	rootProps?: StackProps;
 }
 
-export const ProductCard = (props: ProductCardProps) => {
+const ProductCard = (props: ProductCardProps) => {
 	const [isHovering, setIsHovering] = useState(false);
 	const optionsBackgroundColor = useColorModeValue("white", "gray.800");
 	const isMobile = useBreakpointValue({ base: true, md: false });
@@ -117,3 +117,9 @@ export const ProductCard = (props: ProductCardProps) => {
 		</Stack>
 	);
 };
+
+ProductCard.defaultProps = {
+	rootProps: {},
+};
+
+export default ProductCard;

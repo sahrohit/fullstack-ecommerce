@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function useDrag() {
 	const [clicked, setClicked] = React.useState(false);
 	const [dragging, setDragging] = React.useState(false);

@@ -1,8 +1,9 @@
+/* eslint-disable consistent-return */
 import { useDisclosure } from "@chakra-ui/react";
 import { isFocusable, getOwnerDocument, isRightClick } from "@chakra-ui/utils";
-import React from "react";
+import { useRef, useEffect, ComponentPropsWithRef } from "react";
 
-const getTarget = (event: React.FocusEvent) =>
+const getTarget = (event: FocusEvent) =>
 	(event.relatedTarget || document.activeElement) as HTMLElement;
 
 type OmitMotionProps<T> = Omit<
@@ -10,19 +11,20 @@ type OmitMotionProps<T> = Omit<
 	"onAnimationStart" | "onDragStart" | "onDragEnd" | "onDrag"
 >;
 
-export function useNavMenu() {
+const useNavMenu = () => {
 	const { isOpen, onClose, onToggle, onOpen } = useDisclosure();
-	const menuRef = React.useRef<HTMLDivElement>(null);
-	const triggerRef = React.useRef<any>(null);
-	const timeoutRef = React.useRef<number>();
+	const menuRef = useRef<HTMLDivElement>(null);
+	const triggerRef = useRef<any>(null);
+	const timeoutRef = useRef<number>();
 
-	React.useEffect(() => {
-		return () => {
+	useEffect(
+		() => () => {
 			if (timeoutRef.current) {
 				window.clearTimeout(timeoutRef.current);
 			}
-		};
-	}, []);
+		},
+		[]
+	);
 
 	const focusMenu = () => {
 		timeoutRef.current = window.setTimeout(() => {
@@ -31,14 +33,14 @@ export function useNavMenu() {
 	};
 
 	const getTriggerProps = () => {
-		const triggerProps: React.ComponentPropsWithRef<any> = {
+		const triggerProps: ComponentPropsWithRef<any> = {
 			ref: triggerRef,
 			"aria-expanded": isOpen,
 			"aria-controls": "menu",
 			"aria-haspopup": "true",
 		};
 
-		triggerProps.onClick = (event: React.MouseEvent) => {
+		triggerProps.onClick = (event: MouseEvent) => {
 			if (isRightClick(event)) return;
 			onToggle();
 			if (!isOpen) {
@@ -46,14 +48,14 @@ export function useNavMenu() {
 			}
 		};
 
-		triggerProps.onBlur = (event: React.FocusEvent) => {
+		triggerProps.onBlur = (event: FocusEvent) => {
 			const target = getTarget(event);
 			if (isOpen && !menuRef.current?.contains(target)) {
 				onClose();
 			}
 		};
 
-		triggerProps.onKeyDown = (event: React.KeyboardEvent) => {
+		triggerProps.onKeyDown = (event: KeyboardEvent) => {
 			if (isOpen && event.key === "Escape") {
 				onClose();
 				triggerRef.current?.focus({ preventScroll: true });
@@ -69,13 +71,13 @@ export function useNavMenu() {
 	};
 
 	const getMenuProps = () => {
-		const menuProps: OmitMotionProps<React.ComponentPropsWithRef<"div">> = {
+		const menuProps: OmitMotionProps<ComponentPropsWithRef<"div">> & any = {
 			ref: menuRef,
 			id: "menu",
 			tabIndex: -1,
 		};
 
-		menuProps.onKeyDown = (event: React.KeyboardEvent) => {
+		menuProps.onKeyDown = (event: KeyboardEvent) => {
 			if (!isOpen) return;
 
 			switch (event.key) {
@@ -101,7 +103,7 @@ export function useNavMenu() {
 			}
 		};
 
-		menuProps.onBlur = (event: React.FocusEvent) => {
+		menuProps.onBlur = (event: FocusEvent) => {
 			const target = getTarget(event);
 			const shouldBlur =
 				isOpen &&
@@ -124,4 +126,6 @@ export function useNavMenu() {
 		getTriggerProps,
 		getMenuProps,
 	};
-}
+};
+
+export default useNavMenu;

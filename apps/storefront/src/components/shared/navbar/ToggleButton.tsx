@@ -1,5 +1,4 @@
 import { Box, Center, chakra, VisuallyHidden } from "@chakra-ui/react";
-import React from "react";
 
 const Bar = chakra("span", {
 	baseStyle: {
@@ -46,7 +45,7 @@ interface ToggleButtonProps {
 	onClick(): void;
 }
 
-export const ToggleButton = (props: ToggleButtonProps) => {
+const ToggleButton = (props: ToggleButtonProps) => {
 	const { isOpen, onClick } = props;
 	return (
 		<Center
@@ -63,3 +62,5 @@ export const ToggleButton = (props: ToggleButtonProps) => {
 		</Center>
 	);
 };
+
+export default ToggleButton;

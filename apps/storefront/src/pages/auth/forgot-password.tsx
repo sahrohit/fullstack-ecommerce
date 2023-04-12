@@ -1,13 +1,19 @@
-import { Button, Card, Stack } from "@chakra-ui/react";
+import {
+	Button,
+	Card,
+	Stack,
+	Box,
+	Heading,
+	Text,
+	useColorModeValue,
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import InputField from "@/components/ui/InputField";
 
-import { Box, Heading, Text, useColorModeValue } from "@chakra-ui/react";
-
 import UnderlineLink from "@/components/ui/UnderlineLink";
-import { Logo } from "@/components/logo";
+import Logo from "@/components/logo";
 import { BiMailSend } from "react-icons/bi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect } from "react";
@@ -73,8 +79,9 @@ const ForgotPasswordForm = () => {
 
 	return (
 		<form
-			onSubmit={handleSubmit((data) => {
-				console.log(data);
+			onSubmit={handleSubmit(() => {
+				// ? Anonymouse function recieves data as a parameter
+				// console.log(data);
 				setTimeOut(10);
 			})}
 		>
@@ -87,8 +94,8 @@ const ForgotPasswordForm = () => {
 					type="email"
 					size="lg"
 					autoComplete="email"
-					label={"Email"}
-					placeholder={"someone@example.com"}
+					label="Email"
+					placeholder="someone@example.com"
 				/>
 				<Button
 					type="submit"

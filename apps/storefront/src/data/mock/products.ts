@@ -1,4 +1,4 @@
-export const PRODUCTS = [
+const PRODUCTS = [
 	{
 		description:
 			"@shoesnpl ❤️\nSurprise to your Loved once in this New Year!\nHigh Quality lightweight Ladies Running shoes\nWeight 395 grams only\nAvailable now\nSizes 36 to 40\n\nOffer price @3499/-\n\nDelivery Available all over Nepal🇳🇵\nWhatsApp/viber 9824922044 for more \n Or call us 014993404,9810523854\n\nStore location. 📌  Shoes Nepal Kageshwori Manohara 44600 ( kadaghari Birendra chowk)\n\n#fypシ #ootd #onlinestore #onlineshopping #fashionstyle #shoesnpl #deliveryallovernepal🇳🇵 #fashıonstyle",
@@ -780,3 +780,5 @@ export const PRODUCTS = [
 		price: 0,
 	},
 ];
+
+export default PRODUCTS;

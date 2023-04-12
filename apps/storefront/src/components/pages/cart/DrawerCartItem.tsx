@@ -15,7 +15,6 @@ import UnderlineLink from "@/components/ui/UnderlineLink";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 
 type CartItemProps = {
-	isGiftWrapping?: boolean;
 	name: string;
 	description: string;
 	quantity: number;
@@ -23,55 +22,36 @@ type CartItemProps = {
 	currency: string;
 	imageUrl: string;
 	salePrice?: number;
-	onChangeQuantity?: (quantity: number) => void;
-	onClickGiftWrapping?: () => void;
-	onClickDelete?: () => void;
 };
 
-const QuantitySelect = (props: SelectProps) => {
-	return (
-		<FormControl w={""} as={HStack} justifyContent={"center"}>
-			<FormLabel fontWeight={"semibold"} fontSize={16}>
-				Qty
-			</FormLabel>
-			<Select
-				size="sm"
-				borderRadius={4}
-				maxW="64px"
-				aria-label="Select quantity"
-				focusBorderColor={mode("blue.500", "blue.200")}
-				{...props}
-			>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-			</Select>
-		</FormControl>
-	);
-};
+const QuantitySelect = (props: SelectProps) => (
+	<FormControl w="" as={HStack} justifyContent="center">
+		<FormLabel fontWeight="semibold" fontSize={16}>
+			Qty
+		</FormLabel>
+		<Select
+			size="sm"
+			borderRadius={4}
+			maxW="64px"
+			aria-label="Select quantity"
+			focusBorderColor={mode("blue.500", "blue.200")}
+			{...props}
+		>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</Select>
+	</FormControl>
+);
 
-export const DrawerCartItem = (props: CartItemProps) => {
-	const {
-		isGiftWrapping,
-		name,
-		description,
-		quantity,
-		imageUrl,
-		currency,
-		price,
-		salePrice,
-		onChangeQuantity,
-		onClickDelete,
-	} = props;
+const DrawerCartItem = (props: CartItemProps) => {
+	const { name, description, quantity, imageUrl, currency, price, salePrice } =
+		props;
 
 	return (
-		<Flex direction={"column"} justify="space-between" align="flex-start">
-			<HStack
-				justifyContent={"space-between"}
-				alignItems={"flex-start"}
-				w="full"
-			>
+		<Flex direction="column" justify="space-between" align="flex-start">
+			<HStack justifyContent="space-between" alignItems="flex-start" w="full">
 				<Box flexGrow={1}>
 					<Stack direction="row" spacing="5" width="full">
 						<Stack direction="row" spacing="5" width="full">
@@ -108,7 +88,7 @@ export const DrawerCartItem = (props: CartItemProps) => {
 									<UnderlineLink
 										href="/"
 										fontSize="sm"
-										fontWeight={"semibold"}
+										fontWeight="semibold"
 										color="red.500"
 									>
 										Delete
@@ -116,8 +96,10 @@ export const DrawerCartItem = (props: CartItemProps) => {
 
 									<QuantitySelect
 										value={quantity}
-										onChange={(e) => {
-											onChangeQuantity?.(+e.currentTarget.value);
+										onChange={() => {
+											// TODO: Update the quantity in the cart
+											// ? Quantity Select can be replaced with Number Input
+											// onChangeQuantity?.(+e.currentTarget.value
 										}}
 									/>
 								</Flex>
@@ -129,3 +111,9 @@ export const DrawerCartItem = (props: CartItemProps) => {
 		</Flex>
 	);
 };
+
+DrawerCartItem.defaultProps = {
+	salePrice: undefined,
+};
+
+export default DrawerCartItem;

@@ -1,4 +1,4 @@
-import { BRANDS } from "@/data/mock/options";
+import BRANDS from "@/data/mock/options";
 import {
 	FormControl,
 	FormLabel,
@@ -31,10 +31,10 @@ const BrandSelector = () => {
 			<CheckboxGroup colorScheme="green" defaultValue={[]}>
 				<Stack
 					spacing={[1, 2]}
-					direction={"column"}
-					w={"full"}
-					justifyContent={"flex-start"}
-					alignContent={"flex-start"}
+					direction="column"
+					w="full"
+					justifyContent="flex-start"
+					alignContent="flex-start"
 				>
 					{BRANDS.map((brand) => (
 						<Checkbox key={brand.id} value={brand.id}>

@@ -2,7 +2,6 @@ import FullPageLoadingSpinner from "@components/shared/FullPageLoadingSpinner";
 import Alert from "@components/ui/Alert";
 import { encodeURL } from "@components/utils/encodeURL";
 import { useCategoriesQuery } from "@generated/graphql";
-import React from "react";
 
 const CategoryPage = () => {
 	const { data, loading, error } = useCategoriesQuery();

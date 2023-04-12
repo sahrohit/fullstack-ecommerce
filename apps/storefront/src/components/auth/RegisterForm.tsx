@@ -1,8 +1,8 @@
 import { Button, FormControl, HStack, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import InputField from "../ui/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import InputField from "@/components/ui/InputField";
 
 type RegisterFormValues = {
 	firstName: string;
@@ -25,7 +25,6 @@ const RegisterForm = () => {
 	const {
 		register,
 		handleSubmit,
-		control,
 		formState: { errors, touchedFields },
 	} = useForm<RegisterFormValues>({
 		defaultValues: {
@@ -39,8 +38,9 @@ const RegisterForm = () => {
 
 	return (
 		<form
-			onSubmit={handleSubmit((data) => {
-				console.log(data);
+			onSubmit={handleSubmit(() => {
+				// ? Anonymous fucntion receives data as an argument
+				// console.log(data);
 			})}
 		>
 			<Stack spacing="4">
@@ -53,8 +53,8 @@ const RegisterForm = () => {
 						name="firstName"
 						size="lg"
 						autoComplete="firstName"
-						label={"First Name"}
-						placeholder={""}
+						label="First Name"
+						placeholder=""
 					/>
 					<InputField
 						register={{ ...register("lastName") }}
@@ -64,8 +64,8 @@ const RegisterForm = () => {
 						type="text"
 						size="lg"
 						autoComplete="lastName"
-						label={"Last Name"}
-						placeholder={""}
+						label="Last Name"
+						placeholder=""
 					/>
 				</HStack>
 				<InputField
@@ -76,8 +76,8 @@ const RegisterForm = () => {
 					size="lg"
 					type="email"
 					autoComplete="email"
-					label={"Email"}
-					placeholder={""}
+					label="Email"
+					placeholder=""
 				/>
 
 				<FormControl>
@@ -89,8 +89,8 @@ const RegisterForm = () => {
 						size="lg"
 						type="password"
 						autoComplete="current-password"
-						label={"Password"}
-						placeholder={""}
+						label="Password"
+						placeholder=""
 					/>
 				</FormControl>
 				<Button type="submit" colorScheme="blue" size="lg" fontSize="md">

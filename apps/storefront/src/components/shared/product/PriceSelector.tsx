@@ -11,11 +11,11 @@ import {
 	RangeSliderTrack,
 	VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import { useState } from "react";
 
 const PriceSelector = () => {
-	const [minPrice, setMinPrice] = React.useState<number>(0);
-	const [maxPrice, setMaxPrice] = React.useState(1000);
+	const [minPrice, setMinPrice] = useState<number>(0);
+	const [maxPrice, setMaxPrice] = useState(1000);
 
 	const MIN_PRICE = 0;
 	const MAX_PRICE = 1000;
@@ -26,6 +26,7 @@ const PriceSelector = () => {
 				min={MIN_PRICE}
 				max={MAX_PRICE}
 				value={[minPrice, maxPrice]}
+				// eslint-disable-next-line jsx-a11y/aria-proptypes
 				aria-label={["min", "max"]}
 				defaultValue={[MIN_PRICE, MAX_PRICE]}
 				onChange={(value) => {
@@ -47,7 +48,9 @@ const PriceSelector = () => {
 					maxW="100px"
 					mr="2rem"
 					value={`$${minPrice}`}
-					onChange={(value) => setMinPrice(parseInt(value.replace("$", "")))}
+					onChange={(value) =>
+						setMinPrice(parseInt(value.replace("$", ""), 10))
+					}
 				>
 					<NumberInputField />
 					<NumberInputStepper>
@@ -62,7 +65,9 @@ const PriceSelector = () => {
 					maxW="100px"
 					mr="2rem"
 					value={`$${maxPrice}`}
-					onChange={(value) => setMaxPrice(parseInt(value.replace("$", "")))}
+					onChange={(value) =>
+						setMaxPrice(parseInt(value.replace("$", ""), 10))
+					}
 				>
 					<NumberInputField />
 					<NumberInputStepper>

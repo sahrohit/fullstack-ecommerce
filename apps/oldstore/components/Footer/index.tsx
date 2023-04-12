@@ -1,5 +1,3 @@
-import React from "react";
-
 const Footer = () => {
 	return (
 		<div className="border-t border-base-300 mt-4">

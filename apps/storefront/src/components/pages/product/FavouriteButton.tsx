@@ -1,7 +1,7 @@
 import { Icon, IconButton, IconButtonProps, LightMode } from "@chakra-ui/react";
 import { FiHeart } from "react-icons/fi";
 
-export const FavouriteButton = (props: IconButtonProps) => (
+const FavouriteButton = (props: IconButtonProps) => (
 	<LightMode>
 		<IconButton
 			isRound
@@ -17,3 +17,5 @@ export const FavouriteButton = (props: IconButtonProps) => (
 		/>
 	</LightMode>
 );
+
+export default FavouriteButton;
