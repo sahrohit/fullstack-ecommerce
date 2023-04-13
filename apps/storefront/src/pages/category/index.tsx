@@ -8,7 +8,7 @@ import { Box, HStack, Heading } from "@chakra-ui/react";
 const CategoryPage = () => (
 	<>
 		<Navbar />
-		<Box mx="32">
+		<Box mx={{ base: 2, md: 8, xl: 32 }}>
 			<HStack my={8}>
 				<Heading fontSize="3xl" lineHeight="1.2">
 					Shop by Categories
