@@ -41,7 +41,7 @@ const CategoryPage = () => {
 
 	const handleDrag =
 		({ scrollContainer }: scrollVisibilityApiType) =>
-		(ev: React.MouseEvent) =>
+		(ev: React.MouseEvent & any) =>
 			dragMove(ev, (posDiff) => {
 				if (scrollContainer.current) {
 					scrollContainer.current.scrollLeft += posDiff;
@@ -54,7 +54,7 @@ const CategoryPage = () => {
 				apiRef={apiRef}
 				LeftArrow={LeftArrow}
 				RightArrow={RightArrow}
-				onMouseDown={() => dragStart}
+				onMouseDown={() => dragStart as any}
 				onMouseUp={() => dragStop}
 				onMouseMove={handleDrag}
 			>

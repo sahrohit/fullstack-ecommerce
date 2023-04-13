@@ -1,7 +1,7 @@
-import { CategoryCard } from "@/components/pages/category/CategoryCard";
-import { CategoryGrid } from "@/components/pages/category/CategoryGrid";
+import CategoryCard from "@/components/pages/category/CategoryCard";
+import CategoryGrid from "@/components/pages/category/CategoryGrid";
 import Footer from "@/components/shared/Footer";
-import { Navbar } from "@/components/shared/navbar";
+import Navbar from "@/components/shared/navbar";
 import CATEGORIES from "@/data/mock/category";
 import { Box, HStack, Heading } from "@chakra-ui/react";
 
