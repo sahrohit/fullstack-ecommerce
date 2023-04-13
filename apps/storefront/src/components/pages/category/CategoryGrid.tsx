@@ -20,7 +20,9 @@ const CategoryGrid = (props: SimpleGridProps) => {
 			columnGap={{ base: "4", md: "6" }}
 			rowGap={{ base: "8", md: "10" }}
 			{...rest}
-		/>
+		>
+			{children}
+		</SimpleGrid>
 	);
 };
 

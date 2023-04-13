@@ -5,7 +5,8 @@ import type { MotionBoxProps } from "@/components/shared/navbar/MotionBox";
 import { MotionBox } from "@/components/shared/navbar/MotionBox";
 import { forwardRef } from "react";
 
-const NavMenu = forwardRef((props: MotionBoxProps) => (
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const NavMenu = forwardRef((props: MotionBoxProps, _ref) => (
 	<MotionBox
 		initial="init"
 		variants={variants}
