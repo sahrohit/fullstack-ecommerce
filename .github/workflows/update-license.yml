@@ -16,7 +16,7 @@ jobs:
       - name: Update License
         run: |
           year=$(date +%Y)
-          sed -i "s/Copyright (c) [0-9]\{4\}/Copyright (c) $year/" LICENSE
+          sed -i "s/Copyright (c) [0-9]\{4\}/Copyright (c) $year/" LICENSE.txt
       # Commit and push the changes
       - name: Commit and push
         uses: stefanzweifel/git-auto-commit-action@v3
