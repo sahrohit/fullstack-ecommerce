@@ -1,19 +1,29 @@
 import {
 	useNumberInput,
-	HStack,
 	IconButton,
 	Input,
 	UseNumberInputProps,
+	InputGroup,
+	InputRightElement,
+	InputLeftElement,
+	ResponsiveValue,
 } from "@chakra-ui/react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
-const QuantitySelect = (props: UseNumberInputProps) => {
+interface QuantitySelectProps extends UseNumberInputProps {
+	maxW?: string;
+	size?: ResponsiveValue<"md" | (string & {}) | "lg" | "sm" | "xs"> | undefined;
+}
+
+const QuantitySelect = (props: QuantitySelectProps) => {
+	const { maxW, size, ...rest } = props;
+
 	const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
 		useNumberInput({
 			step: 1,
 			min: 0,
 			max: 6,
-			...props,
+			...rest,
 		});
 
 	const inc = getIncrementButtonProps();
@@ -21,31 +31,26 @@ const QuantitySelect = (props: UseNumberInputProps) => {
 	const input = getInputProps();
 
 	return (
-		<HStack
-			maxW="180px"
-			gap={6}
-			borderColor="chakra-border-color"
-			borderWidth="1px"
-			p={1}
-			px={2}
-			borderRadius="md"
-		>
-			<IconButton aria-label="Decreament Cart" size="sm" m={1} {...dec}>
-				<AiOutlineMinus size="20" />
-			</IconButton>
-			<Input
-				fontWeight="semibold"
-				textAlign="center"
-				variant="unstyled"
-				flexGrow={0}
-				{...input}
-			/>
+		<InputGroup size={size} maxW={maxW}>
+			<InputLeftElement>
+				<IconButton aria-label="Decreament Cart" size="sm" {...dec}>
+					<AiOutlineMinus size="20" />
+				</IconButton>
+			</InputLeftElement>
 
-			<IconButton aria-label="Increament Cart" size="sm" m={1} {...inc}>
-				<AiOutlinePlus size="20" />
-			</IconButton>
-		</HStack>
+			<Input bg="transparent" textAlign="center" {...input} />
+			<InputRightElement>
+				<IconButton aria-label="Increament Cart" size="sm" {...inc}>
+					<AiOutlinePlus size="20" />
+				</IconButton>
+			</InputRightElement>
+		</InputGroup>
 	);
+};
+
+QuantitySelect.defaultProps = {
+	maxW: "null",
+	size: "lg",
 };
 
 export default QuantitySelect;

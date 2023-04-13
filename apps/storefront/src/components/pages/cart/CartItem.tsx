@@ -63,7 +63,7 @@ const CartItem = (props: CartItemProps) => {
 				justify="space-between"
 				display={{ base: "none", md: "flex" }}
 			>
-				<QuantitySelect defaultValue={quantity} />
+				<QuantitySelect defaultValue={quantity} maxW="180px" />
 				<VStack alignItems="flex-end" justifyContent="flex-start">
 					<PriceTag price={price} currency={currency} />
 					<CartOptions />
@@ -80,7 +80,7 @@ const CartItem = (props: CartItemProps) => {
 			>
 				<CartOptions />
 
-				<QuantitySelect defaultValue={quantity} />
+				<QuantitySelect defaultValue={quantity} maxW="180px" />
 			</Flex>
 		</Flex>
 	);

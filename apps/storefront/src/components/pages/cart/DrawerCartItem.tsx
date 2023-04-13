@@ -71,6 +71,7 @@ const DrawerCartItem = (props: CartItemProps) => {
 									</UnderlineLink>
 
 									<QuantitySelect
+										maxW="160px"
 										defaultValue={quantity}
 										onChange={() => {
 											// TODO: Update the quantity in the cart
