@@ -1,16 +1,7 @@
-import {
-	Box,
-	Flex,
-	FormControl,
-	FormLabel,
-	HStack,
-	Select,
-	SelectProps,
-	VStack,
-	useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import { PriceTag } from "@/components/shared/product/PriceTag";
+import QuantitySelect from "@/components/shared/cart/QuantitySelect";
 import { CartProductMeta } from "./CartProductMeta";
 
 type CartItemProps = {
@@ -22,32 +13,6 @@ type CartItemProps = {
 	currency: string;
 	imageUrl: string;
 };
-
-const QuantitySelect = (props: SelectProps) => (
-	<FormControl w="" as={HStack} justifyContent="center">
-		<FormLabel fontWeight="semibold" fontSize={16}>
-			Qty
-		</FormLabel>
-		<Select
-			size="sm"
-			borderRadius={4}
-			maxW="64px"
-			aria-label="Select quantity"
-			focusBorderColor={useColorModeValue("blue.500", "blue.200")}
-			onChange={() => {
-				// TODO: Update the quantity in the cart
-				// ? Quantity Select can be replaced with Number Input
-				// onChangeQuantity?.(+e.currentTarget.value);
-			}}
-			{...props}
-		>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-		</Select>
-	</FormControl>
-);
 
 const CartOptions = () => (
 	<Box>
@@ -98,7 +63,7 @@ const CartItem = (props: CartItemProps) => {
 				justify="space-between"
 				display={{ base: "none", md: "flex" }}
 			>
-				<QuantitySelect value={quantity} />
+				<QuantitySelect defaultValue={quantity} />
 				<VStack alignItems="flex-end" justifyContent="flex-start">
 					<PriceTag price={price} currency={currency} />
 					<CartOptions />
@@ -115,7 +80,7 @@ const CartItem = (props: CartItemProps) => {
 			>
 				<CartOptions />
 
-				<QuantitySelect value={quantity} />
+				<QuantitySelect defaultValue={quantity} />
 			</Flex>
 		</Flex>
 	);

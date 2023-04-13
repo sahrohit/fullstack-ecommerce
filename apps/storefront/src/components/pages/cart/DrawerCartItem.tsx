@@ -1,11 +1,7 @@
 import {
 	Box,
 	Flex,
-	FormControl,
-	FormLabel,
 	HStack,
-	Select,
-	SelectProps,
 	Stack,
 	Image,
 	useColorModeValue as mode,
@@ -13,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import { PriceTag } from "@/components/shared/product/PriceTag";
+import QuantitySelect from "@/components/shared/cart/QuantitySelect";
 
 type CartItemProps = {
 	name: string;
@@ -23,27 +20,6 @@ type CartItemProps = {
 	imageUrl: string;
 	salePrice?: number;
 };
-
-const QuantitySelect = (props: SelectProps) => (
-	<FormControl w="" as={HStack} justifyContent="center">
-		<FormLabel fontWeight="semibold" fontSize={16}>
-			Qty
-		</FormLabel>
-		<Select
-			size="sm"
-			borderRadius={4}
-			maxW="64px"
-			aria-label="Select quantity"
-			focusBorderColor={mode("blue.500", "blue.200")}
-			{...props}
-		>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-		</Select>
-	</FormControl>
-);
 
 const DrawerCartItem = (props: CartItemProps) => {
 	const { name, description, quantity, imageUrl, currency, price, salePrice } =
@@ -95,7 +71,7 @@ const DrawerCartItem = (props: CartItemProps) => {
 									</UnderlineLink>
 
 									<QuantitySelect
-										value={quantity}
+										defaultValue={quantity}
 										onChange={() => {
 											// TODO: Update the quantity in the cart
 											// ? Quantity Select can be replaced with Number Input
