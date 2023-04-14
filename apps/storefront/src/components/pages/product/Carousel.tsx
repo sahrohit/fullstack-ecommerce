@@ -172,6 +172,9 @@ const CarouselNavigation = ({
 					if (slides.length < 5) {
 						return `80px`;
 					}
+					if (slides.length < 7) {
+						return `60px`;
+					}
 					if (slides.length < 10) {
 						return `40px`;
 					}
@@ -199,6 +202,7 @@ const CarouselNavigation = ({
 							bgPos="center"
 							cursor="pointer"
 							borderRadius="lg"
+							filter={currentSlide !== index ? "grayscale(100%)" : "none"}
 							onClick={() => setSlide(index)}
 						/>
 					</MotionBox>

@@ -29,7 +29,7 @@ const ProductPage = () => {
 		<Stack w="full" direction={{ base: "column-reverse", lg: "row" }}>
 			<VStack
 				gap={2}
-				flexGrow={1}
+				// flexGrow={1}
 				alignItems="flex-start"
 				m={{ base: 2, md: 8, lg: 16 }}
 			>
@@ -73,7 +73,7 @@ const ProductPage = () => {
 				</Button>
 			</VStack>
 			<Box
-				maxW={{ base: "100%", lg: "50%" }}
+				maxW={images.length <= 3 ? { base: "100%", lg: "50%" } : {}}
 				p={{ base: 4, md: 8, lg: 8, xl: 16 }}
 			>
 				{images.length > 3 ? (
