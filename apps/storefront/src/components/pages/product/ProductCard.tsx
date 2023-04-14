@@ -14,11 +14,12 @@ import {
 	useColorModeValue,
 } from "@chakra-ui/react";
 import { Product } from "@/data/mock/temp";
-import { AiOutlineShoppingCart, AiOutlineEye } from "react-icons/ai";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useState } from "react";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import Rating from "@/components/shared/product/Rating";
 import FavouriteButton from "./FavouriteButton";
+import QuickView from "./details/QuickView";
 
 interface ProductCardProps {
 	product: Product;
@@ -86,14 +87,8 @@ const ProductCard = (props: ProductCardProps) => {
 							aria-label="Search database"
 							icon={<AiOutlineShoppingCart size={24} />}
 						/>
-						<IconButton
-							size="sm"
-							flexGrow={1}
-							variant="ghost"
-							colorScheme="blue"
-							aria-label="Search database"
-							icon={<AiOutlineEye size={24} />}
-						/>
+
+						<QuickView />
 					</ButtonGroup>
 				)}
 			</Box>
