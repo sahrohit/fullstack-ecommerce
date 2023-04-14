@@ -5,9 +5,9 @@ import {
 	Box,
 	Text,
 	TextProps,
-	SimpleGrid,
-	HStack,
 	useBreakpointValue,
+	Stack,
+	HStack,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import useDetectSwipe from "@/hooks/useDetectSwipe";
@@ -69,13 +69,13 @@ const Carousel = ({ images }: ProductImageProps) => {
 	};
 
 	return (
-		<HStack alignItems="flex-start" spacing={2}>
+		<Stack direction="column" alignItems="flex-start" spacing={2}>
 			<Flex w="full" overflow="hidden" pos="relative">
 				<Flex
 					onTouchStart={onTouchStart}
 					onTouchMove={onTouchMove}
 					onTouchEnd={onTouchEnd}
-					h="400px"
+					h={isMobile ? "400px" : "480px"}
 					w="full"
 					{...carouselStyle}
 				>
@@ -120,7 +120,7 @@ const Carousel = ({ images }: ProductImageProps) => {
 					setSlide={setSlide}
 				/>
 			)}
-		</HStack>
+		</Stack>
 	);
 };
 
@@ -137,12 +137,14 @@ const CarouselNavigation = ({
 	currentSlide,
 	setSlide,
 }: CarouselNavigationProps) => {
-	const MotionGrid = motion(SimpleGrid);
+	// const MotionGrid = motion(SimpleGrid);
 	const MotionBox = motion(Box);
 	const MotionImage = motion(Image);
 
 	return (
-		<MotionGrid
+		<HStack
+			w="full"
+			justifyContent="center"
 			css={{
 				"&::-webkit-scrollbar": {
 					width: "2px",
@@ -169,13 +171,13 @@ const CarouselNavigation = ({
 				// const dimension = slides.length > 5 ? `40px` : `80px`;
 
 				const dimension = () => {
-					if (slides.length < 5) {
+					if (slides.length < 7) {
 						return `80px`;
 					}
-					if (slides.length < 7) {
+					if (slides.length < 10) {
 						return `60px`;
 					}
-					if (slides.length < 10) {
+					if (slides.length < 15) {
 						return `40px`;
 					}
 					return `20px`;
@@ -208,6 +210,6 @@ const CarouselNavigation = ({
 					</MotionBox>
 				);
 			})}
-		</MotionGrid>
+		</HStack>
 	);
 };
