@@ -1,4 +1,4 @@
-import CART_DATA from "@/data/mock/cart";
+import CART_DATA from "@/data/cart";
 import {
 	useDisclosure,
 	Button,

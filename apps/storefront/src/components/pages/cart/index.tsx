@@ -8,7 +8,7 @@ import {
 	Button,
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
-import CART_DATA from "@/data/mock/cart";
+import CART_DATA from "@/data/cart";
 import { FaArrowRight } from "react-icons/fa";
 import CartItem from "./CartItem";
 import { CartOrderSummary } from "./CartOrderSummary";
