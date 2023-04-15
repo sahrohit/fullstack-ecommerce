@@ -14,18 +14,21 @@ import {
 	Heading,
 	Flex,
 	Text,
+	IconButtonProps,
 } from "@chakra-ui/react";
 import { BsBag, BsBoxSeam } from "react-icons/bs";
 import { FaArrowRight } from "react-icons/fa";
 import { formatPrice } from "@/components/shared/product/PriceTag";
 import DrawerCartItem from "./DrawerCartItem";
 
-const DrawerCart = () => {
+interface DrawerCartProps extends IconButtonProps {}
+
+const DrawerCart = (props: DrawerCartProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
 		<>
-			<IconButton aria-label="Open Cart" colorScheme="teal" onClick={onOpen}>
+			<IconButton {...props} onClick={onOpen}>
 				<BsBag />
 			</IconButton>
 			<Drawer

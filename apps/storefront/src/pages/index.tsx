@@ -1,9 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
-import ThemeSwitch from "@/components/shared/ThemeSwitch";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
-import DrawerCart from "@/components/pages/cart/DrawerCart";
 import ProductGrid from "@/components/pages/product/ProductGrid";
 import { products } from "@/data/mock/temp";
 import ProductCard from "@/components/pages/product/ProductCard";
@@ -16,9 +14,6 @@ const HomePage = () => (
 		</Head>
 		<Navbar />
 		<main>
-			<DrawerCart />
-			<ThemeSwitch />
-
 			<Box
 				maxW="7xl"
 				mx="auto"

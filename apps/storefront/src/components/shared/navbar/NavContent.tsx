@@ -7,6 +7,7 @@ import {
 	useDisclosure,
 	VisuallyHidden,
 	useColorModeValue as mode,
+	IconButton,
 } from "@chakra-ui/react";
 
 import NavMenu from "@/components/shared/navbar/NavMenu";
@@ -16,6 +17,13 @@ import Logo from "@/components/logo";
 import { links } from "@/data/navbar";
 import NavLink from "@/components/shared/navbar/NavLink";
 import { Link } from "@chakra-ui/next-js";
+import {
+	AiOutlineHeart,
+	AiOutlineSearch,
+	AiOutlineShoppingCart,
+	AiOutlineUser,
+} from "react-icons/ai";
+import DrawerCart from "@/components/pages/cart/DrawerCart";
 import { BRAND_NAME } from "../../../../constants";
 
 const MobileNavContext = (props: FlexProps) => {
@@ -92,23 +100,8 @@ const DesktopNavContent = (props: FlexProps) => (
 				</Box>
 			))}
 		</HStack>
-		<HStack spacing="8" minW="240px" justify="center">
-			<Link
-				href="/auth/login"
-				color={mode("blue.600", "blue.300")}
-				fontWeight="bold"
-			>
-				Login
-			</Link>
-			<Button
-				href="/auth/register"
-				as={Link}
-				colorScheme="blue"
-				fontWeight="bold"
-			>
-				Get Started
-			</Button>
-		</HStack>
+		{/* <AuthButtons /> */}
+		<Menu />
 	</Flex>
 );
 
@@ -118,3 +111,53 @@ const NavContent = {
 };
 
 export default NavContent;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const AuthButtons = () => (
+	<HStack spacing="8" minW="240px" justify="center">
+		<Link
+			href="/auth/login"
+			color={mode("blue.600", "blue.300")}
+			fontWeight="bold"
+		>
+			Login
+		</Link>
+		<Button
+			href="/auth/register"
+			as={Link}
+			colorScheme="blue"
+			fontWeight="bold"
+		>
+			Get Started
+		</Button>
+	</HStack>
+);
+
+const Menu = () => (
+	<HStack>
+		<IconButton
+			aria-label="Search"
+			variant="link"
+			icon={<AiOutlineSearch size="24" />}
+		/>
+		<IconButton
+			aria-label="Favourite"
+			variant="link"
+			href="/products/favourite"
+			as={Link}
+			icon={<AiOutlineHeart size="24" />}
+		/>
+		<IconButton
+			aria-label="Dashboard"
+			variant="link"
+			href="/auth/register"
+			as={Link}
+			icon={<AiOutlineUser size="24" />}
+		/>
+		<DrawerCart
+			aria-label="Dashboard"
+			variant="link"
+			icon={<AiOutlineShoppingCart size="24" />}
+		/>
+	</HStack>
+);
