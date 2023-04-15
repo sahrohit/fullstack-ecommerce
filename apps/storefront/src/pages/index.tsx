@@ -3,7 +3,7 @@ import Head from "next/head";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
 import ProductGrid from "@/components/pages/product/ProductGrid";
-import { products } from "@/data/mock/temp";
+import { products } from "@/data/temp";
 import ProductCard from "@/components/pages/product/ProductCard";
 import { BRAND_NAME } from "../../constants";
 

@@ -1,4 +1,4 @@
-import BRANDS from "@/data/mock/options";
+import BRANDS from "@/data/options";
 import {
 	FormControl,
 	FormLabel,

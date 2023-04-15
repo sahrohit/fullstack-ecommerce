@@ -3,7 +3,6 @@ import { ColorSelector } from "@/components/shared/product/ColorSelector";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import Rating from "@/components/shared/product/Rating";
 import { SizeSelector } from "@/components/shared/product/SizeSelector";
-import { images } from "@/data/mock/temp";
 import {
 	Stack,
 	VStack,
@@ -16,6 +15,7 @@ import {
 	Box,
 } from "@chakra-ui/react";
 import { BsHeart } from "react-icons/bs";
+import { images } from "@/data/temp";
 import Carousel from "./Carousel";
 import ImageGrid from "./ImageGrid";
 

@@ -3,7 +3,7 @@ import ProductGrid from "@/components/pages/product/ProductGrid";
 import FilterLayout from "@/components/pages/product/filter/FilterLayout";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
-import { products } from "@/data/mock/temp";
+import { products } from "@/data/temp";
 
 const ProductFilterPage = () => (
 	<>

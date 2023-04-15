@@ -13,7 +13,7 @@ import {
 	useBreakpointValue,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import { Product } from "@/data/mock/temp";
+import { Product } from "@/data/temp";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useState } from "react";
 import { PriceTag } from "@/components/shared/product/PriceTag";
