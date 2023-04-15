@@ -1,5 +1,5 @@
 import Rating from "@/components/shared/product/Rating";
-import REVIEWS from "@/data/mock/reviews";
+import REVIEWS from "@/data/reviews";
 import {
 	Button,
 	HStack,

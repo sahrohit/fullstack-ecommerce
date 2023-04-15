@@ -2,7 +2,7 @@ import CategoryCard from "@/components/pages/category/CategoryCard";
 import CategoryGrid from "@/components/pages/category/CategoryGrid";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
-import CATEGORIES from "@/data/mock/category";
+import CATEGORIES from "@/data/category";
 import { Box, HStack, Heading } from "@chakra-ui/react";
 
 const CategoryPage = () => (
