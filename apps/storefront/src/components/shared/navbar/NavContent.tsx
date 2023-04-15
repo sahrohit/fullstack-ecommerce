@@ -150,7 +150,7 @@ const Menu = () => (
 		<IconButton
 			aria-label="Dashboard"
 			variant="link"
-			href="/auth/register"
+			href="/account"
 			as={Link}
 			icon={<AiOutlineUser size="24" />}
 		/>
