@@ -6,17 +6,21 @@ import {
 	useColorModeValue as mode,
 	Text,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 interface NavLinkProps extends LinkProps {
 	isActive?: boolean;
+	href: string;
 	label: string;
 	icon: any;
 }
 
 const NavLink = (props: NavLinkProps) => {
-	const { icon, isActive, label, ...rest } = props;
+	const { icon, isActive, label, href, ...rest } = props;
 	return (
 		<Link
+			as={NextLink}
+			href={href}
 			display="block"
 			py={2}
 			px={3}

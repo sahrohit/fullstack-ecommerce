@@ -20,12 +20,12 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
-		<HStack minH="100vh">
+		<HStack minH="100vh" alignItems="flex-start">
 			<Sidebar
 				position="fixed"
 				top={0}
 				onClose={() => onClose}
-				display={{ base: "none", md: "block" }}
+				display={{ base: "none", md: "flex" }}
 			/>
 			<Drawer
 				autoFocus={false}
