@@ -12,12 +12,10 @@ import { FaMobileAlt, FaShieldAlt } from "react-icons/fa";
 import type React from "react";
 
 const AddressSection = () => (
-	<Box maxW={{ base: "xl", md: "7xl" }} mx="auto">
+	<Box mx="auto">
 		<Box
-			rounded={{ lg: "lg" }}
+			rounded="lg"
 			bg={mode("white", "gray.700")}
-			maxW="3xl"
-			mx="auto"
 			shadow="base"
 			overflow="hidden"
 		>
