@@ -1,4 +1,3 @@
-import withSidebar from "@/components/helpers/withSidebar";
 import AccountSettings from "@/components/pages/account/AccountSetting";
 import DangerZone from "@/components/pages/account/DangerZone";
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
@@ -17,4 +16,4 @@ const AccountPage = () => (
 	</Stack>
 );
 
-export default withSidebar(AccountPage);
+export default AccountPage;

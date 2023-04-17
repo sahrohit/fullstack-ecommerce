@@ -1,4 +1,3 @@
-import withSidebar from "@/components/helpers/withSidebar";
 import AddressSection from "@/components/pages/account/Address";
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import { Stack } from "@chakra-ui/react";
@@ -13,4 +12,4 @@ const AccountPage = () => (
 	</Stack>
 );
 
-export default withSidebar(AccountPage);
+export default AccountPage;
