@@ -11,6 +11,7 @@ import ADDRESS from "@/data/address";
 import { MdWorkOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { BiTrash } from "react-icons/bi";
+import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 
 const AddressSection = () => (
 	<Box mx="auto">
@@ -92,9 +93,14 @@ export const Address = ({ address }: AddressProps) => (
 			<Button variant="outline" leftIcon={<FiEdit />}>
 				Edit
 			</Button>
-			<Button colorScheme="red" leftIcon={<BiTrash />}>
-				Delete
-			</Button>
+
+			<ConfirmationModal
+				colorScheme="red"
+				leftIcon={<BiTrash />}
+				onSuccess={() => {}}
+				bodyText="Are you sure you want to delete this address?"
+				headerText="Delete Address?"
+			/>
 		</Stack>
 	</Stack>
 );
