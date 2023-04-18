@@ -63,9 +63,9 @@ export const Address = ({ address }: AddressProps) => (
 				{address.type === "Home" ? <FaHome /> : <MdWorkOutline />}
 			</Box>
 			<Box flex="1">
-				<Box as="h4" fontWeight="bold" maxW="xl">
+				<Box as="h4" fontWeight="bold" fontSize="xl" maxW="xl">
 					<span>{address.name}</span>{" "}
-					{address.isDefault && <Badge marginStart="1">Recommended</Badge>}
+					{address.isDefault && <Badge marginStart="1">Default</Badge>}
 				</Box>
 				<Box
 					maxW={{ base: "xs", md: "unset" }}
