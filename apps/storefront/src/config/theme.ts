@@ -20,7 +20,7 @@ export const mobileBreakpointsMap = {
 
 // Theme Config
 const config = {
-	initialColorMode: ThemeMode.Light,
+	initialColorMode: ThemeMode.Dark,
 	useSystemColorMode: true,
 };
 

@@ -10,7 +10,8 @@
 		"lint": "turbo run lint --no-daemon",
 		"test": "turbo run test",
 		"gen-env": "turbo run gen-env --no-daemon",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"codegen": "turbo run codegen --no-daemon"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.5.1",
