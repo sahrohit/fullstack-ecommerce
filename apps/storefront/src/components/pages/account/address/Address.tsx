@@ -4,7 +4,6 @@ import {
 	StackDivider,
 	useColorModeValue as mode,
 	Badge,
-	Button,
 } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
 import ADDRESS from "@/data/address";
@@ -12,6 +11,8 @@ import { MdWorkOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { BiTrash } from "react-icons/bi";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
+import ModalButton from "@/components/ui/ModalButton";
+import AddressForm from "./AddressForm";
 
 const AddressSection = () => (
 	<Box mx="auto">
@@ -90,9 +91,15 @@ export const Address = ({ address }: AddressProps) => (
 			direction={{ base: "row", md: "column" }}
 			justifyContent={{ base: "flex-start", md: "center" }}
 		>
-			<Button variant="outline" leftIcon={<FiEdit />}>
-				Edit
-			</Button>
+			<ModalButton
+				variant="outline"
+				leftIcon={<FiEdit />}
+				buttonText="Edit"
+				modalHeader="Edit Address"
+				modalFooter=" "
+			>
+				<AddressForm defaultValues={address} />
+			</ModalButton>
 
 			<ConfirmationModal
 				colorScheme="red"

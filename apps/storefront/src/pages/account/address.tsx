@@ -1,6 +1,8 @@
 import AddressSection from "@/components/pages/account/address/Address";
+import AddressForm from "@/components/pages/account/address/AddressForm";
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
-import { Button, Stack } from "@chakra-ui/react";
+import ModalButton from "@/components/ui/ModalButton";
+import { Stack } from "@chakra-ui/react";
 import { IoAdd } from "react-icons/io5";
 
 const AccountPage = () => (
@@ -15,13 +17,17 @@ const AccountPage = () => (
 				title="Address"
 				description="Add your addresses here, and reuse it over there"
 			/>
-			<Button
+
+			<ModalButton
 				colorScheme="blue"
 				leftIcon={<IoAdd />}
 				w={{ base: "full", md: "unset" }}
+				buttonText="Add Address"
+				modalHeader="Add Address"
+				modalFooter=" "
 			>
-				Add Address
-			</Button>
+				<AddressForm />
+			</ModalButton>
 		</Stack>
 		<AddressSection />
 	</Stack>

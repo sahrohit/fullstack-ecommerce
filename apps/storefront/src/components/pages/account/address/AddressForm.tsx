@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import InputField from "@/components/ui/InputField";
+import { useState } from "react";
 
 type AddressFormValues = {
 	name: string;
@@ -15,9 +16,6 @@ type AddressFormValues = {
 	phone: string;
 };
 
-const phoneRegExp =
-	/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
 const AddressFormSchema = Yup.object({
 	name: Yup.string().required("Required"),
 	type: Yup.string().required("Required").oneOf(["work", "home"]),
@@ -26,7 +24,10 @@ const AddressFormSchema = Yup.object({
 	state: Yup.string().required("Required"),
 	zip: Yup.string().required("Required").min(4, "Too Short").max(6, "Too Long"),
 	country: Yup.string().required("Required"),
-	phone: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
+	phone: Yup.string().matches(
+		/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+		"Phone number is not valid"
+	),
 });
 
 const emptyAddressFormValues: AddressFormValues = {
@@ -54,6 +55,7 @@ const AddressForm = ({ defaultValues }: AddressFormProps) => {
 		defaultValues: defaultValues ?? emptyAddressFormValues,
 		resolver: yupResolver(AddressFormSchema),
 	});
+	const [autoFillLoading, setAutoFillLoading] = useState(false);
 
 	return (
 		<form
@@ -63,6 +65,40 @@ const AddressForm = ({ defaultValues }: AddressFormProps) => {
 			})}
 		>
 			<Stack spacing="4">
+				<HStack
+					as={Card}
+					p={2}
+					justifyContent="space-around"
+					bgGradient="linear(to-r, teal.500, green.500)"
+				>
+					<Text fontWeight="semibold">
+						Save time. Autofill your current location.
+					</Text>
+					<Button
+						isLoading={autoFillLoading}
+						variant="solid"
+						onClick={() => {
+							setAutoFillLoading(true);
+							if (navigator?.geolocation) {
+								navigator.geolocation.getCurrentPosition(async (location) => {
+									if (location) {
+										const data = await getLocationInformation(
+											location.coords.latitude,
+											location.coords.longitude
+										);
+										setValue("city", data.locality);
+										setValue("state", data.principalSubdivision);
+										setValue("zip", data.postcode);
+										setValue("country", data.countryName);
+									}
+								});
+							}
+							setAutoFillLoading(false);
+						}}
+					>
+						Autofill
+					</Button>
+				</HStack>
 				<InputField
 					register={{ ...register("name") }}
 					error={errors.name}
@@ -145,38 +181,6 @@ const AddressForm = ({ defaultValues }: AddressFormProps) => {
 					/>
 				</HStack>
 
-				<HStack
-					as={Card}
-					p={4}
-					justifyContent="space-around"
-					bgGradient="linear(to-r, teal.500, green.500)"
-				>
-					<Text fontWeight="semibold">
-						Save time. Autofill your current location.
-					</Text>
-					<Button
-						variant="solid"
-						onClick={() => {
-							if (navigator?.geolocation) {
-								navigator.geolocation.getCurrentPosition(async (location) => {
-									if (location) {
-										const data = await getLocationInformation(
-											location.coords.latitude,
-											location.coords.longitude
-										);
-										setValue("city", data.locality);
-										setValue("state", data.principalSubdivision);
-										setValue("zip", data.postcode);
-										setValue("country", data.countryName);
-									}
-								});
-							}
-						}}
-					>
-						Autofill
-					</Button>
-				</HStack>
-
 				<Button type="submit" colorScheme="blue" size="lg" fontSize="md">
 					{defaultValues ? "Update Address" : "Create Address"}
 				</Button>
@@ -186,7 +190,7 @@ const AddressForm = ({ defaultValues }: AddressFormProps) => {
 };
 
 AddressForm.defaultProps = {
-	defaultValues: emptyAddressFormValues,
+	defaultValues: null,
 };
 
 export default AddressForm;
