@@ -89,6 +89,7 @@ const Server = async () => {
 			res,
 			redis,
 		}),
+		introspection: !__prod__,
 	});
 
 	await apolloServer.start();

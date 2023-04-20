@@ -1,19 +1,20 @@
-import { Button, FormControl, HStack, Stack } from "@chakra-ui/react";
+import { Button, FormControl, HStack, Stack, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import InputField from "@/components/ui/InputField";
+import { useRegisterMutation } from "@/generated/graphql";
 
 type RegisterFormValues = {
-	firstName: string;
-	lastName: string;
+	first_name: string;
+	last_name: string;
 	email: string;
 	password: string;
 };
 
 const RegisterFormSchema = Yup.object({
-	firstName: Yup.string().required("Required"),
-	lastName: Yup.string().required("Required"),
+	first_name: Yup.string().required("Required"),
+	last_name: Yup.string().required("Required"),
 	email: Yup.string().email().required("Required"),
 	password: Yup.string()
 		.required("Required")
@@ -22,45 +23,86 @@ const RegisterFormSchema = Yup.object({
 });
 
 const RegisterForm = () => {
+	const toast = useToast();
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, touchedFields },
+		setError,
 	} = useForm<RegisterFormValues>({
 		defaultValues: {
-			firstName: "",
-			lastName: "",
+			first_name: "",
+			last_name: "",
 			email: "",
 			password: "",
 		},
 		resolver: yupResolver(RegisterFormSchema),
 	});
 
+	const [registerMutation] = useRegisterMutation({
+		onCompleted: (data) => {
+			const { errors: userErrors, user } = data.register;
+			if (userErrors) {
+				toast({
+					title: "Registration Failed",
+					description: userErrors[0].message,
+					status: "error",
+					duration: 5000,
+					isClosable: true,
+				});
+				setError(userErrors[0].field as "email" | "password", {
+					type: "manual",
+					message: userErrors[0].message,
+				});
+			} else {
+				toast({
+					title: `Registration successful, ${user?.first_name}`,
+					description: `Please verify your email address to continue.`,
+					status: "success",
+					duration: 5000,
+					isClosable: true,
+				});
+			}
+		},
+		onError: (error) => {
+			toast({
+				title: "Registration Failed",
+				description: error.message,
+				status: "error",
+				duration: 5000,
+				isClosable: true,
+			});
+		},
+	});
+
 	return (
 		<form
-			onSubmit={handleSubmit(() => {
-				// ? Anonymous fucntion receives data as an argument
-				// console.log(data);
+			onSubmit={handleSubmit((values) => {
+				registerMutation({
+					variables: {
+						options: values,
+					},
+				});
 			})}
 		>
 			<Stack spacing="4">
 				<HStack gap={3}>
 					<InputField
-						register={{ ...register("firstName") }}
-						error={errors.firstName}
-						touched={touchedFields.firstName}
+						register={{ ...register("first_name") }}
+						error={errors.first_name}
+						touched={touchedFields.first_name}
 						type="text"
-						name="firstName"
+						name="first_name"
 						size="lg"
 						autoComplete="firstName"
 						label="First Name"
 						placeholder=""
 					/>
 					<InputField
-						register={{ ...register("lastName") }}
-						error={errors.lastName}
-						touched={touchedFields.lastName}
-						name="lastName"
+						register={{ ...register("last_name") }}
+						error={errors.last_name}
+						touched={touchedFields.last_name}
+						name="last_name"
 						type="text"
 						size="lg"
 						autoComplete="lastName"

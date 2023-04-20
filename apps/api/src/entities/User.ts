@@ -7,8 +7,7 @@ import {
 	UpdateDateColumn,
 	BaseEntity,
 	OneToMany,
-	OneToOne,
-	JoinColumn,
+	ManyToOne,
 } from "typeorm";
 import { Address } from "./Address";
 import { Cart } from "./Cart";
@@ -58,8 +57,7 @@ export class User extends BaseEntity {
 	@Column({ default: 1 })
 	roleId!: number;
 
-	@OneToOne(() => UserRole, (role) => role.user)
-	@JoinColumn()
+	@ManyToOne(() => UserRole, (role) => role.user)
 	role!: UserRole;
 
 	@OneToMany(() => UserPayment, (userpayment) => userpayment.user)

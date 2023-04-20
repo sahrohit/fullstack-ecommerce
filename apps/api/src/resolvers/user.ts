@@ -105,11 +105,12 @@ export class UserResolver {
 			1000 * 60 * 60 * 24 * 3 //3 day
 		);
 
-		await sendEmail(
-			options.email,
-			"Verify Email",
-			verifyEmailTemplate(`/auth/verify-email/${token}`)
-		);
+		// //TODO: SEND EMAIL FOR VERIFICATION
+		// await sendEmail(
+		// 	options.email,
+		// 	"Verify Email",
+		// 	verifyEmailTemplate(`/auth/verify-email/${token}`)
+		// );
 
 		// req.session.userId = user.id;
 		return { user };
