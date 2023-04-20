@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 
 const SignInWithGoogle = () => (
 	<Stack spacing="4">
-		<Button variant="outline" leftIcon={<Box as={FcGoogle} color="red.500" />}>
+		<Button leftIcon={<Box as={FcGoogle} color="red.500" />}>
 			Sign up with Google
 		</Button>
 	</Stack>

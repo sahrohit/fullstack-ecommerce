@@ -92,7 +92,7 @@ export class UserResolver {
 		} catch (err: any) {
 			if (err.code === "23505" || err.detail.includes("already exists")) {
 				return {
-					errors: [{ field: "username", message: err.detail }],
+					errors: [{ field: "email", message: `Email already exists` }],
 				};
 			}
 		}

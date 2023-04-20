@@ -21,12 +21,10 @@ const RegisterPage = () => (
 			<SimpleGrid alignItems="center" columns={{ base: 1, lg: 2 }} spacing="14">
 				<Box w="full" maxW="xl" mx="auto">
 					<Box
-						bg={{ md: mode("gray.50", "gray.700") }}
-						rounded={{ md: "2xl" }}
+						rounded={{ md: "xl" }}
 						p={{ base: "4", md: "12" }}
 						borderWidth={{ md: "1px" }}
 						borderColor={mode("gray.200", "transparent")}
-						shadow={{ md: "lg" }}
 					>
 						<Stack
 							justifyContent={{ base: "center", sm: "space-between" }}
