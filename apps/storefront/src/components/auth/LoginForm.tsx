@@ -5,11 +5,13 @@ import {
 	LightMode,
 	Stack,
 	useColorModeValue as mode,
+	useToast,
 } from "@chakra-ui/react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { useLoginMutation } from "@/generated/graphql";
 import InputField from "../ui/InputField";
 
 interface FormValues {
@@ -25,13 +27,13 @@ const LoginFormSchema = Yup.object({
 		.max(20, "Too Long"),
 });
 
-const onSubmit: SubmitHandler<FormValues> = () => {};
-
 const LoginForm = () => {
+	const toast = useToast();
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, dirtyFields },
+		setError,
 	} = useForm<FormValues>({
 		defaultValues: {
 			email: "",
@@ -39,9 +41,53 @@ const LoginForm = () => {
 		},
 		resolver: yupResolver(LoginFormSchema),
 	});
+	const [loginMutation, { loading }] = useLoginMutation({
+		onCompleted: (data) => {
+			const { errors: userErrors, user } = data.login;
+			if (userErrors) {
+				toast({
+					title: "Login Failed",
+					description: userErrors[0].message,
+					status: "error",
+					duration: 5000,
+					isClosable: true,
+				});
+				setError(userErrors[0].field as "email" | "password", {
+					type: "manual",
+					message: userErrors[0].message,
+				});
+			} else {
+				toast({
+					title: "Login successful",
+					description: `Welcome back, ${user?.first_name}!`,
+					status: "success",
+					duration: 5000,
+					isClosable: true,
+				});
+			}
+		},
+		onError: (error) => {
+			toast({
+				title: "Login Failed",
+				description: error.message,
+				status: "error",
+				duration: 5000,
+				isClosable: true,
+			});
+		},
+	});
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form
+			onSubmit={handleSubmit((values) =>
+				loginMutation({
+					variables: {
+						email: values.email,
+						password: values.password,
+					},
+				})
+			)}
+		>
 			<Stack spacing="-px">
 				<InputField
 					register={{ ...register("email") }}
@@ -101,6 +147,7 @@ const LoginForm = () => {
 			</Flex>
 			<LightMode>
 				<Button
+					isLoading={loading}
 					size="lg"
 					type="submit"
 					mt="8"
