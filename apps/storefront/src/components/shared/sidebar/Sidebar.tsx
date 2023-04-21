@@ -47,6 +47,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 				<Stack>
 					{ORDER_NAV_LINKS.map((link) => (
 						<NavLink
+							key={link.label}
 							href={link.href}
 							label={link.label}
 							icon={link.icon}
@@ -58,6 +59,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 				<Stack>
 					{ACCOUNT_NAV_LINKS.map((link) => (
 						<NavLink
+							key={link.label}
 							href={link.href}
 							label={link.label}
 							icon={link.icon}
@@ -69,6 +71,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 				<Stack>
 					{SUPPORT_NAV_LINKS.map((link) => (
 						<NavLink
+							key={link.label}
 							href={link.href}
 							label={link.label}
 							icon={link.icon}
