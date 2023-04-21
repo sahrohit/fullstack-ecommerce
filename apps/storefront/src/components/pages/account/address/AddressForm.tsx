@@ -4,6 +4,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import InputField from "@/components/ui/InputField";
 import { useState } from "react";
+import {
+	useAddAddressMutation,
+	useUpdateAddressMutation,
+} from "@/generated/graphql";
 
 type AddressFormValues = {
 	name: string;
@@ -13,7 +17,7 @@ type AddressFormValues = {
 	state: string;
 	zip: string;
 	country: string;
-	phone: string;
+	phone_number: string;
 };
 
 const AddressFormSchema = Yup.object({
@@ -24,7 +28,7 @@ const AddressFormSchema = Yup.object({
 	state: Yup.string().required("Required"),
 	zip: Yup.string().required("Required").min(4, "Too Short").max(6, "Too Long"),
 	country: Yup.string().required("Required"),
-	phone: Yup.string().matches(
+	phone_number: Yup.string().matches(
 		/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
 		"Phone number is not valid"
 	),
@@ -32,36 +36,76 @@ const AddressFormSchema = Yup.object({
 
 const emptyAddressFormValues: AddressFormValues = {
 	name: "",
-	type: "",
+	type: "home",
 	address: "",
 	city: "",
 	state: "",
 	zip: "",
 	country: "",
-	phone: "",
+	phone_number: "",
 };
 
 interface AddressFormProps {
+	id?: number;
 	defaultValues?: AddressFormValues;
+	onSubmissionSuccess?: () => void;
 }
 
-const AddressForm = ({ defaultValues }: AddressFormProps) => {
+const AddressForm = ({
+	id,
+	defaultValues,
+	onSubmissionSuccess: closeModal,
+}: AddressFormProps) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, touchedFields },
 		setValue,
+		reset,
 	} = useForm<AddressFormValues>({
 		defaultValues: defaultValues ?? emptyAddressFormValues,
 		resolver: yupResolver(AddressFormSchema),
 	});
 	const [autoFillLoading, setAutoFillLoading] = useState(false);
+	const [addAddressMutation, { loading: addLoading }] = useAddAddressMutation({
+		refetchQueries: ["Addresses"],
+	});
+	const [updateAddressMutation, { loading: updateLoading }] =
+		useUpdateAddressMutation({
+			refetchQueries: ["Addresses"],
+		});
 
 	return (
 		<form
-			onSubmit={handleSubmit(() => {
-				// ? Anonymous fucntion receives data as an argument
-				// console.log(data);
+			onSubmit={handleSubmit((values) => {
+				if (id && defaultValues) {
+					updateAddressMutation({
+						variables: {
+							updateAddressId: id,
+							input: {
+								address: values.address,
+								city: values.city,
+								country: values.country,
+								name: values.name,
+								phone_number: values.phone_number,
+								state: values.state,
+								type: values.type,
+								zip: values.zip,
+							},
+						},
+					});
+				} else {
+					addAddressMutation({
+						variables: {
+							input: values,
+						},
+					});
+				}
+				reset();
+
+				if (closeModal) {
+					closeModal();
+				}
 			})}
 		>
 			<Stack spacing="4">
@@ -76,6 +120,7 @@ const AddressForm = ({ defaultValues }: AddressFormProps) => {
 					</Text>
 					<Button
 						isLoading={autoFillLoading}
+						type="button"
 						variant="solid"
 						onClick={() => {
 							setAutoFillLoading(true);
@@ -111,10 +156,10 @@ const AddressForm = ({ defaultValues }: AddressFormProps) => {
 					placeholder=""
 				/>
 				<InputField
-					register={{ ...register("phone") }}
-					error={errors.phone}
-					touched={touchedFields.phone}
-					name="phone"
+					register={{ ...register("phone_number") }}
+					error={errors.phone_number}
+					touched={touchedFields.phone_number}
+					name="phone_number"
 					type="numeric"
 					size="lg"
 					autoComplete="phone"
@@ -181,7 +226,13 @@ const AddressForm = ({ defaultValues }: AddressFormProps) => {
 					/>
 				</HStack>
 
-				<Button type="submit" colorScheme="blue" size="lg" fontSize="md">
+				<Button
+					type="submit"
+					colorScheme="blue"
+					size="lg"
+					fontSize="md"
+					isLoading={addLoading || updateLoading}
+				>
 					{defaultValues ? "Update Address" : "Create Address"}
 				</Button>
 			</Stack>
@@ -190,7 +241,9 @@ const AddressForm = ({ defaultValues }: AddressFormProps) => {
 };
 
 AddressForm.defaultProps = {
+	id: null,
 	defaultValues: null,
+	onSubmissionSuccess: () => {},
 };
 
 export default AddressForm;

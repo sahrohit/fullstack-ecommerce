@@ -19,15 +19,19 @@ export class Address extends BaseEntity {
 
 	@Field()
 	@Column()
+	type!: string;
+
+	@Field()
+	@Column({ default: false })
+	isDefault!: boolean;
+
+	@Field()
+	@Column()
 	name!: string;
 
 	@Field()
 	@Column()
-	address_line1!: string;
-
-	@Field({ nullable: true })
-	@Column({ nullable: true })
-	address_line2!: string;
+	address!: string;
 
 	@Field()
 	@Column()
@@ -39,7 +43,7 @@ export class Address extends BaseEntity {
 
 	@Field()
 	@Column()
-	postal_code!: string;
+	zip!: string;
 
 	@Field()
 	@Column()

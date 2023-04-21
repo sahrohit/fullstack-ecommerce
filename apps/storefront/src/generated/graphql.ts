@@ -22,17 +22,6 @@ export type Scalars = {
 	DateTime: any;
 };
 
-export type AddAddressInput = {
-	address_line1: Scalars["String"];
-	address_line2?: InputMaybe<Scalars["String"]>;
-	city: Scalars["String"];
-	country: Scalars["String"];
-	name: Scalars["String"];
-	phone_number: Scalars["String"];
-	postal_code: Scalars["String"];
-	state: Scalars["String"];
-};
-
 export type AddProductInput = {
 	categoryId: Scalars["Float"];
 	desc: Scalars["String"];
@@ -44,18 +33,30 @@ export type AddProductInput = {
 
 export type Address = {
 	__typename?: "Address";
-	address_line1: Scalars["String"];
-	address_line2?: Maybe<Scalars["String"]>;
+	address: Scalars["String"];
 	city: Scalars["String"];
 	country: Scalars["String"];
 	created_at: Scalars["String"];
 	id: Scalars["Int"];
+	isDefault: Scalars["Boolean"];
 	name: Scalars["String"];
 	phone_number: Scalars["String"];
-	postal_code: Scalars["String"];
 	state: Scalars["String"];
+	type: Scalars["String"];
 	updated_at: Scalars["String"];
 	userId: Scalars["Float"];
+	zip: Scalars["String"];
+};
+
+export type AddressInput = {
+	address: Scalars["String"];
+	city: Scalars["String"];
+	country: Scalars["String"];
+	name: Scalars["String"];
+	phone_number: Scalars["String"];
+	state: Scalars["String"];
+	type: Scalars["String"];
+	zip: Scalars["String"];
 };
 
 export type Cart = {
@@ -128,7 +129,7 @@ export type Mutation = {
 };
 
 export type MutationAddAddressArgs = {
-	input: AddAddressInput;
+	input: AddressInput;
 };
 
 export type MutationAddCategoryArgs = {
@@ -191,7 +192,7 @@ export type MutationResendVerificationEmailArgs = {
 
 export type MutationUpdateAddressArgs = {
 	id: Scalars["Int"];
-	input: UpdateAddressInput;
+	input: AddressInput;
 };
 
 export type MutationUpdateCartArgs = {
@@ -318,17 +319,6 @@ export type RegisterInput = {
 	password: Scalars["String"];
 };
 
-export type UpdateAddressInput = {
-	address_line1?: InputMaybe<Scalars["String"]>;
-	address_line2?: InputMaybe<Scalars["String"]>;
-	city?: InputMaybe<Scalars["String"]>;
-	country?: InputMaybe<Scalars["String"]>;
-	name?: InputMaybe<Scalars["String"]>;
-	phone_number?: InputMaybe<Scalars["String"]>;
-	postal_code?: InputMaybe<Scalars["String"]>;
-	state?: InputMaybe<Scalars["String"]>;
-};
-
 export type UpdateCategoryInput = {
 	desc?: InputMaybe<Scalars["String"]>;
 	identifier?: InputMaybe<Scalars["String"]>;
@@ -396,24 +386,205 @@ export type UserRole = {
 	updated_at: Scalars["String"];
 };
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
+export type AddressFragmentFragment = {
+	__typename?: "Address";
+	id: number;
+	type: string;
+	isDefault: boolean;
+	name: string;
+	address: string;
+	city: string;
+	state: string;
+	zip: string;
+	country: string;
+	phone_number: string;
+	userId: number;
+	created_at: string;
+	updated_at: string;
+};
 
-export type MeQuery = {
-	__typename?: "Query";
-	me?: {
-		__typename?: "User";
+export type RegularErrorFragment = {
+	__typename?: "FieldError";
+	field: string;
+	message: string;
+};
+
+export type UserFragmentFragment = {
+	__typename?: "User";
+	id: number;
+	first_name: string;
+	last_name: string;
+	email: string;
+	email_verified: boolean;
+	phone_number?: string | null;
+	phone_number_verified: boolean;
+	roleId: number;
+	imageUrl?: string | null;
+	created_at: string;
+	updated_at: string;
+};
+
+export type AddAddressMutationVariables = Exact<{
+	input: AddressInput;
+}>;
+
+export type AddAddressMutation = {
+	__typename?: "Mutation";
+	addAddress: {
+		__typename?: "Address";
 		id: number;
-		first_name: string;
-		last_name: string;
-		email: string;
-		email_verified: boolean;
-		phone_number?: string | null;
-		phone_number_verified: boolean;
-		imageUrl?: string | null;
-		roleId: number;
+		type: string;
+		isDefault: boolean;
+		name: string;
+		address: string;
+		city: string;
+		state: string;
+		zip: string;
+		country: string;
+		phone_number: string;
+		userId: number;
 		created_at: string;
 		updated_at: string;
-	} | null;
+	};
+};
+
+export type DeleteAddressMutationVariables = Exact<{
+	deleteAddressId: Scalars["Int"];
+}>;
+
+export type DeleteAddressMutation = {
+	__typename?: "Mutation";
+	deleteAddress: boolean;
+};
+
+export type UpdateAddressMutationVariables = Exact<{
+	input: AddressInput;
+	updateAddressId: Scalars["Int"];
+}>;
+
+export type UpdateAddressMutation = {
+	__typename?: "Mutation";
+	updateAddress: {
+		__typename?: "Address";
+		id: number;
+		type: string;
+		isDefault: boolean;
+		name: string;
+		address: string;
+		city: string;
+		state: string;
+		zip: string;
+		country: string;
+		phone_number: string;
+		userId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
+export type LoginMutationVariables = Exact<{
+	password: Scalars["String"];
+	email: Scalars["String"];
+}>;
+
+export type LoginMutation = {
+	__typename?: "Mutation";
+	login: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			roleId: number;
+			imageUrl?: string | null;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
+
+export type LogoutMutation = { __typename?: "Mutation"; logout: boolean };
+
+export type RegisterMutationVariables = Exact<{
+	options: RegisterInput;
+}>;
+
+export type RegisterMutation = {
+	__typename?: "Mutation";
+	register: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			roleId: number;
+			imageUrl?: string | null;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
+
+export type ResendVerificationEmailMutationVariables = Exact<{
+	email: Scalars["String"];
+}>;
+
+export type ResendVerificationEmailMutation = {
+	__typename?: "Mutation";
+	resendVerificationEmail: boolean;
+};
+
+export type VerifyEmailMutationVariables = Exact<{
+	token: Scalars["String"];
+}>;
+
+export type VerifyEmailMutation = {
+	__typename?: "Mutation";
+	verifyEmail: boolean;
+};
+
+export type AddressesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type AddressesQuery = {
+	__typename?: "Query";
+	addresses?: Array<{
+		__typename?: "Address";
+		id: number;
+		type: string;
+		isDefault: boolean;
+		name: string;
+		address: string;
+		city: string;
+		state: string;
+		zip: string;
+		country: string;
+		phone_number: string;
+		userId: number;
+		created_at: string;
+		updated_at: string;
+	}> | null;
 };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never }>;
@@ -451,18 +622,478 @@ export type ProductsQuery = {
 	}> | null;
 };
 
-export const MeDocument = gql`
-	query Me {
-		me {
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeQuery = {
+	__typename?: "Query";
+	me?: {
+		__typename?: "User";
+		id: number;
+		first_name: string;
+		last_name: string;
+		email: string;
+		email_verified: boolean;
+		phone_number?: string | null;
+		phone_number_verified: boolean;
+		roleId: number;
+		imageUrl?: string | null;
+		created_at: string;
+		updated_at: string;
+	} | null;
+};
+
+export const AddressFragmentFragmentDoc = gql`
+	fragment AddressFragment on Address {
+		id
+		type
+		isDefault
+		name
+		address
+		city
+		state
+		zip
+		country
+		phone_number
+		userId
+		created_at
+		updated_at
+	}
+`;
+export const RegularErrorFragmentDoc = gql`
+	fragment RegularError on FieldError {
+		field
+		message
+	}
+`;
+export const UserFragmentFragmentDoc = gql`
+	fragment UserFragment on User {
+		id
+		first_name
+		last_name
+		email
+		email_verified
+		phone_number
+		phone_number_verified
+		roleId
+		imageUrl
+		created_at
+		updated_at
+	}
+`;
+export const AddAddressDocument = gql`
+	mutation AddAddress($input: AddressInput!) {
+		addAddress(input: $input) {
+			...AddressFragment
+		}
+	}
+	${AddressFragmentFragmentDoc}
+`;
+export type AddAddressMutationFn = Apollo.MutationFunction<
+	AddAddressMutation,
+	AddAddressMutationVariables
+>;
+
+/**
+ * __useAddAddressMutation__
+ *
+ * To run a mutation, you first call `useAddAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addAddressMutation, { data, loading, error }] = useAddAddressMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddAddressMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AddAddressMutation,
+		AddAddressMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<AddAddressMutation, AddAddressMutationVariables>(
+		AddAddressDocument,
+		options
+	);
+}
+export type AddAddressMutationHookResult = ReturnType<
+	typeof useAddAddressMutation
+>;
+export type AddAddressMutationResult =
+	Apollo.MutationResult<AddAddressMutation>;
+export type AddAddressMutationOptions = Apollo.BaseMutationOptions<
+	AddAddressMutation,
+	AddAddressMutationVariables
+>;
+export const DeleteAddressDocument = gql`
+	mutation DeleteAddress($deleteAddressId: Int!) {
+		deleteAddress(id: $deleteAddressId)
+	}
+`;
+export type DeleteAddressMutationFn = Apollo.MutationFunction<
+	DeleteAddressMutation,
+	DeleteAddressMutationVariables
+>;
+
+/**
+ * __useDeleteAddressMutation__
+ *
+ * To run a mutation, you first call `useDeleteAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAddressMutation, { data, loading, error }] = useDeleteAddressMutation({
+ *   variables: {
+ *      deleteAddressId: // value for 'deleteAddressId'
+ *   },
+ * });
+ */
+export function useDeleteAddressMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		DeleteAddressMutation,
+		DeleteAddressMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		DeleteAddressMutation,
+		DeleteAddressMutationVariables
+	>(DeleteAddressDocument, options);
+}
+export type DeleteAddressMutationHookResult = ReturnType<
+	typeof useDeleteAddressMutation
+>;
+export type DeleteAddressMutationResult =
+	Apollo.MutationResult<DeleteAddressMutation>;
+export type DeleteAddressMutationOptions = Apollo.BaseMutationOptions<
+	DeleteAddressMutation,
+	DeleteAddressMutationVariables
+>;
+export const UpdateAddressDocument = gql`
+	mutation UpdateAddress($input: AddressInput!, $updateAddressId: Int!) {
+		updateAddress(input: $input, id: $updateAddressId) {
+			...AddressFragment
+		}
+	}
+	${AddressFragmentFragmentDoc}
+`;
+export type UpdateAddressMutationFn = Apollo.MutationFunction<
+	UpdateAddressMutation,
+	UpdateAddressMutationVariables
+>;
+
+/**
+ * __useUpdateAddressMutation__
+ *
+ * To run a mutation, you first call `useUpdateAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAddressMutation, { data, loading, error }] = useUpdateAddressMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      updateAddressId: // value for 'updateAddressId'
+ *   },
+ * });
+ */
+export function useUpdateAddressMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateAddressMutation,
+		UpdateAddressMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateAddressMutation,
+		UpdateAddressMutationVariables
+	>(UpdateAddressDocument, options);
+}
+export type UpdateAddressMutationHookResult = ReturnType<
+	typeof useUpdateAddressMutation
+>;
+export type UpdateAddressMutationResult =
+	Apollo.MutationResult<UpdateAddressMutation>;
+export type UpdateAddressMutationOptions = Apollo.BaseMutationOptions<
+	UpdateAddressMutation,
+	UpdateAddressMutationVariables
+>;
+export const LoginDocument = gql`
+	mutation Login($password: String!, $email: String!) {
+		login(password: $password, email: $email) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+	LoginMutation,
+	LoginMutationVariables
+>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      password: // value for 'password'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useLoginMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		LoginMutation,
+		LoginMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+		LoginDocument,
+		options
+	);
+}
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+	LoginMutation,
+	LoginMutationVariables
+>;
+export const LogoutDocument = gql`
+	mutation Logout {
+		logout
+	}
+`;
+export type LogoutMutationFn = Apollo.MutationFunction<
+	LogoutMutation,
+	LogoutMutationVariables
+>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		LogoutMutation,
+		LogoutMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(
+		LogoutDocument,
+		options
+	);
+}
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+	LogoutMutation,
+	LogoutMutationVariables
+>;
+export const RegisterDocument = gql`
+	mutation Register($options: RegisterInput!) {
+		register(options: $options) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+	RegisterMutation,
+	RegisterMutationVariables
+>;
+
+/**
+ * __useRegisterMutation__
+ *
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useRegisterMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		RegisterMutation,
+		RegisterMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+		RegisterDocument,
+		options
+	);
+}
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+	RegisterMutation,
+	RegisterMutationVariables
+>;
+export const ResendVerificationEmailDocument = gql`
+	mutation ResendVerificationEmail($email: String!) {
+		resendVerificationEmail(email: $email)
+	}
+`;
+export type ResendVerificationEmailMutationFn = Apollo.MutationFunction<
+	ResendVerificationEmailMutation,
+	ResendVerificationEmailMutationVariables
+>;
+
+/**
+ * __useResendVerificationEmailMutation__
+ *
+ * To run a mutation, you first call `useResendVerificationEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResendVerificationEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resendVerificationEmailMutation, { data, loading, error }] = useResendVerificationEmailMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useResendVerificationEmailMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ResendVerificationEmailMutation,
+		ResendVerificationEmailMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ResendVerificationEmailMutation,
+		ResendVerificationEmailMutationVariables
+	>(ResendVerificationEmailDocument, options);
+}
+export type ResendVerificationEmailMutationHookResult = ReturnType<
+	typeof useResendVerificationEmailMutation
+>;
+export type ResendVerificationEmailMutationResult =
+	Apollo.MutationResult<ResendVerificationEmailMutation>;
+export type ResendVerificationEmailMutationOptions = Apollo.BaseMutationOptions<
+	ResendVerificationEmailMutation,
+	ResendVerificationEmailMutationVariables
+>;
+export const VerifyEmailDocument = gql`
+	mutation VerifyEmail($token: String!) {
+		verifyEmail(token: $token)
+	}
+`;
+export type VerifyEmailMutationFn = Apollo.MutationFunction<
+	VerifyEmailMutation,
+	VerifyEmailMutationVariables
+>;
+
+/**
+ * __useVerifyEmailMutation__
+ *
+ * To run a mutation, you first call `useVerifyEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyEmailMutation, { data, loading, error }] = useVerifyEmailMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useVerifyEmailMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		VerifyEmailMutation,
+		VerifyEmailMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(
+		VerifyEmailDocument,
+		options
+	);
+}
+export type VerifyEmailMutationHookResult = ReturnType<
+	typeof useVerifyEmailMutation
+>;
+export type VerifyEmailMutationResult =
+	Apollo.MutationResult<VerifyEmailMutation>;
+export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<
+	VerifyEmailMutation,
+	VerifyEmailMutationVariables
+>;
+export const AddressesDocument = gql`
+	query Addresses {
+		addresses {
 			id
-			first_name
-			last_name
-			email
-			email_verified
+			type
+			isDefault
+			name
+			address
+			city
+			state
+			zip
+			country
 			phone_number
-			phone_number_verified
-			imageUrl
-			roleId
+			userId
 			created_at
 			updated_at
 		}
@@ -470,35 +1101,49 @@ export const MeDocument = gql`
 `;
 
 /**
- * __useMeQuery__
+ * __useAddressesQuery__
  *
- * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
- * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useAddressesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAddressesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeQuery({
+ * const { data, loading, error } = useAddressesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useMeQuery(
-	baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+export function useAddressesQuery(
+	baseOptions?: Apollo.QueryHookOptions<AddressesQuery, AddressesQueryVariables>
 ) {
 	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+	return Apollo.useQuery<AddressesQuery, AddressesQueryVariables>(
+		AddressesDocument,
+		options
+	);
 }
-export function useMeLazyQuery(
-	baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+export function useAddressesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		AddressesQuery,
+		AddressesQueryVariables
+	>
 ) {
 	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+	return Apollo.useLazyQuery<AddressesQuery, AddressesQueryVariables>(
+		AddressesDocument,
+		options
+	);
 }
-export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
-export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
-export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export type AddressesQueryHookResult = ReturnType<typeof useAddressesQuery>;
+export type AddressesLazyQueryHookResult = ReturnType<
+	typeof useAddressesLazyQuery
+>;
+export type AddressesQueryResult = Apollo.QueryResult<
+	AddressesQuery,
+	AddressesQueryVariables
+>;
 export const ProductsDocument = gql`
 	query Products {
 		products {
@@ -574,3 +1219,42 @@ export type ProductsQueryResult = Apollo.QueryResult<
 	ProductsQuery,
 	ProductsQueryVariables
 >;
+export const MeDocument = gql`
+	query Me {
+		me {
+			...UserFragment
+		}
+	}
+	${UserFragmentFragmentDoc}
+`;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(
+	baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export function useMeLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;

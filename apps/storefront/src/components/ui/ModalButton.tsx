@@ -10,7 +10,7 @@ import {
 	ButtonProps,
 	useDisclosure,
 } from "@chakra-ui/react";
-import type { ReactNode } from "react";
+import { forwardRef, useImperativeHandle, type ReactNode } from "react";
 
 interface ModalButtonProps extends ButtonProps {
 	buttonText: string;
@@ -18,32 +18,45 @@ interface ModalButtonProps extends ButtonProps {
 	modalFooter?: ReactNode;
 }
 
-const ModalButton = ({
-	buttonText,
-	children,
-	modalHeader,
-	modalFooter,
-	...rest
-}: ModalButtonProps) => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+const ModalButton = forwardRef(
+	(
+		{
+			buttonText,
+			children,
+			modalHeader,
+			modalFooter,
+			...rest
+		}: ModalButtonProps,
+		ref
+	) => {
+		const { isOpen, onOpen, onClose } = useDisclosure();
 
-	return (
-		<>
-			<Button onClick={onOpen} {...rest}>
-				{buttonText}
-			</Button>
-			<Modal size="lg" isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
-				<ModalContent>
-					{modalHeader && <ModalHeader>{modalHeader}</ModalHeader>}
-					<ModalCloseButton />
-					<ModalBody>{children}</ModalBody>
-					{modalFooter && <ModalFooter>{modalFooter}</ModalFooter>}
-				</ModalContent>
-			</Modal>
-		</>
-	);
-};
+		useImperativeHandle(ref, () => ({
+			closeModal() {
+				onClose();
+			},
+		}));
+
+		return (
+			<>
+				<Button onClick={onOpen} {...rest}>
+					{buttonText}
+				</Button>
+				<Modal size="lg" isOpen={isOpen} onClose={onClose}>
+					<ModalOverlay />
+					<ModalContent>
+						{modalHeader && <ModalHeader>{modalHeader}</ModalHeader>}
+						<ModalCloseButton />
+						<ModalBody>{children}</ModalBody>
+						{modalFooter && <ModalFooter>{modalFooter}</ModalFooter>}
+					</ModalContent>
+				</Modal>
+			</>
+		);
+	}
+);
+
+ModalButton.displayName = "ModalButton";
 
 ModalButton.defaultProps = {
 	modalHeader: null,

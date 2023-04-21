@@ -11,8 +11,7 @@ import { AppDataSource } from "../data-source";
 import { Address } from "../entities/Address";
 import { isVerified } from "../middlewares/isVerified";
 import { type MyContext } from "../types";
-import AddAddressInput from "./GqlObjets/AddAddressInput";
-import UpdateAddressInput from "./GqlObjets/UpdateAddressInput";
+import AddressInput from "./GqlObjets/AddressInput";
 
 @Resolver(Address)
 export class AddressResolver {
@@ -25,7 +24,7 @@ export class AddressResolver {
 	@Mutation(() => Address)
 	@UseMiddleware(isVerified)
 	async addAddress(
-		@Arg("input", () => AddAddressInput) input: AddAddressInput,
+		@Arg("input", () => AddressInput) input: AddressInput,
 		@Ctx() { req }: MyContext
 	): Promise<Address> {
 		return Address.create({ ...input, userId: req.session.userId }).save();
@@ -35,7 +34,7 @@ export class AddressResolver {
 	@UseMiddleware(isVerified)
 	async updateAddress(
 		@Arg("id", () => Int) id: number,
-		@Arg("input", () => UpdateAddressInput) input: UpdateAddressInput,
+		@Arg("input", () => AddressInput) input: AddressInput,
 		@Ctx() { req }: MyContext
 	): Promise<Address> {
 		const result = await AppDataSource.createQueryBuilder()

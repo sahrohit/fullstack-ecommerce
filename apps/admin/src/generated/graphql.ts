@@ -22,17 +22,6 @@ export type Scalars = {
 	DateTime: any;
 };
 
-export type AddAddressInput = {
-	address_line1: Scalars["String"];
-	address_line2?: InputMaybe<Scalars["String"]>;
-	city: Scalars["String"];
-	country: Scalars["String"];
-	name: Scalars["String"];
-	phone_number: Scalars["String"];
-	postal_code: Scalars["String"];
-	state: Scalars["String"];
-};
-
 export type AddProductInput = {
 	categoryId: Scalars["Float"];
 	desc: Scalars["String"];
@@ -44,18 +33,30 @@ export type AddProductInput = {
 
 export type Address = {
 	__typename?: "Address";
-	address_line1: Scalars["String"];
-	address_line2?: Maybe<Scalars["String"]>;
+	address: Scalars["String"];
 	city: Scalars["String"];
 	country: Scalars["String"];
 	created_at: Scalars["String"];
 	id: Scalars["Int"];
+	isDefault: Scalars["Boolean"];
+	name: Scalars["String"];
+	phone_number: Scalars["String"];
+	state: Scalars["String"];
+	type: Scalars["String"];
+	updated_at: Scalars["String"];
+	userId: Scalars["Float"];
+	zip: Scalars["String"];
+};
+
+export type AddressInput = {
+	address: Scalars["String"];
+	city: Scalars["String"];
+	country: Scalars["String"];
 	name: Scalars["String"];
 	phone_number: Scalars["String"];
 	postal_code: Scalars["String"];
 	state: Scalars["String"];
-	updated_at: Scalars["String"];
-	userId: Scalars["Float"];
+	type: Scalars["String"];
 };
 
 export type Cart = {
@@ -128,7 +129,7 @@ export type Mutation = {
 };
 
 export type MutationAddAddressArgs = {
-	input: AddAddressInput;
+	input: AddressInput;
 };
 
 export type MutationAddCategoryArgs = {
@@ -191,7 +192,7 @@ export type MutationResendVerificationEmailArgs = {
 
 export type MutationUpdateAddressArgs = {
 	id: Scalars["Int"];
-	input: UpdateAddressInput;
+	input: AddressInput;
 };
 
 export type MutationUpdateCartArgs = {
@@ -316,17 +317,6 @@ export type RegisterInput = {
 	first_name: Scalars["String"];
 	last_name: Scalars["String"];
 	password: Scalars["String"];
-};
-
-export type UpdateAddressInput = {
-	address_line1?: InputMaybe<Scalars["String"]>;
-	address_line2?: InputMaybe<Scalars["String"]>;
-	city?: InputMaybe<Scalars["String"]>;
-	country?: InputMaybe<Scalars["String"]>;
-	name?: InputMaybe<Scalars["String"]>;
-	phone_number?: InputMaybe<Scalars["String"]>;
-	postal_code?: InputMaybe<Scalars["String"]>;
-	state?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateCategoryInput = {
