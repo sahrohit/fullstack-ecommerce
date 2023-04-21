@@ -18,7 +18,10 @@ export class AddressResolver {
 	@Query(() => [Address], { nullable: true })
 	@UseMiddleware(isVerified)
 	addresses(@Ctx() { req }: MyContext) {
-		return Address.find({ where: { userId: req.session.userId } });
+		return Address.find({
+			where: { userId: req.session.userId },
+			order: { created_at: "DESC" },
+		});
 	}
 
 	@Mutation(() => Address)
