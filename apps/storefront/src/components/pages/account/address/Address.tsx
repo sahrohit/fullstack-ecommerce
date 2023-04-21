@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
 	Box,
 	Stack,
@@ -6,6 +7,10 @@ import {
 	Badge,
 	SkeletonCircle,
 	Skeleton,
+	Img,
+	VStack,
+	Heading,
+	Text,
 } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
 import { MdWorkOutline } from "react-icons/md";
@@ -33,21 +38,34 @@ const AddressSection = () => {
 				shadow="base"
 				overflow="hidden"
 			>
-				{loading ? (
-					<Stack spacing="6" divider={<StackDivider />} py="5" px="8">
-						{Array(3)
-							.fill(4, 2, 1)
-							.map((address) => (
-								<AddressSkeleton key={address} />
-							))}
-					</Stack>
-				) : (
-					<Stack spacing="6" divider={<StackDivider />} py="5" px="8">
-						{data?.addresses?.map((address) => (
+				<Stack spacing="6" divider={<StackDivider />} py="5" px="8">
+					{loading ? (
+						Array(3)
+							.fill("address")
+							.map((address, index) => (
+								<AddressSkeleton key={`${address}-${index + 1}`} />
+							))
+					) : !data?.addresses?.length ? (
+						<VStack py={8} gap={2}>
+							<Box textAlign="center">
+								<Heading as="h3" fontSize="2xl" lineHeight="1">
+									No Address Found
+								</Heading>
+								<Text>You dont have any addresses yet.</Text>
+							</Box>
+							<Img
+								width="50%"
+								placeholder="blur"
+								alt="App screenshot"
+								src="/assets/bad-gateway.svg"
+							/>
+						</VStack>
+					) : (
+						data?.addresses?.map((address) => (
 							<Address key={address.id} address={address} />
-						))}
-					</Stack>
-				)}
+						))
+					)}
+				</Stack>
 			</Box>
 		</Box>
 	);
@@ -175,25 +193,24 @@ export const AddressSkeleton = () => (
 				<SkeletonCircle size="10" />
 			</Box>
 			<Box flex="1">
-				<Skeleton as="h4" fontWeight="bold" fontSize="xl" maxW="xl">
-					<Skeleton>Skeleton</Skeleton>{" "}
-				</Skeleton>
+				<Box as={Skeleton} fontWeight="bold" fontSize="xl" maxW="xs">
+					Hello World
+				</Box>
 				<Box
 					maxW={{ base: "xs", md: "unset" }}
 					color={mode("gray.600", "gray.400")}
 					fontSize="md"
 				>
-					<Skeleton height="20px" />, <Skeleton height="20px" />
+					<Skeleton as="span">House no 6 Surya Colony, Lalipur</Skeleton>
 					<br />
-					<Skeleton height="20px" /> <Skeleton height="20px" />,{" "}
-					<Skeleton height="20px" />
+					<Skeleton as="span">Bagmati 123123, Nepal</Skeleton>
 				</Box>
 				<Box
 					color={mode("gray.600", "gray.400")}
 					fontSize="lg"
 					fontWeight="semibold"
 				>
-					<Skeleton height="20px" />
+					<Skeleton maxW="xs" height="20px" />
 				</Box>
 			</Box>
 		</Stack>
@@ -201,8 +218,8 @@ export const AddressSkeleton = () => (
 			direction={{ base: "row", md: "column" }}
 			justifyContent={{ base: "flex-start", md: "center" }}
 		>
-			<Skeleton height="20px" />
-			<Skeleton height="20px" />
+			<Skeleton width="100px" height="40px" />
+			<Skeleton width="100px" height="40px" />
 		</Stack>
 	</Stack>
 );
