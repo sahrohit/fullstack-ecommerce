@@ -1,0 +1,17 @@
+query Addresses {
+	addresses {
+		id
+		type
+		isDefault
+		name
+		address
+		city
+		state
+		zip
+		country
+		phone_number
+		userId
+		created_at
+		updated_at
+	}
+}

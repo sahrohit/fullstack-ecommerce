@@ -8,6 +8,9 @@ import {
 	useAddAddressMutation,
 	useUpdateAddressMutation,
 } from "@/generated/graphql";
+import { ToggleButtonGroup, ToggleButton } from "@/components/ui/ToggleButton";
+import { AiOutlineHome } from "react-icons/ai";
+import { MdWorkOutline } from "react-icons/md";
 
 type AddressFormValues = {
 	name: string;
@@ -144,17 +147,39 @@ const AddressForm = ({
 						Autofill
 					</Button>
 				</HStack>
-				<InputField
-					register={{ ...register("name") }}
-					error={errors.name}
-					touched={touchedFields.name}
-					type="text"
-					name="name"
-					size="lg"
-					autoComplete="name"
-					label="Name"
-					placeholder=""
-				/>
+				<HStack alignItems="flex-end">
+					<InputField
+						register={{ ...register("name") }}
+						error={errors.name}
+						touched={touchedFields.name}
+						type="text"
+						name="name"
+						size="lg"
+						autoComplete="name"
+						label="Name"
+						placeholder=""
+					/>
+					<ToggleButtonGroup<"home" | "work">
+						name={register("type").name}
+						onChange={(value) => setValue("type", value)}
+						size="lg"
+						defaultValue={defaultValues?.type ?? "home"}
+						isAttached
+						variant="outline"
+						aria-label="Set Home or Work"
+					>
+						<ToggleButton
+							value="home"
+							aria-label="Home"
+							icon={<AiOutlineHome />}
+						/>
+						<ToggleButton
+							value="work"
+							aria-label="Work"
+							icon={<MdWorkOutline />}
+						/>
+					</ToggleButtonGroup>
+				</HStack>
 				<InputField
 					register={{ ...register("phone_number") }}
 					error={errors.phone_number}

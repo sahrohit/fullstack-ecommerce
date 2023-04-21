@@ -96,7 +96,7 @@ export const Address = ({ address }: AddressProps) => {
 				flex="1"
 			>
 				<Box aria-hidden fontSize="2xl" pt="1" color="gray.500">
-					{address.type === "Home" ? <FaHome /> : <MdWorkOutline />}
+					{address.type === "home" ? <FaHome /> : <MdWorkOutline />}
 				</Box>
 				<Box flex="1">
 					<Box as="h4" fontWeight="bold" fontSize="xl" maxW="xl">
