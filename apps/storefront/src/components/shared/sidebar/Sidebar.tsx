@@ -81,11 +81,7 @@ const Sidebar = ({ onClose, ...rest }: SidebarProps) => {
 				</Stack>
 			</Stack>
 			<Spacer />
-			<UserProfile
-				name="Cindy Winston"
-				image="https://images.unsplash.com/photo-1521296797187-726205347ca9?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjR8fGxhZHklMjBzbWlsaW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
-				email="cindy@example.com"
-			/>
+			<UserProfile />
 		</Flex>
 	);
 };
