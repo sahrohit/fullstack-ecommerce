@@ -85,6 +85,7 @@ export class UserResolver {
 					first_name: options.first_name,
 					last_name: options.last_name,
 					email: options.email,
+					imageUrl: `https://api.dicebear.com/6.x/micah/svg?size=256&seed=${options.first_name}`,
 				})
 				.returning("*")
 				.execute();
