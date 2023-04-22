@@ -385,6 +385,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.0.1
         version: 3.0.1(react-hook-form@7.43.9)
+      dayjs:
+        specifier: ^1.11.7
+        version: 1.11.7
       framer-motion:
         specifier: ^6.5.0
         version: 6.5.0(react-dom@18.2.0)(react@18.2.0)
@@ -7023,6 +7026,10 @@ packages:
   /date-fns@2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
     engines: {node: '>=0.11'}
+    dev: false
+
+  /dayjs@1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
 
   /debounce@1.2.1:

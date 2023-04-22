@@ -11,7 +11,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 	const router = useRouter();
 
 	const client = new ApolloClient({
-		uri: "http://localhost:4000/graphql",
+		uri: process.env.NEXT_PUBLIC_API_URL,
 		cache: new InMemoryCache(),
 		credentials: "include",
 	});
