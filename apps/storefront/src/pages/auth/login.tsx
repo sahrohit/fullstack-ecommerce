@@ -2,6 +2,7 @@ import SignInWithGoogle from "@/components/auth/AuthProvider";
 import LoginForm from "@/components/auth/LoginForm";
 import Logo from "@/components/logo";
 import UnderlineLink from "@/components/ui/UnderlineLink";
+import withAuthPages from "@/routes/withAuthPages";
 import {
 	Badge,
 	Box,
@@ -100,4 +101,4 @@ const LoginPage = () => (
 	</Flex>
 );
 
-export default LoginPage;
+export default withAuthPages(LoginPage);

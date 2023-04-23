@@ -75,6 +75,7 @@ const LoginForm = () => {
 				isClosable: true,
 			});
 		},
+		refetchQueries: ["Me"],
 	});
 
 	return (

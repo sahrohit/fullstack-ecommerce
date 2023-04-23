@@ -14,6 +14,7 @@ import Logo from "@/components/logo";
 import RegisterForm from "@/components/auth/RegisterForm";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import SignInWithGoogle from "@/components/auth/AuthProvider";
+import withAuthPages from "@/routes/withAuthPages";
 
 const RegisterPage = () => (
 	<Box minH="100vh" bg={{ md: mode("gray.100", "inherit") }}>
@@ -88,4 +89,4 @@ const RegisterPage = () => (
 	</Box>
 );
 
-export default RegisterPage;
+export default withAuthPages(RegisterPage);

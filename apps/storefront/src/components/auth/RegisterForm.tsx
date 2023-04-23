@@ -73,6 +73,7 @@ const RegisterForm = () => {
 				isClosable: true,
 			});
 		},
+		refetchQueries: ["Me"],
 	});
 
 	return (

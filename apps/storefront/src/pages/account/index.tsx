@@ -2,6 +2,7 @@ import AccountSettings from "@/components/pages/account/AccountSetting";
 import DangerZone from "@/components/pages/account/DangerZone";
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import SocialAccountSettings from "@/components/pages/account/SocialAccountSettings";
+import withProtected from "@/routes/withProtected";
 import { Stack } from "@chakra-ui/react";
 
 const AccountPage = () => (
@@ -16,4 +17,4 @@ const AccountPage = () => (
 	</Stack>
 );
 
-export default AccountPage;
+export default withProtected(AccountPage);

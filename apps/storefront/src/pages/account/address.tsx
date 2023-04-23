@@ -2,6 +2,7 @@ import AddressSection from "@/components/pages/account/address/Address";
 import AddressForm from "@/components/pages/account/address/AddressForm";
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import ModalButton from "@/components/ui/ModalButton";
+import withProtected from "@/routes/withProtected";
 import { Stack } from "@chakra-ui/react";
 import { useRef } from "react";
 import { IoAdd } from "react-icons/io5";
@@ -45,4 +46,4 @@ const AccountPage = () => {
 	);
 };
 
-export default AccountPage;
+export default withProtected(AccountPage);

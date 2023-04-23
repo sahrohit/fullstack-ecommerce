@@ -17,6 +17,7 @@ import Logo from "@/components/logo";
 import { BiMailSend } from "react-icons/bi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect } from "react";
+import withAuthPages from "@/routes/withAuthPages";
 
 const ForgotPasswordPage = () => (
 	<Box
@@ -112,4 +113,4 @@ const ForgotPasswordForm = () => {
 	);
 };
 
-export default ForgotPasswordPage;
+export default withAuthPages(ForgotPasswordPage);

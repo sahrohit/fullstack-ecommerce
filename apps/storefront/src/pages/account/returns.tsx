@@ -1,3 +1,5 @@
+import withProtected from "@/routes/withProtected";
+
 const ReturnsPage = () => <div>Returns</div>;
 
-export default ReturnsPage;
+export default withProtected(ReturnsPage);

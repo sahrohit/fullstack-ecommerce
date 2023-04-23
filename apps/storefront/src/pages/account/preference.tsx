@@ -1,5 +1,6 @@
 import AccountPreference from "@/components/pages/account/AccountPreference";
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
+import withProtected from "@/routes/withProtected";
 import { Stack } from "@chakra-ui/react";
 
 const AccountPage = () => (
@@ -12,4 +13,4 @@ const AccountPage = () => (
 	</Stack>
 );
 
-export default AccountPage;
+export default withProtected(AccountPage);

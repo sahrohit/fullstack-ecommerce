@@ -1,6 +1,7 @@
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import OrderCard from "@/components/pages/account/order/OrderCard";
 import ORDERS from "@/data/order";
+import withProtected from "@/routes/withProtected";
 import { SimpleGrid, Stack } from "@chakra-ui/react";
 
 const OrdersPage = () => (
@@ -17,4 +18,4 @@ const OrdersPage = () => (
 	</Stack>
 );
 
-export default OrdersPage;
+export default withProtected(OrdersPage);

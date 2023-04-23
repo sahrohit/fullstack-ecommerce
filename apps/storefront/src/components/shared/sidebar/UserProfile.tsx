@@ -1,8 +1,21 @@
-import { useMeQuery } from "@/generated/graphql";
-import { Avatar, Button, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { useLogoutMutation, useMeQuery } from "@/generated/graphql";
+import {
+	Avatar,
+	Button,
+	Flex,
+	HStack,
+	Text,
+	VStack,
+	useToast,
+} from "@chakra-ui/react";
 
 const UserProfile = () => {
+	const toast = useToast();
 	const { data, loading, error } = useMeQuery();
+
+	const [logout, { loading: logoutLoading }] = useLogoutMutation({
+		refetchQueries: ["Me"],
+	});
 
 	if (loading) return <p>Loading...</p>;
 
@@ -25,7 +38,20 @@ const UserProfile = () => {
 					</Text>
 				</Flex>
 			</HStack>
-			<Button w="full" colorScheme="red">
+			<Button
+				w="full"
+				colorScheme="red"
+				isLoading={logoutLoading}
+				onClick={async () => {
+					await logout();
+					toast({
+						title: "Logged out",
+						description: "You have been logged out.",
+						status: "success",
+						isClosable: true,
+					});
+				}}
+			>
 				Logout
 			</Button>
 		</VStack>
