@@ -1,3 +1,4 @@
+import "dotenv-safe/config";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { Address } from "./entities/Address";
@@ -17,7 +18,7 @@ import { UserRole } from "./entities/UserRole";
 export const AppDataSource = new DataSource({
 	type: "postgres",
 	url: process.env.DATABASE_URL,
-	synchronize: true,
+	// synchronize: true,
 	logging: true,
 	entities: [
 		User,
@@ -34,6 +35,6 @@ export const AppDataSource = new DataSource({
 		OrderItem,
 		PaymentDetail,
 	],
-	migrations: [],
-	subscribers: [],
+	migrations: ["src/migration/**/*.ts"],
+	subscribers: ["src/migration/**/*.ts"],
 });

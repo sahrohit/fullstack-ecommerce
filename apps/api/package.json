@@ -13,7 +13,12 @@
 		"format:check": "prettier --check .",
 		"format:write": "prettier --write .",
 		"lint:check": "eslint .",
-		"lint:fix": "eslint --fix ."
+		"lint:fix": "eslint --fix .",
+		"typeorm": "typeorm-ts-node-commonjs",
+		"typeorm:create": "typeorm-ts-node-commonjs migration:create ./src/migration/test",
+		"typeorm:generate": "typeorm-ts-node-commonjs migration:generate -d src/data-source.ts src/migration/Migration",
+		"typeorm:migrate": "npx typeorm-ts-node-commonjs migration:run -d src/data-source",
+		"typeorm:revert": "npx typeorm-ts-node-commonjs migration:revert -d src/data-source"
 	},
 	"devDependencies": {
 		"@swc/core": "^1.2.114",
