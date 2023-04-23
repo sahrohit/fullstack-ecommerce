@@ -57,6 +57,17 @@ const RegisterPage = () => (
 
 						<DividerWithText>or</DividerWithText>
 						<RegisterForm />
+						<Text
+							display={{ base: "block", lg: "none" }}
+							mt="8"
+							align="center"
+							fontWeight="medium"
+						>
+							Already have an account?{" "}
+							<UnderlineLink href="/auth/login">
+								Log in with Chakra
+							</UnderlineLink>
+						</Text>
 					</Box>
 				</Box>
 
