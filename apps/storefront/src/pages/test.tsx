@@ -1,5 +1,7 @@
+import Link from "next/link";
+import Result from "@/components/shared/Result";
 import { useMeQuery } from "@/generated/graphql";
-import { Box } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 const TestPage = () => {
 	const { data, loading } = useMeQuery();
@@ -9,10 +11,16 @@ const TestPage = () => {
 	}
 
 	return (
-		<Box p={4}>
-			<h1>Test Page</h1>
-			{JSON.stringify(data, null, 2)}
-		</Box>
+		<Result
+			type="info"
+			heading="Test Page"
+			text="This page should always remain as it is. The below data is fetched from the server."
+			dump={data}
+		>
+			<Button as={Link} href="/" textDecoration="none!">
+				Go to Dashboard
+			</Button>
+		</Result>
 	);
 };
 export default TestPage;
