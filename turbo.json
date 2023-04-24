@@ -20,6 +20,7 @@
 				"REDIS_URL",
 				"SESSION_SECRET",
 				"PORT",
+				"CLIENT_URL",
 				"NEXT_PUBLIC_API_URL"
 			]
 		},
