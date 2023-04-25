@@ -43,9 +43,7 @@ const AccountSettings = () => {
 							<Text>{name}</Text>
 							<Text color="gray.500" fontSize="sm">
 								Joined{" "}
-								{dayjs(parseInt(data?.me?.created_at!, 10) / 1000).format(
-									"MMMM YYYY"
-								)}
+								{dayjs(Number(data?.me?.created_at!)).format("MMMM YYYY")}
 							</Text>
 						</Box>
 					</HStack>
@@ -63,7 +61,7 @@ const AccountSettings = () => {
 					title="Login details"
 					description="Change your email and password"
 				>
-					<Text fontSize="sm">lisat09@example.com</Text>
+					<Text fontSize="sm">{data?.me?.email}</Text>
 					<HStack mt="5">
 						<Button size="sm" fontWeight="normal">
 							Change email
