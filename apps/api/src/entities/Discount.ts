@@ -34,7 +34,7 @@ export class Discount extends BaseEntity {
 	@Column({ default: false })
 	active!: boolean;
 
-	@OneToMany(() => Product, (product) => product.category)
+	@OneToMany(() => Product, (product) => product.discount)
 	@JoinTable({ name: "product_id" })
 	products!: Product[];
 

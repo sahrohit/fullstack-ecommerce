@@ -19,6 +19,7 @@ import { ProductResolver } from "./resolvers/product";
 import { UserResolver } from "./resolvers/user";
 import { MyContext } from "./types";
 import "reflect-metadata";
+import { Product } from "./entities/Product";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -67,6 +68,24 @@ const Server = async () => {
 
 	app.get("/", (_req, res) => {
 		res.json({ status: "ok" });
+	});
+
+	app.get("/test", async (_req, res) => {
+		const products = await Product.find({
+			relations: {
+				inventories: {
+					variants: {
+						variant_value: {
+							variant: true,
+						},
+					},
+				},
+				category: true,
+				images: true,
+				discount: true,
+			},
+		});
+		res.json({ products });
 	});
 
 	const apolloServer = new ApolloServer({

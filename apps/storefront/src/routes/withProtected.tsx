@@ -17,8 +17,6 @@ const withProtected = (Component: any) =>
 			return <p>{error.message}</p>;
 		}
 
-		console.log(data?.me);
-
 		if (!data?.me) {
 			router.replace(
 				{

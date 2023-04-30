@@ -42,7 +42,7 @@ export class Product extends BaseEntity {
 	@Column()
 	categoryId!: number;
 
-	@Field()
+	@Field({ nullable: true })
 	@Column({ nullable: true })
 	discountId?: number;
 

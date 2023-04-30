@@ -4,22 +4,22 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
-	Unique,
 	UpdateDateColumn,
 } from "typeorm";
 import { Cart } from "./Cart";
 import { Product } from "./Product";
+import { ProductVariant } from "./ProductVariant";
 
 @ObjectType()
 @Entity()
-@Unique(["variant", "productId"])
 export class ProductInventory extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
-	id!: number;
+	inventory_id!: number;
 
 	@Field()
 	@Column({ type: "int" })
@@ -29,9 +29,12 @@ export class ProductInventory extends BaseEntity {
 	@Column()
 	price!: number;
 
-	@Field()
-	@Column({ nullable: true })
-	variant!: string;
+	@OneToMany(
+		() => ProductVariant,
+		(product_variant) => product_variant.inventory
+	)
+	@JoinColumn({ name: "inventory_id" })
+	variants!: ProductVariant[];
 
 	@Field()
 	@Column()

@@ -14,11 +14,14 @@ import { ProductInventory } from "./entities/ProductInventory";
 import { User } from "./entities/User";
 import { UserPayment } from "./entities/UserPayment";
 import { UserRole } from "./entities/UserRole";
+import { Variant } from "./entities/Variant";
+import { VariantValue } from "./entities/VariantValue";
+import { ProductVariant } from "./entities/ProductVariant";
 
 export const AppDataSource = new DataSource({
 	type: "postgres",
 	url: process.env.DATABASE_URL,
-	// synchronize: true,
+	synchronize: true,
 	logging: true,
 	entities: [
 		User,
@@ -34,6 +37,9 @@ export const AppDataSource = new DataSource({
 		OrderDetail,
 		OrderItem,
 		PaymentDetail,
+		Variant,
+		VariantValue,
+		ProductVariant,
 	],
 	migrations: ["src/migration/**/*.ts"],
 	subscribers: ["src/migration/**/*.ts"],
