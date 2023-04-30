@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import { ProductImageResponse } from "./ProductResponse";
+import { ProductImage } from "src/entities/ProductImage";
 
 @ObjectType()
 export default class CartResponse {
@@ -33,8 +33,8 @@ export default class CartResponse {
 	@Field()
 	variant!: string;
 
-	@Field(() => [ProductImageResponse], { nullable: true })
-	images!: ProductImageResponse[];
+	@Field(() => [ProductImage], { nullable: true })
+	images!: ProductImage[];
 
 	@Field()
 	created_at!: Date;

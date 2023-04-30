@@ -25,20 +25,20 @@ export class Product extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Field()
+	@Field(() => String)
 	@Index({ unique: true })
 	@Column()
 	identifier!: string;
 
-	@Field()
+	@Field(() => String)
 	@Column()
 	name!: string;
 
-	@Field()
+	@Field(() => String)
 	@Column({ type: "text" })
 	desc!: string;
 
-	@Field()
+	@Field(() => Int)
 	@Column()
 	categoryId!: number;
 
@@ -46,9 +46,11 @@ export class Product extends BaseEntity {
 	@Column({ nullable: true })
 	discountId?: number;
 
+	@Field(() => [ProductImage])
 	@OneToMany(() => ProductImage, (image) => image.product)
 	images!: ProductImage[];
 
+	@Field(() => ProductCategory)
 	@ManyToOne(() => ProductCategory, (category) => category.products)
 	@JoinTable({ name: "category_id" })
 	category!: ProductCategory;
@@ -56,10 +58,12 @@ export class Product extends BaseEntity {
 	@ManyToOne(() => OrderItem, (orderitem) => orderitem.product)
 	orderitem!: OrderItem;
 
+	@Field(() => [ProductInventory])
 	@OneToMany(() => ProductInventory, (inventory) => inventory.product)
 	@JoinColumn()
 	inventories!: ProductInventory[];
 
+	@Field(() => Discount)
 	@ManyToOne(() => Discount, (discount) => discount.products)
 	@JoinTable({ name: "discount_id" })
 	discount!: Discount;

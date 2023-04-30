@@ -21,14 +21,15 @@ export class ProductInventory extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	inventory_id!: number;
 
-	@Field()
+	@Field(() => Int)
 	@Column({ type: "int" })
 	quantity!: number;
 
-	@Field()
+	@Field(() => Int)
 	@Column()
 	price!: number;
 
+	@Field(() => [ProductVariant], { nullable: true })
 	@OneToMany(
 		() => ProductVariant,
 		(product_variant) => product_variant.inventory
@@ -36,13 +37,13 @@ export class ProductInventory extends BaseEntity {
 	@JoinColumn({ name: "inventory_id" })
 	variants!: ProductVariant[];
 
-	@Field()
 	@Column()
 	productId!: number;
 
 	@ManyToOne(() => Product, (product) => product.inventories)
 	product!: Product;
 
+	@Field(() => [Cart], { nullable: true })
 	@OneToMany(() => Cart, (cart) => cart.inventory)
 	carts!: Cart[];
 

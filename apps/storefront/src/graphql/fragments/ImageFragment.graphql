@@ -1,0 +1,7 @@
+fragment ImageFragment on ProductImage {
+	id
+	imageURL
+	productId
+	created_at
+	updated_at
+}

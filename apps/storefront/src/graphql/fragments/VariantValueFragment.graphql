@@ -1,0 +1,9 @@
+fragment VariantValueFragment on VariantValue {
+	value_id
+	variant {
+		...VariantFragment
+	}
+	value
+	created_at
+	updated_at
+}

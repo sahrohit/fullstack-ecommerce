@@ -1,0 +1,13 @@
+fragment ProductInventoryFragment on ProductInventory {
+	inventory_id
+	quantity
+	price
+	variants {
+		...ProductVariantFragment
+	}
+	carts {
+		...CartFragment
+	}
+	created_at
+	updated_at
+}

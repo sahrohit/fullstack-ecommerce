@@ -25,6 +25,7 @@ export class ProductVariant extends BaseEntity {
 	@JoinColumn({ name: "inventory_id" })
 	inventory!: ProductInventory;
 
+	@Field(() => VariantValue)
 	@ManyToOne(
 		() => VariantValue,
 		(variant_value) => variant_value.product_variant_id

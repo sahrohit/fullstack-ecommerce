@@ -54,9 +54,9 @@ export type AddressInput = {
 	country: Scalars["String"];
 	name: Scalars["String"];
 	phone_number: Scalars["String"];
-	postal_code: Scalars["String"];
 	state: Scalars["String"];
 	type: Scalars["String"];
+	zip: Scalars["String"];
 };
 
 export type Cart = {
@@ -74,7 +74,7 @@ export type CartResponse = {
 	categoryId: Scalars["Float"];
 	created_at: Scalars["DateTime"];
 	id: Scalars["Int"];
-	images?: Maybe<Array<ProductImageResponse>>;
+	images?: Maybe<Array<ProductImage>>;
 	inventoryId: Scalars["Float"];
 	price: Scalars["Float"];
 	product_desc?: Maybe<Scalars["String"]>;
@@ -84,6 +84,17 @@ export type CartResponse = {
 	updated_at: Scalars["DateTime"];
 	userId: Scalars["Float"];
 	variant: Scalars["String"];
+};
+
+export type Discount = {
+	__typename?: "Discount";
+	active: Scalars["Boolean"];
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	discount_percent: Scalars["Float"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	updated_at: Scalars["String"];
 };
 
 export type DiscountResponse = {
@@ -105,7 +116,6 @@ export type Mutation = {
 	addAddress: Address;
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
-	addProducts?: Maybe<ProductResponse>;
 	addToCart: Cart;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
@@ -123,8 +133,6 @@ export type Mutation = {
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
 	updatePassword: UserResponse;
-	updateProduct?: Maybe<ProductResponse>;
-	updateProductDiscount?: Maybe<ProductResponse>;
 	verifyEmail: Scalars["Boolean"];
 };
 
@@ -139,10 +147,6 @@ export type MutationAddCategoryArgs = {
 };
 
 export type MutationAddDiscountArgs = {
-	options: AddProductInput;
-};
-
-export type MutationAddProductsArgs = {
 	options: AddProductInput;
 };
 
@@ -215,18 +219,24 @@ export type MutationUpdatePasswordArgs = {
 	newPassword: Scalars["String"];
 };
 
-export type MutationUpdateProductArgs = {
-	id: Scalars["Float"];
-	options: UpdateProductInput;
-};
-
-export type MutationUpdateProductDiscountArgs = {
-	discount_id: Scalars["Float"];
-	product_id: Scalars["Float"];
-};
-
 export type MutationVerifyEmailArgs = {
 	token: Scalars["String"];
+};
+
+export type Product = {
+	__typename?: "Product";
+	category: ProductCategory;
+	categoryId: Scalars["Int"];
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	discount: Discount;
+	discountId?: Maybe<Scalars["Float"]>;
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	images: Array<ProductImage>;
+	inventories: Array<ProductInventory>;
+	name: Scalars["String"];
+	updated_at: Scalars["String"];
 };
 
 export type ProductCategory = {
@@ -250,48 +260,42 @@ export type ProductCategorySummary = {
 	updated_at: Scalars["DateTime"];
 };
 
+export type ProductImage = {
+	__typename?: "ProductImage";
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	imageURL: Scalars["String"];
+	productId: Scalars["Float"];
+	updated_at: Scalars["String"];
+};
+
 export type ProductImageInput = {
 	imageURL: Scalars["String"];
 };
 
-export type ProductImageResponse = {
-	__typename?: "ProductImageResponse";
-	imageURL: Scalars["String"];
-	image_id: Scalars["Int"];
+export type ProductInventory = {
+	__typename?: "ProductInventory";
+	carts?: Maybe<Array<Cart>>;
+	created_at: Scalars["String"];
+	inventory_id: Scalars["Int"];
+	price: Scalars["Int"];
+	quantity: Scalars["Int"];
+	updated_at: Scalars["String"];
+	variants?: Maybe<Array<ProductVariant>>;
 };
 
-export type ProductResponse = {
-	__typename?: "ProductResponse";
-	categoryId: Scalars["Float"];
-	category_desc: Scalars["String"];
-	category_name: Scalars["String"];
-	created_at: Scalars["DateTime"];
-	desc: Scalars["String"];
-	discount_active?: Maybe<Scalars["Boolean"]>;
-	discount_desc?: Maybe<Scalars["String"]>;
-	discount_name?: Maybe<Scalars["String"]>;
-	discount_percent?: Maybe<Scalars["Float"]>;
-	id: Scalars["Int"];
-	identifier: Scalars["String"];
-	images: Array<ProductImageResponse>;
-	name: Scalars["String"];
-	updated_at: Scalars["DateTime"];
-	variants: Array<ProductVariantResponse>;
+export type ProductVariant = {
+	__typename?: "ProductVariant";
+	created_at: Scalars["String"];
+	product_variant_id: Scalars["Int"];
+	updated_at: Scalars["String"];
+	variant_value: VariantValue;
 };
 
 export type ProductVariantInput = {
 	price: Scalars["Float"];
 	quantity: Scalars["Int"];
 	variant: Scalars["String"];
-};
-
-export type ProductVariantResponse = {
-	__typename?: "ProductVariantResponse";
-	price: Scalars["Float"];
-	product_id: Scalars["Int"];
-	quantity: Scalars["Int"];
-	variant: Scalars["String"];
-	variant_id: Scalars["Int"];
 };
 
 export type Query = {
@@ -302,8 +306,8 @@ export type Query = {
 	fetchCartItems?: Maybe<Array<CartResponse>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
-	product?: Maybe<ProductResponse>;
-	products?: Maybe<Array<ProductResponse>>;
+	product?: Maybe<Product>;
+	products?: Maybe<Array<Product>>;
 	roles: Array<UserRole>;
 	users: Array<UserDataResponse>;
 };
@@ -331,14 +335,6 @@ export type UpdateDiscountInput = {
 	discount_percent?: InputMaybe<Scalars["Float"]>;
 	id: Scalars["Float"];
 	name?: InputMaybe<Scalars["String"]>;
-};
-
-export type UpdateProductInput = {
-	category_id?: InputMaybe<Scalars["Float"]>;
-	desc?: InputMaybe<Scalars["String"]>;
-	name?: InputMaybe<Scalars["String"]>;
-	price?: InputMaybe<Scalars["Float"]>;
-	quantity?: InputMaybe<Scalars["Float"]>;
 };
 
 export type User = {
@@ -386,6 +382,23 @@ export type UserRole = {
 	updated_at: Scalars["String"];
 };
 
+export type Variant = {
+	__typename?: "Variant";
+	created_at: Scalars["String"];
+	updated_at: Scalars["String"];
+	variant_id: Scalars["Int"];
+	variant_name: Scalars["String"];
+};
+
+export type VariantValue = {
+	__typename?: "VariantValue";
+	created_at: Scalars["String"];
+	updated_at: Scalars["String"];
+	value: Scalars["String"];
+	value_id: Scalars["Int"];
+	variant: Variant;
+};
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
@@ -404,41 +417,6 @@ export type MeQuery = {
 		created_at: string;
 		updated_at: string;
 	} | null;
-};
-
-export type ProductsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ProductsQuery = {
-	__typename?: "Query";
-	products?: Array<{
-		__typename?: "ProductResponse";
-		id: number;
-		name: string;
-		desc: string;
-		identifier: string;
-		categoryId: number;
-		category_name: string;
-		category_desc: string;
-		discount_name?: string | null;
-		discount_percent?: number | null;
-		discount_desc?: string | null;
-		discount_active?: boolean | null;
-		created_at: any;
-		updated_at: any;
-		variants: Array<{
-			__typename?: "ProductVariantResponse";
-			quantity: number;
-			variant_id: number;
-			product_id: number;
-			price: number;
-			variant: string;
-		}>;
-		images: Array<{
-			__typename?: "ProductImageResponse";
-			image_id: number;
-			imageURL: string;
-		}>;
-	}> | null;
 };
 
 export const MeDocument = gql`
@@ -489,78 +467,3 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const ProductsDocument = gql`
-	query Products {
-		products {
-			id
-			name
-			desc
-			identifier
-			categoryId
-			category_name
-			category_desc
-			discount_name
-			discount_percent
-			discount_desc
-			discount_active
-			variants {
-				quantity
-				variant_id
-				product_id
-				price
-				variant
-			}
-			images {
-				image_id
-				imageURL
-			}
-			created_at
-			updated_at
-		}
-	}
-`;
-
-/**
- * __useProductsQuery__
- *
- * To run a query within a React component, call `useProductsQuery` and pass it any options that fit your needs.
- * When your component renders, `useProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProductsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useProductsQuery(
-	baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>
-) {
-	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(
-		ProductsDocument,
-		options
-	);
-}
-export function useProductsLazyQuery(
-	baseOptions?: Apollo.LazyQueryHookOptions<
-		ProductsQuery,
-		ProductsQueryVariables
-	>
-) {
-	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(
-		ProductsDocument,
-		options
-	);
-}
-export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
-export type ProductsLazyQueryHookResult = ReturnType<
-	typeof useProductsLazyQuery
->;
-export type ProductsQueryResult = Apollo.QueryResult<
-	ProductsQuery,
-	ProductsQueryVariables
->;

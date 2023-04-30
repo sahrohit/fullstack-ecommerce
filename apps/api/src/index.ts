@@ -71,7 +71,7 @@ const Server = async () => {
 	});
 
 	app.get("/test", async (_req, res) => {
-		const products = await Product.find({
+		const products = await Product.findOne({
 			relations: {
 				inventories: {
 					variants: {
@@ -84,8 +84,13 @@ const Server = async () => {
 				images: true,
 				discount: true,
 			},
+			where: {
+				id: Number(4),
+			},
 		});
-		res.json({ products });
+		res.json({
+			products,
+		});
 	});
 
 	const apolloServer = new ApolloServer({

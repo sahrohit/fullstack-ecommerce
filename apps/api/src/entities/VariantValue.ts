@@ -20,7 +20,7 @@ export class VariantValue extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	value_id!: number;
 
-	@Field(() => Int)
+	@Field(() => Variant)
 	@ManyToOne(() => Variant, (variant) => variant.variant_values)
 	@JoinColumn({ name: "variant_id" })
 	variant!: number;

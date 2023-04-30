@@ -74,7 +74,7 @@ export type CartResponse = {
 	categoryId: Scalars["Float"];
 	created_at: Scalars["DateTime"];
 	id: Scalars["Int"];
-	images?: Maybe<Array<ProductImageResponse>>;
+	images?: Maybe<Array<ProductImage>>;
 	inventoryId: Scalars["Float"];
 	price: Scalars["Float"];
 	product_desc?: Maybe<Scalars["String"]>;
@@ -84,6 +84,17 @@ export type CartResponse = {
 	updated_at: Scalars["DateTime"];
 	userId: Scalars["Float"];
 	variant: Scalars["String"];
+};
+
+export type Discount = {
+	__typename?: "Discount";
+	active: Scalars["Boolean"];
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	discount_percent: Scalars["Float"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	updated_at: Scalars["String"];
 };
 
 export type DiscountResponse = {
@@ -105,7 +116,6 @@ export type Mutation = {
 	addAddress: Address;
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
-	addProducts?: Maybe<ProductResponse>;
 	addToCart: Cart;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
@@ -123,8 +133,6 @@ export type Mutation = {
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
 	updatePassword: UserResponse;
-	updateProduct?: Maybe<ProductResponse>;
-	updateProductDiscount?: Maybe<ProductResponse>;
 	verifyEmail: Scalars["Boolean"];
 };
 
@@ -139,10 +147,6 @@ export type MutationAddCategoryArgs = {
 };
 
 export type MutationAddDiscountArgs = {
-	options: AddProductInput;
-};
-
-export type MutationAddProductsArgs = {
 	options: AddProductInput;
 };
 
@@ -215,18 +219,24 @@ export type MutationUpdatePasswordArgs = {
 	newPassword: Scalars["String"];
 };
 
-export type MutationUpdateProductArgs = {
-	id: Scalars["Float"];
-	options: UpdateProductInput;
-};
-
-export type MutationUpdateProductDiscountArgs = {
-	discount_id: Scalars["Float"];
-	product_id: Scalars["Float"];
-};
-
 export type MutationVerifyEmailArgs = {
 	token: Scalars["String"];
+};
+
+export type Product = {
+	__typename?: "Product";
+	category: ProductCategory;
+	categoryId: Scalars["Int"];
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	discount: Discount;
+	discountId?: Maybe<Scalars["Float"]>;
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	images: Array<ProductImage>;
+	inventories: Array<ProductInventory>;
+	name: Scalars["String"];
+	updated_at: Scalars["String"];
 };
 
 export type ProductCategory = {
@@ -250,48 +260,42 @@ export type ProductCategorySummary = {
 	updated_at: Scalars["DateTime"];
 };
 
+export type ProductImage = {
+	__typename?: "ProductImage";
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	imageURL: Scalars["String"];
+	productId: Scalars["Float"];
+	updated_at: Scalars["String"];
+};
+
 export type ProductImageInput = {
 	imageURL: Scalars["String"];
 };
 
-export type ProductImageResponse = {
-	__typename?: "ProductImageResponse";
-	imageURL: Scalars["String"];
-	image_id: Scalars["Int"];
+export type ProductInventory = {
+	__typename?: "ProductInventory";
+	carts?: Maybe<Array<Cart>>;
+	created_at: Scalars["String"];
+	inventory_id: Scalars["Int"];
+	price: Scalars["Int"];
+	quantity: Scalars["Int"];
+	updated_at: Scalars["String"];
+	variants?: Maybe<Array<ProductVariant>>;
 };
 
-export type ProductResponse = {
-	__typename?: "ProductResponse";
-	categoryId: Scalars["Float"];
-	category_desc: Scalars["String"];
-	category_name: Scalars["String"];
-	created_at: Scalars["DateTime"];
-	desc: Scalars["String"];
-	discount_active?: Maybe<Scalars["Boolean"]>;
-	discount_desc?: Maybe<Scalars["String"]>;
-	discount_name?: Maybe<Scalars["String"]>;
-	discount_percent?: Maybe<Scalars["Float"]>;
-	id: Scalars["Int"];
-	identifier: Scalars["String"];
-	images: Array<ProductImageResponse>;
-	name: Scalars["String"];
-	updated_at: Scalars["DateTime"];
-	variants: Array<ProductVariantResponse>;
+export type ProductVariant = {
+	__typename?: "ProductVariant";
+	created_at: Scalars["String"];
+	product_variant_id: Scalars["Int"];
+	updated_at: Scalars["String"];
+	variant_value: VariantValue;
 };
 
 export type ProductVariantInput = {
 	price: Scalars["Float"];
 	quantity: Scalars["Int"];
 	variant: Scalars["String"];
-};
-
-export type ProductVariantResponse = {
-	__typename?: "ProductVariantResponse";
-	price: Scalars["Float"];
-	product_id: Scalars["Int"];
-	quantity: Scalars["Int"];
-	variant: Scalars["String"];
-	variant_id: Scalars["Int"];
 };
 
 export type Query = {
@@ -302,8 +306,8 @@ export type Query = {
 	fetchCartItems?: Maybe<Array<CartResponse>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
-	product?: Maybe<ProductResponse>;
-	products?: Maybe<Array<ProductResponse>>;
+	product?: Maybe<Product>;
+	products?: Maybe<Array<Product>>;
 	roles: Array<UserRole>;
 	users: Array<UserDataResponse>;
 };
@@ -331,14 +335,6 @@ export type UpdateDiscountInput = {
 	discount_percent?: InputMaybe<Scalars["Float"]>;
 	id: Scalars["Float"];
 	name?: InputMaybe<Scalars["String"]>;
-};
-
-export type UpdateProductInput = {
-	category_id?: InputMaybe<Scalars["Float"]>;
-	desc?: InputMaybe<Scalars["String"]>;
-	name?: InputMaybe<Scalars["String"]>;
-	price?: InputMaybe<Scalars["Float"]>;
-	quantity?: InputMaybe<Scalars["Float"]>;
 };
 
 export type User = {
@@ -386,6 +382,23 @@ export type UserRole = {
 	updated_at: Scalars["String"];
 };
 
+export type Variant = {
+	__typename?: "Variant";
+	created_at: Scalars["String"];
+	updated_at: Scalars["String"];
+	variant_id: Scalars["Int"];
+	variant_name: Scalars["String"];
+};
+
+export type VariantValue = {
+	__typename?: "VariantValue";
+	created_at: Scalars["String"];
+	updated_at: Scalars["String"];
+	value: Scalars["String"];
+	value_id: Scalars["Int"];
+	variant: Variant;
+};
+
 export type AddressFragmentFragment = {
 	__typename?: "Address";
 	id: number;
@@ -403,6 +416,105 @@ export type AddressFragmentFragment = {
 	updated_at: string;
 };
 
+export type CartFragmentFragment = {
+	__typename?: "Cart";
+	id: number;
+	userId: number;
+	quantity: number;
+	inventoryId: number;
+	created_at: string;
+	updated_at: string;
+};
+
+export type CategoryFragmentFragment = {
+	__typename?: "ProductCategory";
+	id: number;
+	name: string;
+	identifier: string;
+	desc: string;
+	created_at: string;
+	updated_at: string;
+};
+
+export type DiscountFragmentFragment = {
+	__typename?: "Discount";
+	id: number;
+	name: string;
+	desc: string;
+	discount_percent: number;
+	active: boolean;
+	created_at: string;
+	updated_at: string;
+};
+
+export type ImageFragmentFragment = {
+	__typename?: "ProductImage";
+	id: number;
+	imageURL: string;
+	productId: number;
+	created_at: string;
+	updated_at: string;
+};
+
+export type ProductInventoryFragmentFragment = {
+	__typename?: "ProductInventory";
+	inventory_id: number;
+	quantity: number;
+	price: number;
+	created_at: string;
+	updated_at: string;
+	variants?: Array<{
+		__typename?: "ProductVariant";
+		product_variant_id: number;
+		created_at: string;
+		updated_at: string;
+		variant_value: {
+			__typename?: "VariantValue";
+			value_id: number;
+			value: string;
+			created_at: string;
+			updated_at: string;
+			variant: {
+				__typename?: "Variant";
+				variant_id: number;
+				variant_name: string;
+				created_at: string;
+				updated_at: string;
+			};
+		};
+	}> | null;
+	carts?: Array<{
+		__typename?: "Cart";
+		id: number;
+		userId: number;
+		quantity: number;
+		inventoryId: number;
+		created_at: string;
+		updated_at: string;
+	}> | null;
+};
+
+export type ProductVariantFragmentFragment = {
+	__typename?: "ProductVariant";
+	product_variant_id: number;
+	created_at: string;
+	updated_at: string;
+	variant_value: {
+		__typename?: "VariantValue";
+		value_id: number;
+		value: string;
+		created_at: string;
+		updated_at: string;
+		variant: {
+			__typename?: "Variant";
+			variant_id: number;
+			variant_name: string;
+			created_at: string;
+			updated_at: string;
+		};
+	};
+};
+
 export type RegularErrorFragment = {
 	__typename?: "FieldError";
 	field: string;
@@ -418,10 +530,33 @@ export type UserFragmentFragment = {
 	email_verified: boolean;
 	phone_number?: string | null;
 	phone_number_verified: boolean;
-	roleId: number;
 	imageUrl?: string | null;
+	roleId: number;
 	created_at: string;
 	updated_at: string;
+};
+
+export type VariantFragmentFragment = {
+	__typename?: "Variant";
+	variant_id: number;
+	variant_name: string;
+	created_at: string;
+	updated_at: string;
+};
+
+export type VariantValueFragmentFragment = {
+	__typename?: "VariantValue";
+	value_id: number;
+	value: string;
+	created_at: string;
+	updated_at: string;
+	variant: {
+		__typename?: "Variant";
+		variant_id: number;
+		variant_name: string;
+		created_at: string;
+		updated_at: string;
+	};
 };
 
 export type AddAddressMutationVariables = Exact<{
@@ -505,8 +640,8 @@ export type LoginMutation = {
 			email_verified: boolean;
 			phone_number?: string | null;
 			phone_number_verified: boolean;
-			roleId: number;
 			imageUrl?: string | null;
+			roleId: number;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -539,8 +674,8 @@ export type RegisterMutation = {
 			email_verified: boolean;
 			phone_number?: string | null;
 			phone_number_verified: boolean;
-			roleId: number;
 			imageUrl?: string | null;
+			roleId: number;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -587,38 +722,167 @@ export type AddressesQuery = {
 	}> | null;
 };
 
+export type ProductByIdQueryVariables = Exact<{
+	identifier: Scalars["String"];
+}>;
+
+export type ProductByIdQuery = {
+	__typename?: "Query";
+	product?: {
+		__typename?: "Product";
+		id: number;
+		identifier: string;
+		name: string;
+		desc: string;
+		categoryId: number;
+		discountId?: number | null;
+		created_at: string;
+		updated_at: string;
+		images: Array<{
+			__typename?: "ProductImage";
+			id: number;
+			imageURL: string;
+			productId: number;
+			created_at: string;
+			updated_at: string;
+		}>;
+		category: {
+			__typename?: "ProductCategory";
+			id: number;
+			name: string;
+			identifier: string;
+			desc: string;
+			created_at: string;
+			updated_at: string;
+		};
+		inventories: Array<{
+			__typename?: "ProductInventory";
+			inventory_id: number;
+			quantity: number;
+			price: number;
+			created_at: string;
+			updated_at: string;
+			variants?: Array<{
+				__typename?: "ProductVariant";
+				product_variant_id: number;
+				created_at: string;
+				updated_at: string;
+				variant_value: {
+					__typename?: "VariantValue";
+					value_id: number;
+					value: string;
+					created_at: string;
+					updated_at: string;
+					variant: {
+						__typename?: "Variant";
+						variant_id: number;
+						variant_name: string;
+						created_at: string;
+						updated_at: string;
+					};
+				};
+			}> | null;
+			carts?: Array<{
+				__typename?: "Cart";
+				id: number;
+				userId: number;
+				quantity: number;
+				inventoryId: number;
+				created_at: string;
+				updated_at: string;
+			}> | null;
+		}>;
+		discount: {
+			__typename?: "Discount";
+			id: number;
+			name: string;
+			desc: string;
+			discount_percent: number;
+			active: boolean;
+			created_at: string;
+			updated_at: string;
+		};
+	} | null;
+};
+
 export type ProductsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ProductsQuery = {
 	__typename?: "Query";
 	products?: Array<{
-		__typename?: "ProductResponse";
+		__typename?: "Product";
 		id: number;
+		identifier: string;
 		name: string;
 		desc: string;
-		identifier: string;
 		categoryId: number;
-		category_name: string;
-		category_desc: string;
-		discount_name?: string | null;
-		discount_percent?: number | null;
-		discount_desc?: string | null;
-		discount_active?: boolean | null;
-		created_at: any;
-		updated_at: any;
-		variants: Array<{
-			__typename?: "ProductVariantResponse";
-			quantity: number;
-			variant_id: number;
-			product_id: number;
-			price: number;
-			variant: string;
-		}>;
+		discountId?: number | null;
+		created_at: string;
+		updated_at: string;
 		images: Array<{
-			__typename?: "ProductImageResponse";
-			image_id: number;
+			__typename?: "ProductImage";
+			id: number;
 			imageURL: string;
+			productId: number;
+			created_at: string;
+			updated_at: string;
 		}>;
+		category: {
+			__typename?: "ProductCategory";
+			id: number;
+			name: string;
+			identifier: string;
+			desc: string;
+			created_at: string;
+			updated_at: string;
+		};
+		inventories: Array<{
+			__typename?: "ProductInventory";
+			inventory_id: number;
+			quantity: number;
+			price: number;
+			created_at: string;
+			updated_at: string;
+			variants?: Array<{
+				__typename?: "ProductVariant";
+				product_variant_id: number;
+				created_at: string;
+				updated_at: string;
+				variant_value: {
+					__typename?: "VariantValue";
+					value_id: number;
+					value: string;
+					created_at: string;
+					updated_at: string;
+					variant: {
+						__typename?: "Variant";
+						variant_id: number;
+						variant_name: string;
+						created_at: string;
+						updated_at: string;
+					};
+				};
+			}> | null;
+			carts?: Array<{
+				__typename?: "Cart";
+				id: number;
+				userId: number;
+				quantity: number;
+				inventoryId: number;
+				created_at: string;
+				updated_at: string;
+			}> | null;
+		}>;
+		discount: {
+			__typename?: "Discount";
+			id: number;
+			name: string;
+			desc: string;
+			discount_percent: number;
+			active: boolean;
+			created_at: string;
+			updated_at: string;
+		};
 	}> | null;
 };
 
@@ -635,8 +899,8 @@ export type MeQuery = {
 		email_verified: boolean;
 		phone_number?: string | null;
 		phone_number_verified: boolean;
-		roleId: number;
 		imageUrl?: string | null;
+		roleId: number;
 		created_at: string;
 		updated_at: string;
 	} | null;
@@ -659,6 +923,94 @@ export const AddressFragmentFragmentDoc = gql`
 		updated_at
 	}
 `;
+export const CategoryFragmentFragmentDoc = gql`
+	fragment CategoryFragment on ProductCategory {
+		id
+		name
+		identifier
+		desc
+		created_at
+		updated_at
+	}
+`;
+export const DiscountFragmentFragmentDoc = gql`
+	fragment DiscountFragment on Discount {
+		id
+		name
+		desc
+		discount_percent
+		active
+		created_at
+		updated_at
+	}
+`;
+export const ImageFragmentFragmentDoc = gql`
+	fragment ImageFragment on ProductImage {
+		id
+		imageURL
+		productId
+		created_at
+		updated_at
+	}
+`;
+export const VariantFragmentFragmentDoc = gql`
+	fragment VariantFragment on Variant {
+		variant_id
+		variant_name
+		created_at
+		updated_at
+	}
+`;
+export const VariantValueFragmentFragmentDoc = gql`
+	fragment VariantValueFragment on VariantValue {
+		value_id
+		variant {
+			...VariantFragment
+		}
+		value
+		created_at
+		updated_at
+	}
+	${VariantFragmentFragmentDoc}
+`;
+export const ProductVariantFragmentFragmentDoc = gql`
+	fragment ProductVariantFragment on ProductVariant {
+		product_variant_id
+		variant_value {
+			...VariantValueFragment
+		}
+		created_at
+		updated_at
+	}
+	${VariantValueFragmentFragmentDoc}
+`;
+export const CartFragmentFragmentDoc = gql`
+	fragment CartFragment on Cart {
+		id
+		userId
+		quantity
+		inventoryId
+		created_at
+		updated_at
+	}
+`;
+export const ProductInventoryFragmentFragmentDoc = gql`
+	fragment ProductInventoryFragment on ProductInventory {
+		inventory_id
+		quantity
+		price
+		variants {
+			...ProductVariantFragment
+		}
+		carts {
+			...CartFragment
+		}
+		created_at
+		updated_at
+	}
+	${ProductVariantFragmentFragmentDoc}
+	${CartFragmentFragmentDoc}
+`;
 export const RegularErrorFragmentDoc = gql`
 	fragment RegularError on FieldError {
 		field
@@ -674,8 +1026,8 @@ export const UserFragmentFragmentDoc = gql`
 		email_verified
 		phone_number
 		phone_number_verified
-		roleId
 		imageUrl
+		roleId
 		created_at
 		updated_at
 	}
@@ -1083,21 +1435,10 @@ export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<
 export const AddressesDocument = gql`
 	query Addresses {
 		addresses {
-			id
-			type
-			isDefault
-			name
-			address
-			city
-			state
-			zip
-			country
-			phone_number
-			userId
-			created_at
-			updated_at
+			...AddressFragment
 		}
 	}
+	${AddressFragmentFragmentDoc}
 `;
 
 /**
@@ -1144,35 +1485,114 @@ export type AddressesQueryResult = Apollo.QueryResult<
 	AddressesQuery,
 	AddressesQueryVariables
 >;
-export const ProductsDocument = gql`
-	query Products {
-		products {
+export const ProductByIdDocument = gql`
+	query ProductById($identifier: String!) {
+		product(identifier: $identifier) {
 			id
+			identifier
 			name
 			desc
-			identifier
 			categoryId
-			category_name
-			category_desc
-			discount_name
-			discount_percent
-			discount_desc
-			discount_active
-			variants {
-				quantity
-				variant_id
-				product_id
-				price
-				variant
-			}
+			discountId
 			images {
-				image_id
-				imageURL
+				...ImageFragment
+			}
+			category {
+				...CategoryFragment
+			}
+			inventories {
+				...ProductInventoryFragment
+			}
+			discount {
+				...DiscountFragment
 			}
 			created_at
 			updated_at
 		}
 	}
+	${ImageFragmentFragmentDoc}
+	${CategoryFragmentFragmentDoc}
+	${ProductInventoryFragmentFragmentDoc}
+	${DiscountFragmentFragmentDoc}
+`;
+
+/**
+ * __useProductByIdQuery__
+ *
+ * To run a query within a React component, call `useProductByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductByIdQuery({
+ *   variables: {
+ *      identifier: // value for 'identifier'
+ *   },
+ * });
+ */
+export function useProductByIdQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		ProductByIdQuery,
+		ProductByIdQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<ProductByIdQuery, ProductByIdQueryVariables>(
+		ProductByIdDocument,
+		options
+	);
+}
+export function useProductByIdLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		ProductByIdQuery,
+		ProductByIdQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<ProductByIdQuery, ProductByIdQueryVariables>(
+		ProductByIdDocument,
+		options
+	);
+}
+export type ProductByIdQueryHookResult = ReturnType<typeof useProductByIdQuery>;
+export type ProductByIdLazyQueryHookResult = ReturnType<
+	typeof useProductByIdLazyQuery
+>;
+export type ProductByIdQueryResult = Apollo.QueryResult<
+	ProductByIdQuery,
+	ProductByIdQueryVariables
+>;
+export const ProductsDocument = gql`
+	query Products {
+		products {
+			id
+			identifier
+			name
+			desc
+			categoryId
+			discountId
+			images {
+				...ImageFragment
+			}
+			category {
+				...CategoryFragment
+			}
+			inventories {
+				...ProductInventoryFragment
+			}
+			discount {
+				...DiscountFragment
+			}
+			created_at
+			updated_at
+		}
+	}
+	${ImageFragmentFragmentDoc}
+	${CategoryFragmentFragmentDoc}
+	${ProductInventoryFragmentFragmentDoc}
+	${DiscountFragmentFragmentDoc}
 `;
 
 /**

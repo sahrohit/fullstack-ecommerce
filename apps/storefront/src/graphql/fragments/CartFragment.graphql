@@ -1,0 +1,8 @@
+fragment CartFragment on Cart {
+	id
+	userId
+	quantity
+	inventoryId
+	created_at
+	updated_at
+}
