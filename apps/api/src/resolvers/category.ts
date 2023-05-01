@@ -8,7 +8,11 @@ import UpdateCategoryInput from "./GqlObjets/UpdateCategoryInput";
 export class CategoryResolver {
 	@Query(() => [ProductCategory])
 	async categories(): Promise<ProductCategory[]> {
-		return ProductCategory.find();
+		return ProductCategory.find({
+			order: {
+				id: "ASC",
+			},
+		});
 	}
 
 	@Query(() => [ProductCategorySummary], { nullable: true })

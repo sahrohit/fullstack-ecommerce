@@ -63,7 +63,7 @@ export class Product extends BaseEntity {
 	@JoinColumn()
 	inventories!: ProductInventory[];
 
-	@Field(() => Discount)
+	@Field(() => Discount, { nullable: true })
 	@ManyToOne(() => Discount, (discount) => discount.products)
 	@JoinTable({ name: "discount_id" })
 	discount!: Discount;

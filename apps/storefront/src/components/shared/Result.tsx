@@ -62,7 +62,9 @@ const Result = ({ type, heading, text, dump, children }: ResultProps) => {
 					overflowY="scroll"
 					textAlign="left"
 				>
-					<pre>{JSON.stringify(dump, null, 4)}</pre>
+					<Text as="pre" whiteSpace="pre-line">
+						{JSON.stringify(dump, null, 4)}
+					</Text>
 				</Box>
 			)}
 		</VStack>

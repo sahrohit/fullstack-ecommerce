@@ -3,6 +3,7 @@ fragment CategoryFragment on ProductCategory {
 	name
 	identifier
 	desc
+	imageURL
 	created_at
 	updated_at
 }

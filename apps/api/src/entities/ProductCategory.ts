@@ -18,18 +18,23 @@ export class ProductCategory extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Field()
+	@Field(() => String)
 	@Column()
 	name!: string;
 
-	@Field()
+	@Field(() => String)
 	@Column({ unique: true })
 	identifier!: string;
 
-	@Field()
+	@Field(() => String)
 	@Column({ type: "text" })
 	desc!: string;
 
+	@Field(() => String)
+	@Column()
+	imageURL!: string;
+
+	@Field(() => [Product])
 	@OneToMany(() => Product, (product) => product.category)
 	@JoinTable({ name: "product_id" })
 	products!: Product[];

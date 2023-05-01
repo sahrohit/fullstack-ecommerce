@@ -229,7 +229,7 @@ export type Product = {
 	categoryId: Scalars["Int"];
 	created_at: Scalars["String"];
 	desc: Scalars["String"];
-	discount: Discount;
+	discount?: Maybe<Discount>;
 	discountId?: Maybe<Scalars["Float"]>;
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
@@ -245,7 +245,9 @@ export type ProductCategory = {
 	desc: Scalars["String"];
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
+	imageURL: Scalars["String"];
 	name: Scalars["String"];
+	products: Array<Product>;
 	updated_at: Scalars["String"];
 };
 
@@ -432,6 +434,7 @@ export type CategoryFragmentFragment = {
 	name: string;
 	identifier: string;
 	desc: string;
+	imageURL: string;
 	created_at: string;
 	updated_at: string;
 };
@@ -722,6 +725,22 @@ export type AddressesQuery = {
 	}> | null;
 };
 
+export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CategoriesQuery = {
+	__typename?: "Query";
+	categories: Array<{
+		__typename?: "ProductCategory";
+		id: number;
+		name: string;
+		identifier: string;
+		desc: string;
+		imageURL: string;
+		created_at: string;
+		updated_at: string;
+	}>;
+};
+
 export type ProductByIdQueryVariables = Exact<{
 	identifier: Scalars["String"];
 }>;
@@ -752,6 +771,7 @@ export type ProductByIdQuery = {
 			name: string;
 			identifier: string;
 			desc: string;
+			imageURL: string;
 			created_at: string;
 			updated_at: string;
 		};
@@ -792,7 +812,7 @@ export type ProductByIdQuery = {
 				updated_at: string;
 			}> | null;
 		}>;
-		discount: {
+		discount?: {
 			__typename?: "Discount";
 			id: number;
 			name: string;
@@ -801,7 +821,7 @@ export type ProductByIdQuery = {
 			active: boolean;
 			created_at: string;
 			updated_at: string;
-		};
+		} | null;
 	} | null;
 };
 
@@ -833,6 +853,7 @@ export type ProductsQuery = {
 			name: string;
 			identifier: string;
 			desc: string;
+			imageURL: string;
 			created_at: string;
 			updated_at: string;
 		};
@@ -873,7 +894,7 @@ export type ProductsQuery = {
 				updated_at: string;
 			}> | null;
 		}>;
-		discount: {
+		discount?: {
 			__typename?: "Discount";
 			id: number;
 			name: string;
@@ -882,7 +903,7 @@ export type ProductsQuery = {
 			active: boolean;
 			created_at: string;
 			updated_at: string;
-		};
+		} | null;
 	}> | null;
 };
 
@@ -929,6 +950,7 @@ export const CategoryFragmentFragmentDoc = gql`
 		name
 		identifier
 		desc
+		imageURL
 		created_at
 		updated_at
 	}
@@ -1484,6 +1506,62 @@ export type AddressesLazyQueryHookResult = ReturnType<
 export type AddressesQueryResult = Apollo.QueryResult<
 	AddressesQuery,
 	AddressesQueryVariables
+>;
+export const CategoriesDocument = gql`
+	query Categories {
+		categories {
+			...CategoryFragment
+		}
+	}
+	${CategoryFragmentFragmentDoc}
+`;
+
+/**
+ * __useCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		CategoriesQuery,
+		CategoriesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(
+		CategoriesDocument,
+		options
+	);
+}
+export function useCategoriesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		CategoriesQuery,
+		CategoriesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
+		CategoriesDocument,
+		options
+	);
+}
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesLazyQueryHookResult = ReturnType<
+	typeof useCategoriesLazyQuery
+>;
+export type CategoriesQueryResult = Apollo.QueryResult<
+	CategoriesQuery,
+	CategoriesQueryVariables
 >;
 export const ProductByIdDocument = gql`
 	query ProductById($identifier: String!) {

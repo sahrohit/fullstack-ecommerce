@@ -13,10 +13,10 @@ import {
 	useBreakpointValue,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import { Product } from "@/data/temp";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useState } from "react";
 import { PriceTag } from "@/components/shared/product/PriceTag";
+import { Product } from "@/generated/graphql";
 import Rating from "@/components/shared/product/Rating";
 import FavouriteButton from "./FavouriteButton";
 import QuickView from "./details/QuickView";
@@ -32,7 +32,7 @@ const ProductCard = (props: ProductCardProps) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	const { product, rootProps } = props;
-	const { name, imageUrl, price, salePrice, rating } = product;
+	const { name, images, inventories } = product;
 	return (
 		<Stack
 			spacing={{ base: "4", md: "5" }}
@@ -49,7 +49,7 @@ const ProductCard = (props: ProductCardProps) => {
 			<Box position="relative">
 				<AspectRatio ratio={4 / 5}>
 					<Image
-						src={imageUrl}
+						src={images?.[0]?.imageURL ?? "https://picsum.photos/200/300"}
 						alt={name}
 						draggable="false"
 						fallback={<Skeleton />}
@@ -100,10 +100,14 @@ const ProductCard = (props: ProductCardProps) => {
 					>
 						{name}
 					</Text>
-					<PriceTag price={price} salePrice={salePrice} currency="USD" />
+					<PriceTag
+						price={inventories?.[0]?.price || 0}
+						// salePrice={salePrice}
+						currency="USD"
+					/>
 				</Stack>
 				<HStack>
-					<Rating defaultValue={rating} size="sm" />
+					<Rating defaultValue={2} size="sm" />
 					<Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>
 						12 Reviews
 					</Text>
