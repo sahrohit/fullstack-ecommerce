@@ -39,7 +39,7 @@ export class ProductResolver {
 				discount: true,
 			},
 			where: {
-				id: Number(identifier),
+				identifier: identifier,
 			},
 		});
 	}

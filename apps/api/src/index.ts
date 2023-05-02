@@ -10,7 +10,7 @@ import { buildSchema } from "type-graphql";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import { AppDataSource } from "./data-source";
 import { AddressResolver } from "./resolvers/address";
-import { AdminResolver } from "./resolvers/admin";
+import { RoleResolver } from "./resolvers/role";
 import { CartResolver } from "./resolvers/cart";
 import { CategoryResolver } from "./resolvers/category";
 import { DiscountResolver } from "./resolvers/discount";
@@ -103,7 +103,7 @@ const Server = async () => {
 				DiscountResolver,
 				CategoryResolver,
 				CartResolver,
-				AdminResolver,
+				RoleResolver,
 			],
 			validate: false,
 		}),
