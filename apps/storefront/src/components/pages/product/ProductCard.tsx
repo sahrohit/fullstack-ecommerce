@@ -16,6 +16,7 @@ import {
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useState } from "react";
 import { PriceTag } from "@/components/shared/product/PriceTag";
+import Link from "next/link";
 import { Product } from "@/generated/graphql";
 import Rating from "@/components/shared/product/Rating";
 import FavouriteButton from "./FavouriteButton";
@@ -47,7 +48,11 @@ const ProductCard = (props: ProductCardProps) => {
 			}}
 		>
 			<Box position="relative">
-				<AspectRatio ratio={4 / 5}>
+				<AspectRatio
+					ratio={4 / 5}
+					as={Link}
+					href={`/products/${product.identifier}`}
+				>
 					<Image
 						src={images?.[0]?.imageURL ?? "https://picsum.photos/200/300"}
 						alt={name}
@@ -87,8 +92,7 @@ const ProductCard = (props: ProductCardProps) => {
 							aria-label="Search database"
 							icon={<AiOutlineShoppingCart size={24} />}
 						/>
-
-						<QuickView />
+						<QuickView product={product} />
 					</ButtonGroup>
 				)}
 			</Box>

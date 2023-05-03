@@ -3,7 +3,7 @@ import { Image, SimpleGrid } from "@chakra-ui/react";
 interface ProductImageProps {
 	images: {
 		id: string;
-		alt: string;
+		alt?: string;
 		src: string;
 	}[];
 }

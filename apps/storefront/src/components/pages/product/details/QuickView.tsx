@@ -9,10 +9,15 @@ import {
 	ModalOverlay,
 	useDisclosure,
 } from "@chakra-ui/react";
+import { Product } from "@/generated/graphql";
 import { AiOutlineEye } from "react-icons/ai";
 import ProductDetails from "../ProductDetails";
 
-const QuickView = () => {
+interface QuickViewProps {
+	product: Product;
+}
+
+const QuickView = ({ product }: QuickViewProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
@@ -38,7 +43,7 @@ const QuickView = () => {
 				<ModalContent>
 					<ModalBody pt={8} px={8}>
 						<Box>
-							<ProductDetails />
+							<ProductDetails product={product} />
 						</Box>
 					</ModalBody>
 					<ModalFooter>

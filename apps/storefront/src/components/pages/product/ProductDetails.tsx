@@ -15,18 +15,22 @@ import {
 	Box,
 } from "@chakra-ui/react";
 import { BsHeart } from "react-icons/bs";
-import { images } from "@/data/temp";
+import { Product, ProductImage } from "@/generated/graphql";
 import Carousel from "./Carousel";
 import ImageGrid from "./ImageGrid";
 
-const ProductDetails = () => (
+interface ProductDetailsProps {
+	product: Product;
+}
+
+const ProductDetails = ({ product }: ProductDetailsProps) => (
 	<Stack w="full" direction={{ base: "column-reverse", lg: "row" }} gap={8}>
 		<VStack gap={2} alignItems="flex-start">
 			<HStack>
 				<Rating defaultValue={2} /> <span>12 reviews</span>
 			</HStack>
 			<Heading fontSize="3xl" lineHeight={1.2}>
-				Classis Black
+				{product.name}
 			</Heading>
 			<PriceTag
 				priceProps={{
@@ -44,9 +48,7 @@ const ProductDetails = () => (
 				textAlign="justify"
 				fontSize="md"
 			>
-				With a sleek design and a captivating essence, this is a modern Classic
-				made for every occasion.v Classic made for every occasion.v Classic made
-				for every occasion.v Classic made for every occasion.v
+				{product.desc}
 			</Text>
 			<SimpleGrid w="full" gap={8} columns={2}>
 				<ColorSelector />
@@ -61,14 +63,25 @@ const ProductDetails = () => (
 				Add to Cart
 			</Button>
 		</VStack>
-		<Box maxW={images.length <= 3 ? { base: "100%", lg: "50%" } : "100%"}>
-			{images.length > 3 ? (
-				<Carousel images={images} />
+		<Box
+			maxW={
+				product.images && product.images.length <= 3
+					? { base: "100%", lg: "50%" }
+					: "100%"
+			}
+		>
+			{product.images[0] && product.images.length > 3 ? (
+				<Carousel images={product.images.map(imageMapper)} />
 			) : (
-				<ImageGrid images={images} />
+				<ImageGrid images={product.images.map(imageMapper)} />
 			)}
 		</Box>
 	</Stack>
 );
 
 export default ProductDetails;
+
+const imageMapper = (image: ProductImage) => ({
+	id: `product-image-${image.id}`,
+	src: image.imageURL,
+});

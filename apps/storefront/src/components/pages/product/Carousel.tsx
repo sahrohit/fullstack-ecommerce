@@ -15,7 +15,7 @@ import useDetectSwipe from "@/hooks/useDetectSwipe";
 interface ProductImageProps {
 	images: {
 		id: string;
-		alt: string;
+		alt?: string;
 		src: string;
 	}[];
 }

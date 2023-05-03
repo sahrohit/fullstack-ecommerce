@@ -247,19 +247,21 @@ export type ProductCategory = {
 	identifier: Scalars["String"];
 	imageURL: Scalars["String"];
 	name: Scalars["String"];
-	products: Array<Product>;
+	products?: Maybe<Array<Product>>;
 	updated_at: Scalars["String"];
 };
 
-export type ProductCategorySummary = {
-	__typename?: "ProductCategorySummary";
-	created_at: Scalars["DateTime"];
+export type ProductCategoryWithProductCount = {
+	__typename?: "ProductCategoryWithProductCount";
+	created_at: Scalars["String"];
 	desc: Scalars["String"];
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
+	imageURL: Scalars["String"];
 	name: Scalars["String"];
-	product_count: Scalars["Float"];
-	updated_at: Scalars["DateTime"];
+	product_count: Scalars["Int"];
+	products?: Maybe<Array<Product>>;
+	updated_at: Scalars["String"];
 };
 
 export type ProductImage = {
@@ -304,14 +306,13 @@ export type Query = {
 	__typename?: "Query";
 	addresses?: Maybe<Array<Address>>;
 	categories: Array<ProductCategory>;
-	categoriesSummary?: Maybe<Array<ProductCategorySummary>>;
+	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
 	fetchCartItems?: Maybe<Array<CartResponse>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
 	roles: Array<UserRole>;
-	users: Array<UserDataResponse>;
 };
 
 export type QueryProductArgs = {
@@ -352,22 +353,6 @@ export type User = {
 	phone_number_verified: Scalars["Boolean"];
 	roleId: Scalars["Float"];
 	updated_at: Scalars["String"];
-};
-
-export type UserDataResponse = {
-	__typename?: "UserDataResponse";
-	created_at: Scalars["DateTime"];
-	email: Scalars["String"];
-	email_verified: Scalars["Boolean"];
-	first_name: Scalars["String"];
-	id: Scalars["Int"];
-	imageUrl?: Maybe<Scalars["String"]>;
-	last_name: Scalars["String"];
-	phone_number?: Maybe<Scalars["String"]>;
-	phone_number_verified: Scalars["Boolean"];
-	role: Scalars["String"];
-	roleId: Scalars["Float"];
-	updated_at: Scalars["DateTime"];
 };
 
 export type UserResponse = {
