@@ -5,11 +5,13 @@ import {
 	Entity,
 	JoinColumn,
 	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
 import { ProductInventory } from "./ProductInventory";
 import { VariantValue } from "./VariantValue";
+import { Cart } from "./Cart";
 
 @ObjectType()
 @Entity()
@@ -32,6 +34,10 @@ export class ProductVariant extends BaseEntity {
 	)
 	@JoinColumn({ name: "variant_value_id" })
 	variant_value!: VariantValue;
+
+	@Field(() => [Cart], { nullable: true })
+	@OneToMany(() => Cart, (cart) => cart.variant)
+	carts!: Cart[];
 
 	@Field(() => String)
 	@CreateDateColumn()

@@ -2,7 +2,7 @@ fragment CartFragment on Cart {
 	id
 	userId
 	quantity
-	inventoryId
+	variantId
 	created_at
 	updated_at
 }

@@ -19,7 +19,6 @@ export type Scalars = {
 	Boolean: boolean;
 	Int: number;
 	Float: number;
-	DateTime: any;
 };
 
 export type AddProductInput = {
@@ -63,27 +62,11 @@ export type Cart = {
 	__typename?: "Cart";
 	created_at: Scalars["String"];
 	id: Scalars["Int"];
-	inventoryId: Scalars["Float"];
-	quantity: Scalars["Float"];
+	quantity: Scalars["Int"];
 	updated_at: Scalars["String"];
-	userId: Scalars["Float"];
-};
-
-export type CartResponse = {
-	__typename?: "CartResponse";
-	categoryId: Scalars["Float"];
-	created_at: Scalars["DateTime"];
-	id: Scalars["Int"];
-	images?: Maybe<Array<ProductImage>>;
-	inventoryId: Scalars["Float"];
-	price: Scalars["Float"];
-	product_desc?: Maybe<Scalars["String"]>;
-	product_identifier?: Maybe<Scalars["String"]>;
-	product_name: Scalars["String"];
-	quantity: Scalars["Float"];
-	updated_at: Scalars["DateTime"];
-	userId: Scalars["Float"];
-	variant: Scalars["String"];
+	userId: Scalars["Int"];
+	variant: ProductVariant;
+	variantId: Scalars["Int"];
 };
 
 export type Discount = {
@@ -116,20 +99,17 @@ export type Mutation = {
 	addAddress: Address;
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
-	addToCart: Cart;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
-	deleteFromCart: Scalars["Boolean"];
 	forgotPassword: Scalars["Boolean"];
 	login: UserResponse;
 	logout: Scalars["Boolean"];
 	register: UserResponse;
 	resendVerificationEmail: Scalars["Boolean"];
 	updateAddress: Address;
-	updateCart: Cart;
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
 	updatePassword: UserResponse;
@@ -150,11 +130,6 @@ export type MutationAddDiscountArgs = {
 	options: AddProductInput;
 };
 
-export type MutationAddToCartArgs = {
-	inventoryId: Scalars["Int"];
-	quantity: Scalars["Int"];
-};
-
 export type MutationChangePasswordArgs = {
 	newPassword: Scalars["String"];
 	token: Scalars["String"];
@@ -170,11 +145,6 @@ export type MutationDeleteCategoryArgs = {
 
 export type MutationDeleteDiscountArgs = {
 	id: Scalars["Float"];
-};
-
-export type MutationDeleteFromCartArgs = {
-	inventoryId: Scalars["Int"];
-	quantity: Scalars["Int"];
 };
 
 export type MutationForgotPasswordArgs = {
@@ -197,11 +167,6 @@ export type MutationResendVerificationEmailArgs = {
 export type MutationUpdateAddressArgs = {
 	id: Scalars["Int"];
 	input: AddressInput;
-};
-
-export type MutationUpdateCartArgs = {
-	inventoryId: Scalars["Int"];
-	quantity: Scalars["Int"];
 };
 
 export type MutationUpdateCategoryArgs = {
@@ -279,7 +244,6 @@ export type ProductImageInput = {
 
 export type ProductInventory = {
 	__typename?: "ProductInventory";
-	carts?: Maybe<Array<Cart>>;
 	created_at: Scalars["String"];
 	inventory_id: Scalars["Int"];
 	price: Scalars["Int"];
@@ -290,6 +254,7 @@ export type ProductInventory = {
 
 export type ProductVariant = {
 	__typename?: "ProductVariant";
+	carts?: Maybe<Array<Cart>>;
 	created_at: Scalars["String"];
 	product_variant_id: Scalars["Int"];
 	updated_at: Scalars["String"];
@@ -307,7 +272,7 @@ export type Query = {
 	addresses?: Maybe<Array<Address>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
-	fetchCartItems?: Maybe<Array<CartResponse>>;
+	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
 	product?: Maybe<Product>;
@@ -408,7 +373,7 @@ export type CartFragmentFragment = {
 	id: number;
 	userId: number;
 	quantity: number;
-	inventoryId: number;
+	variantId: number;
 	created_at: string;
 	updated_at: string;
 };
@@ -470,15 +435,15 @@ export type ProductInventoryFragmentFragment = {
 				updated_at: string;
 			};
 		};
-	}> | null;
-	carts?: Array<{
-		__typename?: "Cart";
-		id: number;
-		userId: number;
-		quantity: number;
-		inventoryId: number;
-		created_at: string;
-		updated_at: string;
+		carts?: Array<{
+			__typename?: "Cart";
+			id: number;
+			userId: number;
+			quantity: number;
+			variantId: number;
+			created_at: string;
+			updated_at: string;
+		}> | null;
 	}> | null;
 };
 
@@ -501,6 +466,15 @@ export type ProductVariantFragmentFragment = {
 			updated_at: string;
 		};
 	};
+	carts?: Array<{
+		__typename?: "Cart";
+		id: number;
+		userId: number;
+		quantity: number;
+		variantId: number;
+		created_at: string;
+		updated_at: string;
+	}> | null;
 };
 
 export type RegularErrorFragment = {
@@ -786,15 +760,15 @@ export type ProductByIdQuery = {
 						updated_at: string;
 					};
 				};
-			}> | null;
-			carts?: Array<{
-				__typename?: "Cart";
-				id: number;
-				userId: number;
-				quantity: number;
-				inventoryId: number;
-				created_at: string;
-				updated_at: string;
+				carts?: Array<{
+					__typename?: "Cart";
+					id: number;
+					userId: number;
+					quantity: number;
+					variantId: number;
+					created_at: string;
+					updated_at: string;
+				}> | null;
 			}> | null;
 		}>;
 		discount?: {
@@ -868,15 +842,15 @@ export type ProductsQuery = {
 						updated_at: string;
 					};
 				};
-			}> | null;
-			carts?: Array<{
-				__typename?: "Cart";
-				id: number;
-				userId: number;
-				quantity: number;
-				inventoryId: number;
-				created_at: string;
-				updated_at: string;
+				carts?: Array<{
+					__typename?: "Cart";
+					id: number;
+					userId: number;
+					quantity: number;
+					variantId: number;
+					created_at: string;
+					updated_at: string;
+				}> | null;
 			}> | null;
 		}>;
 		discount?: {
@@ -980,26 +954,30 @@ export const VariantValueFragmentFragmentDoc = gql`
 	}
 	${VariantFragmentFragmentDoc}
 `;
+export const CartFragmentFragmentDoc = gql`
+	fragment CartFragment on Cart {
+		id
+		userId
+		quantity
+		variantId
+		created_at
+		updated_at
+	}
+`;
 export const ProductVariantFragmentFragmentDoc = gql`
 	fragment ProductVariantFragment on ProductVariant {
 		product_variant_id
 		variant_value {
 			...VariantValueFragment
 		}
+		carts {
+			...CartFragment
+		}
 		created_at
 		updated_at
 	}
 	${VariantValueFragmentFragmentDoc}
-`;
-export const CartFragmentFragmentDoc = gql`
-	fragment CartFragment on Cart {
-		id
-		userId
-		quantity
-		inventoryId
-		created_at
-		updated_at
-	}
+	${CartFragmentFragmentDoc}
 `;
 export const ProductInventoryFragmentFragmentDoc = gql`
 	fragment ProductInventoryFragment on ProductInventory {
@@ -1009,14 +987,10 @@ export const ProductInventoryFragmentFragmentDoc = gql`
 		variants {
 			...ProductVariantFragment
 		}
-		carts {
-			...CartFragment
-		}
 		created_at
 		updated_at
 	}
 	${ProductVariantFragmentFragmentDoc}
-	${CartFragmentFragmentDoc}
 `;
 export const RegularErrorFragmentDoc = gql`
 	fragment RegularError on FieldError {

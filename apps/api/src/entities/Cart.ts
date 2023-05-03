@@ -4,39 +4,39 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	Unique,
 	UpdateDateColumn,
 } from "typeorm";
-import { ProductInventory } from "./ProductInventory";
 import { User } from "./User";
+import { ProductVariant } from "./ProductVariant";
 
 @ObjectType()
 @Entity()
-@Unique(["userId", "inventoryId"])
+@Unique(["userId", "variantId"])
 export class Cart extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Field()
+	@Field(() => Int)
 	@Column()
 	userId!: number;
 
-	@Field()
+	@Field(() => Int)
 	@Column()
 	quantity!: number;
 
-	@Field()
+	@Field(() => Int)
 	@Column()
-	inventoryId!: number;
+	variantId!: number;
 
-	@ManyToOne(
-		() => ProductInventory,
-		(productinventory) => productinventory.carts
-	)
-	inventory!: ProductInventory;
+	@Field(() => ProductVariant)
+	@ManyToOne(() => ProductVariant, (productvariant) => productvariant.carts)
+	@JoinColumn({ name: "variantId" })
+	variant!: ProductVariant;
 
 	@ManyToOne(() => User, (user) => user.carts)
 	user!: User;

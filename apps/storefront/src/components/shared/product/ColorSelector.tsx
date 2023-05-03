@@ -7,29 +7,30 @@ import {
 	useId,
 	useRadio,
 	useRadioGroup,
-	SimpleGrid,
 	FormLabel,
 	Flex,
 	Input,
+	HStack,
 } from "@chakra-ui/react";
 import { BiCheck } from "react-icons/bi";
+
+interface ColorSelectorProps {
+	options: string[];
+	onChange: (value: string) => void;
+}
+
+export const ColorSelector = ({ options, onChange }: ColorSelectorProps) => (
+	<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
+		<FormLabel>Color</FormLabel>
+		<RadioGroup name="Colors" options={options} onChange={onChange} />
+	</VStack>
+);
 
 interface RadioGroupProps extends Omit<StackProps, "onChange"> {
 	name: string;
 	options: string[];
 	onChange: (value: string) => void;
 }
-
-export const ColorSelector = () => {
-	const options = ["red", "green", "blue", "yellow", "white", "gray"];
-
-	return (
-		<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
-			<FormLabel>Color</FormLabel>
-			<RadioGroup name="Colors" options={options} onChange={() => {}} />
-		</VStack>
-	);
-};
 
 const RadioGroup = (props: RadioGroupProps) => {
 	const { name, options, onChange, ...rest } = props;
@@ -39,17 +40,13 @@ const RadioGroup = (props: RadioGroupProps) => {
 	});
 
 	return (
-		<SimpleGrid
-			columns={{ base: 6, md: 4 }}
-			spacing={{ base: 2, md: 4 }}
-			{...getRootProps(rest)}
-		>
+		<HStack gap={1} flexWrap="wrap" {...getRootProps(rest)}>
 			{options.map((value) => (
 				<RadioOption key={value} {...getRadioProps({ value })}>
 					{value}
 				</RadioOption>
 			))}
-		</SimpleGrid>
+		</HStack>
 	);
 };
 

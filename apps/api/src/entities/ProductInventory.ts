@@ -10,10 +10,8 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
-import { Cart } from "./Cart";
 import { Product } from "./Product";
 import { ProductVariant } from "./ProductVariant";
-
 @ObjectType()
 @Entity()
 export class ProductInventory extends BaseEntity {
@@ -42,10 +40,6 @@ export class ProductInventory extends BaseEntity {
 
 	@ManyToOne(() => Product, (product) => product.inventories)
 	product!: Product;
-
-	@Field(() => [Cart], { nullable: true })
-	@OneToMany(() => Cart, (cart) => cart.inventory)
-	carts!: Cart[];
 
 	@Field(() => String)
 	@CreateDateColumn()

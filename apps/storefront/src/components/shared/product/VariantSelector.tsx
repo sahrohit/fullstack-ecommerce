@@ -1,3 +1,4 @@
+import UnderlineLink from "@/components/ui/UnderlineLink";
 import type { SquareProps, UseRadioProps, StackProps } from "@chakra-ui/react";
 import {
 	VStack,
@@ -6,22 +7,34 @@ import {
 	useId,
 	useRadio,
 	useRadioGroup,
-	SimpleGrid,
 	Input,
 	chakra,
 	FormLabel,
+	SimpleGrid,
+	HStack,
 } from "@chakra-ui/react";
 
-export const SizeSelector = () => {
-	const options = ["38", "40", "42", "44"];
+interface VariantSelectorProps {
+	options: string[];
+	variantName: string;
+	onChange: (value: string) => void;
+}
 
-	return (
-		<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
-			<FormLabel>Sizes</FormLabel>
-			<RadioGroup name="Sizes" options={options} onChange={() => {}} />
-		</VStack>
-	);
-};
+export const VariantSelector = ({
+	options,
+	variantName,
+	onChange,
+}: VariantSelectorProps) => (
+	<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
+		<HStack justifyContent="space-between" w="full" alignItems="flex-start">
+			<FormLabel>{variantName}</FormLabel>
+			<UnderlineLink fontSize="xs" href="/">
+				See Size Guides
+			</UnderlineLink>
+		</HStack>
+		<RadioGroup name="Sizes" options={options} onChange={onChange} />
+	</VStack>
+);
 
 interface RadioGroupProps extends Omit<StackProps, "onChange"> {
 	name: string;
@@ -38,8 +51,9 @@ const RadioGroup = (props: RadioGroupProps) => {
 
 	return (
 		<SimpleGrid
-			columns={{ base: 3, lg: 4 }}
+			minChildWidth={{ base: "16", md: "12" }}
 			spacing={{ base: 2, md: 4 }}
+			w="full"
 			{...getRootProps(rest)}
 		>
 			{options.map((value) => (
@@ -68,7 +82,7 @@ const RadioOption = (props: RadioOptionProps) => {
 				id={id}
 				rounded="md"
 				fontWeight="semibold"
-				size={{ base: "8", md: "10" }}
+				p={2}
 				borderWidth="1px"
 				transition="all 0.2s"
 				cursor="pointer"
@@ -81,6 +95,10 @@ const RadioOption = (props: RadioOptionProps) => {
 				_checked={{
 					bg: mode("blue.100", "blue.300"),
 					borderColor: mode("blue.500", "blue.300"),
+				}}
+				_disabled={{
+					cursor: "not-allowed",
+					opacity: 0.4,
 				}}
 				{...rest}
 			/>

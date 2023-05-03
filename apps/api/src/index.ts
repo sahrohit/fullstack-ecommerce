@@ -71,7 +71,7 @@ const Server = async () => {
 	});
 
 	app.get("/test", async (_req, res) => {
-		const products = await Product.findOne({
+		const products = await Product.findOneOrFail({
 			relations: {
 				inventories: {
 					variants: {
@@ -85,7 +85,7 @@ const Server = async () => {
 				discount: true,
 			},
 			where: {
-				id: Number(4),
+				identifier: "nike-tiempo-legend-8-elite-fg",
 			},
 		});
 		res.json({
