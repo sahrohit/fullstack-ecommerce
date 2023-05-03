@@ -34,10 +34,10 @@ export class ProductCategory extends BaseEntity {
 	@Column()
 	imageURL!: string;
 
-	@Field(() => [Product])
+	@Field(() => [Product], { nullable: true })
 	@OneToMany(() => Product, (product) => product.category)
 	@JoinTable({ name: "product_id" })
-	products!: Product[];
+	products?: Product[];
 
 	@Field(() => String)
 	@CreateDateColumn()
