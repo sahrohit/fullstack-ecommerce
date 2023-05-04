@@ -3,9 +3,6 @@ fragment ProductVariantFragment on ProductVariant {
 	variant_value {
 		...VariantValueFragment
 	}
-	carts {
-		...CartFragment
-	}
 	created_at
 	updated_at
 }

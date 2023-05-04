@@ -11,11 +11,11 @@ import {
 	UpdateDateColumn,
 } from "typeorm";
 import { User } from "./User";
-import { ProductVariant } from "./ProductVariant";
+import { ProductInventory } from "./ProductInventory";
 
 @ObjectType()
 @Entity()
-@Unique(["userId", "variantId"])
+@Unique(["userId", "inventoryId"])
 export class Cart extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
@@ -31,12 +31,15 @@ export class Cart extends BaseEntity {
 
 	@Field(() => Int)
 	@Column()
-	variantId!: number;
+	inventoryId!: number;
 
-	@Field(() => ProductVariant)
-	@ManyToOne(() => ProductVariant, (productvariant) => productvariant.carts)
-	@JoinColumn({ name: "variantId" })
-	variant!: ProductVariant;
+	@Field(() => ProductInventory)
+	@ManyToOne(
+		() => ProductInventory,
+		(productinventory) => productinventory.carts
+	)
+	@JoinColumn({ name: "inventoryId" })
+	inventory!: ProductInventory;
 
 	@ManyToOne(() => User, (user) => user.carts)
 	user!: User;

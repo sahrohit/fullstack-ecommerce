@@ -12,6 +12,7 @@ import {
 } from "typeorm";
 import { Product } from "./Product";
 import { ProductVariant } from "./ProductVariant";
+import { Cart } from "./Cart";
 @ObjectType()
 @Entity()
 export class ProductInventory extends BaseEntity {
@@ -34,6 +35,10 @@ export class ProductInventory extends BaseEntity {
 	)
 	@JoinColumn({ name: "inventory_id" })
 	variants!: ProductVariant[];
+
+	@Field(() => [Cart], { nullable: true })
+	@OneToMany(() => Cart, (cart) => cart.inventory)
+	carts!: Cart[];
 
 	@Column()
 	productId!: number;

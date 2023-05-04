@@ -62,11 +62,11 @@ export type Cart = {
 	__typename?: "Cart";
 	created_at: Scalars["String"];
 	id: Scalars["Int"];
+	inventory: ProductInventory;
+	inventoryId: Scalars["Int"];
 	quantity: Scalars["Int"];
 	updated_at: Scalars["String"];
 	userId: Scalars["Int"];
-	variant: ProductVariant;
-	variantId: Scalars["Int"];
 };
 
 export type Discount = {
@@ -99,17 +99,20 @@ export type Mutation = {
 	addAddress: Address;
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
+	addToCart: Cart;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
+	deleteFromCart: Scalars["Boolean"];
 	forgotPassword: Scalars["Boolean"];
 	login: UserResponse;
 	logout: Scalars["Boolean"];
 	register: UserResponse;
 	resendVerificationEmail: Scalars["Boolean"];
 	updateAddress: Address;
+	updateCart: Cart;
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
 	updatePassword: UserResponse;
@@ -130,6 +133,11 @@ export type MutationAddDiscountArgs = {
 	options: AddProductInput;
 };
 
+export type MutationAddToCartArgs = {
+	inventoryId: Scalars["Int"];
+	quantity: Scalars["Int"];
+};
+
 export type MutationChangePasswordArgs = {
 	newPassword: Scalars["String"];
 	token: Scalars["String"];
@@ -145,6 +153,11 @@ export type MutationDeleteCategoryArgs = {
 
 export type MutationDeleteDiscountArgs = {
 	id: Scalars["Float"];
+};
+
+export type MutationDeleteFromCartArgs = {
+	inventoryId: Scalars["Int"];
+	quantity: Scalars["Int"];
 };
 
 export type MutationForgotPasswordArgs = {
@@ -167,6 +180,11 @@ export type MutationResendVerificationEmailArgs = {
 export type MutationUpdateAddressArgs = {
 	id: Scalars["Int"];
 	input: AddressInput;
+};
+
+export type MutationUpdateCartArgs = {
+	inventoryId: Scalars["Int"];
+	quantity: Scalars["Int"];
 };
 
 export type MutationUpdateCategoryArgs = {
@@ -244,6 +262,7 @@ export type ProductImageInput = {
 
 export type ProductInventory = {
 	__typename?: "ProductInventory";
+	carts?: Maybe<Array<Cart>>;
 	created_at: Scalars["String"];
 	inventory_id: Scalars["Int"];
 	price: Scalars["Int"];
@@ -254,7 +273,6 @@ export type ProductInventory = {
 
 export type ProductVariant = {
 	__typename?: "ProductVariant";
-	carts?: Maybe<Array<Cart>>;
 	created_at: Scalars["String"];
 	product_variant_id: Scalars["Int"];
 	updated_at: Scalars["String"];
@@ -373,7 +391,7 @@ export type CartFragmentFragment = {
 	id: number;
 	userId: number;
 	quantity: number;
-	variantId: number;
+	inventoryId: number;
 	created_at: string;
 	updated_at: string;
 };
@@ -435,15 +453,15 @@ export type ProductInventoryFragmentFragment = {
 				updated_at: string;
 			};
 		};
-		carts?: Array<{
-			__typename?: "Cart";
-			id: number;
-			userId: number;
-			quantity: number;
-			variantId: number;
-			created_at: string;
-			updated_at: string;
-		}> | null;
+	}> | null;
+	carts?: Array<{
+		__typename?: "Cart";
+		id: number;
+		userId: number;
+		quantity: number;
+		inventoryId: number;
+		created_at: string;
+		updated_at: string;
 	}> | null;
 };
 
@@ -466,15 +484,6 @@ export type ProductVariantFragmentFragment = {
 			updated_at: string;
 		};
 	};
-	carts?: Array<{
-		__typename?: "Cart";
-		id: number;
-		userId: number;
-		quantity: number;
-		variantId: number;
-		created_at: string;
-		updated_at: string;
-	}> | null;
 };
 
 export type RegularErrorFragment = {
@@ -760,15 +769,15 @@ export type ProductByIdQuery = {
 						updated_at: string;
 					};
 				};
-				carts?: Array<{
-					__typename?: "Cart";
-					id: number;
-					userId: number;
-					quantity: number;
-					variantId: number;
-					created_at: string;
-					updated_at: string;
-				}> | null;
+			}> | null;
+			carts?: Array<{
+				__typename?: "Cart";
+				id: number;
+				userId: number;
+				quantity: number;
+				inventoryId: number;
+				created_at: string;
+				updated_at: string;
 			}> | null;
 		}>;
 		discount?: {
@@ -842,15 +851,15 @@ export type ProductsQuery = {
 						updated_at: string;
 					};
 				};
-				carts?: Array<{
-					__typename?: "Cart";
-					id: number;
-					userId: number;
-					quantity: number;
-					variantId: number;
-					created_at: string;
-					updated_at: string;
-				}> | null;
+			}> | null;
+			carts?: Array<{
+				__typename?: "Cart";
+				id: number;
+				userId: number;
+				quantity: number;
+				inventoryId: number;
+				created_at: string;
+				updated_at: string;
 			}> | null;
 		}>;
 		discount?: {
@@ -954,30 +963,26 @@ export const VariantValueFragmentFragmentDoc = gql`
 	}
 	${VariantFragmentFragmentDoc}
 `;
-export const CartFragmentFragmentDoc = gql`
-	fragment CartFragment on Cart {
-		id
-		userId
-		quantity
-		variantId
-		created_at
-		updated_at
-	}
-`;
 export const ProductVariantFragmentFragmentDoc = gql`
 	fragment ProductVariantFragment on ProductVariant {
 		product_variant_id
 		variant_value {
 			...VariantValueFragment
 		}
-		carts {
-			...CartFragment
-		}
 		created_at
 		updated_at
 	}
 	${VariantValueFragmentFragmentDoc}
-	${CartFragmentFragmentDoc}
+`;
+export const CartFragmentFragmentDoc = gql`
+	fragment CartFragment on Cart {
+		id
+		userId
+		quantity
+		inventoryId
+		created_at
+		updated_at
+	}
 `;
 export const ProductInventoryFragmentFragmentDoc = gql`
 	fragment ProductInventoryFragment on ProductInventory {
@@ -987,10 +992,14 @@ export const ProductInventoryFragmentFragmentDoc = gql`
 		variants {
 			...ProductVariantFragment
 		}
+		carts {
+			...CartFragment
+		}
 		created_at
 		updated_at
 	}
 	${ProductVariantFragmentFragmentDoc}
+	${CartFragmentFragmentDoc}
 `;
 export const RegularErrorFragmentDoc = gql`
 	fragment RegularError on FieldError {

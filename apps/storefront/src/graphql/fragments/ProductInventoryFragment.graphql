@@ -5,6 +5,9 @@ fragment ProductInventoryFragment on ProductInventory {
 	variants {
 		...ProductVariantFragment
 	}
+	carts {
+		...CartFragment
+	}
 	created_at
 	updated_at
 }
