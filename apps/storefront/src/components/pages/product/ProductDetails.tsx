@@ -17,7 +17,7 @@ import {
 import { BsHeart } from "react-icons/bs";
 import { Product, ProductImage } from "@/generated/graphql";
 import { useMemo, useState } from "react";
-import allVariants from "@/utils/allVariants";
+import { validVariants, allVariants, selectorsToKeys } from "@/utils/mappers";
 import Carousel from "./Carousel";
 import ImageGrid from "./ImageGrid";
 
@@ -25,45 +25,51 @@ interface ProductDetailsProps {
 	product: Product;
 }
 
+const removePrice = (obj: Record<string, string | number | null>) => {
+	const { price, inventoryId, ...rest } = obj;
+	return rest;
+};
+
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-	const validCombinations = useMemo(
+	const { validCombinations, allCombinations, keys } = useMemo(
+		() => ({
+			validCombinations: validVariants(product.inventories),
+			allCombinations: allVariants(product.inventories),
+			keys: selectorsToKeys(allVariants(product.inventories)),
+		}),
+		[product.inventories]
+	);
+
+	const defaultVariant = useMemo(
 		() =>
-			product.inventories.map((inventory) => {
-				const values: Record<string, string | number> = {};
-				values.price = inventory.price;
-				inventory.variants?.forEach((variant) => {
-					values[`${variant.variant_value.variant.variant_name}`] =
-						variant.variant_value.value;
-				});
-				return values;
-			}),
-		[product.inventories]
+			validCombinations.find(
+				(obj1) =>
+					obj1.price ===
+					Math.min(...product.inventories.map((inv) => Number(inv.price)))
+			) ?? validCombinations[0],
+		[product.inventories, validCombinations]
 	);
 
-	const selectors = useMemo(
-		() => allVariants(product.inventories),
-		[product.inventories]
+	const [selectedVariant, setSelectedVariant] =
+		useState<typeof keys>(defaultVariant);
+	const [quantity, setQuantity] = useState(1);
+
+	const result = useMemo(
+		() =>
+			validCombinations.find((obj1) =>
+				Object.entries(removePrice(selectedVariant)).every(
+					([key, value]) => obj1[key] === value
+				)
+			),
+		[selectedVariant, validCombinations]
 	);
 
-	const keys: Record<string, string | number | null> = {};
-
-	Object.keys(selectors).forEach((key: string) => {
-		keys[key] = null;
-	});
-
-	const [selectedVariant, setSelectedVariant] = useState<typeof keys>({
-		...keys,
-	});
-
-	const [isDirty, setIsDirty] = useState(false);
-
-	const result = validCombinations.find((obj1) =>
-		Object.entries(selectedVariant).every(([key, value]) => obj1[key] === value)
-	);
-
-	if (result !== undefined && !isDirty) {
-		setIsDirty(true);
-	}
+	const handleAddToCart = () => {
+		console.log("Add to cart", {
+			quantity,
+			...result,
+		});
+	};
 
 	return (
 		<Stack w="full" direction={{ base: "column-reverse", lg: "row" }} gap={8}>
@@ -75,26 +81,8 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 					{product.name}
 				</Heading>
 
-				{/* At the start when the user havem't touched the form */}
-				{!isDirty && (
-					<HStack>
-						<Text textAlign="justify" fontSize="xl" fontWeight="medium">
-							Starting from
-						</Text>
-						<PriceTag
-							priceProps={{
-								fontSize: "xl",
-							}}
-							price={Math.min(
-								...product.inventories.map((inv) => Number(inv.price))
-							)}
-							currency="USD"
-						/>
-					</HStack>
-				)}
-
 				{/* When the user has touched the form but the result is not found */}
-				{!result && isDirty && (
+				{!result && (
 					<Text
 						textAlign="justify"
 						fontSize="xl"
@@ -106,7 +94,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 				)}
 
 				{/* When the user has touched the form but the result is found */}
-				{result && isDirty && (
+				{result && (
 					<PriceTag
 						priceProps={{
 							fontSize: "xl",
@@ -126,11 +114,13 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 				>
 					{product.desc}
 				</Text>
-				{Object.keys(selectors).map((key) => {
+				{Object.keys(allCombinations).map((key) => {
 					if (key === "color") {
 						return (
 							<ColorSelector
-								options={selectors.color}
+								key={`selector-${key}`}
+								options={allCombinations.color}
+								defaultValue={defaultVariant[key] as string}
 								onChange={(value) =>
 									setSelectedVariant((last) => ({ ...last, color: value }))
 								}
@@ -139,9 +129,10 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 					}
 					return (
 						<VariantSelector
-							options={selectors[key]}
+							options={allCombinations[key]}
+							defaultValue={defaultVariant[key]}
 							variantName={key && key[0].toUpperCase() + key.slice(1)}
-							key={key}
+							key={`selector-${key}`}
 							onChange={(value) =>
 								setSelectedVariant((last) => ({ ...last, [`${key}`]: value }))
 							}
@@ -151,20 +142,19 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 				<SimpleGrid w="full" gap={8} columns={2}>
 					<QuantitySelect
 						defaultValue={1}
-						onChange={
-							(value) => console.log(value)
-							// setSelectedVariant((last) => ({
-							// 	...last,
-							// 	quantity: Number(value),
-							// }))
-						}
+						onChange={(value) => setQuantity(Number(value))}
 					/>
 
 					<Button size="lg" variant="outline" leftIcon={<BsHeart />}>
 						Favourite
 					</Button>
 				</SimpleGrid>
-				<Button colorScheme="blue" w="full">
+				<Button
+					colorScheme="blue"
+					w="full"
+					isDisabled={!result}
+					onClick={handleAddToCart}
+				>
 					Add to Cart
 				</Button>
 			</VStack>

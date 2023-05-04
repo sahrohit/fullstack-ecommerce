@@ -18,12 +18,14 @@ interface VariantSelectorProps {
 	options: string[];
 	variantName: string;
 	onChange: (value: string) => void;
+	defaultValue: string | number;
 }
 
 export const VariantSelector = ({
 	options,
 	variantName,
 	onChange,
+	defaultValue,
 }: VariantSelectorProps) => (
 	<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
 		<HStack justifyContent="space-between" w="full" alignItems="flex-start">
@@ -32,7 +34,12 @@ export const VariantSelector = ({
 				See Size Guides
 			</UnderlineLink>
 		</HStack>
-		<RadioGroup name="Sizes" options={options} onChange={onChange} />
+		<RadioGroup
+			name="Sizes"
+			options={options}
+			onChange={onChange}
+			defaultValue={defaultValue}
+		/>
 	</VStack>
 );
 
@@ -40,13 +47,15 @@ interface RadioGroupProps extends Omit<StackProps, "onChange"> {
 	name: string;
 	options: string[];
 	onChange: (value: string) => void;
+	defaultValue: string | number;
 }
 
 const RadioGroup = (props: RadioGroupProps) => {
-	const { name, options, onChange, ...rest } = props;
+	const { name, options, onChange, defaultValue, ...rest } = props;
 	const { getRootProps, getRadioProps } = useRadioGroup({
 		name,
 		onChange,
+		defaultValue: defaultValue as string,
 	});
 
 	return (

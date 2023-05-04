@@ -17,12 +17,22 @@ import { BiCheck } from "react-icons/bi";
 interface ColorSelectorProps {
 	options: string[];
 	onChange: (value: string) => void;
+	defaultValue: string;
 }
 
-export const ColorSelector = ({ options, onChange }: ColorSelectorProps) => (
+export const ColorSelector = ({
+	options,
+	onChange,
+	defaultValue,
+}: ColorSelectorProps) => (
 	<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
 		<FormLabel>Color</FormLabel>
-		<RadioGroup name="Colors" options={options} onChange={onChange} />
+		<RadioGroup
+			name="Colors"
+			options={options}
+			onChange={onChange}
+			defaultValue={defaultValue}
+		/>
 	</VStack>
 );
 
@@ -30,13 +40,15 @@ interface RadioGroupProps extends Omit<StackProps, "onChange"> {
 	name: string;
 	options: string[];
 	onChange: (value: string) => void;
+	defaultValue: string;
 }
 
 const RadioGroup = (props: RadioGroupProps) => {
-	const { name, options, onChange, ...rest } = props;
+	const { name, options, onChange, defaultValue, ...rest } = props;
 	const { getRootProps, getRadioProps } = useRadioGroup({
 		name,
 		onChange,
+		defaultValue,
 	});
 
 	return (
