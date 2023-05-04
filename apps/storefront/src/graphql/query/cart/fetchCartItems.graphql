@@ -1,0 +1,13 @@
+query FetchCartItems {
+	fetchCartItems {
+		id
+		userId
+		quantity
+		inventoryId
+		inventory {
+			...ProductInventoryFragment
+		}
+		created_at
+		updated_at
+	}
+}

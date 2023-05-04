@@ -1,0 +1,3 @@
+mutation DeleteFromCart($quantity: Int!, $inventoryId: Int!) {
+	deleteFromCart(quantity: $quantity, inventoryId: $inventoryId)
+}
