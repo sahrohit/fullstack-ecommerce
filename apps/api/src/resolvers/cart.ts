@@ -10,6 +10,7 @@ import {
 import { Cart } from "../entities/Cart";
 import type { MyContext } from "../types";
 import { isVerified } from "src/middlewares/isVerified";
+import { ProductInventory } from "src/entities/ProductInventory";
 
 @Resolver(Cart)
 export class CartResolver {
@@ -18,9 +19,14 @@ export class CartResolver {
 		return await Cart.find({
 			relations: {
 				inventory: {
-					product: true,
+					product: {
+						images: true,
+						category: true,
+					},
 					variants: {
-						variant_value: true,
+						variant_value: {
+							variant: true,
+						},
 					},
 				},
 			},
@@ -38,6 +44,11 @@ export class CartResolver {
 		const cart = await Cart.findOne({
 			where: { userId: req.session?.userId, inventoryId },
 		});
+
+		const inventory = await ProductInventory.findOne({
+			where: { inventory_id: inventoryId },
+		});
+		console.log(inventory?.productId);
 
 		if (cart) {
 			cart.quantity += quantity;

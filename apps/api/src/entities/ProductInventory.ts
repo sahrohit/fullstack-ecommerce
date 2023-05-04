@@ -43,6 +43,7 @@ export class ProductInventory extends BaseEntity {
 	@Column()
 	productId!: number;
 
+	@Field(() => Product, { nullable: true })
 	@ManyToOne(() => Product, (product) => product.inventories)
 	product!: Product;
 

@@ -19,7 +19,7 @@ import { ProductResolver } from "./resolvers/product";
 import { UserResolver } from "./resolvers/user";
 import { MyContext } from "./types";
 import "reflect-metadata";
-import { Product } from "./entities/Product";
+import { Cart } from "./entities/Cart";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -71,23 +71,11 @@ const Server = async () => {
 	});
 
 	app.get("/test", async (_req, res) => {
-		const products = await Product.findOneOrFail({
-			relations: {
-				inventories: {
-					variants: {
-						variant_value: {
-							variant: true,
-						},
-					},
-				},
-				category: true,
-				images: true,
-				discount: true,
-			},
-			where: {
-				identifier: "nike-tiempo-legend-8-elite-fg",
-			},
-		});
+		const products = await Cart.create({
+			userId: 3,
+			inventoryId: 3,
+			quantity: 2,
+		}).save();
 		res.json({
 			products,
 		});

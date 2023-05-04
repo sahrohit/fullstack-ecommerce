@@ -33,7 +33,7 @@ export class Cart extends BaseEntity {
 	@Column()
 	inventoryId!: number;
 
-	@Field(() => ProductInventory)
+	@Field(() => ProductInventory, { nullable: true })
 	@ManyToOne(
 		() => ProductInventory,
 		(productinventory) => productinventory.carts
