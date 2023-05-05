@@ -1,5 +1,5 @@
 import { Link } from "@chakra-ui/next-js";
-import type { LinkProps } from "@chakra-ui/react";
+import { Button, ButtonProps, type LinkProps } from "@chakra-ui/react";
 
 interface UnderlineLinkProps extends LinkProps {
 	href: string;
@@ -35,3 +35,32 @@ UnderlineLink.defaultProps = {
 };
 
 export default UnderlineLink;
+
+interface UnderlineButtonProps extends ButtonProps {
+	color?: string;
+}
+
+export const UnderlineButton = ({ color, ...rest }: UnderlineButtonProps) => (
+	<Button
+		variant="unstyled"
+		pos="relative"
+		display="inline-block"
+		transition="opacity 0.2s"
+		_hover={{ opacity: 0.8 }}
+		_after={{
+			content: `""`,
+			display: "block",
+			w: "full",
+			h: "3px",
+			bottom: 0,
+			bg: color,
+			insetX: 0,
+			insetY: 0,
+		}}
+		{...rest}
+	/>
+);
+
+UnderlineButton.defaultProps = {
+	color: "blue.500",
+};
