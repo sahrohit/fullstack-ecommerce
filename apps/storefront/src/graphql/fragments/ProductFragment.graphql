@@ -1,0 +1,22 @@
+fragment ProductFragment on Product {
+	id
+	identifier
+	name
+	desc
+	categoryId
+	discountId
+	images {
+		...ImageFragment
+	}
+	category {
+		...CategoryFragment
+	}
+	inventories {
+		...ProductInventoryFragment
+	}
+	discount {
+		...DiscountFragment
+	}
+	created_at
+	updated_at
+}

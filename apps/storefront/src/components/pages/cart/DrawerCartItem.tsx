@@ -6,24 +6,57 @@ import {
 	Image,
 	useColorModeValue as mode,
 	Text,
+	useToast,
 } from "@chakra-ui/react";
-import UnderlineLink from "@/components/ui/UnderlineLink";
+import { UnderlineButton } from "@/components/ui/UnderlineLink";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import QuantitySelect from "@/components/shared/cart/QuantitySelect";
+import {
+	Cart,
+	useDeleteFromCartMutation,
+	useUpdateCartMutation,
+} from "@/generated/graphql";
+import { capitalize } from "@/utils/helpers";
 
 type CartItemProps = {
-	name: string;
-	description: string;
-	quantity: number;
-	price: number;
-	currency: string;
-	imageUrl: string;
-	salePrice?: number;
+	cartItem: Cart;
 };
 
-const DrawerCartItem = (props: CartItemProps) => {
-	const { name, description, quantity, imageUrl, currency, price, salePrice } =
-		props;
+const DrawerCartItem = ({ cartItem }: CartItemProps) => {
+	const { quantity, inventory } = cartItem;
+
+	const toast = useToast();
+	const [updateCartMutation] = useUpdateCartMutation({
+		refetchQueries: ["FetchCartItems"],
+	});
+
+	const [deleteFromCartMutation] = useDeleteFromCartMutation({
+		refetchQueries: ["FetchCartItems"],
+	});
+
+	const description =
+		inventory?.variants
+			?.map((variant) => capitalize(variant.variant_value.value as string))
+			.sort()
+			.join(", ") ?? "";
+
+	const handleQuanityChange = async (value: string | number) => {
+		if (value === quantity) return;
+		const res = await updateCartMutation({
+			variables: {
+				inventoryId: Number(inventory!.inventory_id),
+				quantity: Number(value),
+			},
+		});
+		if (res.data?.updateCart) {
+			toast({
+				title: "Cart updated",
+				status: "success",
+				duration: 2000,
+				isClosable: true,
+			});
+		}
+	};
 
 	return (
 		<Flex direction="column" justify="space-between" align="flex-start">
@@ -36,23 +69,23 @@ const DrawerCartItem = (props: CartItemProps) => {
 								width="120px"
 								height="120px"
 								fit="cover"
-								src={imageUrl}
-								alt={name}
+								src={inventory!.product.images[2].imageURL}
+								alt={inventory!.product.name}
 								draggable="false"
 								loading="lazy"
 							/>
 							<Box pt="2" flexGrow={1}>
 								<Flex align="center" width="full" justify="space-between">
 									<Stack spacing="0.5">
-										<Text fontWeight="medium">{name}</Text>
+										<Text fontWeight="medium">{inventory!.product.name}</Text>
 										<Text color={mode("gray.600", "gray.400")} fontSize="sm">
 											{description}
 										</Text>
 									</Stack>
 									<PriceTag
-										salePrice={salePrice}
-										price={price}
-										currency={currency}
+										// salePrice={salePrice}
+										price={inventory!.price}
+										currency="NPR"
 									/>
 								</Flex>
 								<Flex
@@ -61,23 +94,33 @@ const DrawerCartItem = (props: CartItemProps) => {
 									width="full"
 									justify="space-between"
 								>
-									<UnderlineLink
-										href="/"
-										fontSize="sm"
-										fontWeight="semibold"
+									<UnderlineButton
 										color="red.500"
+										onClick={async () => {
+											const res = await deleteFromCartMutation({
+												variables: {
+													inventoryId: Number(inventory!.inventory_id),
+													quantity: Number(quantity),
+												},
+											});
+											if (res.data?.deleteFromCart) {
+												toast({
+													title: "Item removed from cart",
+													status: "success",
+													duration: 2000,
+													isClosable: true,
+												});
+											}
+										}}
 									>
 										Delete
-									</UnderlineLink>
+									</UnderlineButton>
 
 									<QuantitySelect
 										maxW="160px"
 										defaultValue={quantity}
-										onChange={() => {
-											// TODO: Update the quantity in the cart
-											// ? Quantity Select can be replaced with Number Input
-											// onChangeQuantity?.(+e.currentTarget.value
-										}}
+										value={quantity}
+										onChange={handleQuanityChange}
 									/>
 								</Flex>
 							</Box>
@@ -87,10 +130,6 @@ const DrawerCartItem = (props: CartItemProps) => {
 			</HStack>
 		</Flex>
 	);
-};
-
-DrawerCartItem.defaultProps = {
-	salePrice: undefined,
 };
 
 export default DrawerCartItem;

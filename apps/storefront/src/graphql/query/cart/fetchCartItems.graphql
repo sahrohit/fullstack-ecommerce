@@ -6,6 +6,9 @@ query FetchCartItems {
 		inventoryId
 		inventory {
 			...ProductInventoryFragment
+			product {
+				...ProductFragment
+			}
 		}
 		created_at
 		updated_at

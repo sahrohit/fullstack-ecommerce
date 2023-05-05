@@ -21,7 +21,7 @@ const QuantitySelect = (props: QuantitySelectProps) => {
 	const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
 		useNumberInput({
 			step: 1,
-			min: 0,
+			min: 1,
 			max: 6,
 			...rest,
 		});

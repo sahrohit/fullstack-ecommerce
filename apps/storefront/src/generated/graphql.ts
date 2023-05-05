@@ -266,7 +266,7 @@ export type ProductInventory = {
 	created_at: Scalars["String"];
 	inventory_id: Scalars["Int"];
 	price: Scalars["Int"];
-	product?: Maybe<Product>;
+	product: Product;
 	quantity: Scalars["Int"];
 	updated_at: Scalars["String"];
 	variants?: Maybe<Array<ProductVariant>>;
@@ -426,6 +426,83 @@ export type ImageFragmentFragment = {
 	productId: number;
 	created_at: string;
 	updated_at: string;
+};
+
+export type ProductFragmentFragment = {
+	__typename?: "Product";
+	id: number;
+	identifier: string;
+	name: string;
+	desc: string;
+	categoryId: number;
+	discountId?: number | null;
+	created_at: string;
+	updated_at: string;
+	images: Array<{
+		__typename?: "ProductImage";
+		id: number;
+		imageURL: string;
+		productId: number;
+		created_at: string;
+		updated_at: string;
+	}>;
+	category: {
+		__typename?: "ProductCategory";
+		id: number;
+		name: string;
+		identifier: string;
+		desc: string;
+		imageURL: string;
+		created_at: string;
+		updated_at: string;
+	};
+	inventories?: Array<{
+		__typename?: "ProductInventory";
+		inventory_id: number;
+		quantity: number;
+		price: number;
+		created_at: string;
+		updated_at: string;
+		variants?: Array<{
+			__typename?: "ProductVariant";
+			product_variant_id: number;
+			created_at: string;
+			updated_at: string;
+			variant_value: {
+				__typename?: "VariantValue";
+				value_id: number;
+				value: string;
+				created_at: string;
+				updated_at: string;
+				variant: {
+					__typename?: "Variant";
+					variant_id: number;
+					variant_name: string;
+					created_at: string;
+					updated_at: string;
+				};
+			};
+		}> | null;
+		carts?: Array<{
+			__typename?: "Cart";
+			id: number;
+			userId: number;
+			quantity: number;
+			inventoryId: number;
+			created_at: string;
+			updated_at: string;
+		}> | null;
+	}> | null;
+	discount?: {
+		__typename?: "Discount";
+		id: number;
+		name: string;
+		desc: string;
+		discount_percent: number;
+		active: boolean;
+		created_at: string;
+		updated_at: string;
+	} | null;
 };
 
 export type ProductInventoryFragmentFragment = {
@@ -837,6 +914,82 @@ export type FetchCartItemsQuery = {
 			price: number;
 			created_at: string;
 			updated_at: string;
+			product: {
+				__typename?: "Product";
+				id: number;
+				identifier: string;
+				name: string;
+				desc: string;
+				categoryId: number;
+				discountId?: number | null;
+				created_at: string;
+				updated_at: string;
+				images: Array<{
+					__typename?: "ProductImage";
+					id: number;
+					imageURL: string;
+					productId: number;
+					created_at: string;
+					updated_at: string;
+				}>;
+				category: {
+					__typename?: "ProductCategory";
+					id: number;
+					name: string;
+					identifier: string;
+					desc: string;
+					imageURL: string;
+					created_at: string;
+					updated_at: string;
+				};
+				inventories?: Array<{
+					__typename?: "ProductInventory";
+					inventory_id: number;
+					quantity: number;
+					price: number;
+					created_at: string;
+					updated_at: string;
+					variants?: Array<{
+						__typename?: "ProductVariant";
+						product_variant_id: number;
+						created_at: string;
+						updated_at: string;
+						variant_value: {
+							__typename?: "VariantValue";
+							value_id: number;
+							value: string;
+							created_at: string;
+							updated_at: string;
+							variant: {
+								__typename?: "Variant";
+								variant_id: number;
+								variant_name: string;
+								created_at: string;
+								updated_at: string;
+							};
+						};
+					}> | null;
+					carts?: Array<{
+						__typename?: "Cart";
+						id: number;
+						userId: number;
+						quantity: number;
+						inventoryId: number;
+						created_at: string;
+						updated_at: string;
+					}> | null;
+				}> | null;
+				discount?: {
+					__typename?: "Discount";
+					id: number;
+					name: string;
+					desc: string;
+					discount_percent: number;
+					active: boolean;
+					created_at: string;
+					updated_at: string;
+				} | null;
+			};
 			variants?: Array<{
 				__typename?: "ProductVariant";
 				product_variant_id: number;
@@ -1089,6 +1242,15 @@ export const AddressFragmentFragmentDoc = gql`
 		updated_at
 	}
 `;
+export const ImageFragmentFragmentDoc = gql`
+	fragment ImageFragment on ProductImage {
+		id
+		imageURL
+		productId
+		created_at
+		updated_at
+	}
+`;
 export const CategoryFragmentFragmentDoc = gql`
 	fragment CategoryFragment on ProductCategory {
 		id
@@ -1096,26 +1258,6 @@ export const CategoryFragmentFragmentDoc = gql`
 		identifier
 		desc
 		imageURL
-		created_at
-		updated_at
-	}
-`;
-export const DiscountFragmentFragmentDoc = gql`
-	fragment DiscountFragment on Discount {
-		id
-		name
-		desc
-		discount_percent
-		active
-		created_at
-		updated_at
-	}
-`;
-export const ImageFragmentFragmentDoc = gql`
-	fragment ImageFragment on ProductImage {
-		id
-		imageURL
-		productId
 		created_at
 		updated_at
 	}
@@ -1177,6 +1319,45 @@ export const ProductInventoryFragmentFragmentDoc = gql`
 	}
 	${ProductVariantFragmentFragmentDoc}
 	${CartFragmentFragmentDoc}
+`;
+export const DiscountFragmentFragmentDoc = gql`
+	fragment DiscountFragment on Discount {
+		id
+		name
+		desc
+		discount_percent
+		active
+		created_at
+		updated_at
+	}
+`;
+export const ProductFragmentFragmentDoc = gql`
+	fragment ProductFragment on Product {
+		id
+		identifier
+		name
+		desc
+		categoryId
+		discountId
+		images {
+			...ImageFragment
+		}
+		category {
+			...CategoryFragment
+		}
+		inventories {
+			...ProductInventoryFragment
+		}
+		discount {
+			...DiscountFragment
+		}
+		created_at
+		updated_at
+	}
+	${ImageFragmentFragmentDoc}
+	${CategoryFragmentFragmentDoc}
+	${ProductInventoryFragmentFragmentDoc}
+	${DiscountFragmentFragmentDoc}
 `;
 export const RegularErrorFragmentDoc = gql`
 	fragment RegularError on FieldError {
@@ -1875,12 +2056,16 @@ export const FetchCartItemsDocument = gql`
 			inventoryId
 			inventory {
 				...ProductInventoryFragment
+				product {
+					...ProductFragment
+				}
 			}
 			created_at
 			updated_at
 		}
 	}
 	${ProductInventoryFragmentFragmentDoc}
+	${ProductFragmentFragmentDoc}
 `;
 
 /**
