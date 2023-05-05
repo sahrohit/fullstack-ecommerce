@@ -31,6 +31,7 @@ export class CartResolver {
 				},
 			},
 			where: { userId: req.session?.userId },
+			order: { created_at: "DESC" },
 		});
 	}
 
