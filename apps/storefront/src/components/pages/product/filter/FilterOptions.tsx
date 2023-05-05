@@ -9,8 +9,17 @@ const FilterOptions = (props: StackProps) => (
 		<VStack gap={4} position="sticky" top={4}>
 			<PriceSelector />
 			<GenderSelector />
-			<VariantSelector />
-			<ColorSelector />
+			<VariantSelector
+				variantName="Size"
+				defaultValue="red"
+				onChange={(val) => console.log(val)}
+				options={["S", "M", "L"]}
+			/>
+			<ColorSelector
+				defaultValue="red"
+				onChange={(val) => console.log(val)}
+				options={["red", "blue", "green"]}
+			/>
 			{/* <BrandSelector /> */}
 		</VStack>
 	</VStack>
