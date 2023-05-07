@@ -266,7 +266,7 @@ export type ProductInventory = {
 	created_at: Scalars["String"];
 	inventory_id: Scalars["Int"];
 	price: Scalars["Int"];
-	product: Product;
+	product?: Maybe<Product>;
 	quantity: Scalars["Int"];
 	updated_at: Scalars["String"];
 	variants?: Maybe<Array<ProductVariant>>;
@@ -914,7 +914,7 @@ export type FetchCartItemsQuery = {
 			price: number;
 			created_at: string;
 			updated_at: string;
-			product: {
+			product?: {
 				__typename?: "Product";
 				id: number;
 				identifier: string;
@@ -989,7 +989,7 @@ export type FetchCartItemsQuery = {
 					created_at: string;
 					updated_at: string;
 				} | null;
-			};
+			} | null;
 			variants?: Array<{
 				__typename?: "ProductVariant";
 				product_variant_id: number;

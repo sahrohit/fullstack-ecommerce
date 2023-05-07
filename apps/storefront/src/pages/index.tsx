@@ -4,7 +4,7 @@ import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
 import ProductGrid from "@/components/pages/product/ProductGrid";
 import ProductCard from "@/components/pages/product/ProductCard";
-import { Product, useProductsQuery } from "@/generated/graphql";
+import { useProductsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
 import { BRAND_NAME } from "../../constants";
 
@@ -39,9 +39,7 @@ const HomePage = () => {
 					<ProductGrid>
 						{data?.products &&
 							data.products.map((product) => (
-								//! Fixed this typecasting, says Product.inventories is not compatible
-								// TODO: Fix this typecasting
-								<ProductCard key={product.id} product={product as Product} />
+								<ProductCard key={product.id} product={product} />
 							))}
 					</ProductGrid>
 				</Box>
