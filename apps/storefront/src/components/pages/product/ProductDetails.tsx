@@ -18,7 +18,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => (
 			<Heading fontSize="3xl" lineHeight={1.2}>
 				{product.name}
 			</Heading>
-
 			{product.inventories && <AddToCartForm product={product} />}
 		</VStack>
 		<Box

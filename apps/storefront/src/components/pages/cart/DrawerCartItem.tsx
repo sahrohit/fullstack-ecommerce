@@ -26,13 +26,9 @@ const DrawerCartItem = ({ cartItem }: CartItemProps) => {
 	const { quantity, inventory } = cartItem;
 
 	const toast = useToast();
-	const [updateCartMutation] = useUpdateCartMutation({
-		refetchQueries: ["FetchCartItems"],
-	});
+	const [updateCartMutation] = useUpdateCartMutation();
 
-	const [deleteFromCartMutation] = useDeleteFromCartMutation({
-		refetchQueries: ["FetchCartItems"],
-	});
+	const [deleteFromCartMutation] = useDeleteFromCartMutation();
 
 	const description =
 		inventory?.variants
@@ -47,6 +43,7 @@ const DrawerCartItem = ({ cartItem }: CartItemProps) => {
 				inventoryId: Number(inventory!.inventory_id),
 				quantity: Number(value),
 			},
+			refetchQueries: ["fetchCartItems"],
 		});
 		if (res.data?.updateCart) {
 			toast({
@@ -69,15 +66,15 @@ const DrawerCartItem = ({ cartItem }: CartItemProps) => {
 								width="120px"
 								height="120px"
 								fit="cover"
-								src={inventory!.product.images[2].imageURL}
-								alt={inventory!.product.name}
+								src={inventory!.product!.images[2].imageURL}
+								alt={inventory!.product!.name}
 								draggable="false"
 								loading="lazy"
 							/>
 							<Box pt="2" flexGrow={1}>
 								<Flex align="center" width="full" justify="space-between">
 									<Stack spacing="0.5">
-										<Text fontWeight="medium">{inventory!.product.name}</Text>
+										<Text fontWeight="medium">{inventory!.product!.name}</Text>
 										<Text color={mode("gray.600", "gray.400")} fontSize="sm">
 											{description}
 										</Text>
@@ -102,6 +99,7 @@ const DrawerCartItem = ({ cartItem }: CartItemProps) => {
 													inventoryId: Number(inventory!.inventory_id),
 													quantity: Number(quantity),
 												},
+												refetchQueries: ["fetchCartItems"],
 											});
 											if (res.data?.deleteFromCart) {
 												toast({

@@ -33,7 +33,7 @@ interface DrawerCartProps extends IconButtonProps {}
 const DrawerCart = (props: DrawerCartProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	const { data, loading, error } = useFetchCartItemsQuery();
+	const { data, loading, error } = useFetchCartItemsQuery({});
 
 	const subTotal = useMemo(
 		() =>

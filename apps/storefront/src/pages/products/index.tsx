@@ -28,8 +28,6 @@ const ProductFilterPage = () => {
 				<ProductGrid>
 					{data?.products &&
 						data.products.map((product) => (
-							//! Fixed this typecasting, says Product.inventories is not compatible
-							// TODO: Fix this typecasting
 							<ProductCard key={product.id} product={product} />
 						))}
 				</ProductGrid>
