@@ -26,7 +26,7 @@ type CartItemProps = {
 const CartItem = ({ cartItem }: CartItemProps) => {
 	const toast = useToast();
 	const [updateCartMutation] = useUpdateCartMutation({
-		refetchQueries: ["fetchCartItems"],
+		refetchQueries: ["FetchCartItems"],
 	});
 	const { quantity, inventory } = cartItem;
 
@@ -64,9 +64,9 @@ const CartItem = ({ cartItem }: CartItemProps) => {
 			<HStack justifyContent="space-between" alignItems="flex-start" w="full">
 				<Box flexGrow={1}>
 					<CartProductMeta
-						name={inventory!.product!.name}
+						name={inventory!.product.name}
 						description={description}
-						image={inventory!.product!.images[2].imageURL}
+						image={inventory!.product.images[2].imageURL}
 						isGiftWrapping
 					/>
 				</Box>

@@ -2,7 +2,7 @@ import ProductDetails from "@/components/pages/product/ProductDetails";
 import ProductReview from "@/components/pages/product/review/ProductReview";
 import Result from "@/components/shared/Result";
 import Navbar from "@/components/shared/navbar";
-import { useProductByIdQuery } from "@/generated/graphql";
+import { Product, useProductByIdQuery } from "@/generated/graphql";
 import { VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -36,7 +36,7 @@ const ProductPage = () => {
 		<>
 			<Navbar />
 			<VStack p={{ base: 4, md: 8, lg: 8, xl: 16 }} spacing={8}>
-				{data?.product && <ProductDetails product={data.product} />}
+				{data && <ProductDetails product={data.product as Product} />}
 				<ProductReview />
 			</VStack>
 		</>
