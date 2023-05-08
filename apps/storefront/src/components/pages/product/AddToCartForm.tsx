@@ -26,9 +26,9 @@ const removePrice = (obj: Record<string, string | number | null>) => {
 const AddToCartForm = ({ product }: AddToCartFormProps) => {
 	const { validCombinations, allCombinations, keys } = useMemo(
 		() => ({
-			validCombinations: validVariants(product.inventories!),
-			allCombinations: allVariants(product.inventories!),
-			keys: selectorsToKeys(allVariants(product.inventories!)),
+			validCombinations: validVariants(product.inventories),
+			allCombinations: allVariants(product.inventories),
+			keys: selectorsToKeys(allVariants(product.inventories)),
 		}),
 		[product.inventories]
 	);
@@ -39,7 +39,7 @@ const AddToCartForm = ({ product }: AddToCartFormProps) => {
 				(obj1) =>
 					obj1.price ===
 					Math.min(
-						...(product?.inventories?.map((inv) => Number(inv.price)) || [])
+						...(product.inventories?.map((inv) => Number(inv.price)) || [])
 					)
 			) ?? validCombinations[0],
 		[product.inventories, validCombinations]

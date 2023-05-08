@@ -7,7 +7,23 @@ query FetchCartItems {
 		inventory {
 			...ProductInventoryFragment
 			product {
-				...ProductFragment
+				id
+				identifier
+				name
+				desc
+				categoryId
+				discountId
+				images {
+					...ImageFragment
+				}
+				category {
+					...CategoryFragment
+				}
+				discount {
+					...DiscountFragment
+				}
+				created_at
+				updated_at
 			}
 		}
 		created_at

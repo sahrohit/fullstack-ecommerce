@@ -217,7 +217,7 @@ export type Product = {
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
 	images: Array<ProductImage>;
-	inventories?: Maybe<Array<ProductInventory>>;
+	inventories: Array<ProductInventory>;
 	name: Scalars["String"];
 	updated_at: Scalars["String"];
 };
@@ -456,7 +456,7 @@ export type ProductFragmentFragment = {
 		created_at: string;
 		updated_at: string;
 	};
-	inventories?: Array<{
+	inventories: Array<{
 		__typename?: "ProductInventory";
 		inventory_id: number;
 		quantity: number;
@@ -492,7 +492,7 @@ export type ProductFragmentFragment = {
 			created_at: string;
 			updated_at: string;
 		}> | null;
-	}> | null;
+	}>;
 	discount?: {
 		__typename?: "Discount";
 		id: number;
@@ -942,43 +942,6 @@ export type FetchCartItemsQuery = {
 					created_at: string;
 					updated_at: string;
 				};
-				inventories?: Array<{
-					__typename?: "ProductInventory";
-					inventory_id: number;
-					quantity: number;
-					price: number;
-					created_at: string;
-					updated_at: string;
-					variants?: Array<{
-						__typename?: "ProductVariant";
-						product_variant_id: number;
-						created_at: string;
-						updated_at: string;
-						variant_value: {
-							__typename?: "VariantValue";
-							value_id: number;
-							value: string;
-							created_at: string;
-							updated_at: string;
-							variant: {
-								__typename?: "Variant";
-								variant_id: number;
-								variant_name: string;
-								created_at: string;
-								updated_at: string;
-							};
-						};
-					}> | null;
-					carts?: Array<{
-						__typename?: "Cart";
-						id: number;
-						userId: number;
-						quantity: number;
-						inventoryId: number;
-						created_at: string;
-						updated_at: string;
-					}> | null;
-				}> | null;
 				discount?: {
 					__typename?: "Discount";
 					id: number;
@@ -1073,7 +1036,7 @@ export type ProductByIdQuery = {
 			created_at: string;
 			updated_at: string;
 		};
-		inventories?: Array<{
+		inventories: Array<{
 			__typename?: "ProductInventory";
 			inventory_id: number;
 			quantity: number;
@@ -1109,7 +1072,7 @@ export type ProductByIdQuery = {
 				created_at: string;
 				updated_at: string;
 			}> | null;
-		}> | null;
+		}>;
 		discount?: {
 			__typename?: "Discount";
 			id: number;
@@ -1155,7 +1118,7 @@ export type ProductsQuery = {
 			created_at: string;
 			updated_at: string;
 		};
-		inventories?: Array<{
+		inventories: Array<{
 			__typename?: "ProductInventory";
 			inventory_id: number;
 			quantity: number;
@@ -1191,7 +1154,7 @@ export type ProductsQuery = {
 				created_at: string;
 				updated_at: string;
 			}> | null;
-		}> | null;
+		}>;
 		discount?: {
 			__typename?: "Discount";
 			id: number;
@@ -2057,7 +2020,23 @@ export const FetchCartItemsDocument = gql`
 			inventory {
 				...ProductInventoryFragment
 				product {
-					...ProductFragment
+					id
+					identifier
+					name
+					desc
+					categoryId
+					discountId
+					images {
+						...ImageFragment
+					}
+					category {
+						...CategoryFragment
+					}
+					discount {
+						...DiscountFragment
+					}
+					created_at
+					updated_at
 				}
 			}
 			created_at
@@ -2065,7 +2044,9 @@ export const FetchCartItemsDocument = gql`
 		}
 	}
 	${ProductInventoryFragmentFragmentDoc}
-	${ProductFragmentFragmentDoc}
+	${ImageFragmentFragmentDoc}
+	${CategoryFragmentFragmentDoc}
+	${DiscountFragmentFragmentDoc}
 `;
 
 /**

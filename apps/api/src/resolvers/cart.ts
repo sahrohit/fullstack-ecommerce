@@ -22,13 +22,6 @@ export class CartResolver {
 					product: {
 						images: true,
 						category: true,
-						inventories: {
-							variants: {
-								variant_value: {
-									variant: true,
-								},
-							},
-						},
 					},
 					variants: {
 						variant_value: {

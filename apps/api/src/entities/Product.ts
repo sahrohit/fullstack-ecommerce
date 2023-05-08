@@ -58,7 +58,7 @@ export class Product extends BaseEntity {
 	@ManyToOne(() => OrderItem, (orderitem) => orderitem.product)
 	orderitem!: OrderItem;
 
-	@Field(() => [ProductInventory], { nullable: true })
+	@Field(() => [ProductInventory])
 	@OneToMany(() => ProductInventory, (inventory) => inventory.product)
 	@JoinColumn()
 	inventories!: ProductInventory[];
