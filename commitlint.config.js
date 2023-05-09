@@ -18,22 +18,7 @@ const CommitLintConfiguration = {
 				"test",
 			],
 		],
-		"scope-enum": [
-			2,
-			"always",
-			[
-				"others",
-				"components",
-				"config",
-				"pages",
-				"data",
-				"styles",
-				"routes",
-				"services",
-				"styles",
-				"types",
-			],
-		],
+		"scope-enum": [2, "always", ["admin", "api", "web", "storefront"]],
 		"scope-case": [2, "always", "kebab-case"],
 	},
 };
