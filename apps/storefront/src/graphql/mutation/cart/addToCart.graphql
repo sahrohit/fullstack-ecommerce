@@ -4,9 +4,6 @@ mutation AddToCart($quantity: Int!, $inventoryId: Int!) {
 		userId
 		quantity
 		inventoryId
-		inventory {
-			...ProductInventoryFragment
-		}
 		created_at
 		updated_at
 	}

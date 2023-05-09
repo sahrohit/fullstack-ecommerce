@@ -69,15 +69,15 @@ const DrawerCartItem = ({ cartItem }: CartItemProps) => {
 								width="120px"
 								height="120px"
 								fit="cover"
-								src={inventory!.product.images[2].imageURL}
-								alt={inventory!.product.name}
+								src={inventory!.product!.images[2].imageURL}
+								alt={inventory!.product!.name}
 								draggable="false"
 								loading="lazy"
 							/>
 							<Box pt="2" flexGrow={1}>
 								<Flex align="center" width="full" justify="space-between">
 									<Stack spacing="0.5">
-										<Text fontWeight="medium">{inventory!.product.name}</Text>
+										<Text fontWeight="medium">{inventory!.product!.name}</Text>
 										<Text color={mode("gray.600", "gray.400")} fontSize="sm">
 											{description}
 										</Text>

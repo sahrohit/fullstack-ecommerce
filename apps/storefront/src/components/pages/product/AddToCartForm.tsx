@@ -26,9 +26,11 @@ const removePrice = (obj: Record<string, string | number | null>) => {
 const AddToCartForm = ({ product }: AddToCartFormProps) => {
 	const { validCombinations, allCombinations, keys } = useMemo(
 		() => ({
-			validCombinations: validVariants(product.inventories),
-			allCombinations: allVariants(product.inventories),
-			keys: selectorsToKeys(allVariants(product.inventories)),
+			// ? The ! operator is used because this Add to Cart is conditionally
+			// ? rendered only when product.inventories is present
+			validCombinations: validVariants(product.inventories!),
+			allCombinations: allVariants(product.inventories!),
+			keys: selectorsToKeys(allVariants(product.inventories!)),
 		}),
 		[product.inventories]
 	);
@@ -46,7 +48,9 @@ const AddToCartForm = ({ product }: AddToCartFormProps) => {
 	);
 
 	const toast = useToast();
-	const [addToCartMutation] = useAddToCartMutation();
+	const [addToCartMutation] = useAddToCartMutation({
+		refetchQueries: ["FetchCartItems"],
+	});
 
 	const [selectedVariant, setSelectedVariant] =
 		useState<typeof keys>(defaultVariant);

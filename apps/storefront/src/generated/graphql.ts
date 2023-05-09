@@ -217,7 +217,7 @@ export type Product = {
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
 	images: Array<ProductImage>;
-	inventories: Array<ProductInventory>;
+	inventories?: Maybe<Array<ProductInventory>>;
 	name: Scalars["String"];
 	updated_at: Scalars["String"];
 };
@@ -266,7 +266,7 @@ export type ProductInventory = {
 	created_at: Scalars["String"];
 	inventory_id: Scalars["Int"];
 	price: Scalars["Int"];
-	product?: Maybe<Product>;
+	product: Product;
 	quantity: Scalars["Int"];
 	updated_at: Scalars["String"];
 	variants?: Maybe<Array<ProductVariant>>;
@@ -456,7 +456,7 @@ export type ProductFragmentFragment = {
 		created_at: string;
 		updated_at: string;
 	};
-	inventories: Array<{
+	inventories?: Array<{
 		__typename?: "ProductInventory";
 		inventory_id: number;
 		quantity: number;
@@ -492,7 +492,7 @@ export type ProductFragmentFragment = {
 			created_at: string;
 			updated_at: string;
 		}> | null;
-	}>;
+	}> | null;
 	discount?: {
 		__typename?: "Discount";
 		id: number;
@@ -681,43 +681,6 @@ export type AddToCartMutation = {
 		inventoryId: number;
 		created_at: string;
 		updated_at: string;
-		inventory?: {
-			__typename?: "ProductInventory";
-			inventory_id: number;
-			quantity: number;
-			price: number;
-			created_at: string;
-			updated_at: string;
-			variants?: Array<{
-				__typename?: "ProductVariant";
-				product_variant_id: number;
-				created_at: string;
-				updated_at: string;
-				variant_value: {
-					__typename?: "VariantValue";
-					value_id: number;
-					value: string;
-					created_at: string;
-					updated_at: string;
-					variant: {
-						__typename?: "Variant";
-						variant_id: number;
-						variant_name: string;
-						created_at: string;
-						updated_at: string;
-					};
-				};
-			}> | null;
-			carts?: Array<{
-				__typename?: "Cart";
-				id: number;
-				userId: number;
-				quantity: number;
-				inventoryId: number;
-				created_at: string;
-				updated_at: string;
-			}> | null;
-		} | null;
 	};
 };
 
@@ -914,7 +877,7 @@ export type FetchCartItemsQuery = {
 			price: number;
 			created_at: string;
 			updated_at: string;
-			product?: {
+			product: {
 				__typename?: "Product";
 				id: number;
 				identifier: string;
@@ -952,7 +915,7 @@ export type FetchCartItemsQuery = {
 					created_at: string;
 					updated_at: string;
 				} | null;
-			} | null;
+			};
 			variants?: Array<{
 				__typename?: "ProductVariant";
 				product_variant_id: number;
@@ -1036,7 +999,7 @@ export type ProductByIdQuery = {
 			created_at: string;
 			updated_at: string;
 		};
-		inventories: Array<{
+		inventories?: Array<{
 			__typename?: "ProductInventory";
 			inventory_id: number;
 			quantity: number;
@@ -1072,7 +1035,7 @@ export type ProductByIdQuery = {
 				created_at: string;
 				updated_at: string;
 			}> | null;
-		}>;
+		}> | null;
 		discount?: {
 			__typename?: "Discount";
 			id: number;
@@ -1118,7 +1081,7 @@ export type ProductsQuery = {
 			created_at: string;
 			updated_at: string;
 		};
-		inventories: Array<{
+		inventories?: Array<{
 			__typename?: "ProductInventory";
 			inventory_id: number;
 			quantity: number;
@@ -1154,7 +1117,7 @@ export type ProductsQuery = {
 				created_at: string;
 				updated_at: string;
 			}> | null;
-		}>;
+		}> | null;
 		discount?: {
 			__typename?: "Discount";
 			id: number;
@@ -1501,14 +1464,10 @@ export const AddToCartDocument = gql`
 			userId
 			quantity
 			inventoryId
-			inventory {
-				...ProductInventoryFragment
-			}
 			created_at
 			updated_at
 		}
 	}
-	${ProductInventoryFragmentFragmentDoc}
 `;
 export type AddToCartMutationFn = Apollo.MutationFunction<
 	AddToCartMutation,
