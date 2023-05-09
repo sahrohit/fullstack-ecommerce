@@ -18,6 +18,11 @@ export class ProductResolver {
 				images: true,
 				discount: true,
 			},
+			where: {
+				inventories: {
+					isPublished: true,
+				},
+			},
 		});
 	}
 
@@ -40,6 +45,9 @@ export class ProductResolver {
 			},
 			where: {
 				identifier: identifier,
+				inventories: {
+					isPublished: true,
+				},
 			},
 		});
 	}

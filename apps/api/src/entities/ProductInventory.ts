@@ -47,6 +47,10 @@ export class ProductInventory extends BaseEntity {
 	@ManyToOne(() => Product, (product) => product.inventories)
 	product!: Product;
 
+	@Field(() => Boolean)
+	@Column({ default: true })
+	isPublished!: boolean;
+
 	@Field(() => String)
 	@CreateDateColumn()
 	created_at = new Date();
