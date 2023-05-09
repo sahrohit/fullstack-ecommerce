@@ -5,7 +5,7 @@ import { Box, Stack, useCheckboxGroup } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
 import { MdWorkOutline } from "react-icons/md";
 
-const AddressSelection = () => {
+const AddressSelector = () => {
 	const { data: addresses, loading, error } = useAddressesQuery();
 
 	const { getCheckboxProps } = useCheckboxGroup({
@@ -47,4 +47,4 @@ const AddressSelection = () => {
 	);
 };
 
-export default AddressSelection;
+export default AddressSelector;
