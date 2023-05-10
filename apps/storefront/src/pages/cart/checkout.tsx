@@ -5,7 +5,15 @@ import OrderSummary from "@/components/pages/cart/checkout/OrderSummary";
 import PaymentSelector from "@/components/pages/cart/checkout/PaymentSelector";
 import ShippingMethod from "@/components/pages/cart/checkout/ShippingMethod";
 import ModalButton from "@/components/ui/ModalButton";
-import { Stack, Box, Heading, HStack, VStack } from "@chakra-ui/react";
+import {
+	Stack,
+	Box,
+	Heading,
+	HStack,
+	VStack,
+	useToast,
+	useColorModeValue as mode,
+} from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -19,16 +27,23 @@ export interface CheckoutForm {
 }
 
 const CheckutFormSchema = Yup.object({
-	addressId: Yup.string().required(),
-	shippingMethod: Yup.string().required().oneOf(["express", "standard"]),
-	paymentMethod: Yup.string().required().oneOf(["khalti", "cashondelivery"]),
+	addressId: Yup.string().required("Select Delivery Address"),
+	shippingMethod: Yup.string()
+		.required("Select Shipping Method")
+		.oneOf(["express", "standard"]),
+	paymentMethod: Yup.string()
+		.required("Select Payment Method")
+		.oneOf(["khalti", "cashondelivery"]),
 });
 
 const CheckoutPage = () => {
+	const toast = useToast();
+	const bgColor = mode("gray.50", "gray.700");
 	const {
 		handleSubmit,
-
+		watch,
 		control,
+		formState: { errors },
 	} = useForm<CheckoutForm>({
 		defaultValues: {
 			addressId: undefined,
@@ -45,6 +60,18 @@ const CheckoutPage = () => {
 			modalRef.current.closeModal();
 		}
 	};
+
+	if (errors) {
+		if (!toast.isActive(Object.keys(errors)[0]) && Object.keys(errors)[0]) {
+			toast({
+				title: Object.values(errors)[0]?.message,
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+				id: Object.keys(errors)[0],
+			});
+		}
+	}
 
 	return (
 		<form onSubmit={handleSubmit((values) => console.log(values))}>
@@ -85,10 +112,15 @@ const CheckoutPage = () => {
 						control={control}
 					/>
 
-					<PaymentSelector />
+					<PaymentSelector control={control} />
 				</VStack>
-				<Box minW={["full", "full", "50%", "40%"]} bg="Background" m={8}>
-					<OrderSummary />
+				<Box
+					minW={["full", "full", "40%", "30%"]}
+					m={8}
+					p={{ base: 2, md: 16 }}
+					bg={bgColor}
+				>
+					<OrderSummary watch={watch} />
 				</Box>
 			</Stack>
 		</form>
