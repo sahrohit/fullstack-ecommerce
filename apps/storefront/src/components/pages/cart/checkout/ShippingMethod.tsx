@@ -28,6 +28,8 @@ const ShippingMethod = ({ value, onChange, options }: ShippingMethodProps) => (
 				w="full"
 				justifyContent="space-evenly"
 				flexWrap="wrap"
+				alignItems="center"
+				gap={4}
 			>
 				{options.map((option) => (
 					<Radio value={option.value}>
