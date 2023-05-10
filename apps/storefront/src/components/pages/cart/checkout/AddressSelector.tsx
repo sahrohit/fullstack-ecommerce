@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import Result from "@/components/shared/Result";
 import { Address, useAddressesQuery } from "@/generated/graphql";
@@ -22,11 +23,22 @@ import {
 	MdCheckBoxOutlineBlank,
 } from "react-icons/md";
 import ListRadioBox from "@/components/ui/radio/list/ListRadioBox";
+import { Control, useController } from "react-hook-form";
+import { CheckoutForm } from "@/pages/cart/checkout";
 
-const AddressSelector = () => {
+interface AddressSelectorProps {
+	control: Control<CheckoutForm, any>;
+}
+
+const AddressSelector = ({ control }: AddressSelectorProps) => {
 	const { data: addresses, loading, error } = useAddressesQuery();
 
-	const { getRadioProps } = useRadioGroup({});
+	const { field } = useController({
+		name: "addressId",
+		control,
+	});
+
+	const { getRadioProps } = useRadioGroup({ ...field });
 
 	if (error)
 		return (

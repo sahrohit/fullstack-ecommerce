@@ -1,3 +1,5 @@
+/* eslint-disable import/no-cycle */
+import { CheckoutForm } from "@/pages/cart/checkout";
 import {
 	RadioGroup,
 	Stack,
@@ -8,8 +10,10 @@ import {
 	Box,
 	Text,
 } from "@chakra-ui/react";
+import { Control, useController } from "react-hook-form";
 
 interface ShippingMethodProps extends UseRadioGroupProps {
+	control: Control<CheckoutForm, any>;
 	options: {
 		title: string;
 		desc: string;
@@ -17,33 +21,40 @@ interface ShippingMethodProps extends UseRadioGroupProps {
 	}[];
 }
 
-const ShippingMethod = ({ value, onChange, options }: ShippingMethodProps) => (
-	<Box as="section" py="4" w="full">
-		<Heading fontSize="xl" fontWeight="bold" lineHeight="1.2" my={4}>
-			Shipping Method
-		</Heading>
-		<RadioGroup onChange={onChange} value={value} defaultValue="standard">
-			<Stack
-				direction={["column", "row"]}
-				w="full"
-				justifyContent="space-evenly"
-				flexWrap="wrap"
-				alignItems="center"
-				gap={4}
-			>
-				{options.map((option) => (
-					<Radio key={option.title} value={option.value}>
-						<VStack alignItems="left" ml={2}>
-							<Text fontSize="lg" fontWeight="bold" lineHeight="1">
-								{option.title}
-							</Text>
-							<Text fontSize="lg">{option.desc}</Text>
-						</VStack>
-					</Radio>
-				))}
-			</Stack>
-		</RadioGroup>
-	</Box>
-);
+const ShippingMethod = ({ control, options }: ShippingMethodProps) => {
+	const { field } = useController({
+		name: "shippingMethod",
+		control,
+	});
+
+	return (
+		<Box as="section" py="4" w="full">
+			<Heading fontSize="xl" fontWeight="bold" lineHeight="1.2" my={4}>
+				Shipping Method
+			</Heading>
+			<RadioGroup {...field}>
+				<Stack
+					direction={["column", "row"]}
+					w="full"
+					justifyContent="space-evenly"
+					flexWrap="wrap"
+					alignItems="center"
+					gap={4}
+				>
+					{options.map((option) => (
+						<Radio key={option.title} value={option.value}>
+							<VStack alignItems="left" ml={2}>
+								<Text fontSize="lg" fontWeight="bold" lineHeight="1">
+									{option.title}
+								</Text>
+								<Text fontSize="lg">{option.desc}</Text>
+							</VStack>
+						</Radio>
+					))}
+				</Stack>
+			</RadioGroup>
+		</Box>
+	);
+};
 
 export default ShippingMethod;
