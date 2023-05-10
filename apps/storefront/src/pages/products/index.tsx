@@ -4,7 +4,7 @@ import FilterLayout from "@/components/pages/product/filter/FilterLayout";
 import Footer from "@/components/shared/Footer";
 import Result from "@/components/shared/Result";
 import Navbar from "@/components/shared/navbar";
-import { useProductsQuery } from "@/generated/graphql";
+import { Product, useProductsQuery } from "@/generated/graphql";
 
 const ProductFilterPage = () => {
 	const { data, loading, error } = useProductsQuery();
@@ -30,7 +30,7 @@ const ProductFilterPage = () => {
 						data.products.map((product) => (
 							//! Fixed this typecasting, says Product.inventories is not compatible
 							// TODO: Fix this typecasting
-							<ProductCard key={product.id} product={product} />
+							<ProductCard key={product.id} product={product as Product} />
 						))}
 				</ProductGrid>
 			</FilterLayout>

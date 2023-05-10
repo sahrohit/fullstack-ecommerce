@@ -4,7 +4,7 @@ import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
 import ProductGrid from "@/components/pages/product/ProductGrid";
 import ProductCard from "@/components/pages/product/ProductCard";
-import { useProductsQuery } from "@/generated/graphql";
+import { Product, useProductsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
 import { BRAND_NAME } from "../../constants";
 
@@ -39,7 +39,7 @@ const HomePage = () => {
 					<ProductGrid>
 						{data?.products &&
 							data.products.map((product) => (
-								<ProductCard key={product.id} product={product} />
+								<ProductCard key={product.id} product={product as Product} />
 							))}
 					</ProductGrid>
 				</Box>
