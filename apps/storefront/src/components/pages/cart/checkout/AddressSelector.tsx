@@ -28,7 +28,7 @@ const AddressSelector = () => {
 			/>
 		);
 	return (
-		<Box as="section" py={4}>
+		<Box as="section" py={4} w="full">
 			<Stack spacing="5" justify="flex-start">
 				{addresses?.addresses?.map((address) => (
 					<ButtonCheckbox

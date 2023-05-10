@@ -3,14 +3,14 @@ import { Box, Heading } from "@chakra-ui/react";
 import { BsCashStack } from "react-icons/bs";
 
 const PaymentSelector = () => (
-	<Box as="section" py="4">
+	<Box as="section" py="4" w="full">
 		<Heading fontSize="xl" fontWeight="bold" lineHeight="1.2" my={4}>
 			Payment Information
 		</Heading>
 		<Box maxW={{ base: "xl", md: "7xl" }} mx="auto" px={{ base: "6", md: "8" }}>
 			<Box maxW="xl" mx="auto">
 				<ButtonRadioGroup
-					defaultValue="khalti"
+					// defaultValue="khalti"
 					options={[
 						{
 							label: "Khalti Wallet",
