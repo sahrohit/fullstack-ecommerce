@@ -1,4 +1,4 @@
-import ButtonRadioGroup from "@/components/ui/radio/ButtonRadioGroup";
+import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
 import { Box, Heading } from "@chakra-ui/react";
 import { BsCashStack } from "react-icons/bs";
 
@@ -9,7 +9,7 @@ const PaymentSelector = () => (
 		</Heading>
 		<Box maxW={{ base: "xl", md: "7xl" }} mx="auto" px={{ base: "6", md: "8" }}>
 			<Box maxW="xl" mx="auto">
-				<ButtonRadioGroup
+				<LargeButtonRadioGroup
 					// defaultValue="khalti"
 					options={[
 						{

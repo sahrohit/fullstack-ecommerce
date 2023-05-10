@@ -1,8 +1,8 @@
 import { Stack, useRadioGroup, UseRadioGroupProps } from "@chakra-ui/react";
 import * as React from "react";
-import ButtonRadio from "./ButtonRadio";
+import LargeButtonRadio from "./LargeButtonRadio";
 
-interface ButtonRadioGroupProps extends UseRadioGroupProps {
+interface LargeButtonRadioGroupProps extends UseRadioGroupProps {
 	options: Array<{
 		label: string;
 		value: string;
@@ -11,7 +11,7 @@ interface ButtonRadioGroupProps extends UseRadioGroupProps {
 	}>;
 }
 
-const ButtonRadioGroup = (props: ButtonRadioGroupProps) => {
+const LargeButtonRadioGroup = (props: LargeButtonRadioGroupProps) => {
 	const { options, ...rest } = props;
 	const { getRadioProps, getRootProps } = useRadioGroup(rest);
 	return (
@@ -22,7 +22,7 @@ const ButtonRadioGroup = (props: ButtonRadioGroupProps) => {
 			{...getRootProps()}
 		>
 			{options.map((option) => (
-				<ButtonRadio
+				<LargeButtonRadio
 					key={option.value}
 					icon={option.icon}
 					description={option.description}
@@ -34,4 +34,4 @@ const ButtonRadioGroup = (props: ButtonRadioGroupProps) => {
 	);
 };
 
-export default ButtonRadioGroup;
+export default LargeButtonRadioGroup;

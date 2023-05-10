@@ -34,13 +34,13 @@ const CheckboxIcon = ({ checked }: { checked: boolean }) => (
 	</Box>
 );
 
-interface ButtonRadioProps extends UseRadioProps {
+interface LargeButtonRadioProps extends UseRadioProps {
 	icon: React.ReactElement;
 	label: string;
 	description: string;
 }
 
-const ButtonRadio = (props: ButtonRadioProps) => {
+const LargeButtonRadio = (props: LargeButtonRadioProps) => {
 	const { label, icon, description } = props;
 	const { getCheckboxProps, getInputProps, getLabelProps, state } =
 		useRadio(props);
@@ -77,4 +77,4 @@ const ButtonRadio = (props: ButtonRadioProps) => {
 	);
 };
 
-export default ButtonRadio;
+export default LargeButtonRadio;
