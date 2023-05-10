@@ -16,12 +16,14 @@ interface ListRadioProps extends UseRadioProps {
 	icon: React.ReactElement;
 	title: string;
 	description: string;
+	anotherDescription?: string;
 	price: string;
 	children: React.ReactNode;
 }
 
 const ListRadio = (props: ListRadioProps) => {
-	const { icon, title, description, price, ...rest } = props;
+	const { icon, title, description, price, anotherDescription, ...rest } =
+		props;
 	const { getRadioProps, getInputProps, getLabelProps, state } = useRadio(rest);
 	const id = useId();
 
@@ -43,7 +45,12 @@ const ListRadio = (props: ListRadioProps) => {
 					<Box fontSize="3xl">{icon}</Box>
 					<Box flex="1">
 						<Text fontWeight="bold">{title}</Text>
-						<Text fontSize="sm">{description}</Text>
+						<Text fontSize="sm">
+							{description}, {anotherDescription}
+						</Text>
+						{/* {anotherDescription && (
+							<Text fontSize="sm">{anotherDescription}</Text>
+						)} */}
 					</Box>
 					<Box fontWeight="bold" color={mode("blue.600", "blue.400")}>
 						{price}
@@ -52,6 +59,10 @@ const ListRadio = (props: ListRadioProps) => {
 			</ListRadioBox>
 		</label>
 	);
+};
+
+ListRadio.defaultProps = {
+	anotherDescription: null,
 };
 
 export default ListRadio;
