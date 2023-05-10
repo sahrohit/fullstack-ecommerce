@@ -1,35 +1,53 @@
+/* eslint-disable import/no-cycle */
 import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
+import { CheckoutForm } from "@/pages/cart/checkout";
 import { Box, Heading } from "@chakra-ui/react";
+import { Control, useController } from "react-hook-form";
 import { BsCashStack } from "react-icons/bs";
 
-const PaymentSelector = () => (
-	<Box as="section" py="4" w="full">
-		<Heading fontSize="xl" fontWeight="bold" lineHeight="1.2" my={4}>
-			Payment Information
-		</Heading>
-		<Box maxW={{ base: "xl", md: "7xl" }} mx="auto" px={{ base: "6", md: "8" }}>
-			<Box maxW="xl" mx="auto">
-				<LargeButtonRadioGroup
-					// defaultValue="khalti"
-					options={[
-						{
-							label: "Khalti Wallet",
-							description: "Pay online using your khalti wallet",
-							icon: <KHALTI_LOGO />,
-							value: "khalti",
-						},
-						{
-							label: "Cash on Delivery",
-							description: "Pay at your doorstep",
-							icon: <BsCashStack />,
-							value: "cashondelivery",
-						},
-					]}
-				/>
+interface PaymentSelectorProps {
+	control: Control<CheckoutForm, any>;
+}
+
+const PaymentSelector = ({ control }: PaymentSelectorProps) => {
+	const { field } = useController({
+		name: "paymentMethod",
+		control,
+	});
+
+	return (
+		<Box as="section" py="4" w="full">
+			<Heading fontSize="xl" fontWeight="bold" lineHeight="1.2" my={4}>
+				Payment Information
+			</Heading>
+			<Box
+				maxW={{ base: "xl", md: "7xl" }}
+				mx="auto"
+				px={{ base: "6", md: "8" }}
+			>
+				<Box maxW="xl" mx="auto">
+					<LargeButtonRadioGroup
+						{...field}
+						options={[
+							{
+								label: "Khalti Wallet",
+								description: "Pay online using your khalti wallet",
+								icon: <KHALTI_LOGO />,
+								value: "khalti",
+							},
+							{
+								label: "Cash on Delivery",
+								description: "Pay at your doorstep",
+								icon: <BsCashStack />,
+								value: "cashondelivery",
+							},
+						]}
+					/>
+				</Box>
 			</Box>
 		</Box>
-	</Box>
-);
+	);
+};
 
 export default PaymentSelector;
 
