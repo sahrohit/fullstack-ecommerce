@@ -42,7 +42,7 @@ const ModalButton = forwardRef(
 				<Button onClick={onOpen} {...rest}>
 					{buttonText}
 				</Button>
-				<Modal size="lg" isOpen={isOpen} onClose={onClose}>
+				<Modal size="lg" isOpen={isOpen} onClose={onClose} preserveScrollBarGap>
 					<ModalOverlay />
 					<ModalContent>
 						{modalHeader && <ModalHeader>{modalHeader}</ModalHeader>}

@@ -22,7 +22,7 @@ const ShippingMethod = ({ value, onChange, options }: ShippingMethodProps) => (
 		<Heading fontSize="xl" fontWeight="bold" lineHeight="1.2" my={4}>
 			Shipping Method
 		</Heading>
-		<RadioGroup onChange={onChange} value={value}>
+		<RadioGroup onChange={onChange} value={value} defaultValue="standard">
 			<Stack
 				direction={["column", "row"]}
 				w="full"
@@ -32,7 +32,7 @@ const ShippingMethod = ({ value, onChange, options }: ShippingMethodProps) => (
 				gap={4}
 			>
 				{options.map((option) => (
-					<Radio value={option.value}>
+					<Radio key={option.title} value={option.value}>
 						<VStack alignItems="left" ml={2}>
 							<Text fontSize="lg" fontWeight="bold" lineHeight="1">
 								{option.title}
