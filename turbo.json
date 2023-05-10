@@ -21,7 +21,8 @@
 				"SESSION_SECRET",
 				"PORT",
 				"CLIENT_URL",
-				"NEXT_PUBLIC_API_URL"
+				"NEXT_PUBLIC_API_URL",
+				"KHALTI_SECRET_KEY"
 			]
 		},
 		"test": {
