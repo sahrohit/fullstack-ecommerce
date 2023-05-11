@@ -265,6 +265,7 @@ export type ProductInventory = {
 	carts?: Maybe<Array<Cart>>;
 	created_at: Scalars["String"];
 	inventory_id: Scalars["Int"];
+	isPublished: Scalars["Boolean"];
 	price: Scalars["Int"];
 	product: Product;
 	quantity: Scalars["Int"];
@@ -286,6 +287,19 @@ export type ProductVariantInput = {
 	variant: Scalars["String"];
 };
 
+export type Promo = {
+	__typename?: "Promo";
+	code: Scalars["String"];
+	created_at: Scalars["String"];
+	discount_amount: Scalars["Int"];
+	expires_at: Scalars["String"];
+	id: Scalars["Int"];
+	isDiscountAmountPercentage: Scalars["Boolean"];
+	name: Scalars["String"];
+	starts_at: Scalars["String"];
+	updated_at: Scalars["String"];
+};
+
 export type Query = {
 	__typename?: "Query";
 	addresses?: Maybe<Array<Address>>;
@@ -296,11 +310,16 @@ export type Query = {
 	me?: Maybe<User>;
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
+	promo?: Maybe<Promo>;
 	roles: Array<UserRole>;
 };
 
 export type QueryProductArgs = {
 	identifier: Scalars["String"];
+};
+
+export type QueryPromoArgs = {
+	code: Scalars["String"];
 };
 
 export type RegisterInput = {
@@ -1129,6 +1148,26 @@ export type ProductsQuery = {
 			updated_at: string;
 		} | null;
 	}> | null;
+};
+
+export type PromoQueryVariables = Exact<{
+	code: Scalars["String"];
+}>;
+
+export type PromoQuery = {
+	__typename?: "Query";
+	promo?: {
+		__typename?: "Promo";
+		id: number;
+		name: string;
+		code: string;
+		discount_amount: number;
+		isDiscountAmountPercentage: boolean;
+		starts_at: string;
+		expires_at: string;
+		created_at: string;
+		updated_at: string;
+	} | null;
 };
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
@@ -2266,6 +2305,62 @@ export type ProductsLazyQueryHookResult = ReturnType<
 export type ProductsQueryResult = Apollo.QueryResult<
 	ProductsQuery,
 	ProductsQueryVariables
+>;
+export const PromoDocument = gql`
+	query Promo($code: String!) {
+		promo(code: $code) {
+			id
+			name
+			code
+			discount_amount
+			isDiscountAmountPercentage
+			starts_at
+			expires_at
+			created_at
+			updated_at
+		}
+	}
+`;
+
+/**
+ * __usePromoQuery__
+ *
+ * To run a query within a React component, call `usePromoQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePromoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePromoQuery({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function usePromoQuery(
+	baseOptions: Apollo.QueryHookOptions<PromoQuery, PromoQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<PromoQuery, PromoQueryVariables>(
+		PromoDocument,
+		options
+	);
+}
+export function usePromoLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<PromoQuery, PromoQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<PromoQuery, PromoQueryVariables>(
+		PromoDocument,
+		options
+	);
+}
+export type PromoQueryHookResult = ReturnType<typeof usePromoQuery>;
+export type PromoLazyQueryHookResult = ReturnType<typeof usePromoLazyQuery>;
+export type PromoQueryResult = Apollo.QueryResult<
+	PromoQuery,
+	PromoQueryVariables
 >;
 export const MeDocument = gql`
 	query Me {

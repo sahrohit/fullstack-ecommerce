@@ -1,7 +1,11 @@
 /* eslint-disable import/no-cycle */
 import Result from "@/components/shared/Result";
 import { PriceTag } from "@/components/shared/product/PriceTag";
-import { Cart, useFetchCartItemsQuery } from "@/generated/graphql";
+import {
+	Cart,
+	useFetchCartItemsQuery,
+	usePromoLazyQuery,
+} from "@/generated/graphql";
 import { CheckoutForm } from "@/pages/cart/checkout";
 import { capitalize } from "@/utils/helpers";
 import {
@@ -20,6 +24,7 @@ import {
 	Text,
 	VStack,
 	useColorModeValue as mode,
+	useToast,
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { UseFormWatch } from "react-hook-form";
@@ -30,7 +35,15 @@ interface OrderSummaryProps {
 }
 
 const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
+	const toast = useToast();
 	const { data, loading, error } = useFetchCartItemsQuery();
+	const [
+		checkPromo,
+		{ data: promo, loading: promoLoading, error: promoError },
+	] = usePromoLazyQuery({
+		fetchPolicy: "network-only",
+	});
+
 	const [promoCode, setPromoCode] = useState("");
 
 	const subTotal = useMemo(
@@ -49,13 +62,13 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 		return <p>Loading...</p>;
 	}
 
-	if (error)
+	if (error || promoError)
 		return (
 			<Result
-				heading={error.name}
-				text={error.message}
+				heading={error ? error.name : promoError!.name}
+				text={error ? error.message : promoError!.message}
 				type="error"
-				dump={error.stack}
+				dump={error ? error.stack : promoError!.stack}
 			/>
 		);
 
@@ -79,15 +92,35 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 								size="lg"
 								value={promoCode}
 								onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+								disabled={!!promo?.promo?.name}
 							/>
 						</InputGroup>
-						<FormHelperText>We&apos;ll never share your email.</FormHelperText>
+						<FormHelperText>
+							We would have spammed mail you with one.
+						</FormHelperText>
 					</FormControl>
 					<Button
 						size="lg"
-						onClick={() => {
-							setFormPromoCode(promoCode);
+						onClick={async () => {
+							const { data: promoData } = await checkPromo({
+								variables: {
+									code: promoCode,
+								},
+							});
+							if (promoData?.promo) {
+								setFormPromoCode(promoCode);
+							} else {
+								toast({
+									title: "Invalid Promo Code",
+									description: `Try a differnet one!`,
+									status: "error",
+									duration: 5000,
+									isClosable: true,
+								});
+								setPromoCode("");
+							}
 						}}
+						isDisabled={promoLoading || !!promo?.promo?.name}
 					>
 						Apply
 					</Button>
@@ -113,11 +146,13 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 					)}
 				</HStack>
 				<HStack justify="space-between" w="full" fontSize="lg">
-					<Text color={mode("gray.600", "gray.400")}>Discount</Text>
-					{watch("promoCode") ? (
+					<Text color={mode("gray.600", "gray.400")}>
+						Discount {promo?.promo?.code && `(${promo?.promo?.name})`}
+					</Text>
+					{promo?.promo ? (
 						<HStack>
 							<Text>-</Text>
-							<PriceTag price={shippingPrice} currency="NPR" />
+							<PriceTag price={promo.promo.discount_amount} currency="NPR" />
 						</HStack>
 					) : (
 						<Text fontSize="sm" textDecoration="underline">
@@ -134,7 +169,12 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 					fontSize="xl"
 				>
 					<Text color={mode("gray.500", "gray.300")}>Order Total</Text>
-					<PriceTag price={subTotal + shippingPrice} currency="NPR" />
+					<PriceTag
+						price={
+							subTotal + shippingPrice - (promo?.promo?.discount_amount ?? 0)
+						}
+						currency="NPR"
+					/>
 				</HStack>
 				<Button size="xl" w="full" colorScheme="blue" type="submit">
 					Place Order

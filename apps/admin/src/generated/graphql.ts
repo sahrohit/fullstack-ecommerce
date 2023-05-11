@@ -19,7 +19,6 @@ export type Scalars = {
 	Boolean: boolean;
 	Int: number;
 	Float: number;
-	DateTime: any;
 };
 
 export type AddProductInput = {
@@ -63,27 +62,11 @@ export type Cart = {
 	__typename?: "Cart";
 	created_at: Scalars["String"];
 	id: Scalars["Int"];
-	inventoryId: Scalars["Float"];
-	quantity: Scalars["Float"];
+	inventory?: Maybe<ProductInventory>;
+	inventoryId: Scalars["Int"];
+	quantity: Scalars["Int"];
 	updated_at: Scalars["String"];
-	userId: Scalars["Float"];
-};
-
-export type CartResponse = {
-	__typename?: "CartResponse";
-	categoryId: Scalars["Float"];
-	created_at: Scalars["DateTime"];
-	id: Scalars["Int"];
-	images?: Maybe<Array<ProductImage>>;
-	inventoryId: Scalars["Float"];
-	price: Scalars["Float"];
-	product_desc?: Maybe<Scalars["String"]>;
-	product_identifier?: Maybe<Scalars["String"]>;
-	product_name: Scalars["String"];
-	quantity: Scalars["Float"];
-	updated_at: Scalars["DateTime"];
-	userId: Scalars["Float"];
-	variant: Scalars["String"];
+	userId: Scalars["Int"];
 };
 
 export type Discount = {
@@ -229,12 +212,12 @@ export type Product = {
 	categoryId: Scalars["Int"];
 	created_at: Scalars["String"];
 	desc: Scalars["String"];
-	discount: Discount;
+	discount?: Maybe<Discount>;
 	discountId?: Maybe<Scalars["Float"]>;
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
 	images: Array<ProductImage>;
-	inventories: Array<ProductInventory>;
+	inventories?: Maybe<Array<ProductInventory>>;
 	name: Scalars["String"];
 	updated_at: Scalars["String"];
 };
@@ -245,19 +228,23 @@ export type ProductCategory = {
 	desc: Scalars["String"];
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
+	imageURL: Scalars["String"];
 	name: Scalars["String"];
+	products?: Maybe<Array<Product>>;
 	updated_at: Scalars["String"];
 };
 
-export type ProductCategorySummary = {
-	__typename?: "ProductCategorySummary";
-	created_at: Scalars["DateTime"];
+export type ProductCategoryWithProductCount = {
+	__typename?: "ProductCategoryWithProductCount";
+	created_at: Scalars["String"];
 	desc: Scalars["String"];
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
+	imageURL: Scalars["String"];
 	name: Scalars["String"];
-	product_count: Scalars["Float"];
-	updated_at: Scalars["DateTime"];
+	product_count: Scalars["Int"];
+	products?: Maybe<Array<Product>>;
+	updated_at: Scalars["String"];
 };
 
 export type ProductImage = {
@@ -278,7 +265,9 @@ export type ProductInventory = {
 	carts?: Maybe<Array<Cart>>;
 	created_at: Scalars["String"];
 	inventory_id: Scalars["Int"];
+	isPublished: Scalars["Boolean"];
 	price: Scalars["Int"];
+	product: Product;
 	quantity: Scalars["Int"];
 	updated_at: Scalars["String"];
 	variants?: Maybe<Array<ProductVariant>>;
@@ -298,22 +287,39 @@ export type ProductVariantInput = {
 	variant: Scalars["String"];
 };
 
+export type Promo = {
+	__typename?: "Promo";
+	code: Scalars["String"];
+	created_at: Scalars["String"];
+	discount_amount: Scalars["Int"];
+	expires_at: Scalars["String"];
+	id: Scalars["Int"];
+	isDiscountAmountPercentage: Scalars["Boolean"];
+	name: Scalars["String"];
+	starts_at: Scalars["String"];
+	updated_at: Scalars["String"];
+};
+
 export type Query = {
 	__typename?: "Query";
 	addresses?: Maybe<Array<Address>>;
 	categories: Array<ProductCategory>;
-	categoriesSummary?: Maybe<Array<ProductCategorySummary>>;
-	fetchCartItems?: Maybe<Array<CartResponse>>;
+	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
+	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
+	promo?: Maybe<Promo>;
 	roles: Array<UserRole>;
-	users: Array<UserDataResponse>;
 };
 
 export type QueryProductArgs = {
 	identifier: Scalars["String"];
+};
+
+export type QueryPromoArgs = {
+	code: Scalars["String"];
 };
 
 export type RegisterInput = {
@@ -350,22 +356,6 @@ export type User = {
 	phone_number_verified: Scalars["Boolean"];
 	roleId: Scalars["Float"];
 	updated_at: Scalars["String"];
-};
-
-export type UserDataResponse = {
-	__typename?: "UserDataResponse";
-	created_at: Scalars["DateTime"];
-	email: Scalars["String"];
-	email_verified: Scalars["Boolean"];
-	first_name: Scalars["String"];
-	id: Scalars["Int"];
-	imageUrl?: Maybe<Scalars["String"]>;
-	last_name: Scalars["String"];
-	phone_number?: Maybe<Scalars["String"]>;
-	phone_number_verified: Scalars["Boolean"];
-	role: Scalars["String"];
-	roleId: Scalars["Float"];
-	updated_at: Scalars["DateTime"];
 };
 
 export type UserResponse = {
