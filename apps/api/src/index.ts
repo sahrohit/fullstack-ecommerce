@@ -20,6 +20,7 @@ import { UserResolver } from "./resolvers/user";
 import { MyContext } from "./types";
 import "reflect-metadata";
 import { Cart } from "./entities/Cart";
+import { PromoResolver } from "./resolvers/promo";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -92,6 +93,7 @@ const Server = async () => {
 				CategoryResolver,
 				CartResolver,
 				RoleResolver,
+				PromoResolver,
 			],
 			validate: false,
 		}),

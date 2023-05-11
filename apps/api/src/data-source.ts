@@ -17,6 +17,7 @@ import { UserRole } from "./entities/UserRole";
 import { Variant } from "./entities/Variant";
 import { VariantValue } from "./entities/VariantValue";
 import { ProductVariant } from "./entities/ProductVariant";
+import { Promo } from "./entities/Promo";
 
 export const AppDataSource = new DataSource({
 	type: "postgres",
@@ -40,6 +41,7 @@ export const AppDataSource = new DataSource({
 		Variant,
 		VariantValue,
 		ProductVariant,
+		Promo,
 	],
 	migrations: ["src/migration/**/*.ts"],
 	subscribers: ["src/migration/**/*.ts"],
