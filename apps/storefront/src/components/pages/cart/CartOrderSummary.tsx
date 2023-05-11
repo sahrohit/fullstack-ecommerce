@@ -4,13 +4,13 @@ import {
 	Button,
 	Flex,
 	Heading,
-	Link,
 	Stack,
 	Text,
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { Link } from "@chakra-ui/next-js";
 
 type OrderSummaryItemProps = {
 	label: string;
@@ -75,6 +75,8 @@ export const CartOrderSummary = ({ data }: CartOrderSummaryProps) => {
 				</Flex>
 			</Stack>
 			<Button
+				as={Link}
+				href="/cart/checkout"
 				isDisabled={!data.length}
 				colorScheme="blue"
 				size="lg"

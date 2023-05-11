@@ -15,6 +15,7 @@ import {
 	Heading,
 	Image,
 	Input,
+	InputGroup,
 	Stack,
 	Text,
 	VStack,
@@ -24,10 +25,11 @@ import { useMemo, useState } from "react";
 import { UseFormWatch } from "react-hook-form";
 
 interface OrderSummaryProps {
+	setFormPromoCode: (promoCode: string) => void;
 	watch: UseFormWatch<CheckoutForm>;
 }
 
-const OrderSummary = ({ watch }: OrderSummaryProps) => {
+const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 	const { data, loading, error } = useFetchCartItemsQuery();
 	const [promoCode, setPromoCode] = useState("");
 
@@ -70,16 +72,25 @@ const OrderSummary = ({ watch }: OrderSummaryProps) => {
 			<VStack w="full" my={4}>
 				<HStack w="full" alignItems="flex-start">
 					<FormControl>
-						<Input
-							type="text"
-							placeholder="Promo Code"
-							size="lg"
-							value={promoCode}
-							onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-						/>
+						<InputGroup>
+							<Input
+								type="text"
+								placeholder="Promo Code"
+								size="lg"
+								value={promoCode}
+								onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+							/>
+						</InputGroup>
 						<FormHelperText>We&apos;ll never share your email.</FormHelperText>
 					</FormControl>
-					<Button size="lg">Apply</Button>
+					<Button
+						size="lg"
+						onClick={() => {
+							setFormPromoCode(promoCode);
+						}}
+					>
+						Apply
+					</Button>
 				</HStack>
 			</VStack>
 
@@ -103,7 +114,7 @@ const OrderSummary = ({ watch }: OrderSummaryProps) => {
 				</HStack>
 				<HStack justify="space-between" w="full" fontSize="lg">
 					<Text color={mode("gray.600", "gray.400")}>Discount</Text>
-					{watch("shippingMethod") ? (
+					{watch("promoCode") ? (
 						<HStack>
 							<Text>-</Text>
 							<PriceTag price={shippingPrice} currency="NPR" />

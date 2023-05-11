@@ -2,7 +2,7 @@ import { Box, BoxProps, useColorModeValue } from "@chakra-ui/react";
 
 const ListRadioBox = (props: BoxProps) => (
 	<Box
-		borderWidth="2px"
+		// borderWidth="2px"
 		px="4"
 		py="3"
 		borderRadius="md"

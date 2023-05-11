@@ -4,7 +4,6 @@ import Result from "@/components/shared/Result";
 import { Address, useAddressesQuery } from "@/generated/graphql";
 import {
 	Box,
-	Stack,
 	useRadioGroup,
 	HStack,
 	Text,
@@ -15,6 +14,8 @@ import {
 	Skeleton,
 	VStack,
 	SkeletonCircle,
+	Stack,
+	Divider,
 } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
 import {
@@ -51,25 +52,21 @@ const AddressSelector = ({ control }: AddressSelectorProps) => {
 		);
 	return (
 		<Box as="section" py={4} w="full">
-			{loading ? (
-				<Stack spacing="5" justify="flex-start">
-					{Array(3)
-						.fill("address-skeleton")
-						.map((address, index) => (
-							<AddressSelectorRadioSkeleton key={`${address}-${index + 1}`} />
-						))}
-				</Stack>
-			) : (
-				<Stack spacing="5" justify="flex-start">
-					{addresses?.addresses?.map((address) => (
-						<AddressSelectorRadio
-							{...getRadioProps({ value: `checkout-address-${address.id}` })}
-							key={`checkout-address-${address.id}`}
-							address={address}
-						/>
-					))}
-				</Stack>
-			)}
+			<Stack spacing="5" justify="flex-start" divider={<Divider />}>
+				{loading
+					? Array(3)
+							.fill("address-skeleton")
+							.map((address, index) => (
+								<AddressSelectorRadioSkeleton key={`${address}-${index + 1}`} />
+							))
+					: addresses?.addresses?.map((address) => (
+							<AddressSelectorRadio
+								{...getRadioProps({ value: `checkout-address-${address.id}` })}
+								key={`checkout-address-${address.id}`}
+								address={address}
+							/>
+					  ))}
+			</Stack>
 		</Box>
 	);
 };
@@ -99,19 +96,17 @@ const AddressSelectorRadio = ({ address, ...rest }: ListRadioProps) => {
 					>
 						{state.isChecked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
 					</Box>
+					<Box flex="1">
+						<Text fontWeight="bold">{address.name}</Text>
+						<Text fontSize="sm">
+							{address.address}, {address.zip}, {address.city}, {address.state}
+						</Text>
+						<Text fontWeight="semibold">
+							Phone Number: {address.phone_number}
+						</Text>
+					</Box>
 					<Box fontSize="3xl">
 						{address.type === "home" ? <FaHome /> : <MdWorkOutline />}
-					</Box>
-					<Box flex="1">
-						<Text fontWeight="bold">
-							{address.name} ({address.phone_number})
-						</Text>
-						<Text fontSize="sm">
-							{address.address}, {address.city}, {address.state}
-						</Text>
-					</Box>
-					<Box fontWeight="bold" color={mode("blue.600", "blue.400")}>
-						{address.zip}
 					</Box>
 				</HStack>
 			</ListRadioBox>

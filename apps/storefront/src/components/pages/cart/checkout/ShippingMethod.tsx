@@ -28,17 +28,15 @@ const ShippingMethod = ({ control, options }: ShippingMethodProps) => {
 	});
 
 	return (
-		<Box as="section" py="4" w="full">
+		<Box as="section" w="full">
 			<Heading fontSize="xl" fontWeight="bold" lineHeight="1.2" my={4}>
 				Shipping Method
 			</Heading>
 			<RadioGroup {...field}>
 				<Stack
 					direction={["column", "row"]}
-					w="full"
 					justifyContent="space-evenly"
 					flexWrap="wrap"
-					alignItems="center"
 					gap={4}
 				>
 					{options.map((option) => (
