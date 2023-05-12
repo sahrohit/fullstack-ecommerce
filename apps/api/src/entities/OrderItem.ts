@@ -4,13 +4,13 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
-	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
 import { OrderDetail } from "./OrderDetail";
-import { Product } from "./Product";
+import { ProductInventory } from "./ProductInventory";
 
 @Entity()
 @ObjectType()
@@ -19,21 +19,20 @@ export class OrderItem extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Field()
-	@Column()
-	orderId!: number;
-
+	@Field(() => OrderDetail)
 	@ManyToOne(() => OrderDetail, (orderdetail) => orderdetail.orderitems)
+	@JoinColumn({ name: "orderId" })
 	orderdetail!: OrderDetail;
 
-	@Field()
-	@Column()
-	productId!: number;
+	@Field(() => ProductInventory, { nullable: true })
+	@ManyToOne(
+		() => ProductInventory,
+		(productinventory) => productinventory.orderitems
+	)
+	@JoinColumn({ name: "inventoryId" })
+	inventory!: ProductInventory;
 
-	@OneToMany(() => Product, (product) => product.orderitem)
-	product!: Product;
-
-	@Field()
+	@Field(() => Int)
 	@Column()
 	quantity!: number;
 

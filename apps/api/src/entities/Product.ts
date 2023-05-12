@@ -13,7 +13,6 @@ import {
 	UpdateDateColumn,
 } from "typeorm";
 import { Discount } from "./Discount";
-import { OrderItem } from "./OrderItem";
 import { ProductCategory } from "./ProductCategory";
 import { ProductImage } from "./ProductImage";
 import { ProductInventory } from "./ProductInventory";
@@ -54,9 +53,6 @@ export class Product extends BaseEntity {
 	@ManyToOne(() => ProductCategory, (category) => category.products)
 	@JoinTable({ name: "category_id" })
 	category!: ProductCategory;
-
-	@ManyToOne(() => OrderItem, (orderitem) => orderitem.product)
-	orderitem!: OrderItem;
 
 	@Field(() => [ProductInventory], { nullable: true })
 	@OneToMany(() => ProductInventory, (inventory) => inventory.product)

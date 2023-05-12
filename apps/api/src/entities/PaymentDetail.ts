@@ -17,10 +17,11 @@ export class PaymentDetail extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Field()
+	@Field(() => String)
 	@Column()
-	orderId!: number;
+	orderId!: string;
 
+	@Field(() => OrderDetail)
 	@OneToOne(() => OrderDetail, (orderdetail) => orderdetail.paymentdetail)
 	orderdetail!: OrderDetail;
 
@@ -31,6 +32,10 @@ export class PaymentDetail extends BaseEntity {
 	@Field()
 	@Column()
 	provider!: string;
+
+	@Field()
+	@Column()
+	pidx!: string;
 
 	@Field()
 	@Column()

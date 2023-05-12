@@ -18,29 +18,27 @@ import { User } from "./User";
 @Entity()
 @ObjectType()
 export class OrderDetail extends BaseEntity {
-	@Field(() => Int)
-	@PrimaryGeneratedColumn()
-	id!: number;
+	@Field(() => String)
+	@PrimaryGeneratedColumn("uuid")
+	id!: string;
 
-	@Field()
+	@Field(() => Int)
 	@Column()
 	userId!: number;
 
 	@ManyToOne(() => User, (user) => user.orderdetails)
 	user!: User;
 
-	@Field()
+	@Field(() => String)
 	@Column()
-	total!: number;
+	status!: string;
 
-	@Field()
-	@Column()
-	payment_id!: number;
-
+	@Field(() => PaymentDetail)
 	@OneToOne(() => PaymentDetail, (paymentdetail) => paymentdetail.orderdetail)
-	@JoinColumn()
+	@JoinColumn({ name: "payment_id" })
 	paymentdetail!: PaymentDetail;
 
+	@Field(() => [OrderItem])
 	@OneToMany(() => OrderItem, (orderitem) => orderitem.orderdetail)
 	orderitems!: OrderItem[];
 

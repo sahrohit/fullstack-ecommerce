@@ -13,6 +13,7 @@ import {
 import { Product } from "./Product";
 import { ProductVariant } from "./ProductVariant";
 import { Cart } from "./Cart";
+import { OrderItem } from "./OrderItem";
 @ObjectType()
 @Entity()
 export class ProductInventory extends BaseEntity {
@@ -39,6 +40,10 @@ export class ProductInventory extends BaseEntity {
 	@Field(() => [Cart], { nullable: true })
 	@OneToMany(() => Cart, (cart) => cart.inventory)
 	carts!: Cart[];
+
+	@Field(() => [OrderItem], { nullable: true })
+	@OneToMany(() => OrderItem, (orderitem) => orderitem.inventory)
+	orderitems!: OrderItem[];
 
 	@Column()
 	productId!: number;
