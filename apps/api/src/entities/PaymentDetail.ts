@@ -26,7 +26,6 @@ export class PaymentDetail extends BaseEntity {
 	id!: string;
 
 	@Field(() => String)
-	@Column()
 	orderId!: string;
 
 	@Field(() => OrderDetail)

@@ -111,6 +111,7 @@ const CheckoutPage = () => {
 		});
 
 		const { pidx, payment_url } = await response.json();
+
 		console.log(pidx);
 		window.location.assign(payment_url);
 	};

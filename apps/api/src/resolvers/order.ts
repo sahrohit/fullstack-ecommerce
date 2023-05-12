@@ -13,6 +13,7 @@ import { Cart } from "src/entities/Cart";
 import OrderInput from "./GqlObjets/OrderInput";
 import { Promo } from "src/entities/Promo";
 import { PaymentDetail } from "src/entities/PaymentDetail";
+import { OrderItem } from "src/entities/OrderItem";
 
 @Resolver()
 export class OrderResolver {
@@ -29,6 +30,7 @@ export class OrderResolver {
 						},
 					},
 				},
+				address: true,
 			},
 			where: { userId: req.session.userId },
 		});
@@ -73,6 +75,14 @@ export class OrderResolver {
 			userId,
 			status: "PENDING",
 		}).save();
+
+		const orderItems = cartRes.map((cartitem) => ({
+			inventoryId: cartitem.inventoryId,
+			quantity: cartitem.quantity,
+			orderId: orderRes.id,
+		}));
+
+		await OrderItem.insert(orderItems);
 
 		await PaymentDetail.create({
 			id: options.pidx,
