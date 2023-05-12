@@ -4,25 +4,34 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	OneToOne,
-	PrimaryGeneratedColumn,
+	JoinColumn,
+	ManyToOne,
+	PrimaryColumn,
 	UpdateDateColumn,
 } from "typeorm";
 import { OrderDetail } from "./OrderDetail";
+
+export type PaymentStatus =
+	| "PENDING"
+	| "COMPLETE"
+	| "REFUNDED"
+	| "FAILED"
+	| "ABANDONED";
 
 @ObjectType()
 @Entity()
 export class PaymentDetail extends BaseEntity {
 	@Column()
-	@PrimaryGeneratedColumn()
-	id!: number;
+	@PrimaryColumn()
+	id!: string;
 
 	@Field(() => String)
 	@Column()
 	orderId!: string;
 
 	@Field(() => OrderDetail)
-	@OneToOne(() => OrderDetail, (orderdetail) => orderdetail.paymentdetail)
+	@ManyToOne(() => OrderDetail, (orderdetail) => orderdetail.paymentdetails)
+	@JoinColumn({ name: "orderId" })
 	orderdetail!: OrderDetail;
 
 	@Field()
@@ -33,13 +42,13 @@ export class PaymentDetail extends BaseEntity {
 	@Column()
 	provider!: string;
 
-	@Field()
-	@Column()
-	pidx!: string;
-
-	@Field()
-	@Column()
-	status!: string;
+	@Field(() => String)
+	@Column({
+		type: "enum",
+		enum: ["PENDING", "COMPLETE", "REFUNDED", "FAILED", "ABANDONED"],
+		default: "PENDING",
+	})
+	status!: PaymentStatus;
 
 	@Field(() => String)
 	@CreateDateColumn()

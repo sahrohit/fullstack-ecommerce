@@ -7,7 +7,9 @@ import {
 	UpdateDateColumn,
 	BaseEntity,
 	Index,
+	OneToMany,
 } from "typeorm";
+import { OrderDetail } from "./OrderDetail";
 
 @ObjectType()
 @Entity()
@@ -32,6 +34,10 @@ export class Promo extends BaseEntity {
 	@Field(() => Boolean)
 	@Column({ type: "boolean" })
 	isDiscountAmountPercentage!: boolean;
+
+	@Field(() => OrderDetail)
+	@OneToMany(() => OrderDetail, (order) => order.promo)
+	order!: OrderDetail[];
 
 	@Field(() => String)
 	@Column({ type: "timestamptz" })

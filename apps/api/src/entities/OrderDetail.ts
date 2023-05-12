@@ -4,16 +4,25 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	JoinColumn,
+	Index,
 	ManyToOne,
 	OneToMany,
-	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
 import { OrderItem } from "./OrderItem";
 import { PaymentDetail } from "./PaymentDetail";
 import { User } from "./User";
+import { Promo } from "./Promo";
+import { Address } from "./Address";
+
+export type OrderStatus =
+	| "PENDING"
+	| "PLACED"
+	| "SHIPPED"
+	| "OUTFORDELIVERY"
+	| "DELIVERED"
+	| "REJECTED";
 
 @Entity()
 @ObjectType()
@@ -22,6 +31,7 @@ export class OrderDetail extends BaseEntity {
 	@PrimaryGeneratedColumn("uuid")
 	id!: string;
 
+	@Index()
 	@Field(() => Int)
 	@Column()
 	userId!: number;
@@ -29,14 +39,40 @@ export class OrderDetail extends BaseEntity {
 	@ManyToOne(() => User, (user) => user.orderdetails)
 	user!: User;
 
-	@Field(() => String)
+	@Field(() => Int)
 	@Column()
-	status!: string;
+	addressId!: number;
 
-	@Field(() => PaymentDetail)
-	@OneToOne(() => PaymentDetail, (paymentdetail) => paymentdetail.orderdetail)
-	@JoinColumn({ name: "payment_id" })
-	paymentdetail!: PaymentDetail;
+	@Field(() => Address)
+	@ManyToOne(() => Address, (address) => address.orderdetails)
+	address!: Address;
+
+	@Field(() => Int, { nullable: true })
+	@Column({ nullable: true })
+	promoId!: number;
+
+	@Field(() => Promo, { nullable: true })
+	@ManyToOne(() => Promo, (promo) => promo.order)
+	promo!: Promo;
+
+	@Field(() => String)
+	@Column({
+		type: "enum",
+		enum: [
+			"PENDING",
+			"PLACED",
+			"SHIPPED",
+			"OUTFORDELIVERY",
+			"DELIVERED",
+			"REJECTED",
+		],
+		default: "PENDING",
+	})
+	status!: OrderStatus;
+
+	@Field(() => [PaymentDetail], { nullable: true })
+	@OneToMany(() => PaymentDetail, (paymentdetail) => paymentdetail.orderdetail)
+	paymentdetails!: PaymentDetail[];
 
 	@Field(() => [OrderItem])
 	@OneToMany(() => OrderItem, (orderitem) => orderitem.orderdetail)
