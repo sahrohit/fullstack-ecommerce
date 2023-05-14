@@ -1,0 +1,11 @@
+mutation CreateOrder($options: CreateOrderInput!) {
+	createOrder(options: $options) {
+		id
+		userId
+		addressId
+		promoId
+		status
+		created_at
+		updated_at
+	}
+}

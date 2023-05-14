@@ -1,0 +1,11 @@
+mutation CreatePayment($options: CreatePaymentInput!) {
+	createPayment(options: $options) {
+		id
+		orderId
+		amount
+		provider
+		status
+		created_at
+		updated_at
+	}
+}

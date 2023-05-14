@@ -1,0 +1,28 @@
+mutation UpdateStatus($pidx: String!, $orderId: String!) {
+	updateStatus(pidx: $pidx, orderId: $orderId) {
+		id
+		userId
+		addressId
+		address {
+			...AddressFragment
+		}
+		promoId
+		promo {
+			...PromoFragment
+		}
+		status
+		paymentdetails {
+			orderId
+			amount
+			provider
+			status
+			created_at
+			updated_at
+		}
+		orderitems {
+			...OrderItemFragment
+		}
+		created_at
+		updated_at
+	}
+}
