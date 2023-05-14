@@ -1,17 +1,16 @@
 import { OrderSummaryItem } from "@/components/pages/cart/checkout/OrderSummary";
 import Result from "@/components/shared/Result";
 import { PriceTag } from "@/components/shared/product/PriceTag";
-import { Cart, useMeQuery, useUpdateStatusMutation } from "@/generated/graphql";
+import { Cart, useMeQuery, useOrderByIdQuery } from "@/generated/graphql";
 import { capitalize } from "@/utils/helpers";
 import {
 	Badge,
 	Box,
-	Button,
+	Card,
 	Divider,
 	HStack,
 	Heading,
 	IconButton,
-	Image,
 	SimpleGrid,
 	Stack,
 	Text,
@@ -22,57 +21,38 @@ import {
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useMemo } from "react";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { Link } from "@chakra-ui/next-js";
 import { BRAND_NAME } from "../../../constants";
 
-const SuccessPage = () => {
+const OrderPage = () => {
 	const router = useRouter();
 	const { data: me, loading: userLoading, error: userError } = useMeQuery();
-	const [mounted, setMounted] = useState(false);
-	const [updateOrderStatusMutation, { data, loading, error }] =
-		useUpdateStatusMutation({
-			onCompleted: () => {
-				setMounted(true);
-			},
-		});
 
-	const { onCopy, hasCopied } = useClipboard(data?.updateStatus.id as string);
+	const { data, loading, error } = useOrderByIdQuery({
+		variables: {
+			orderId: router.query.id as string,
+		},
+	});
 
-	useEffect(() => {
-		if (router.query.pidx) {
-			updateOrderStatusMutation({
-				variables: {
-					pidx: router.query.pidx as string,
-					orderId: router.query.purchase_order_id as string,
-				},
-			});
-		}
-	}, [
-		router.query.pidx,
-		router.query.purchase_order_id,
-		updateOrderStatusMutation,
-	]);
+	const { onCopy, hasCopied } = useClipboard(data?.orderById?.id as string);
 
-	const successPayment = data?.updateStatus.paymentdetails?.find(
+	const successPayment = data?.orderById?.paymentdetails?.find(
 		(payment) => payment.status === "COMPLETED"
 	);
 
 	const subTotal = useMemo(
 		() =>
-			data?.updateStatus.orderitems?.reduce(
+			data?.orderById?.orderitems?.reduce(
 				(accumulator, item) =>
 					accumulator + item.quantity * item!.inventory!.price,
 				0
 			) ?? 0,
-		[data?.updateStatus.orderitems]
+		[data?.orderById?.orderitems]
 	);
 
-	// const shippingPrice = data?.updateStatus. ? 150 : 300;
-
-	if (loading || !mounted || userLoading) {
+	if (loading || userLoading) {
 		return <p>Loading...</p>;
 	}
 
@@ -87,15 +67,29 @@ const SuccessPage = () => {
 		);
 	}
 
+	if (!data?.orderById) {
+		return (
+			<Result
+				heading="Order Not Found"
+				text="The tracking id may be invalid. Please check for typo and enter it again."
+				type="error"
+			/>
+		);
+	}
+
+	console.log("Data", data);
+
 	return (
 		<SimpleGrid placeItems="center" minH="100vh">
 			<Stack
+				as={Card}
 				p={8}
-				gap={{ base: 8, lg: 48 }}
-				alignItems="center"
+				gap={8}
+				alignItems="flex-start"
 				justifyContent="space-between"
 				my={{ base: 8, lg: 16 }}
-				direction={["column", "row"]}
+				maxW="3xl"
+				w={{ base: "unset", lg: "3xl" }}
 			>
 				<VStack alignItems="flex-start" gap={6}>
 					<VStack alignItems="flex-start" gap={2}>
@@ -105,58 +99,48 @@ const SuccessPage = () => {
 									PAYMENT{" "}
 									{successPayment
 										? "SUCCESSFUL"
-										: data?.updateStatus.paymentdetails?.[0].status}
+										: data?.orderById.paymentdetails?.[0].status}
 								</Badge>
 							</Tooltip>
 						</HStack>
+
 						<Heading fontSize="5xl" fontWeight="extrabold" lineHeight={1}>
-							Thanks for ordering.
-						</Heading>
-						<Heading fontSize="lg" lineHeight={1}>
 							Your Order is{" "}
 							<Tooltip label="Order Status" closeOnClick={false}>
 								<Text as="span">
-									{capitalize(data?.updateStatus.status as string)}{" "}
+									{capitalize(data?.orderById.status as string)}{" "}
 								</Text>
 							</Tooltip>
 						</Heading>
 					</VStack>
-					<VStack alignItems="flex-start">
-						<HStack>
-							<Text fontSize="lg" fontWeight="semibold">
-								Tracking Number
-							</Text>
-							<Tooltip
-								label={hasCopied ? "Copied!" : "Copy"}
-								closeOnClick={false}
-							>
-								<IconButton
-									aria-label="Copy Tracking Number"
-									variant="ghost"
-									icon={<MdOutlineContentCopy size={20} />}
-									onClick={onCopy}
-								/>
-							</Tooltip>
-						</HStack>
-						<Text>{data?.updateStatus.id}</Text>
-					</VStack>
-					<Button as={Link} href="/orders/apple">
-						View Order
-					</Button>
-					<Text w="full" fontSize="lg">
-						Have a Problem? Contact our{" "}
-						<UnderlineLink href="/">Customer Support </UnderlineLink>
-					</Text>
 				</VStack>
-				<Image h="60vh" src="/assets/order-placed.svg" />
 				<Box>
 					<Text>Hi {me?.me?.first_name},</Text>
 					<Text>Your order has been confirmed and will be shipping soon.</Text>
 				</Box>
+				<VStack alignItems="flex-start">
+					<HStack>
+						<Text fontSize="lg" fontWeight="semibold">
+							Tracking Number
+						</Text>
+						<Tooltip
+							label={hasCopied ? "Copied!" : "Copy"}
+							closeOnClick={false}
+						>
+							<IconButton
+								aria-label="Copy Tracking Number"
+								variant="ghost"
+								icon={<MdOutlineContentCopy size={20} />}
+								onClick={onCopy}
+							/>
+						</Tooltip>
+					</HStack>
+					<Text>{data?.orderById.id}</Text>
+				</VStack>
 				<HStack gap={6}>
 					<OrderInfo label="Order Date">
 						<Text>
-							{dayjs(Number(data?.updateStatus.created_at)).format(
+							{dayjs(Number(data?.orderById.created_at)).format(
 								"DD MMMM, YYYY"
 							)}
 						</Text>
@@ -165,7 +149,7 @@ const SuccessPage = () => {
 						<Text>{successPayment?.provider}</Text>
 					</OrderInfo>
 					<OrderInfo label="Address">
-						<Text>{data?.updateStatus.address.address}</Text>
+						<Text>{data?.orderById.address.address}</Text>
 					</OrderInfo>
 				</HStack>
 				<Stack
@@ -174,7 +158,7 @@ const SuccessPage = () => {
 					p={{ base: 1, md: 4 }}
 					divider={<Divider />}
 				>
-					{data?.updateStatus.orderitems?.map((item) => (
+					{data?.orderById.orderitems?.map((item) => (
 						<OrderSummaryItem key={item.id} cartItem={item as Cart} />
 					))}
 				</Stack>
@@ -190,18 +174,18 @@ const SuccessPage = () => {
 							<PriceTag price={200} currency="NPR" />
 						</HStack>
 					</HStack>
-					{data?.updateStatus.promo && (
+					{data?.orderById.promo && (
 						<HStack justify="space-between" w="full" fontSize="lg">
 							<Text color={mode("gray.600", "gray.400")}>
 								Discount{" "}
-								{data?.updateStatus.promo?.code &&
-									`(${data?.updateStatus.promo?.name})`}
+								{data?.orderById.promo?.code &&
+									`(${data?.orderById.promo?.name})`}
 							</Text>
-							{data?.updateStatus.promo ? (
+							{data?.orderById.promo ? (
 								<HStack>
 									<Text>-</Text>
 									<PriceTag
-										price={data?.updateStatus.promo.discount_amount}
+										price={data?.orderById.promo.discount_amount}
 										currency="NPR"
 									/>
 								</HStack>
@@ -223,9 +207,7 @@ const SuccessPage = () => {
 						<Text color={mode("gray.500", "gray.300")}>Order Total</Text>
 						<PriceTag
 							price={
-								subTotal +
-								200 -
-								(data?.updateStatus.promo?.discount_amount ?? 0)
+								subTotal + 200 - (data?.orderById.promo?.discount_amount ?? 0)
 							}
 							currency="NPR"
 						/>
@@ -242,16 +224,16 @@ const SuccessPage = () => {
 					<Text>Thank you,</Text>
 					<Text>{BRAND_NAME} Team</Text>
 				</Box>
-				<Text w="full" textAlign="center">
-					Questions? Contant our{" "}
-					<UnderlineLink href="/">Customer Support</UnderlineLink>
+				<Text w="full" fontSize="lg">
+					Have a Problem? Contact our{" "}
+					<UnderlineLink href="/">Customer Support </UnderlineLink>
 				</Text>
 			</Stack>
 		</SimpleGrid>
 	);
 };
 
-export default SuccessPage;
+export default OrderPage;
 
 const OrderInfo = ({
 	label,

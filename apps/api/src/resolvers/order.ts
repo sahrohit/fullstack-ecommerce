@@ -43,6 +43,8 @@ export class OrderResolver {
 					},
 				},
 				address: true,
+				paymentdetails: true,
+				promo: true,
 			},
 			where: { userId: req.session.userId },
 		});
@@ -77,6 +79,8 @@ export class OrderResolver {
 					},
 				},
 				address: true,
+				paymentdetails: true,
+				promo: true,
 			},
 			where: { userId: req.session.userId, id: orderId },
 		});
