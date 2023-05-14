@@ -11,6 +11,7 @@ import {
 import { useMemo } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "@chakra-ui/next-js";
+import { useRouter } from "next/router";
 
 type OrderSummaryBillItemProps = {
 	label: string;
@@ -40,6 +41,7 @@ interface CartOrderSummaryProps {
 }
 
 export const CartOrderSummary = ({ data }: CartOrderSummaryProps) => {
+	const router = useRouter();
 	const subTotal = useMemo(
 		() =>
 			data.reduce(
@@ -75,13 +77,14 @@ export const CartOrderSummary = ({ data }: CartOrderSummaryProps) => {
 				</Flex>
 			</Stack>
 			<Button
-				as={Link}
-				href="/cart/checkout"
+				// as={Link}
+				// href={data.length ? "/cart/checkout" : ""}
 				isDisabled={!data.length}
 				colorScheme="blue"
 				size="lg"
 				fontSize="md"
 				rightIcon={<FaArrowRight />}
+				onClick={() => router.push("/cart/checkout")}
 			>
 				Checkout
 			</Button>

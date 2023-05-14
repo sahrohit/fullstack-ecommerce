@@ -26,6 +26,7 @@ import {
 	useColorModeValue as mode,
 	useToast,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { UseFormWatch } from "react-hook-form";
 
@@ -36,6 +37,7 @@ interface OrderSummaryProps {
 
 const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 	const toast = useToast();
+	const router = useRouter();
 	const { data, loading, error } = useFetchCartItemsQuery({
 		fetchPolicy: "network-only",
 	});
@@ -73,6 +75,11 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 				dump={error ? error.stack : promoError!.stack}
 			/>
 		);
+
+	if (data?.fetchCartItems?.length === 0) {
+		router.push("/cart");
+		return <p>Loading...</p>;
+	}
 
 	return (
 		<VStack my={8} gap={4} w="full">
