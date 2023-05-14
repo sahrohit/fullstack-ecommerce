@@ -48,6 +48,40 @@ export class OrderResolver {
 		});
 	}
 
+	@Query(() => [OrderDetail], { nullable: true })
+	@UseMiddleware(isVerified)
+	orderById(
+		@Arg("orderId", () => String) orderId: string,
+		@Ctx() { req }: MyContext
+	) {
+		return OrderDetail.findOne({
+			relations: {
+				orderitems: {
+					inventory: {
+						product: {
+							images: true,
+							category: true,
+							inventories: {
+								variants: {
+									variant_value: {
+										variant: true,
+									},
+								},
+							},
+						},
+						variants: {
+							variant_value: {
+								variant: true,
+							},
+						},
+					},
+				},
+				address: true,
+			},
+			where: { userId: req.session.userId, id: orderId },
+		});
+	}
+
 	@Mutation(() => OrderDetail)
 	@UseMiddleware(isVerified)
 	async createOrder(
