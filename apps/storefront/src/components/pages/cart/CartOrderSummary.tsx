@@ -12,13 +12,13 @@ import { useMemo } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "@chakra-ui/next-js";
 
-type OrderSummaryItemProps = {
+type OrderSummaryBillItemProps = {
 	label: string;
 	value?: string;
 	children?: React.ReactNode;
 };
 
-export const OrderSummaryItem = (props: OrderSummaryItemProps) => {
+export const OrderSummaryBillItem = (props: OrderSummaryBillItemProps) => {
 	const { label, value, children } = props;
 	return (
 		<Flex justify="space-between" fontSize="sm">
@@ -30,7 +30,7 @@ export const OrderSummaryItem = (props: OrderSummaryItemProps) => {
 	);
 };
 
-OrderSummaryItem.defaultProps = {
+OrderSummaryBillItem.defaultProps = {
 	value: undefined,
 	children: undefined,
 };
@@ -54,17 +54,17 @@ export const CartOrderSummary = ({ data }: CartOrderSummaryProps) => {
 			<Heading size="md">Order Summary</Heading>
 
 			<Stack spacing="6">
-				<OrderSummaryItem label="Subtotal" value={formatPrice(subTotal)} />
-				<OrderSummaryItem label="Shipping + Tax">
+				<OrderSummaryBillItem label="Subtotal" value={formatPrice(subTotal)} />
+				<OrderSummaryBillItem label="Shipping + Tax">
 					<Link href="/" textDecor="underline">
 						Calculate shipping
 					</Link>
-				</OrderSummaryItem>
-				<OrderSummaryItem label="Coupon Code">
+				</OrderSummaryBillItem>
+				<OrderSummaryBillItem label="Coupon Code">
 					<Link href="/" textDecor="underline">
 						Add coupon code
 					</Link>
-				</OrderSummaryItem>
+				</OrderSummaryBillItem>
 				<Flex justify="space-between">
 					<Text fontSize="lg" fontWeight="semibold">
 						Total
