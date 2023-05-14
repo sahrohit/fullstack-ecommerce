@@ -190,7 +190,7 @@ type OrderSummaryItemProps = {
 	cartItem: Cart;
 };
 
-const OrderSummaryItem = ({ cartItem }: OrderSummaryItemProps) => {
+export const OrderSummaryItem = ({ cartItem }: OrderSummaryItemProps) => {
 	const { quantity, inventory } = cartItem;
 
 	const description =
