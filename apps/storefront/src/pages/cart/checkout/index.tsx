@@ -6,7 +6,11 @@ import OrderSummary from "@/components/pages/cart/checkout/OrderSummary";
 import PaymentSelector from "@/components/pages/cart/checkout/PaymentSelector";
 import ShippingMethod from "@/components/pages/cart/checkout/ShippingMethod";
 import ModalButton from "@/components/ui/ModalButton";
-import { useMeQuery } from "@/generated/graphql";
+import {
+	useCreateOrderMutation,
+	useCreatePaymentMutation,
+	useMeQuery,
+} from "@/generated/graphql";
 import {
 	Stack,
 	Box,
@@ -41,6 +45,8 @@ const CheckutFormSchema = Yup.object({
 
 const CheckoutPage = () => {
 	const { data } = useMeQuery();
+	const [createOrderMutation] = useCreateOrderMutation();
+	const [createPaymentMutation] = useCreatePaymentMutation();
 
 	const toast = useToast();
 	const bgColor = mode("gray.50", "gray.700");
@@ -72,7 +78,18 @@ const CheckoutPage = () => {
 	};
 
 	const handleCheckout = async (values: CheckoutForm) => {
-		console.log(values);
+		const { data: orderData } = await createOrderMutation({
+			variables: {
+				options: {
+					addressId: Number(values.addressId),
+					promoCode: values.promoCode,
+				},
+			},
+		});
+
+		if (!orderData?.createOrder.id) {
+			return;
+		}
 
 		const response = await fetch("/api/payment", {
 			method: "POST",
@@ -81,8 +98,8 @@ const CheckoutPage = () => {
 			},
 			body: JSON.stringify({
 				amount: 1300,
-				purchase_order_id: "test12",
-				purchase_order_name: "test",
+				purchase_order_id: orderData?.createOrder.id ?? "order-id",
+				purchase_order_name: "Hamropasal Payment",
 				customer_info: {
 					name: `${data?.me?.first_name} ${data?.me?.last_name}`,
 					email: data?.me?.email,
@@ -112,7 +129,17 @@ const CheckoutPage = () => {
 
 		const { pidx, payment_url } = await response.json();
 
-		console.log(pidx);
+		await createPaymentMutation({
+			variables: {
+				options: {
+					orderId: orderData?.createOrder.id,
+					pidx,
+					promoCode: values.promoCode,
+					provider: "khalti",
+				},
+			},
+		});
+
 		window.location.assign(payment_url);
 	};
 
