@@ -35,7 +35,7 @@ export class Promo extends BaseEntity {
 	@Column({ type: "boolean" })
 	isDiscountAmountPercentage!: boolean;
 
-	@Field(() => OrderDetail)
+	@Field(() => OrderDetail, { nullable: true })
 	@OneToMany(() => OrderDetail, (order) => order.promo)
 	order!: OrderDetail[];
 

@@ -13,19 +13,21 @@ import { OrderDetail } from "./OrderDetail";
 
 export type PaymentStatus =
 	| "PENDING"
-	| "COMPLETE"
+	| "COMPLETED"
 	| "REFUNDED"
 	| "FAILED"
-	| "ABANDONED";
+	| "EXPIRED";
 
 @ObjectType()
 @Entity()
 export class PaymentDetail extends BaseEntity {
+	@Field(() => String)
 	@Column()
 	@PrimaryColumn()
 	id!: string;
 
 	@Field(() => String)
+	@Column()
 	orderId!: string;
 
 	@Field(() => OrderDetail)
@@ -44,10 +46,14 @@ export class PaymentDetail extends BaseEntity {
 	@Field(() => String)
 	@Column({
 		type: "enum",
-		enum: ["PENDING", "COMPLETE", "REFUNDED", "FAILED", "ABANDONED"],
+		enum: ["PENDING", "COMPLETED", "REFUNDED", "FAILED", "ABANDONED"],
 		default: "PENDING",
 	})
 	status!: PaymentStatus;
+
+	@Field(() => String, { nullable: true })
+	@Column({ nullable: true })
+	transactionId!: string;
 
 	@Field(() => String)
 	@CreateDateColumn()

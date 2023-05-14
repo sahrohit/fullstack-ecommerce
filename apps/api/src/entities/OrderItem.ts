@@ -19,10 +19,18 @@ export class OrderItem extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id!: number;
 
+	@Field(() => String)
+	@Column()
+	orderId!: string;
+
 	@Field(() => OrderDetail)
 	@ManyToOne(() => OrderDetail, (orderdetail) => orderdetail.orderitems)
 	@JoinColumn({ name: "orderId" })
 	orderdetail!: OrderDetail;
+
+	@Field(() => Int)
+	@Column()
+	inventoryId!: number;
 
 	@Field(() => ProductInventory, { nullable: true })
 	@ManyToOne(
