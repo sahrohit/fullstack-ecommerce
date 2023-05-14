@@ -36,7 +36,9 @@ interface OrderSummaryProps {
 
 const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 	const toast = useToast();
-	const { data, loading, error } = useFetchCartItemsQuery();
+	const { data, loading, error } = useFetchCartItemsQuery({
+		fetchPolicy: "network-only",
+	});
 	const [
 		checkPromo,
 		{ data: promo, loading: promoLoading, error: promoError },

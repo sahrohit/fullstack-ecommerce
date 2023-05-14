@@ -97,7 +97,8 @@ const OrderPage = () => {
 									PAYMENT{" "}
 									{successPayment
 										? "SUCCESSFUL"
-										: data?.orderById.paymentdetails?.[0].status}
+										: data?.orderById.paymentdetails?.[0]?.status ??
+										  "NOT INITIATED"}
 								</Badge>
 							</Tooltip>
 						</HStack>

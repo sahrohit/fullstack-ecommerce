@@ -123,22 +123,52 @@ export class OrderResolver {
 			}))
 		);
 
-		return OrderDetail.findOneByOrFail({ id: orderRes.id });
+		await Cart.delete({
+			userId,
+		});
+
+		return OrderDetail.findOneOrFail({
+			relations: {
+				orderitems: {
+					inventory: {
+						product: {
+							images: true,
+							category: true,
+							inventories: {
+								variants: {
+									variant_value: {
+										variant: true,
+									},
+								},
+							},
+						},
+						variants: {
+							variant_value: {
+								variant: true,
+							},
+						},
+					},
+				},
+				address: true,
+				paymentdetails: true,
+				promo: true,
+			},
+			where: { id: orderRes.id },
+		});
 	}
 
 	@Mutation(() => PaymentDetail)
 	@UseMiddleware(isVerified)
 	async createPayment(
-		@Arg("options", () => CreatePaymentInput) options: CreatePaymentInput,
-		@Ctx() { req }: MyContext
+		@Arg("options", () => CreatePaymentInput) options: CreatePaymentInput
+		// @Ctx() { req }: MyContext
 	): Promise<PaymentDetail> {
-		const userId = req.session.userId;
-		const cartRes = await Cart.find({
+		const cartRes = await OrderItem.find({
 			relations: {
 				inventory: true,
 			},
 			where: {
-				userId,
+				orderId: options.orderId,
 			},
 		});
 

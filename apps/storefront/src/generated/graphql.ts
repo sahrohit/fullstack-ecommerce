@@ -1091,6 +1091,126 @@ export type CreateOrderMutation = {
 		status: string;
 		created_at: string;
 		updated_at: string;
+		address: {
+			__typename?: "Address";
+			id: number;
+			type: string;
+			isDefault: boolean;
+			name: string;
+			address: string;
+			city: string;
+			state: string;
+			zip: string;
+			country: string;
+			phone_number: string;
+			userId: number;
+			created_at: string;
+			updated_at: string;
+		};
+		promo?: {
+			__typename?: "Promo";
+			id: number;
+			name: string;
+			code: string;
+			discount_amount: number;
+			isDiscountAmountPercentage: boolean;
+			starts_at: string;
+			expires_at: string;
+			created_at: string;
+			updated_at: string;
+		} | null;
+		paymentdetails?: Array<{
+			__typename?: "PaymentDetail";
+			orderId: string;
+			amount: number;
+			provider: string;
+			status: string;
+			created_at: string;
+			updated_at: string;
+		}> | null;
+		orderitems: Array<{
+			__typename?: "OrderItem";
+			id: number;
+			quantity: number;
+			created_at: string;
+			updated_at: string;
+			inventory?: {
+				__typename?: "ProductInventory";
+				inventory_id: number;
+				quantity: number;
+				price: number;
+				created_at: string;
+				updated_at: string;
+				product: {
+					__typename?: "Product";
+					id: number;
+					identifier: string;
+					name: string;
+					desc: string;
+					categoryId: number;
+					discountId?: number | null;
+					created_at: string;
+					updated_at: string;
+					images: Array<{
+						__typename?: "ProductImage";
+						id: number;
+						imageURL: string;
+						productId: number;
+						created_at: string;
+						updated_at: string;
+					}>;
+					category: {
+						__typename?: "ProductCategory";
+						id: number;
+						name: string;
+						identifier: string;
+						desc: string;
+						imageURL: string;
+						created_at: string;
+						updated_at: string;
+					};
+					discount?: {
+						__typename?: "Discount";
+						id: number;
+						name: string;
+						desc: string;
+						discount_percent: number;
+						active: boolean;
+						created_at: string;
+						updated_at: string;
+					} | null;
+				};
+				variants?: Array<{
+					__typename?: "ProductVariant";
+					product_variant_id: number;
+					created_at: string;
+					updated_at: string;
+					variant_value: {
+						__typename?: "VariantValue";
+						value_id: number;
+						value: string;
+						created_at: string;
+						updated_at: string;
+						variant: {
+							__typename?: "Variant";
+							variant_id: number;
+							variant_name: string;
+							created_at: string;
+							updated_at: string;
+						};
+					};
+				}> | null;
+				carts?: Array<{
+					__typename?: "Cart";
+					id: number;
+					userId: number;
+					quantity: number;
+					inventoryId: number;
+					created_at: string;
+					updated_at: string;
+				}> | null;
+			} | null;
+		}>;
 	};
 };
 
@@ -2540,15 +2660,10 @@ export type UpdateCartMutationOptions = Apollo.BaseMutationOptions<
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($options: CreateOrderInput!) {
 		createOrder(options: $options) {
-			id
-			userId
-			addressId
-			promoId
-			status
-			created_at
-			updated_at
+			...OrderDetailFragment
 		}
 	}
+	${OrderDetailFragmentFragmentDoc}
 `;
 export type CreateOrderMutationFn = Apollo.MutationFunction<
 	CreateOrderMutation,

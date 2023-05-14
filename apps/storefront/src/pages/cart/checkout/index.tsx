@@ -11,6 +11,7 @@ import {
 	useCreatePaymentMutation,
 	useMeQuery,
 } from "@/generated/graphql";
+import { capitalize } from "@/utils/helpers";
 import {
 	Stack,
 	Box,
@@ -91,13 +92,29 @@ const CheckoutPage = () => {
 			return;
 		}
 
+		const subTotal =
+			orderData.createOrder.orderitems?.reduce(
+				(accumulator, item) =>
+					accumulator + item.quantity * item!.inventory!.price,
+				0
+			) ?? 0;
+
+		const discount =
+			(orderData.createOrder.promo?.isDiscountAmountPercentage
+				? (subTotal * orderData.createOrder.promo.discount_amount) / 100
+				: orderData.createOrder.promo?.discount_amount) ?? 0;
+
+		const shipping = values.shippingMethod === "standard" ? 150 : 300;
+
+		const total = subTotal - discount + shipping;
+
 		const response = await fetch("/api/payment", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				amount: 1300,
+				amount: total * 10,
 				purchase_order_id: orderData?.createOrder.id ?? "order-id",
 				purchase_order_name: "Hamropasal Payment",
 				customer_info: {
@@ -107,23 +124,28 @@ const CheckoutPage = () => {
 				},
 				amount_breakdown: [
 					{
-						label: "Delivery Charges",
-						amount: 1000,
+						label: "Sub Total",
+						amount: (subTotal - discount) * 10,
 					},
 					{
-						label: "VAT",
-						amount: 300,
+						label: "Shipping Charges",
+						amount: shipping * 10,
 					},
 				],
-				product_details: [
-					{
-						identity: "1234567890",
-						name: "Delivery Charges",
-						total_price: 1300,
-						quantity: 1,
-						unit_price: 1300,
-					},
-				],
+				product_details: orderData.createOrder.orderitems.map((item) => ({
+					identity: `${item.inventory?.product.name}-${
+						item.inventory?.variants
+							?.map((variant) =>
+								capitalize(variant.variant_value.value as string)
+							)
+							.sort()
+							.join("-") ?? ""
+					}`,
+					name: item.inventory?.product.name,
+					total_price: item.quantity * (item.inventory?.price ?? 0) * 10,
+					quantity: item.quantity,
+					unit_price: item.inventory?.price ?? 0 * 10,
+				})),
 			}),
 		});
 

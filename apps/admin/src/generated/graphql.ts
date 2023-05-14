@@ -69,6 +69,18 @@ export type Cart = {
 	userId: Scalars["Int"];
 };
 
+export type CreateOrderInput = {
+	addressId: Scalars["Float"];
+	promoCode: Scalars["String"];
+};
+
+export type CreatePaymentInput = {
+	orderId: Scalars["String"];
+	pidx: Scalars["String"];
+	promoCode: Scalars["String"];
+	provider: Scalars["String"];
+};
+
 export type Discount = {
 	__typename?: "Discount";
 	active: Scalars["Boolean"];
@@ -103,6 +115,7 @@ export type Mutation = {
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	createOrder: OrderDetail;
+	createPayment: PaymentDetail;
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
@@ -117,6 +130,7 @@ export type Mutation = {
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
 	updatePassword: UserResponse;
+	updateStatus: OrderDetail;
 	verifyEmail: Scalars["Boolean"];
 };
 
@@ -145,7 +159,11 @@ export type MutationChangePasswordArgs = {
 };
 
 export type MutationCreateOrderArgs = {
-	options: OrderInput;
+	options: CreateOrderInput;
+};
+
+export type MutationCreatePaymentArgs = {
+	options: CreatePaymentInput;
 };
 
 export type MutationDeleteAddressArgs = {
@@ -207,6 +225,11 @@ export type MutationUpdatePasswordArgs = {
 	newPassword: Scalars["String"];
 };
 
+export type MutationUpdateStatusArgs = {
+	orderId: Scalars["String"];
+	pidx: Scalars["String"];
+};
+
 export type MutationVerifyEmailArgs = {
 	token: Scalars["String"];
 };
@@ -226,22 +249,13 @@ export type OrderDetail = {
 	userId: Scalars["Int"];
 };
 
-export type OrderInput = {
-	addressId: Scalars["Float"];
-	country: Scalars["String"];
-	phone_number: Scalars["String"];
-	pidx: Scalars["String"];
-	promoCode: Scalars["String"];
-	provider: Scalars["String"];
-	state: Scalars["String"];
-	zip: Scalars["String"];
-};
-
 export type OrderItem = {
 	__typename?: "OrderItem";
 	created_at: Scalars["String"];
 	id: Scalars["Int"];
 	inventory?: Maybe<ProductInventory>;
+	inventoryId: Scalars["Int"];
+	orderId: Scalars["String"];
 	orderdetail: OrderDetail;
 	quantity: Scalars["Int"];
 	updated_at: Scalars["String"];
@@ -251,10 +265,12 @@ export type PaymentDetail = {
 	__typename?: "PaymentDetail";
 	amount: Scalars["Float"];
 	created_at: Scalars["String"];
+	id: Scalars["String"];
 	orderId: Scalars["String"];
 	orderdetail: OrderDetail;
 	provider: Scalars["String"];
 	status: Scalars["String"];
+	transactionId?: Maybe<Scalars["String"]>;
 	updated_at: Scalars["String"];
 };
 
@@ -362,11 +378,16 @@ export type Query = {
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
+	orderById?: Maybe<OrderDetail>;
 	orders?: Maybe<Array<OrderDetail>>;
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
 	roles: Array<UserRole>;
+};
+
+export type QueryOrderByIdArgs = {
+	orderId: Scalars["String"];
 };
 
 export type QueryProductArgs = {
