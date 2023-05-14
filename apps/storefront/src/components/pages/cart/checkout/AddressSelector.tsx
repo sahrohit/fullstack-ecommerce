@@ -61,7 +61,7 @@ const AddressSelector = ({ control }: AddressSelectorProps) => {
 							))
 					: addresses?.addresses?.map((address) => (
 							<AddressSelectorRadio
-								{...getRadioProps({ value: `checkout-address-${address.id}` })}
+								{...getRadioProps({ value: `${address.id}` })}
 								key={`checkout-address-${address.id}`}
 								address={address}
 							/>
