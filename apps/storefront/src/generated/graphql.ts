@@ -378,11 +378,16 @@ export type Query = {
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
+	orderById?: Maybe<OrderDetail>;
 	orders?: Maybe<Array<OrderDetail>>;
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
 	roles: Array<UserRole>;
+};
+
+export type QueryOrderByIdArgs = {
+	orderId: Scalars["String"];
 };
 
 export type QueryProductArgs = {
@@ -527,6 +532,126 @@ export type OrderDetailFragmentFragment = {
 	status: string;
 	created_at: string;
 	updated_at: string;
+	address: {
+		__typename?: "Address";
+		id: number;
+		type: string;
+		isDefault: boolean;
+		name: string;
+		address: string;
+		city: string;
+		state: string;
+		zip: string;
+		country: string;
+		phone_number: string;
+		userId: number;
+		created_at: string;
+		updated_at: string;
+	};
+	promo?: {
+		__typename?: "Promo";
+		id: number;
+		name: string;
+		code: string;
+		discount_amount: number;
+		isDiscountAmountPercentage: boolean;
+		starts_at: string;
+		expires_at: string;
+		created_at: string;
+		updated_at: string;
+	} | null;
+	paymentdetails?: Array<{
+		__typename?: "PaymentDetail";
+		orderId: string;
+		amount: number;
+		provider: string;
+		status: string;
+		created_at: string;
+		updated_at: string;
+	}> | null;
+	orderitems: Array<{
+		__typename?: "OrderItem";
+		id: number;
+		quantity: number;
+		created_at: string;
+		updated_at: string;
+		inventory?: {
+			__typename?: "ProductInventory";
+			inventory_id: number;
+			quantity: number;
+			price: number;
+			created_at: string;
+			updated_at: string;
+			product: {
+				__typename?: "Product";
+				id: number;
+				identifier: string;
+				name: string;
+				desc: string;
+				categoryId: number;
+				discountId?: number | null;
+				created_at: string;
+				updated_at: string;
+				images: Array<{
+					__typename?: "ProductImage";
+					id: number;
+					imageURL: string;
+					productId: number;
+					created_at: string;
+					updated_at: string;
+				}>;
+				category: {
+					__typename?: "ProductCategory";
+					id: number;
+					name: string;
+					identifier: string;
+					desc: string;
+					imageURL: string;
+					created_at: string;
+					updated_at: string;
+				};
+				discount?: {
+					__typename?: "Discount";
+					id: number;
+					name: string;
+					desc: string;
+					discount_percent: number;
+					active: boolean;
+					created_at: string;
+					updated_at: string;
+				} | null;
+			};
+			variants?: Array<{
+				__typename?: "ProductVariant";
+				product_variant_id: number;
+				created_at: string;
+				updated_at: string;
+				variant_value: {
+					__typename?: "VariantValue";
+					value_id: number;
+					value: string;
+					created_at: string;
+					updated_at: string;
+					variant: {
+						__typename?: "Variant";
+						variant_id: number;
+						variant_name: string;
+						created_at: string;
+						updated_at: string;
+					};
+				};
+			}> | null;
+			carts?: Array<{
+				__typename?: "Cart";
+				id: number;
+				userId: number;
+				quantity: number;
+				inventoryId: number;
+				created_at: string;
+				updated_at: string;
+			}> | null;
+		} | null;
+	}>;
 };
 
 export type OrderItemFragmentFragment = {
@@ -1338,6 +1463,144 @@ export type CategoriesQuery = {
 	}>;
 };
 
+export type OrderByIdQueryVariables = Exact<{
+	orderId: Scalars["String"];
+}>;
+
+export type OrderByIdQuery = {
+	__typename?: "Query";
+	orderById?: {
+		__typename?: "OrderDetail";
+		id: string;
+		userId: number;
+		addressId: number;
+		promoId?: number | null;
+		status: string;
+		created_at: string;
+		updated_at: string;
+		address: {
+			__typename?: "Address";
+			id: number;
+			type: string;
+			isDefault: boolean;
+			name: string;
+			address: string;
+			city: string;
+			state: string;
+			zip: string;
+			country: string;
+			phone_number: string;
+			userId: number;
+			created_at: string;
+			updated_at: string;
+		};
+		promo?: {
+			__typename?: "Promo";
+			id: number;
+			name: string;
+			code: string;
+			discount_amount: number;
+			isDiscountAmountPercentage: boolean;
+			starts_at: string;
+			expires_at: string;
+			created_at: string;
+			updated_at: string;
+		} | null;
+		paymentdetails?: Array<{
+			__typename?: "PaymentDetail";
+			orderId: string;
+			amount: number;
+			provider: string;
+			status: string;
+			created_at: string;
+			updated_at: string;
+		}> | null;
+		orderitems: Array<{
+			__typename?: "OrderItem";
+			id: number;
+			quantity: number;
+			created_at: string;
+			updated_at: string;
+			inventory?: {
+				__typename?: "ProductInventory";
+				inventory_id: number;
+				quantity: number;
+				price: number;
+				created_at: string;
+				updated_at: string;
+				product: {
+					__typename?: "Product";
+					id: number;
+					identifier: string;
+					name: string;
+					desc: string;
+					categoryId: number;
+					discountId?: number | null;
+					created_at: string;
+					updated_at: string;
+					images: Array<{
+						__typename?: "ProductImage";
+						id: number;
+						imageURL: string;
+						productId: number;
+						created_at: string;
+						updated_at: string;
+					}>;
+					category: {
+						__typename?: "ProductCategory";
+						id: number;
+						name: string;
+						identifier: string;
+						desc: string;
+						imageURL: string;
+						created_at: string;
+						updated_at: string;
+					};
+					discount?: {
+						__typename?: "Discount";
+						id: number;
+						name: string;
+						desc: string;
+						discount_percent: number;
+						active: boolean;
+						created_at: string;
+						updated_at: string;
+					} | null;
+				};
+				variants?: Array<{
+					__typename?: "ProductVariant";
+					product_variant_id: number;
+					created_at: string;
+					updated_at: string;
+					variant_value: {
+						__typename?: "VariantValue";
+						value_id: number;
+						value: string;
+						created_at: string;
+						updated_at: string;
+						variant: {
+							__typename?: "Variant";
+							variant_id: number;
+							variant_name: string;
+							created_at: string;
+							updated_at: string;
+						};
+					};
+				}> | null;
+				carts?: Array<{
+					__typename?: "Cart";
+					id: number;
+					userId: number;
+					quantity: number;
+					inventoryId: number;
+					created_at: string;
+					updated_at: string;
+				}> | null;
+			} | null;
+		}>;
+	} | null;
+};
+
 export type OrdersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type OrdersQuery = {
@@ -1697,13 +1960,15 @@ export const AddressFragmentFragmentDoc = gql`
 		updated_at
 	}
 `;
-export const OrderDetailFragmentFragmentDoc = gql`
-	fragment OrderDetailFragment on OrderDetail {
+export const PromoFragmentFragmentDoc = gql`
+	fragment PromoFragment on Promo {
 		id
-		userId
-		addressId
-		promoId
-		status
+		name
+		code
+		discount_amount
+		isDiscountAmountPercentage
+		starts_at
+		expires_at
 		created_at
 		updated_at
 	}
@@ -1831,6 +2096,37 @@ export const OrderItemFragmentFragmentDoc = gql`
 	${CategoryFragmentFragmentDoc}
 	${DiscountFragmentFragmentDoc}
 `;
+export const OrderDetailFragmentFragmentDoc = gql`
+	fragment OrderDetailFragment on OrderDetail {
+		id
+		userId
+		addressId
+		address {
+			...AddressFragment
+		}
+		promoId
+		promo {
+			...PromoFragment
+		}
+		status
+		paymentdetails {
+			orderId
+			amount
+			provider
+			status
+			created_at
+			updated_at
+		}
+		orderitems {
+			...OrderItemFragment
+		}
+		created_at
+		updated_at
+	}
+	${AddressFragmentFragmentDoc}
+	${PromoFragmentFragmentDoc}
+	${OrderItemFragmentFragmentDoc}
+`;
 export const ProductFragmentFragmentDoc = gql`
 	fragment ProductFragment on Product {
 		id
@@ -1858,19 +2154,6 @@ export const ProductFragmentFragmentDoc = gql`
 	${CategoryFragmentFragmentDoc}
 	${ProductInventoryFragmentFragmentDoc}
 	${DiscountFragmentFragmentDoc}
-`;
-export const PromoFragmentFragmentDoc = gql`
-	fragment PromoFragment on Promo {
-		id
-		name
-		code
-		discount_amount
-		isDiscountAmountPercentage
-		starts_at
-		expires_at
-		created_at
-		updated_at
-	}
 `;
 export const RegularErrorFragmentDoc = gql`
 	fragment RegularError on FieldError {
@@ -2369,35 +2652,10 @@ export type CreatePaymentMutationOptions = Apollo.BaseMutationOptions<
 export const UpdateStatusDocument = gql`
 	mutation UpdateStatus($pidx: String!, $orderId: String!) {
 		updateStatus(pidx: $pidx, orderId: $orderId) {
-			id
-			userId
-			addressId
-			address {
-				...AddressFragment
-			}
-			promoId
-			promo {
-				...PromoFragment
-			}
-			status
-			paymentdetails {
-				orderId
-				amount
-				provider
-				status
-				created_at
-				updated_at
-			}
-			orderitems {
-				...OrderItemFragment
-			}
-			created_at
-			updated_at
+			...OrderDetailFragment
 		}
 	}
-	${AddressFragmentFragmentDoc}
-	${PromoFragmentFragmentDoc}
-	${OrderItemFragmentFragmentDoc}
+	${OrderDetailFragmentFragmentDoc}
 `;
 export type UpdateStatusMutationFn = Apollo.MutationFunction<
 	UpdateStatusMutation,
@@ -2889,38 +3147,67 @@ export type CategoriesQueryResult = Apollo.QueryResult<
 	CategoriesQuery,
 	CategoriesQueryVariables
 >;
+export const OrderByIdDocument = gql`
+	query OrderById($orderId: String!) {
+		orderById(orderId: $orderId) {
+			...OrderDetailFragment
+		}
+	}
+	${OrderDetailFragmentFragmentDoc}
+`;
+
+/**
+ * __useOrderByIdQuery__
+ *
+ * To run a query within a React component, call `useOrderByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrderByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrderByIdQuery({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useOrderByIdQuery(
+	baseOptions: Apollo.QueryHookOptions<OrderByIdQuery, OrderByIdQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<OrderByIdQuery, OrderByIdQueryVariables>(
+		OrderByIdDocument,
+		options
+	);
+}
+export function useOrderByIdLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		OrderByIdQuery,
+		OrderByIdQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<OrderByIdQuery, OrderByIdQueryVariables>(
+		OrderByIdDocument,
+		options
+	);
+}
+export type OrderByIdQueryHookResult = ReturnType<typeof useOrderByIdQuery>;
+export type OrderByIdLazyQueryHookResult = ReturnType<
+	typeof useOrderByIdLazyQuery
+>;
+export type OrderByIdQueryResult = Apollo.QueryResult<
+	OrderByIdQuery,
+	OrderByIdQueryVariables
+>;
 export const OrdersDocument = gql`
 	query Orders {
 		orders {
-			id
-			userId
-			addressId
-			address {
-				...AddressFragment
-			}
-			promoId
-			promo {
-				...PromoFragment
-			}
-			status
-			paymentdetails {
-				orderId
-				amount
-				provider
-				status
-				created_at
-				updated_at
-			}
-			orderitems {
-				...OrderItemFragment
-			}
-			created_at
-			updated_at
+			...OrderDetailFragment
 		}
 	}
-	${AddressFragmentFragmentDoc}
-	${PromoFragmentFragmentDoc}
-	${OrderItemFragmentFragmentDoc}
+	${OrderDetailFragmentFragmentDoc}
 `;
 
 /**

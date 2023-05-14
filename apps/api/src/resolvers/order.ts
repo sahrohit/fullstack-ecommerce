@@ -48,12 +48,12 @@ export class OrderResolver {
 		});
 	}
 
-	@Query(() => [OrderDetail], { nullable: true })
+	@Query(() => OrderDetail, { nullable: true })
 	@UseMiddleware(isVerified)
 	orderById(
 		@Arg("orderId", () => String) orderId: string,
 		@Ctx() { req }: MyContext
-	) {
+	): Promise<OrderDetail | null> {
 		return OrderDetail.findOne({
 			relations: {
 				orderitems: {
