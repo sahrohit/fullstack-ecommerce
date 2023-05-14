@@ -1,28 +1,25 @@
 import { InputType, Field } from "type-graphql";
 
 @InputType()
-export default class OrderInput {
+export class CreateOrderInput {
 	@Field()
 	promoCode!: string;
 
 	@Field()
 	addressId!: number;
+}
+
+@InputType()
+export class CreatePaymentInput {
+	@Field()
+	orderId!: string;
 
 	@Field()
 	pidx!: string;
 
 	@Field()
+	promoCode!: string;
+
+	@Field()
 	provider!: string;
-
-	@Field()
-	state!: string;
-
-	@Field()
-	zip!: string;
-
-	@Field()
-	country!: string;
-
-	@Field()
-	phone_number!: string;
 }
