@@ -16,7 +16,7 @@ export default async function handler(
 		{
 			method: "POST",
 			body: JSON.stringify({
-				return_url: `${APP_URL}/payment/success`,
+				return_url: `${APP_URL}/cart/checkout/result`,
 				website_url: APP_URL,
 				...req.body,
 			}),
