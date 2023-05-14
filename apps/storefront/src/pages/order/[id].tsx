@@ -77,8 +77,6 @@ const OrderPage = () => {
 		);
 	}
 
-	console.log("Data", data);
-
 	return (
 		<SimpleGrid placeItems="center" minH="100vh">
 			<Stack
