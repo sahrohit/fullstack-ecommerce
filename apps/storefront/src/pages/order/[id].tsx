@@ -233,7 +233,7 @@ const OrderPage = () => {
 
 export default OrderPage;
 
-const OrderInfo = ({
+export const OrderInfo = ({
 	label,
 	children,
 }: {

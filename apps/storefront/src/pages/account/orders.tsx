@@ -1,21 +1,41 @@
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import OrderCard from "@/components/pages/account/order/OrderCard";
-import ORDERS from "@/data/order";
+import Result from "@/components/shared/Result";
+import { OrderDetail, useOrdersQuery } from "@/generated/graphql";
 import withProtected from "@/routes/withProtected";
-import { SimpleGrid, Stack } from "@chakra-ui/react";
+import { Stack, VStack } from "@chakra-ui/react";
 
-const OrdersPage = () => (
-	<Stack gap={4}>
-		<HeadingGroup
-			title="Orders"
-			description="Here are your orders, you can track them here"
-		/>
-		<SimpleGrid columns={[1, 1, 1, 1, 2]} gap={4} w="full">
-			{ORDERS.map((order) => (
-				<OrderCard key={order.id} />
-			))}
-		</SimpleGrid>
-	</Stack>
-);
+const OrdersPage = () => {
+	const { data, loading, error } = useOrdersQuery();
+
+	if (loading) {
+		return <p>Loading...</p>;
+	}
+
+	if (error) {
+		return (
+			<Result
+				heading={error.name}
+				type="error"
+				text={error.message}
+				dump={error.stack}
+			/>
+		);
+	}
+
+	return (
+		<Stack gap={4}>
+			<HeadingGroup
+				title="Orders"
+				description="Check the status of recent orders, manage returns, and download invoices."
+			/>
+			<VStack gap={4} w="full">
+				{data?.orders?.map((order) => (
+					<OrderCard orderItem={order as OrderDetail} key={order.id} />
+				))}
+			</VStack>
+		</Stack>
+	);
+};
 
 export default withProtected(OrdersPage);

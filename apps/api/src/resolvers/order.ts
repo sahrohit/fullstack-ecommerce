@@ -47,6 +47,9 @@ export class OrderResolver {
 				promo: true,
 			},
 			where: { userId: req.session.userId },
+			order: {
+				created_at: "DESC",
+			},
 		});
 	}
 

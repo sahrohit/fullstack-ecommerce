@@ -9,8 +9,8 @@ interface HeadingGroupProps extends StackProps {
 const HeadingGroup = (props: HeadingGroupProps) => {
 	const { title, description, ...stackProps } = props;
 	return (
-		<Stack spacing="1" {...stackProps}>
-			<Heading size="md" fontWeight="semibold">
+		<Stack spacing="1" {...stackProps} my={4}>
+			<Heading fontSize="3xl" fontWeight="semibold" lineHeight={1}>
 				{title}
 			</Heading>
 			<Text color={useColorModeValue("gray.600", "gray.400")}>
