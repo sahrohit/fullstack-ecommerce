@@ -80,7 +80,7 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 
 			<CardBody
 				as={Stack}
-				gap={2}
+				gap={{ base: 2, lg: 12 }}
 				alignItems="flex-start"
 				direction={{ base: "column", lg: "row" }}
 				overflowX="auto"
