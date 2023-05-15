@@ -1,4 +1,5 @@
 /* eslint-disable import/no-cycle */
+import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import {
@@ -63,7 +64,7 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 	const shippingPrice = watch("shippingMethod") === "standard" ? 150 : 300;
 
 	if (loading) {
-		return <p>Loading...</p>;
+		return <PageLoader />;
 	}
 
 	if (error || promoError)
@@ -78,7 +79,7 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 
 	if (data?.fetchCartItems?.length === 0) {
 		router.push("/cart");
-		return <p>Loading...</p>;
+		return <PageLoader />;
 	}
 
 	return (

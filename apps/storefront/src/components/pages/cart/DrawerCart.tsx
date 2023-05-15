@@ -26,6 +26,7 @@ import { Cart, useFetchCartItemsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
+import PageLoader from "@/components/shared/PageLoader";
 import DrawerCartItem from "./DrawerCartItem";
 import { CartItemSkeleton } from "./CartItem";
 
@@ -46,7 +47,7 @@ const DrawerCart = (props: DrawerCartProps) => {
 		[data]
 	);
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <PageLoader />;
 
 	if (error)
 		return (

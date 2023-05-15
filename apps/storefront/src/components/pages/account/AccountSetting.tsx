@@ -10,6 +10,7 @@ import {
 
 import { useMeQuery } from "@/generated/graphql";
 import dayjs from "dayjs";
+import PageLoader from "@/components/shared/PageLoader";
 import Card from "./Card";
 import FieldGroup from "./FieldGroup";
 
@@ -18,7 +19,7 @@ const AccountSettings = () => {
 		fetchPolicy: "cache-first",
 	});
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <PageLoader />;
 
 	if (error) return <p>Error: {error.message}</p>;
 

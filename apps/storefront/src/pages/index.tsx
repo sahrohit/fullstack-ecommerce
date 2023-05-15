@@ -6,12 +6,13 @@ import ProductGrid from "@/components/pages/product/ProductGrid";
 import ProductCard from "@/components/pages/product/ProductCard";
 import { Product, useProductsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
+import PageLoader from "@/components/shared/PageLoader";
 import { BRAND_NAME } from "../../constants";
 
 const HomePage = () => {
 	const { data, loading, error } = useProductsQuery();
 
-	if (loading) return <div>Loading...</div>;
+	if (loading) return <PageLoader />;
 
 	if (error)
 		return (

@@ -8,6 +8,7 @@ import {
 	VStack,
 	useToast,
 } from "@chakra-ui/react";
+import PageLoader from "../PageLoader";
 
 const UserProfile = () => {
 	const toast = useToast();
@@ -17,7 +18,7 @@ const UserProfile = () => {
 		refetchQueries: ["Me"],
 	});
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <PageLoader />;
 
 	if (error) return <p>Error: {error.message}</p>;
 

@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { Link } from "@chakra-ui/next-js";
+import PageLoader from "@/components/shared/PageLoader";
 
 const SuccessPage = () => {
 	const router = useRouter();
@@ -53,7 +54,7 @@ const SuccessPage = () => {
 	);
 
 	if (loading || !mounted) {
-		return <p>Loading...</p>;
+		return <PageLoader />;
 	}
 
 	if (error) {

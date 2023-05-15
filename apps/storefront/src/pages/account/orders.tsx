@@ -1,5 +1,6 @@
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import OrderCard from "@/components/pages/account/order/OrderCard";
+import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import { OrderDetail, useOrdersQuery } from "@/generated/graphql";
 import withProtected from "@/routes/withProtected";
@@ -9,7 +10,7 @@ const OrdersPage = () => {
 	const { data, loading, error } = useOrdersQuery();
 
 	if (loading) {
-		return <p>Loading...</p>;
+		return <PageLoader />;
 	}
 
 	if (error) {

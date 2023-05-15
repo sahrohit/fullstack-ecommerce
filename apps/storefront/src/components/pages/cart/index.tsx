@@ -15,6 +15,7 @@ import {
 import { FaArrowRight } from "react-icons/fa";
 import { Cart as ICart, useFetchCartItemsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
+import PageLoader from "@/components/shared/PageLoader";
 import CartItem, { CartItemSkeleton } from "./CartItem";
 import { CartOrderSummary } from "./CartOrderSummary";
 
@@ -23,7 +24,7 @@ const Cart = () => {
 
 	const linkColor = mode("blue.500", "blue.200");
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <PageLoader />;
 
 	if (error)
 		return (

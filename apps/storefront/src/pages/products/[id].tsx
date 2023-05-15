@@ -1,5 +1,6 @@
 import ProductDetails from "@/components/pages/product/ProductDetails";
 import ProductReview from "@/components/pages/product/review/ProductReview";
+import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import Navbar from "@/components/shared/navbar";
 import { Product, useProductByIdQuery } from "@/generated/graphql";
@@ -18,7 +19,7 @@ const ProductPage = () => {
 	});
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <PageLoader />;
 	}
 
 	if (error) {

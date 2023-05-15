@@ -2,6 +2,7 @@ import ProductCard from "@/components/pages/product/ProductCard";
 import ProductGrid from "@/components/pages/product/ProductGrid";
 import FilterLayout from "@/components/pages/product/filter/FilterLayout";
 import Footer from "@/components/shared/Footer";
+import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import Navbar from "@/components/shared/navbar";
 import { Product, useProductsQuery } from "@/generated/graphql";
@@ -9,7 +10,7 @@ import { Product, useProductsQuery } from "@/generated/graphql";
 const ProductFilterPage = () => {
 	const { data, loading, error } = useProductsQuery();
 
-	if (loading) return <div>Loading...</div>;
+	if (loading) return <PageLoader />;
 
 	if (error)
 		return (

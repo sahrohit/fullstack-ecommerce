@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 import { ReactNode, useMemo } from "react";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import { MdOutlineContentCopy } from "react-icons/md";
+import PageLoader from "@/components/shared/PageLoader";
 import { BRAND_NAME } from "../../../constants";
 
 const OrderPage = () => {
@@ -53,7 +54,7 @@ const OrderPage = () => {
 	);
 
 	if (loading || userLoading) {
-		return <p>Loading...</p>;
+		return <PageLoader />;
 	}
 
 	if (error || userError) {
