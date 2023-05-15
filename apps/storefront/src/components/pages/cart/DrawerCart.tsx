@@ -25,12 +25,14 @@ import { formatPrice } from "@/components/shared/product/PriceTag";
 import { Cart, useFetchCartItemsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
 import { useMemo } from "react";
+import { useRouter } from "next/router";
 import DrawerCartItem from "./DrawerCartItem";
 import { CartItemSkeleton } from "./CartItem";
 
 interface DrawerCartProps extends IconButtonProps {}
 
 const DrawerCart = (props: DrawerCartProps) => {
+	const router = useRouter();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const { data, loading, error } = useFetchCartItemsQuery();
@@ -129,6 +131,7 @@ const DrawerCart = (props: DrawerCartProps) => {
 								size="lg"
 								fontSize="md"
 								rightIcon={<FaArrowRight />}
+								onClick={() => router.push("/cart/checkout")}
 							>
 								Checkout
 							</Button>

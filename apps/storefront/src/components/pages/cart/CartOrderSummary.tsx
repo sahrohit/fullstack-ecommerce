@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { Link } from "@chakra-ui/next-js";
 import { useRouter } from "next/router";
 
 type OrderSummaryBillItemProps = {
@@ -58,14 +57,10 @@ export const CartOrderSummary = ({ data }: CartOrderSummaryProps) => {
 			<Stack spacing="6">
 				<OrderSummaryBillItem label="Subtotal" value={formatPrice(subTotal)} />
 				<OrderSummaryBillItem label="Shipping + Tax">
-					<Link href="/" textDecor="underline">
-						Calculate shipping
-					</Link>
+					<Text textDecor="underline">Calculated on checkout</Text>
 				</OrderSummaryBillItem>
 				<OrderSummaryBillItem label="Coupon Code">
-					<Link href="/" textDecor="underline">
-						Add coupon code
-					</Link>
+					<Text textDecor="underline">Calculated on checkout</Text>
 				</OrderSummaryBillItem>
 				<Flex justify="space-between">
 					<Text fontSize="lg" fontWeight="semibold">
