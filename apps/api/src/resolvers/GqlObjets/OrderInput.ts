@@ -1,4 +1,4 @@
-import { InputType, Field } from "type-graphql";
+import { InputType, Field, ObjectType } from "type-graphql";
 
 @InputType()
 export class CreateOrderInput {
@@ -7,10 +7,28 @@ export class CreateOrderInput {
 
 	@Field()
 	addressId!: number;
+
+	@Field()
+	shippingMethod!: string;
 }
 
 @InputType()
 export class CreatePaymentInput {
+	@Field()
+	orderId!: string;
+
+	@Field()
+	pidx!: string;
+
+	@Field()
+	promoCode!: string;
+
+	@Field()
+	provider!: string;
+}
+
+@ObjectType()
+export class CreateOrderResponse {
 	@Field()
 	orderId!: string;
 

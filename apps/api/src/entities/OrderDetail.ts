@@ -43,6 +43,10 @@ export class OrderDetail extends BaseEntity {
 	@Column()
 	addressId!: number;
 
+	@Field(() => Int)
+	@Column({ default: 99900 })
+	amount!: number;
+
 	@Field(() => Address)
 	@ManyToOne(() => Address, (address) => address.orderdetails)
 	address!: Address;

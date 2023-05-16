@@ -72,6 +72,7 @@ export type Cart = {
 export type CreateOrderInput = {
 	addressId: Scalars["Float"];
 	promoCode: Scalars["String"];
+	shippingMethod: Scalars["String"];
 };
 
 export type CreatePaymentInput = {
@@ -114,7 +115,7 @@ export type Mutation = {
 	addToCart: Cart;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
-	createOrder: OrderDetail;
+	createOrder: Scalars["String"];
 	createPayment: PaymentDetail;
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];

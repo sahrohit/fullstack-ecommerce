@@ -14,6 +14,8 @@ import { CreateOrderInput, CreatePaymentInput } from "./GqlObjets/OrderInput";
 import { Promo } from "src/entities/Promo";
 import { PaymentDetail, PaymentStatus } from "src/entities/PaymentDetail";
 import { OrderItem } from "src/entities/OrderItem";
+import { User } from "src/entities/User";
+import { capitalize } from "src/utils/helpers";
 
 @Resolver()
 export class OrderResolver {
@@ -89,31 +91,108 @@ export class OrderResolver {
 		});
 	}
 
-	@Mutation(() => OrderDetail)
+	@Mutation(() => String)
 	@UseMiddleware(isVerified)
 	async createOrder(
 		@Arg("options", () => CreateOrderInput) options: CreateOrderInput,
 		@Ctx() { req }: MyContext
-	): Promise<OrderDetail> {
+	): Promise<string> {
+		// Getting Current User Information
 		const userId = req.session.userId;
+		const userRes = await User.findOneByOrFail({ id: userId });
 
+		// Getting Cart Items
 		const cartRes = await Cart.find({
 			relations: {
-				inventory: true,
+				inventory: {
+					product: {
+						inventories: {
+							variants: {
+								variant_value: {
+									variant: true,
+								},
+							},
+						},
+					},
+				},
 			},
 			where: {
 				userId,
 			},
 		});
 
+		// Getting Promo Information by Promo Code
 		const promo = await Promo.findOneBy({ code: options.promoCode });
 
+		// Calculating Sub Total, Shipping, Discount and Total
+		const subTotal = cartRes.reduce(
+			(acc, item) => acc + item.inventory.price * item.quantity,
+			0
+		);
+		const discount =
+			(promo?.isDiscountAmountPercentage
+				? (subTotal * promo.discount_amount) / 100
+				: promo?.discount_amount) ?? 0;
+		const shipping = options.shippingMethod === "standard" ? 150 : 300;
+		const total = subTotal - discount + shipping;
+
+		// Creating Order
 		const orderRes = await OrderDetail.create({
 			addressId: options.addressId,
 			promoId: promo?.id,
 			userId,
 			status: "PENDING",
+			amount: total,
 		}).save();
+
+		const resposne = await fetch(
+			"https://a.khalti.com/api/v2/epayment/initiate/",
+			{
+				method: "POST",
+				body: JSON.stringify({
+					return_url: `${req.get("referer")}/cart/checkout/result`,
+					website_url: req.get("referer"),
+					amount: total * 10,
+					purchase_order_id: orderRes.id ?? "order-id",
+					purchase_order_name: "Hamropasal Payment",
+					customer_info: {
+						name: `${userRes?.first_name} ${userRes?.last_name}`,
+						email: userRes?.email,
+						phone: userRes?.phone_number ?? 9800000000,
+					},
+					amount_breakdown: [
+						{
+							label: "Sub Total",
+							amount: (subTotal - discount) * 10,
+						},
+						{
+							label: "Shipping Charges",
+							amount: shipping * 10,
+						},
+					],
+					product_details: cartRes.map((item) => ({
+						identity: `${item.inventory?.product.name}-${
+							item.inventory?.variants
+								?.map((variant) =>
+									capitalize(variant.variant_value.value as string)
+								)
+								.sort()
+								.join("-") ?? ""
+						}`,
+						name: item.inventory?.product.name,
+						total_price: item.quantity * (item.inventory?.price ?? 0) * 10,
+						quantity: item.quantity,
+						unit_price: item.inventory?.price ?? 0 * 10,
+					})),
+				}),
+				headers: {
+					"content-type": "application/json",
+					Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
+				},
+			}
+		);
+
+		const { pidx, payment_url } = await resposne.json();
 
 		await OrderItem.insert(
 			cartRes.map((cartitem) => ({
@@ -127,13 +206,28 @@ export class OrderResolver {
 			userId,
 		});
 
-		return OrderDetail.findOneOrFail({
+		await PaymentDetail.create({
+			id: pidx,
+			amount: total,
+			provider: "khalti",
+			orderId: orderRes.id,
+			status: "PENDING",
+		}).save();
+
+		return payment_url as string;
+	}
+
+	@Mutation(() => String)
+	@UseMiddleware(isVerified)
+	async createPayment(
+		@Arg("options", () => CreatePaymentInput) options: CreatePaymentInput,
+		@Ctx() { req }: MyContext
+	): Promise<string> {
+		const orderRes = await OrderDetail.findOneOrFail({
 			relations: {
 				orderitems: {
 					inventory: {
 						product: {
-							images: true,
-							category: true,
 							inventories: {
 								variants: {
 									variant_value: {
@@ -142,56 +236,76 @@ export class OrderResolver {
 								},
 							},
 						},
-						variants: {
-							variant_value: {
-								variant: true,
-							},
-						},
 					},
 				},
-				address: true,
+				user: true,
 				paymentdetails: true,
-				promo: true,
 			},
-			where: { id: orderRes.id },
-		});
-	}
-
-	@Mutation(() => PaymentDetail)
-	@UseMiddleware(isVerified)
-	async createPayment(
-		@Arg("options", () => CreatePaymentInput) options: CreatePaymentInput
-		// @Ctx() { req }: MyContext
-	): Promise<PaymentDetail> {
-		const cartRes = await OrderItem.find({
-			relations: {
-				inventory: true,
-			},
-			where: {
-				orderId: options.orderId,
-			},
+			where: { id: options.orderId },
 		});
 
-		const promo = await Promo.findOneBy({ code: options.promoCode });
-
-		const subTotal = cartRes.reduce(
-			(accumulator, item) => accumulator + item.quantity * item.inventory.price,
-			0
+		const successPayment = orderRes.paymentdetails.find(
+			(payment) => payment.status === "COMPLETED"
 		);
-		const discountAmount =
-			(promo?.isDiscountAmountPercentage
-				? (subTotal * promo.discount_amount) / 100
-				: promo?.discount_amount) ?? 0;
 
-		const total = subTotal - discountAmount;
+		if (successPayment) {
+			throw new Error("Payment Already Completed");
+		}
 
-		return PaymentDetail.create({
-			id: options.pidx,
-			amount: total,
-			provider: options.provider,
+		const resposne = await fetch(
+			"https://a.khalti.com/api/v2/epayment/initiate/",
+			{
+				method: "POST",
+				body: JSON.stringify({
+					return_url: `${req.get("referer")}/cart/checkout/result`,
+					website_url: req.get("referer"),
+					amount: orderRes.amount * 10,
+					purchase_order_id: orderRes.id ?? "order-id",
+					purchase_order_name: "Hamropasal Payment",
+					customer_info: {
+						name: `${orderRes.user?.first_name} ${orderRes.user?.last_name}`,
+						email: orderRes.user?.email,
+						phone: orderRes.user?.phone_number ?? 9800000000,
+					},
+					amount_breakdown: [
+						{
+							label: "Re-attempt Payment",
+							amount: orderRes.amount * 10,
+						},
+					],
+					product_details: orderRes.orderitems.map((item) => ({
+						identity: `${item.inventory?.product.name}-${
+							item.inventory?.variants
+								?.map((variant) =>
+									capitalize(variant.variant_value.value as string)
+								)
+								.sort()
+								.join("-") ?? ""
+						}`,
+						name: item.inventory?.product.name,
+						total_price: item.quantity * (item.inventory?.price ?? 0) * 10,
+						quantity: item.quantity,
+						unit_price: item.inventory?.price ?? 0 * 10,
+					})),
+				}),
+				headers: {
+					"content-type": "application/json",
+					Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
+				},
+			}
+		);
+
+		const { pidx, payment_url } = await resposne.json();
+
+		await PaymentDetail.create({
+			id: pidx,
+			amount: orderRes.amount,
+			provider: "khalti",
 			orderId: options.orderId,
 			status: "PENDING",
 		}).save();
+
+		return payment_url as string;
 	}
 
 	@Mutation(() => OrderDetail)

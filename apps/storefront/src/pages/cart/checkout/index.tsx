@@ -6,12 +6,7 @@ import OrderSummary from "@/components/pages/cart/checkout/OrderSummary";
 import PaymentSelector from "@/components/pages/cart/checkout/PaymentSelector";
 import ShippingMethod from "@/components/pages/cart/checkout/ShippingMethod";
 import ModalButton from "@/components/ui/ModalButton";
-import {
-	useCreateOrderMutation,
-	useCreatePaymentMutation,
-	useMeQuery,
-} from "@/generated/graphql";
-import { capitalize } from "@/utils/helpers";
+import { useCreateOrderMutation } from "@/generated/graphql";
 import {
 	Stack,
 	Box,
@@ -45,9 +40,7 @@ const CheckutFormSchema = Yup.object({
 });
 
 const CheckoutPage = () => {
-	const { data } = useMeQuery();
 	const [createOrderMutation] = useCreateOrderMutation();
-	const [createPaymentMutation] = useCreatePaymentMutation();
 
 	const toast = useToast();
 	const bgColor = mode("gray.50", "gray.700");
@@ -79,90 +72,26 @@ const CheckoutPage = () => {
 	};
 
 	const handleCheckout = async (values: CheckoutForm) => {
-		const { data: orderData } = await createOrderMutation({
+		const { data: createOrder } = await createOrderMutation({
 			variables: {
 				options: {
 					addressId: Number(values.addressId),
 					promoCode: values.promoCode,
+					shippingMethod: "standard",
 				},
 			},
 		});
 
-		if (!orderData?.createOrder.id) {
+		if (!createOrder?.createOrder) {
+			toast({
+				title: "Something went wrong",
+				status: "error",
+				duration: 2000,
+			});
 			return;
 		}
 
-		const subTotal =
-			orderData.createOrder.orderitems?.reduce(
-				(accumulator, item) =>
-					accumulator + item.quantity * item!.inventory!.price,
-				0
-			) ?? 0;
-
-		const discount =
-			(orderData.createOrder.promo?.isDiscountAmountPercentage
-				? (subTotal * orderData.createOrder.promo.discount_amount) / 100
-				: orderData.createOrder.promo?.discount_amount) ?? 0;
-
-		const shipping = values.shippingMethod === "standard" ? 150 : 300;
-
-		const total = subTotal - discount + shipping;
-
-		const response = await fetch("/api/payment", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				amount: total * 10,
-				purchase_order_id: orderData?.createOrder.id ?? "order-id",
-				purchase_order_name: "Hamropasal Payment",
-				customer_info: {
-					name: `${data?.me?.first_name} ${data?.me?.last_name}`,
-					email: data?.me?.email,
-					phone: data?.me?.phone_number ?? 9800000000,
-				},
-				amount_breakdown: [
-					{
-						label: "Sub Total",
-						amount: (subTotal - discount) * 10,
-					},
-					{
-						label: "Shipping Charges",
-						amount: shipping * 10,
-					},
-				],
-				product_details: orderData.createOrder.orderitems.map((item) => ({
-					identity: `${item.inventory?.product.name}-${
-						item.inventory?.variants
-							?.map((variant) =>
-								capitalize(variant.variant_value.value as string)
-							)
-							.sort()
-							.join("-") ?? ""
-					}`,
-					name: item.inventory?.product.name,
-					total_price: item.quantity * (item.inventory?.price ?? 0) * 10,
-					quantity: item.quantity,
-					unit_price: item.inventory?.price ?? 0 * 10,
-				})),
-			}),
-		});
-
-		const { pidx, payment_url } = await response.json();
-
-		await createPaymentMutation({
-			variables: {
-				options: {
-					orderId: orderData?.createOrder.id,
-					pidx,
-					promoCode: values.promoCode,
-					provider: "khalti",
-				},
-			},
-		});
-
-		window.location.assign(payment_url);
+		window.location.assign(createOrder?.createOrder);
 	};
 
 	if (errors) {

@@ -1,5 +1,3 @@
 mutation CreateOrder($options: CreateOrderInput!) {
-	createOrder(options: $options) {
-		...OrderDetailFragment
-	}
+	createOrder(options: $options)
 }
