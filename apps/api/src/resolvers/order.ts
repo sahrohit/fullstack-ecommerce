@@ -331,32 +331,27 @@ export class OrderResolver {
 
 		const data = await resposne.json();
 
-		let paymentStatus: PaymentStatus;
+		const paymentStatus = data.status.toUpperCase() as PaymentStatus;
 		let orderStatus: OrderStatus;
 
 		switch (data.status) {
 			case "Pending":
-				paymentStatus = "PENDING";
+				orderStatus = "PENDING";
+				break;
+
+			case "Initiated":
 				orderStatus = "PENDING";
 				break;
 
 			case "Completed":
-				paymentStatus = "COMPLETED";
-				orderStatus = "PLACED";
-				break;
-
-			case "Initiated":
-				paymentStatus = "COMPLETED";
 				orderStatus = "PLACED";
 				break;
 
 			case "Refunded":
-				paymentStatus = "REFUNDED";
 				orderStatus = "REJECTED";
 				break;
 
 			default:
-				paymentStatus = "PENDING";
 				orderStatus = "PENDING";
 				break;
 		}

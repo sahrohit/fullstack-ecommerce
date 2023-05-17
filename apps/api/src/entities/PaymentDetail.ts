@@ -13,6 +13,7 @@ import { OrderDetail } from "./OrderDetail";
 
 export type PaymentStatus =
 	| "PENDING"
+	| "INITIATED"
 	| "COMPLETED"
 	| "REFUNDED"
 	| "FAILED"
@@ -46,7 +47,14 @@ export class PaymentDetail extends BaseEntity {
 	@Field(() => String)
 	@Column({
 		type: "enum",
-		enum: ["PENDING", "COMPLETED", "REFUNDED", "FAILED", "ABANDONED"],
+		enum: [
+			"PENDING",
+			"INITIATED",
+			"COMPLETED",
+			"REFUNDED",
+			"FAILED",
+			"EXPIRED",
+		],
 		default: "PENDING",
 	})
 	status!: PaymentStatus;

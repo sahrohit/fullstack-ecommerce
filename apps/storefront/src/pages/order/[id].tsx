@@ -7,6 +7,7 @@ import {
 	Badge,
 	Box,
 	Card,
+	CardHeader,
 	Divider,
 	HStack,
 	Heading,
@@ -25,6 +26,7 @@ import { ReactNode, useMemo } from "react";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import { MdOutlineContentCopy } from "react-icons/md";
 import PageLoader from "@/components/shared/PageLoader";
+import { KHALTI_LOGO } from "@/components/pages/cart/checkout/PaymentSelector";
 import { BRAND_NAME } from "../../../constants";
 
 const OrderPage = () => {
@@ -42,6 +44,8 @@ const OrderPage = () => {
 	const successPayment = data?.orderById?.paymentdetails?.find(
 		(payment) => payment.status === "COMPLETED"
 	);
+
+	const backgroundColor = mode("white", "gray.700");
 
 	const subTotal = useMemo(
 		() =>
@@ -79,7 +83,7 @@ const OrderPage = () => {
 	}
 
 	return (
-		<SimpleGrid placeItems="center" minH="100vh">
+		<SimpleGrid placeItems="center">
 			<Stack
 				as={Card}
 				p={8}
@@ -90,33 +94,48 @@ const OrderPage = () => {
 				maxW="3xl"
 				w={{ base: "unset", lg: "3xl" }}
 			>
-				<VStack alignItems="flex-start" gap={6}>
-					<VStack alignItems="flex-start" gap={2}>
-						<HStack alignItems="flex-start">
-							<Tooltip label="Payment Status" closeOnClick={false}>
-								<Badge fontSize="xl" colorScheme="green" px={3} py={1}>
-									PAYMENT{" "}
-									{successPayment
-										? "SUCCESSFUL"
-										: data?.orderById.paymentdetails?.[0]?.status ??
-										  "NOT INITIATED"}
-								</Badge>
-							</Tooltip>
-						</HStack>
+				<CardHeader
+					as={VStack}
+					alignItems="flex-start"
+					gap={2}
+					px={0}
+					position="sticky"
+					top={0}
+					background={backgroundColor}
+					w="full"
+					zIndex={1}
+				>
+					<HStack alignItems="flex-start">
+						<Tooltip label="Payment Status" closeOnClick={false}>
+							<Badge
+								fontSize="xl"
+								colorScheme={successPayment ? "green" : "red"}
+								px={3}
+								py={1}
+							>
+								PAYMENT{" "}
+								{successPayment
+									? "SUCCESSFUL"
+									: data?.orderById.paymentdetails?.[0]?.status ??
+									  "NOT INITIATED"}
+							</Badge>
+						</Tooltip>
+					</HStack>
 
-						<Heading fontSize="5xl" fontWeight="extrabold" lineHeight={1}>
-							Your Order is{" "}
-							<Tooltip label="Order Status" closeOnClick={false}>
-								<Text as="span">
-									{capitalize(data?.orderById.status as string)}{" "}
-								</Text>
-							</Tooltip>
-						</Heading>
-					</VStack>
-				</VStack>
+					<Heading fontSize="5xl" fontWeight="extrabold" lineHeight={1}>
+						Your Order is{" "}
+						<Tooltip label="Order Status" closeOnClick={false}>
+							<Text as="span">
+								{capitalize(data?.orderById.status as string)}{" "}
+							</Text>
+						</Tooltip>
+					</Heading>
+				</CardHeader>
 				<Box>
 					<Text>Hi {me?.me?.first_name},</Text>
-					<Text>Your order has been confirmed and will be shipping soon.</Text>
+					<Text>
+						{orderPageTextFromStatus(data?.orderById.status as string).header}
+					</Text>
 				</Box>
 				<VStack alignItems="flex-start">
 					<HStack>
@@ -146,7 +165,15 @@ const OrderPage = () => {
 						</Text>
 					</OrderInfo>
 					<OrderInfo label="Payment">
-						<Text>{successPayment?.provider}</Text>
+						<Text>
+							{successPayment?.provider?.toUpperCase() === "khalti" ? (
+								<KHALTI_LOGO />
+							) : (
+								<Badge colorScheme={successPayment ? "green" : "red"}>
+									{successPayment?.provider?.toUpperCase() ?? "UNPAID"}
+								</Badge>
+							)}
+						</Text>
 					</OrderInfo>
 					<OrderInfo label="Address">
 						<Text>{data?.orderById.address.address}</Text>
@@ -214,17 +241,13 @@ const OrderPage = () => {
 					</HStack>
 				</VStack>
 				<Box>
-					<Text>
-						We&apos;ll send you shipping confirmation when your item(s) are on
-						the way! We appreciate your business, and hope you enjoy your
-						purchase.
-					</Text>
+					{orderPageTextFromStatus(data?.orderById.status as string).footer}
 				</Box>
 				<Box>
 					<Text>Thank you,</Text>
 					<Text>{BRAND_NAME} Team</Text>
 				</Box>
-				<Text w="full" fontSize="lg">
+				<Text w="full" fontSize="lg" textAlign="center">
 					Have a Problem? Contact our{" "}
 					<UnderlineLink href="/">Customer Support </UnderlineLink>
 				</Text>
@@ -249,3 +272,72 @@ export const OrderInfo = ({
 		<Text>{children}</Text>
 	</VStack>
 );
+
+export const orderPageTextFromStatus = (status: string) => {
+	switch (status) {
+		case "PENDING":
+			return {
+				header:
+					"Your order not has been confirmed. Please wait and retry payment after some time",
+				footer:
+					"We'll send you shipping confirmation once your order is placed! We appreciate your business, if the problem persists contact our support team.",
+			};
+		case "PLACED":
+			return {
+				header: "Your order has been placed!",
+				footer:
+					"We'll send you shipping confirmation once your order is on the way! We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "OUTFORDELIVERY":
+			return {
+				header: "Your order is out for delivery!",
+				footer:
+					"We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "DELIVERED":
+			return {
+				header: "Your order has been delivered!",
+				footer:
+					"Do checkout our other products and dont forget to leave a review.",
+			};
+		case "REJECTED":
+			return {
+				header: "Your order has been rejected!",
+				footer: "Please contact our support team for further details.",
+			};
+		default:
+			return {
+				header: "Something went wrong!",
+				footer: "Please contact our suppport team as soon as possible.",
+			};
+	}
+};
+
+export const colorFromStatus = (status: string) => {
+	switch (status) {
+		case "PENDING":
+			return "red";
+		case "INITIATED":
+			return "yellow";
+		case "COMPLETED":
+			return "green";
+		case "PLACED":
+			return "blue";
+		case "SHIPPED":
+			return "blue";
+		case "OUTFORDELIVERY":
+			return "green";
+		case "DELIVERED":
+			return "green";
+		case "REFUNDED":
+			return "green";
+		case "REJECTED":
+			return "red";
+		case "FAILED":
+			return "red";
+		case "EXPIRED":
+			return "red";
+		default:
+			return "gray";
+	}
+};
