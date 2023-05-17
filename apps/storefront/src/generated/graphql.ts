@@ -75,13 +75,6 @@ export type CreateOrderInput = {
 	shippingMethod: Scalars["String"];
 };
 
-export type CreatePaymentInput = {
-	orderId: Scalars["String"];
-	pidx: Scalars["String"];
-	promoCode: Scalars["String"];
-	provider: Scalars["String"];
-};
-
 export type Discount = {
 	__typename?: "Discount";
 	active: Scalars["Boolean"];
@@ -116,7 +109,7 @@ export type Mutation = {
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	createOrder: Scalars["String"];
-	createPayment: PaymentDetail;
+	createPayment: Scalars["String"];
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
@@ -164,7 +157,7 @@ export type MutationCreateOrderArgs = {
 };
 
 export type MutationCreatePaymentArgs = {
-	options: CreatePaymentInput;
+	orderId: Scalars["String"];
 };
 
 export type MutationDeleteAddressArgs = {
@@ -239,6 +232,7 @@ export type OrderDetail = {
 	__typename?: "OrderDetail";
 	address: Address;
 	addressId: Scalars["Int"];
+	amount: Scalars["Int"];
 	created_at: Scalars["String"];
 	id: Scalars["String"];
 	orderitems: Array<OrderItem>;
@@ -322,6 +316,7 @@ export type ProductImage = {
 	id: Scalars["Int"];
 	imageURL: Scalars["String"];
 	productId: Scalars["Float"];
+	sequence: Scalars["Float"];
 	updated_at: Scalars["String"];
 };
 
@@ -520,6 +515,7 @@ export type ImageFragmentFragment = {
 	id: number;
 	imageURL: string;
 	productId: number;
+	sequence: number;
 	created_at: string;
 	updated_at: string;
 };
@@ -598,6 +594,7 @@ export type OrderDetailFragmentFragment = {
 					id: number;
 					imageURL: string;
 					productId: number;
+					sequence: number;
 					created_at: string;
 					updated_at: string;
 				}>;
@@ -683,6 +680,7 @@ export type OrderItemFragmentFragment = {
 				id: number;
 				imageURL: string;
 				productId: number;
+				sequence: number;
 				created_at: string;
 				updated_at: string;
 			}>;
@@ -754,6 +752,7 @@ export type ProductFragmentFragment = {
 		id: number;
 		imageURL: string;
 		productId: number;
+		sequence: number;
 		created_at: string;
 		updated_at: string;
 	}>;
@@ -1087,21 +1086,12 @@ export type CreateOrderMutation = {
 };
 
 export type CreatePaymentMutationVariables = Exact<{
-	options: CreatePaymentInput;
+	orderId: Scalars["String"];
 }>;
 
 export type CreatePaymentMutation = {
 	__typename?: "Mutation";
-	createPayment: {
-		__typename?: "PaymentDetail";
-		id: string;
-		orderId: string;
-		amount: number;
-		provider: string;
-		status: string;
-		created_at: string;
-		updated_at: string;
-	};
+	createPayment: string;
 };
 
 export type UpdateStatusMutationVariables = Exact<{
@@ -1185,6 +1175,7 @@ export type UpdateStatusMutation = {
 						id: number;
 						imageURL: string;
 						productId: number;
+						sequence: number;
 						created_at: string;
 						updated_at: string;
 					}>;
@@ -1382,6 +1373,7 @@ export type FetchCartItemsQuery = {
 					id: number;
 					imageURL: string;
 					productId: number;
+					sequence: number;
 					created_at: string;
 					updated_at: string;
 				}>;
@@ -1535,6 +1527,7 @@ export type OrderByIdQuery = {
 						id: number;
 						imageURL: string;
 						productId: number;
+						sequence: number;
 						created_at: string;
 						updated_at: string;
 					}>;
@@ -1671,6 +1664,7 @@ export type OrdersQuery = {
 						id: number;
 						imageURL: string;
 						productId: number;
+						sequence: number;
 						created_at: string;
 						updated_at: string;
 					}>;
@@ -1750,6 +1744,7 @@ export type ProductByIdQuery = {
 			id: number;
 			imageURL: string;
 			productId: number;
+			sequence: number;
 			created_at: string;
 			updated_at: string;
 		}>;
@@ -1832,6 +1827,7 @@ export type ProductsQuery = {
 			id: number;
 			imageURL: string;
 			productId: number;
+			sequence: number;
 			created_at: string;
 			updated_at: string;
 		}>;
@@ -2028,6 +2024,7 @@ export const ImageFragmentFragmentDoc = gql`
 		id
 		imageURL
 		productId
+		sequence
 		created_at
 		updated_at
 	}
@@ -2578,16 +2575,8 @@ export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<
 	CreateOrderMutationVariables
 >;
 export const CreatePaymentDocument = gql`
-	mutation CreatePayment($options: CreatePaymentInput!) {
-		createPayment(options: $options) {
-			id
-			orderId
-			amount
-			provider
-			status
-			created_at
-			updated_at
-		}
+	mutation CreatePayment($orderId: String!) {
+		createPayment(orderId: $orderId)
 	}
 `;
 export type CreatePaymentMutationFn = Apollo.MutationFunction<
@@ -2608,7 +2597,7 @@ export type CreatePaymentMutationFn = Apollo.MutationFunction<
  * @example
  * const [createPaymentMutation, { data, loading, error }] = useCreatePaymentMutation({
  *   variables: {
- *      options: // value for 'options'
+ *      orderId: // value for 'orderId'
  *   },
  * });
  */

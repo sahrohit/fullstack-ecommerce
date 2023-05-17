@@ -40,6 +40,10 @@ const DrawerCartItem = ({ cartItem }: CartItemProps) => {
 			.sort()
 			.join(", ") ?? "";
 
+	const image = inventory?.product?.images.find(
+		(singleImage) => singleImage.sequence === 0
+	)?.imageURL;
+
 	const handleQuanityChange = async (value: string | number) => {
 		if (value === quantity) return;
 		const res = await updateCartMutation({
@@ -69,7 +73,7 @@ const DrawerCartItem = ({ cartItem }: CartItemProps) => {
 								width="120px"
 								height="120px"
 								fit="cover"
-								src={inventory!.product!.images[2].imageURL}
+								src={image ?? "htts://via.placeholder.com/150"}
 								alt={inventory!.product!.name}
 								draggable="false"
 								loading="lazy"

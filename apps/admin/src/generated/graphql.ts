@@ -75,13 +75,6 @@ export type CreateOrderInput = {
 	shippingMethod: Scalars["String"];
 };
 
-export type CreatePaymentInput = {
-	orderId: Scalars["String"];
-	pidx: Scalars["String"];
-	promoCode: Scalars["String"];
-	provider: Scalars["String"];
-};
-
 export type Discount = {
 	__typename?: "Discount";
 	active: Scalars["Boolean"];
@@ -116,7 +109,7 @@ export type Mutation = {
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	createOrder: Scalars["String"];
-	createPayment: PaymentDetail;
+	createPayment: Scalars["String"];
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
@@ -164,7 +157,7 @@ export type MutationCreateOrderArgs = {
 };
 
 export type MutationCreatePaymentArgs = {
-	options: CreatePaymentInput;
+	orderId: Scalars["String"];
 };
 
 export type MutationDeleteAddressArgs = {
@@ -239,6 +232,7 @@ export type OrderDetail = {
 	__typename?: "OrderDetail";
 	address: Address;
 	addressId: Scalars["Int"];
+	amount: Scalars["Int"];
 	created_at: Scalars["String"];
 	id: Scalars["String"];
 	orderitems: Array<OrderItem>;
@@ -322,6 +316,7 @@ export type ProductImage = {
 	id: Scalars["Int"];
 	imageURL: Scalars["String"];
 	productId: Scalars["Float"];
+	sequence: Scalars["Float"];
 	updated_at: Scalars["String"];
 };
 

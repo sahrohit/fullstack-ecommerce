@@ -36,6 +36,10 @@ const CartItem = ({ cartItem }: CartItemProps) => {
 			.sort()
 			.join(", ") ?? "";
 
+	const image = inventory?.product?.images.find(
+		(singleImage) => singleImage.sequence === 0
+	)?.imageURL;
+
 	const handleQuanityChange = async (value: string | number) => {
 		if (Number(value) === Number(quantity)) return;
 		const res = await updateCartMutation({
@@ -66,7 +70,7 @@ const CartItem = ({ cartItem }: CartItemProps) => {
 					<CartProductMeta
 						name={inventory!.product!.name}
 						description={description}
-						image={inventory!.product!.images[2].imageURL}
+						image={image ?? "https://via.placeholder.com/150"}
 						isGiftWrapping
 					/>
 				</Box>

@@ -208,6 +208,11 @@ export const OrderSummaryItem = ({ cartItem }: OrderSummaryItemProps) => {
 			?.map((variant) => capitalize(variant.variant_value.value as string))
 			.sort()
 			.join(", ") ?? "";
+
+	const image = inventory?.product?.images.find(
+		(singleImage) => singleImage.sequence === 0
+	)?.imageURL;
+
 	return (
 		<HStack justifyContent="space-between" alignItems="flex-start" w="full">
 			<Box flexGrow={1}>
@@ -218,7 +223,7 @@ export const OrderSummaryItem = ({ cartItem }: OrderSummaryItemProps) => {
 							width="100px"
 							height="100px"
 							fit="cover"
-							src={inventory!.product!.images[2].imageURL}
+							src={image ?? "https://via.placeholder.com/150"}
 							alt={inventory!.product!.name}
 							draggable="false"
 							loading="lazy"

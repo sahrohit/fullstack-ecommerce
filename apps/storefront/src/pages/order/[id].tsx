@@ -156,7 +156,7 @@ const OrderPage = () => {
 					</HStack>
 					<Text>{data?.orderById.id}</Text>
 				</VStack>
-				<HStack gap={6}>
+				<HStack gap={6} alignItems="flex-start">
 					<OrderInfo label="Order Date">
 						<Text>
 							{dayjs(Number(data?.orderById.created_at)).format(
@@ -166,7 +166,7 @@ const OrderPage = () => {
 					</OrderInfo>
 					<OrderInfo label="Payment">
 						<Text>
-							{successPayment?.provider?.toUpperCase() === "khalti" ? (
+							{successPayment?.provider?.toUpperCase() === "KHALTI" ? (
 								<KHALTI_LOGO />
 							) : (
 								<Badge colorScheme={successPayment ? "green" : "red"}>

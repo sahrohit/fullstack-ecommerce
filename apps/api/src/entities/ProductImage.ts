@@ -7,11 +7,13 @@ import {
 	UpdateDateColumn,
 	BaseEntity,
 	ManyToOne,
+	Unique,
 } from "typeorm";
 import { Product } from "./Product";
 
 @ObjectType()
 @Entity()
+@Unique(["productId", "sequence"])
 export class ProductImage extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
@@ -24,6 +26,10 @@ export class ProductImage extends BaseEntity {
 	@Field()
 	@Column()
 	productId!: number;
+
+	@Field()
+	@Column()
+	sequence!: number;
 
 	@ManyToOne(() => Product, (product) => product.images)
 	product!: Product;

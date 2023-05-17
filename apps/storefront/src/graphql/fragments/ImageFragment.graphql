@@ -2,6 +2,7 @@ fragment ImageFragment on ProductImage {
 	id
 	imageURL
 	productId
+	sequence
 	created_at
 	updated_at
 }

@@ -33,7 +33,9 @@ const ProductCard = (props: ProductCardProps) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	const { product, rootProps } = props;
-	const { name, images, inventories } = product;
+	const { name, images: unsortedImages, inventories } = product;
+
+	const images = [...unsortedImages]?.sort((a, b) => a.sequence - b.sequence);
 	return (
 		<Stack
 			spacing={{ base: "4", md: "5" }}
