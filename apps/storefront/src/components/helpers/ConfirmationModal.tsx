@@ -37,11 +37,9 @@ const ConfirmationModal = ({
 
 	return (
 		<>
-			<Button onClick={onOpen} {...rest}>
-				Delete
-			</Button>
+			<Button onClick={onOpen} {...rest} />
 
-			<Modal isCentered isOpen={isOpen} onClose={onClose}>
+			<Modal isCentered isOpen={isOpen} onClose={onClose} preserveScrollBarGap>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>{headerText}</ModalHeader>

@@ -170,7 +170,9 @@ export const Address = ({ address }: AddressProps) => {
 					}}
 					bodyText="Are you sure you want to delete this address?"
 					headerText="Delete Address?"
-				/>
+				>
+					Delete
+				</ConfirmationModal>
 			</Stack>
 		</Stack>
 	);
