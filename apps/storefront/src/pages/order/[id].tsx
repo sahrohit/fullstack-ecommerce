@@ -277,6 +277,7 @@ export const orderPageTextFromStatus = (status: string) => {
 	switch (status) {
 		case "PENDING":
 			return {
+				info: "Order Pending",
 				header:
 					"Your order not has been confirmed. Please wait and retry payment after some time",
 				footer:
@@ -284,29 +285,34 @@ export const orderPageTextFromStatus = (status: string) => {
 			};
 		case "PLACED":
 			return {
+				info: "Order Placed",
 				header: "Your order has been placed!",
 				footer:
 					"We'll send you shipping confirmation once your order is on the way! We appreciate your business, and hope you enjoy your purchase.",
 			};
 		case "OUTFORDELIVERY":
 			return {
+				info: "Out for delivery",
 				header: "Your order is out for delivery!",
 				footer:
 					"We appreciate your business, and hope you enjoy your purchase.",
 			};
 		case "DELIVERED":
 			return {
+				info: "Delivered",
 				header: "Your order has been delivered!",
 				footer:
 					"Do checkout our other products and dont forget to leave a review.",
 			};
 		case "REJECTED":
 			return {
+				info: "Couldn't delivery the package.",
 				header: "Your order has been rejected!",
 				footer: "Please contact our support team for further details.",
 			};
 		default:
 			return {
+				info: "Something seems wrong.",
 				header: "Something went wrong!",
 				footer: "Please contact our suppport team as soon as possible.",
 			};
@@ -322,9 +328,9 @@ export const colorFromStatus = (status: string) => {
 		case "COMPLETED":
 			return "green";
 		case "PLACED":
-			return "blue";
+			return "blue.500";
 		case "SHIPPED":
-			return "blue";
+			return "blue.500";
 		case "OUTFORDELIVERY":
 			return "green";
 		case "DELIVERED":

@@ -1,6 +1,10 @@
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import { OrderDetail, OrderItem } from "@/generated/graphql";
-import { OrderInfo } from "@/pages/order/[id]";
+import {
+	OrderInfo,
+	colorFromStatus,
+	orderPageTextFromStatus,
+} from "@/pages/order/[id]";
 import {
 	CardBody,
 	CardFooter,
@@ -25,6 +29,7 @@ import { useMemo } from "react";
 import { BiDownload } from "react-icons/bi";
 import { Link } from "@chakra-ui/next-js";
 import { capitalize } from "@/utils/helpers";
+import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import { KHALTI_LOGO } from "../../cart/checkout/PaymentSelector";
 
 interface OrderCardProps {
@@ -86,8 +91,13 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 				overflowX="auto"
 			>
 				<VStack flexGrow={1}>
-					<Heading fontSize="xl" w="full" lineHeight={2}>
-						Order is being delivered
+					<Heading
+						fontSize="xl"
+						w="full"
+						lineHeight={2}
+						color={colorFromStatus(orderItem.status)}
+					>
+						{orderPageTextFromStatus(orderItem.status).info}
 					</Heading>
 					{orderItem.orderitems?.map((item) => (
 						<OrderCardItem key={item.id} cartItem={item as OrderItem} />
@@ -102,8 +112,15 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					<Button w="full" colorScheme="blue">
 						Track Package
 					</Button>
-					<Button w="full">Cancel this Delivery</Button>
 					<Button w="full">Write a Review</Button>
+					<ConfirmationModal
+						bodyText="Are you sure you want to cancel this delivery?"
+						onSuccess={() => console.log("cancel")}
+						headerText="Cancel Delivery"
+						w="full"
+					>
+						Cancel this Delivery
+					</ConfirmationModal>
 				</VStack>
 			</CardBody>
 			<Divider />
