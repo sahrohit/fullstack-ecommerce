@@ -128,3 +128,27 @@ ProductCard.defaultProps = {
 };
 
 export default ProductCard;
+
+export const ProductCardSkeleton = () => (
+	<Stack spacing={{ base: "4", md: "5" }}>
+		<Box position="relative">
+			<AspectRatio ratio={4 / 5}>
+				<Skeleton />
+			</AspectRatio>
+		</Box>
+		<Stack>
+			<Stack gap="1">
+				<Skeleton height="20px" w="70%" />
+				<Skeleton height="20px" w="30%" />
+			</Stack>
+			<HStack>
+				<Rating size="sm" />
+				<Skeleton w="30%">
+					<Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>
+						12 Reviews
+					</Text>
+				</Skeleton>
+			</HStack>
+		</Stack>
+	</Stack>
+);

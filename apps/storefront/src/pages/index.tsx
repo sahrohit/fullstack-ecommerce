@@ -3,16 +3,15 @@ import Head from "next/head";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
 import ProductGrid from "@/components/pages/product/ProductGrid";
-import ProductCard from "@/components/pages/product/ProductCard";
+import ProductCard, {
+	ProductCardSkeleton,
+} from "@/components/pages/product/ProductCard";
 import { Product, useProductsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
-import PageLoader from "@/components/shared/PageLoader";
 import { BRAND_NAME } from "../../constants";
 
 const HomePage = () => {
 	const { data, loading, error } = useProductsQuery();
-
-	if (loading) return <PageLoader />;
 
 	if (error)
 		return (
@@ -29,8 +28,8 @@ const HomePage = () => {
 			<Head>
 				<title>{BRAND_NAME}</title>
 			</Head>
-			<Navbar />
 			<main>
+				<Navbar />
 				<Box
 					maxW="7xl"
 					mx="auto"
@@ -38,10 +37,15 @@ const HomePage = () => {
 					py={{ base: "6", md: "8", lg: "12" }}
 				>
 					<ProductGrid>
-						{data?.products &&
-							data.products.map((product) => (
-								<ProductCard key={product.id} product={product as Product} />
-							))}
+						{loading
+							? Array(10)
+									.fill("product-skeleton")
+									.map((mock, index) => (
+										<ProductCardSkeleton key={`${mock}-${index + 1}`} />
+									))
+							: data?.products?.map((product) => (
+									<ProductCard key={product.id} product={product as Product} />
+							  ))}
 					</ProductGrid>
 				</Box>
 			</main>

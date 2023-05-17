@@ -26,7 +26,7 @@ import { Cart, useFetchCartItemsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
-import PageLoader from "@/components/shared/PageLoader";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import DrawerCartItem from "./DrawerCartItem";
 import { CartItemSkeleton } from "./CartItem";
 
@@ -47,7 +47,14 @@ const DrawerCart = (props: DrawerCartProps) => {
 		[data]
 	);
 
-	if (loading) return <PageLoader />;
+	if (loading)
+		return (
+			<IconButton
+				aria-label="Loading Cart Items"
+				variant="link"
+				icon={<AiOutlineShoppingCart size="24" />}
+			/>
+		);
 
 	if (error)
 		return (
