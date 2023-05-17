@@ -10,7 +10,7 @@ import {
 } from "type-graphql";
 import { isVerified } from "src/middlewares/isVerified";
 import { Cart } from "src/entities/Cart";
-import { CreateOrderInput, CreatePaymentInput } from "./GqlObjets/OrderInput";
+import { CreateOrderInput } from "./GqlObjets/OrderInput";
 import { Promo } from "src/entities/Promo";
 import { PaymentDetail, PaymentStatus } from "src/entities/PaymentDetail";
 import { OrderItem } from "src/entities/OrderItem";
@@ -220,7 +220,7 @@ export class OrderResolver {
 	@Mutation(() => String)
 	@UseMiddleware(isVerified)
 	async createPayment(
-		@Arg("options", () => CreatePaymentInput) options: CreatePaymentInput,
+		@Arg("orderId", () => String) orderId: string,
 		@Ctx() { req }: MyContext
 	): Promise<string> {
 		const orderRes = await OrderDetail.findOneOrFail({
@@ -241,7 +241,7 @@ export class OrderResolver {
 				user: true,
 				paymentdetails: true,
 			},
-			where: { id: options.orderId },
+			where: { id: orderId },
 		});
 
 		const successPayment = orderRes.paymentdetails.find(
@@ -301,7 +301,7 @@ export class OrderResolver {
 			id: pidx,
 			amount: orderRes.amount,
 			provider: "khalti",
-			orderId: options.orderId,
+			orderId: orderId,
 			status: "PENDING",
 		}).save();
 

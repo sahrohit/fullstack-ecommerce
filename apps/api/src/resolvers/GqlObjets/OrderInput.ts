@@ -12,21 +12,6 @@ export class CreateOrderInput {
 	shippingMethod!: string;
 }
 
-@InputType()
-export class CreatePaymentInput {
-	@Field()
-	orderId!: string;
-
-	@Field()
-	pidx!: string;
-
-	@Field()
-	promoCode!: string;
-
-	@Field()
-	provider!: string;
-}
-
 @ObjectType()
 export class CreateOrderResponse {
 	@Field()
