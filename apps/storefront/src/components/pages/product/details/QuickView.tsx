@@ -46,7 +46,7 @@ const QuickView = ({ product }: QuickViewProps) => {
 							<ProductDetails product={product} />
 						</Box>
 					</ModalBody>
-					<ModalFooter>
+					<ModalFooter display={{ base: "flex", lg: "none" }}>
 						<Button w="full" onClick={onClose}>
 							Close
 						</Button>
