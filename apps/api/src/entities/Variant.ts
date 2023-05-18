@@ -21,6 +21,7 @@ export class Variant extends BaseEntity {
 	@Column()
 	variant_name!: string;
 
+	@Field(() => [VariantValue])
 	@OneToMany(() => VariantValue, (variant_values) => variant_values.variant)
 	variant_values!: VariantValue[];
 

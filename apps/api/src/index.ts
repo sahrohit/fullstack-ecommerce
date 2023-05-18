@@ -22,6 +22,7 @@ import "reflect-metadata";
 import { Cart } from "./entities/Cart";
 import { PromoResolver } from "./resolvers/promo";
 import { OrderResolver } from "./resolvers/order";
+import { VariantResolver } from "./resolvers/variant";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -96,6 +97,7 @@ const Server = async () => {
 				RoleResolver,
 				PromoResolver,
 				OrderResolver,
+				VariantResolver,
 			],
 			validate: false,
 		}),
