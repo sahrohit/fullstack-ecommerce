@@ -94,6 +94,17 @@ export type DiscountResponse = {
 	name: Scalars["String"];
 };
 
+export type Favourite = {
+	__typename?: "Favourite";
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	product: Product;
+	productId: Scalars["Int"];
+	updated_at: Scalars["String"];
+	user?: Maybe<User>;
+	userId: Scalars["Int"];
+};
+
 export type FieldError = {
 	__typename?: "FieldError";
 	field: Scalars["String"];
@@ -106,6 +117,7 @@ export type Mutation = {
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
 	addToCart: Cart;
+	addToFavourite: Favourite;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	createOrder: Scalars["String"];
@@ -118,6 +130,7 @@ export type Mutation = {
 	login: UserResponse;
 	logout: Scalars["Boolean"];
 	register: UserResponse;
+	removeFromFavourite: Scalars["Boolean"];
 	resendVerificationEmail: Scalars["Boolean"];
 	updateAddress: Address;
 	updateCart: Cart;
@@ -145,6 +158,10 @@ export type MutationAddDiscountArgs = {
 export type MutationAddToCartArgs = {
 	inventoryId: Scalars["Int"];
 	quantity: Scalars["Int"];
+};
+
+export type MutationAddToFavouriteArgs = {
+	productId: Scalars["Int"];
 };
 
 export type MutationChangePasswordArgs = {
@@ -188,6 +205,10 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
 	options: RegisterInput;
+};
+
+export type MutationRemoveFromFavouriteArgs = {
+	productId: Scalars["Int"];
 };
 
 export type MutationResendVerificationEmailArgs = {
@@ -277,6 +298,7 @@ export type Product = {
 	desc: Scalars["String"];
 	discount?: Maybe<Discount>;
 	discountId?: Maybe<Scalars["Float"]>;
+	favourites?: Maybe<Array<Favourite>>;
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
 	images: Array<ProductImage>;
@@ -371,6 +393,7 @@ export type Query = {
 	addresses?: Maybe<Array<Address>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
+	favourites: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;

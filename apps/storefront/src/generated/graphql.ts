@@ -94,6 +94,17 @@ export type DiscountResponse = {
 	name: Scalars["String"];
 };
 
+export type Favourite = {
+	__typename?: "Favourite";
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	product: Product;
+	productId: Scalars["Int"];
+	updated_at: Scalars["String"];
+	user?: Maybe<User>;
+	userId: Scalars["Int"];
+};
+
 export type FieldError = {
 	__typename?: "FieldError";
 	field: Scalars["String"];
@@ -106,6 +117,7 @@ export type Mutation = {
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
 	addToCart: Cart;
+	addToFavourite: Favourite;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	createOrder: Scalars["String"];
@@ -118,6 +130,7 @@ export type Mutation = {
 	login: UserResponse;
 	logout: Scalars["Boolean"];
 	register: UserResponse;
+	removeFromFavourite: Scalars["Boolean"];
 	resendVerificationEmail: Scalars["Boolean"];
 	updateAddress: Address;
 	updateCart: Cart;
@@ -145,6 +158,10 @@ export type MutationAddDiscountArgs = {
 export type MutationAddToCartArgs = {
 	inventoryId: Scalars["Int"];
 	quantity: Scalars["Int"];
+};
+
+export type MutationAddToFavouriteArgs = {
+	productId: Scalars["Int"];
 };
 
 export type MutationChangePasswordArgs = {
@@ -188,6 +205,10 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
 	options: RegisterInput;
+};
+
+export type MutationRemoveFromFavouriteArgs = {
+	productId: Scalars["Int"];
 };
 
 export type MutationResendVerificationEmailArgs = {
@@ -277,6 +298,7 @@ export type Product = {
 	desc: Scalars["String"];
 	discount?: Maybe<Discount>;
 	discountId?: Maybe<Scalars["Float"]>;
+	favourites?: Maybe<Array<Favourite>>;
 	id: Scalars["Int"];
 	identifier: Scalars["String"];
 	images: Array<ProductImage>;
@@ -371,6 +393,7 @@ export type Query = {
 	addresses?: Maybe<Array<Address>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
+	favourites: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
@@ -1078,6 +1101,31 @@ export type UpdateCartMutation = {
 	};
 };
 
+export type AddToFavouriteMutationVariables = Exact<{
+	productId: Scalars["Int"];
+}>;
+
+export type AddToFavouriteMutation = {
+	__typename?: "Mutation";
+	addToFavourite: {
+		__typename?: "Favourite";
+		id: number;
+		userId: number;
+		productId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
+export type RemoveFromFavouriteMutationVariables = Exact<{
+	productId: Scalars["Int"];
+}>;
+
+export type RemoveFromFavouriteMutation = {
+	__typename?: "Mutation";
+	removeFromFavourite: boolean;
+};
+
 export type CreateOrderMutationVariables = Exact<{
 	options: CreateOrderInput;
 }>;
@@ -1444,6 +1492,20 @@ export type CategoriesQuery = {
 		identifier: string;
 		desc: string;
 		imageURL: string;
+		created_at: string;
+		updated_at: string;
+	}>;
+};
+
+export type FavouritesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FavouritesQuery = {
+	__typename?: "Query";
+	favourites: Array<{
+		__typename?: "Favourite";
+		id: number;
+		userId: number;
+		productId: number;
 		created_at: string;
 		updated_at: string;
 	}>;
@@ -2548,6 +2610,108 @@ export type UpdateCartMutationOptions = Apollo.BaseMutationOptions<
 	UpdateCartMutation,
 	UpdateCartMutationVariables
 >;
+export const AddToFavouriteDocument = gql`
+	mutation AddToFavourite($productId: Int!) {
+		addToFavourite(productId: $productId) {
+			id
+			userId
+			productId
+			created_at
+			updated_at
+		}
+	}
+`;
+export type AddToFavouriteMutationFn = Apollo.MutationFunction<
+	AddToFavouriteMutation,
+	AddToFavouriteMutationVariables
+>;
+
+/**
+ * __useAddToFavouriteMutation__
+ *
+ * To run a mutation, you first call `useAddToFavouriteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToFavouriteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToFavouriteMutation, { data, loading, error }] = useAddToFavouriteMutation({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useAddToFavouriteMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AddToFavouriteMutation,
+		AddToFavouriteMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		AddToFavouriteMutation,
+		AddToFavouriteMutationVariables
+	>(AddToFavouriteDocument, options);
+}
+export type AddToFavouriteMutationHookResult = ReturnType<
+	typeof useAddToFavouriteMutation
+>;
+export type AddToFavouriteMutationResult =
+	Apollo.MutationResult<AddToFavouriteMutation>;
+export type AddToFavouriteMutationOptions = Apollo.BaseMutationOptions<
+	AddToFavouriteMutation,
+	AddToFavouriteMutationVariables
+>;
+export const RemoveFromFavouriteDocument = gql`
+	mutation RemoveFromFavourite($productId: Int!) {
+		removeFromFavourite(productId: $productId)
+	}
+`;
+export type RemoveFromFavouriteMutationFn = Apollo.MutationFunction<
+	RemoveFromFavouriteMutation,
+	RemoveFromFavouriteMutationVariables
+>;
+
+/**
+ * __useRemoveFromFavouriteMutation__
+ *
+ * To run a mutation, you first call `useRemoveFromFavouriteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveFromFavouriteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeFromFavouriteMutation, { data, loading, error }] = useRemoveFromFavouriteMutation({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useRemoveFromFavouriteMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		RemoveFromFavouriteMutation,
+		RemoveFromFavouriteMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		RemoveFromFavouriteMutation,
+		RemoveFromFavouriteMutationVariables
+	>(RemoveFromFavouriteDocument, options);
+}
+export type RemoveFromFavouriteMutationHookResult = ReturnType<
+	typeof useRemoveFromFavouriteMutation
+>;
+export type RemoveFromFavouriteMutationResult =
+	Apollo.MutationResult<RemoveFromFavouriteMutation>;
+export type RemoveFromFavouriteMutationOptions = Apollo.BaseMutationOptions<
+	RemoveFromFavouriteMutation,
+	RemoveFromFavouriteMutationVariables
+>;
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($options: CreateOrderInput!) {
 		createOrder(options: $options)
@@ -3141,6 +3305,65 @@ export type CategoriesLazyQueryHookResult = ReturnType<
 export type CategoriesQueryResult = Apollo.QueryResult<
 	CategoriesQuery,
 	CategoriesQueryVariables
+>;
+export const FavouritesDocument = gql`
+	query Favourites {
+		favourites {
+			id
+			userId
+			productId
+			created_at
+			updated_at
+		}
+	}
+`;
+
+/**
+ * __useFavouritesQuery__
+ *
+ * To run a query within a React component, call `useFavouritesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavouritesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavouritesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFavouritesQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		FavouritesQuery,
+		FavouritesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<FavouritesQuery, FavouritesQueryVariables>(
+		FavouritesDocument,
+		options
+	);
+}
+export function useFavouritesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		FavouritesQuery,
+		FavouritesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<FavouritesQuery, FavouritesQueryVariables>(
+		FavouritesDocument,
+		options
+	);
+}
+export type FavouritesQueryHookResult = ReturnType<typeof useFavouritesQuery>;
+export type FavouritesLazyQueryHookResult = ReturnType<
+	typeof useFavouritesLazyQuery
+>;
+export type FavouritesQueryResult = Apollo.QueryResult<
+	FavouritesQuery,
+	FavouritesQueryVariables
 >;
 export const OrderByIdDocument = gql`
 	query OrderById($orderId: String!) {

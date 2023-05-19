@@ -64,6 +64,7 @@ const ProductCard = (props: ProductCardProps) => {
 					/>
 				</AspectRatio>
 				<FavouriteButton
+					productId={product.id}
 					position="absolute"
 					top="4"
 					right="4"
