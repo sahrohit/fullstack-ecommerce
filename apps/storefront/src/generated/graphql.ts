@@ -394,6 +394,7 @@ export type Query = {
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
 	favourites: Array<Favourite>;
+	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
@@ -1508,6 +1509,99 @@ export type FavouritesQuery = {
 		productId: number;
 		created_at: string;
 		updated_at: string;
+	}>;
+};
+
+export type FavouritesWithProductQueryVariables = Exact<{
+	[key: string]: never;
+}>;
+
+export type FavouritesWithProductQuery = {
+	__typename?: "Query";
+	favouritesWithProduct: Array<{
+		__typename?: "Favourite";
+		id: number;
+		userId: number;
+		productId: number;
+		created_at: string;
+		updated_at: string;
+		product: {
+			__typename?: "Product";
+			id: number;
+			identifier: string;
+			name: string;
+			desc: string;
+			categoryId: number;
+			discountId?: number | null;
+			created_at: string;
+			updated_at: string;
+			images: Array<{
+				__typename?: "ProductImage";
+				id: number;
+				imageURL: string;
+				productId: number;
+				sequence: number;
+				created_at: string;
+				updated_at: string;
+			}>;
+			category: {
+				__typename?: "ProductCategory";
+				id: number;
+				name: string;
+				identifier: string;
+				desc: string;
+				imageURL: string;
+				created_at: string;
+				updated_at: string;
+			};
+			inventories?: Array<{
+				__typename?: "ProductInventory";
+				inventory_id: number;
+				quantity: number;
+				price: number;
+				created_at: string;
+				updated_at: string;
+				variants?: Array<{
+					__typename?: "ProductVariant";
+					product_variant_id: number;
+					created_at: string;
+					updated_at: string;
+					variant_value: {
+						__typename?: "VariantValue";
+						value_id: number;
+						value: string;
+						created_at: string;
+						updated_at: string;
+						variant: {
+							__typename?: "Variant";
+							variant_id: number;
+							variant_name: string;
+							created_at: string;
+							updated_at: string;
+						};
+					};
+				}> | null;
+				carts?: Array<{
+					__typename?: "Cart";
+					id: number;
+					userId: number;
+					quantity: number;
+					inventoryId: number;
+					created_at: string;
+					updated_at: string;
+				}> | null;
+			}> | null;
+			discount?: {
+				__typename?: "Discount";
+				id: number;
+				name: string;
+				desc: string;
+				discount_percent: number;
+				active: boolean;
+				created_at: string;
+				updated_at: string;
+			} | null;
+		};
 	}>;
 };
 
@@ -3364,6 +3458,71 @@ export type FavouritesLazyQueryHookResult = ReturnType<
 export type FavouritesQueryResult = Apollo.QueryResult<
 	FavouritesQuery,
 	FavouritesQueryVariables
+>;
+export const FavouritesWithProductDocument = gql`
+	query FavouritesWithProduct {
+		favouritesWithProduct {
+			id
+			userId
+			productId
+			created_at
+			updated_at
+			product {
+				...ProductFragment
+			}
+		}
+	}
+	${ProductFragmentFragmentDoc}
+`;
+
+/**
+ * __useFavouritesWithProductQuery__
+ *
+ * To run a query within a React component, call `useFavouritesWithProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavouritesWithProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavouritesWithProductQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFavouritesWithProductQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		FavouritesWithProductQuery,
+		FavouritesWithProductQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		FavouritesWithProductQuery,
+		FavouritesWithProductQueryVariables
+	>(FavouritesWithProductDocument, options);
+}
+export function useFavouritesWithProductLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		FavouritesWithProductQuery,
+		FavouritesWithProductQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		FavouritesWithProductQuery,
+		FavouritesWithProductQueryVariables
+	>(FavouritesWithProductDocument, options);
+}
+export type FavouritesWithProductQueryHookResult = ReturnType<
+	typeof useFavouritesWithProductQuery
+>;
+export type FavouritesWithProductLazyQueryHookResult = ReturnType<
+	typeof useFavouritesWithProductLazyQuery
+>;
+export type FavouritesWithProductQueryResult = Apollo.QueryResult<
+	FavouritesWithProductQuery,
+	FavouritesWithProductQueryVariables
 >;
 export const OrderByIdDocument = gql`
 	query OrderById($orderId: String!) {

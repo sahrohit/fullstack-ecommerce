@@ -1,0 +1,12 @@
+query FavouritesWithProduct {
+	favouritesWithProduct {
+		id
+		userId
+		productId
+		created_at
+		updated_at
+		product {
+			...ProductFragment
+		}
+	}
+}

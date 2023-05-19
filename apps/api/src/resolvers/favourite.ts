@@ -24,7 +24,16 @@ export class FavouriteResolver {
 		return await Favourite.find({
 			relations: {
 				product: {
+					inventories: {
+						variants: {
+							variant_value: {
+								variant: true,
+							},
+						},
+					},
+					category: true,
 					images: true,
+					discount: true,
 				},
 			},
 			where: { userId: req.session?.userId },
