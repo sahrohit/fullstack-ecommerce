@@ -18,20 +18,23 @@ interface ColorSelectorProps {
 	options: string[];
 	onChange: (value: string) => void;
 	defaultValue: string;
+	value: string;
 }
 
 export const ColorSelector = ({
 	options,
 	onChange,
 	defaultValue,
+	value,
 }: ColorSelectorProps) => (
 	<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
 		<FormLabel>Color</FormLabel>
 		<RadioGroup
-			name="Colors"
+			name="Color"
 			options={options}
 			onChange={onChange}
 			defaultValue={defaultValue}
+			value={value}
 		/>
 	</VStack>
 );
@@ -41,21 +44,23 @@ interface RadioGroupProps extends Omit<StackProps, "onChange"> {
 	options: string[];
 	onChange: (value: string) => void;
 	defaultValue: string;
+	value: string;
 }
 
 const RadioGroup = (props: RadioGroupProps) => {
-	const { name, options, onChange, defaultValue, ...rest } = props;
+	const { name, options, onChange, defaultValue, value, ...rest } = props;
 	const { getRootProps, getRadioProps } = useRadioGroup({
 		name,
 		onChange,
 		defaultValue,
+		value,
 	});
 
 	return (
 		<HStack gap={1} flexWrap="wrap" {...getRootProps(rest)}>
-			{options.map((value) => (
-				<RadioOption key={value} {...getRadioProps({ value })}>
-					{value}
+			{options.map((option) => (
+				<RadioOption key={option} {...getRadioProps({ value: option })}>
+					{option}
 				</RadioOption>
 			))}
 		</HStack>

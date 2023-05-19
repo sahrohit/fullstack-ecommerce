@@ -7,42 +7,77 @@ import {
 	Select,
 	SelectProps,
 	SimpleGrid,
+	Spinner,
 	useColorModeValue,
 } from "@chakra-ui/react";
+import { Variant, useVariantsQuery } from "@/generated/graphql";
+import Result from "@/components/shared/Result";
+import { useState } from "react";
 import NavBreadrumb from "./NavBreadrumb";
 import DrawerOptions from "./DrawerOption";
 import FilterOptions from "./FilterOptions";
 
-const FilterLayout = (props: BoxProps) => (
-	<Box mx={8}>
-		<NavBreadrumb
-			py={4}
-			items={[
-				{
-					href: "/",
-					label: "Home",
-				},
-				{
-					href: "/",
-					label: "Nike",
-				},
-			]}
-		/>
-		<HStack
-			mx={4}
-			my={2}
-			justifyContent="between"
-			display={{ base: "flex", md: "none" }}
-		>
-			<DrawerOptions />
-			<SortSelect />
-		</HStack>
-		<SimpleGrid gap={14} gridTemplateColumns="320px 1fr">
-			<FilterOptions display={{ base: "none", md: "flex" }} />
-			<Box {...props} />
-		</SimpleGrid>
-	</Box>
-);
+const FilterLayout = (props: BoxProps) => {
+	const { data, loading, error } = useVariantsQuery();
+
+	const [selectedVariant, setSelectedVariant] = useState<
+		Record<string, string | number>
+	>({});
+
+	if (error)
+		return (
+			<Result
+				heading={error.name}
+				type="error"
+				text={error.message}
+				dump={error.stack}
+			/>
+		);
+
+	return (
+		<Box mx={8}>
+			<NavBreadrumb
+				py={4}
+				items={[
+					{
+						href: "/",
+						label: "Home",
+					},
+					{
+						href: "/products",
+						label: "Products",
+					},
+				]}
+			/>
+			<HStack
+				mx={4}
+				my={2}
+				justifyContent="between"
+				display={{ base: "flex", md: "none" }}
+			>
+				<DrawerOptions
+					variants={data?.variants as Variant[]}
+					selectedVariant={selectedVariant}
+					setSelectedVariant={setSelectedVariant}
+				/>
+				<SortSelect />
+			</HStack>
+			<SimpleGrid gap={14} gridTemplateColumns="320px 1fr">
+				{loading ? (
+					<Spinner />
+				) : (
+					<FilterOptions
+						display={{ base: "none", md: "flex" }}
+						variants={data?.variants as Variant[]}
+						selectedVariant={selectedVariant}
+						setSelectedVariant={setSelectedVariant}
+					/>
+				)}
+				<Box {...props} />
+			</SimpleGrid>
+		</Box>
+	);
+};
 
 export default FilterLayout;
 

@@ -1,4 +1,5 @@
 import {
+	FormLabel,
 	HStack,
 	NumberDecrementStepper,
 	NumberIncrementStepper,
@@ -11,27 +12,42 @@ import {
 	RangeSliderTrack,
 	VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-const PriceSelector = () => {
-	const [minPrice, setMinPrice] = useState<number>(0);
-	const [maxPrice, setMaxPrice] = useState(1000);
+interface PriceSelectorProps {
+	selectedVariant: Record<string, string | number>;
+	setSelectedVariant: Dispatch<SetStateAction<Record<string, string | number>>>;
+}
 
+const PriceSelector = ({
+	selectedVariant,
+	setSelectedVariant,
+}: PriceSelectorProps) => {
 	const MIN_PRICE = 0;
 	const MAX_PRICE = 1000;
 
+	const lowerPrice = Number(selectedVariant?.lowerPrice) ?? MIN_PRICE;
+	const higherPrice = Number(selectedVariant?.higherPrice) ?? MAX_PRICE;
+
 	return (
 		<VStack w="full">
+			<FormLabel textAlign="left" w="full">
+				Price
+			</FormLabel>
+
 			<RangeSlider
 				min={MIN_PRICE}
 				max={MAX_PRICE}
-				value={[minPrice, maxPrice]}
+				value={[lowerPrice || MIN_PRICE, higherPrice || MAX_PRICE]}
 				// eslint-disable-next-line jsx-a11y/aria-proptypes
 				aria-label={["min", "max"]}
-				defaultValue={[MIN_PRICE, MAX_PRICE]}
+				defaultValue={[lowerPrice || MIN_PRICE, higherPrice || MAX_PRICE]}
 				onChange={(value) => {
-					setMinPrice(value[0]);
-					setMaxPrice(value[1]);
+					setSelectedVariant((prev) => ({
+						...prev,
+						lowerPrice: value[0],
+						higherPrice: value[1],
+					}));
 				}}
 			>
 				<RangeSliderTrack>
@@ -43,13 +59,16 @@ const PriceSelector = () => {
 			<HStack>
 				<NumberInput
 					min={MIN_PRICE}
-					max={MAX_PRICE}
+					max={!higherPrice ? higherPrice : MAX_PRICE}
 					allowMouseWheel
 					maxW="100px"
 					mr="2rem"
-					value={`$${minPrice}`}
+					value={lowerPrice || MIN_PRICE}
 					onChange={(value) =>
-						setMinPrice(parseInt(value.replace("$", ""), 10))
+						setSelectedVariant((prev) => ({
+							...prev,
+							lowerPrice: value,
+						}))
 					}
 				>
 					<NumberInputField />
@@ -59,14 +78,17 @@ const PriceSelector = () => {
 					</NumberInputStepper>
 				</NumberInput>
 				<NumberInput
-					min={MIN_PRICE}
+					min={lowerPrice || MIN_PRICE}
 					max={MAX_PRICE}
 					allowMouseWheel
 					maxW="100px"
 					mr="2rem"
-					value={`$${maxPrice}`}
+					value={higherPrice || MAX_PRICE}
 					onChange={(value) =>
-						setMaxPrice(parseInt(value.replace("$", ""), 10))
+						setSelectedVariant((prev) => ({
+							...prev,
+							higherPrice: value,
+						}))
 					}
 				>
 					<NumberInputField />

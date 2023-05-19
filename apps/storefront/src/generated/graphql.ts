@@ -380,6 +380,7 @@ export type Query = {
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
 	roles: Array<UserRole>;
+	variants: Array<Variant>;
 };
 
 export type QueryOrderByIdArgs = {
@@ -450,6 +451,7 @@ export type Variant = {
 	updated_at: Scalars["String"];
 	variant_id: Scalars["Int"];
 	variant_name: Scalars["String"];
+	variant_values: Array<VariantValue>;
 };
 
 export type VariantValue = {
@@ -1929,6 +1931,26 @@ export type MeQuery = {
 		created_at: string;
 		updated_at: string;
 	} | null;
+};
+
+export type VariantsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type VariantsQuery = {
+	__typename?: "Query";
+	variants: Array<{
+		__typename?: "Variant";
+		variant_id: number;
+		variant_name: string;
+		created_at: string;
+		updated_at: string;
+		variant_values: Array<{
+			__typename?: "VariantValue";
+			value_id: number;
+			value: string;
+			created_at: string;
+			updated_at: string;
+		}>;
+	}>;
 };
 
 export const AddressFragmentFragmentDoc = gql`
@@ -3471,3 +3493,62 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const VariantsDocument = gql`
+	query Variants {
+		variants {
+			...VariantFragment
+			variant_values {
+				value_id
+				value
+				created_at
+				updated_at
+			}
+		}
+	}
+	${VariantFragmentFragmentDoc}
+`;
+
+/**
+ * __useVariantsQuery__
+ *
+ * To run a query within a React component, call `useVariantsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVariantsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVariantsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useVariantsQuery(
+	baseOptions?: Apollo.QueryHookOptions<VariantsQuery, VariantsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<VariantsQuery, VariantsQueryVariables>(
+		VariantsDocument,
+		options
+	);
+}
+export function useVariantsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		VariantsQuery,
+		VariantsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<VariantsQuery, VariantsQueryVariables>(
+		VariantsDocument,
+		options
+	);
+}
+export type VariantsQueryHookResult = ReturnType<typeof useVariantsQuery>;
+export type VariantsLazyQueryHookResult = ReturnType<
+	typeof useVariantsLazyQuery
+>;
+export type VariantsQueryResult = Apollo.QueryResult<
+	VariantsQuery,
+	VariantsQueryVariables
+>;

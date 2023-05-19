@@ -19,6 +19,7 @@ interface VariantSelectorProps {
 	variantName: string;
 	onChange: (value: string) => void;
 	defaultValue: string | number;
+	value: string | number;
 }
 
 export const VariantSelector = ({
@@ -26,6 +27,7 @@ export const VariantSelector = ({
 	variantName,
 	onChange,
 	defaultValue,
+	value,
 }: VariantSelectorProps) => (
 	<VStack mx="auto" maxW="5xl" width="full" alignItems="flex-start">
 		<HStack justifyContent="space-between" w="full" alignItems="flex-start">
@@ -39,6 +41,7 @@ export const VariantSelector = ({
 			options={options}
 			onChange={onChange}
 			defaultValue={defaultValue}
+			value={value}
 		/>
 	</VStack>
 );
@@ -48,14 +51,16 @@ interface RadioGroupProps extends Omit<StackProps, "onChange"> {
 	options: string[];
 	onChange: (value: string) => void;
 	defaultValue: string | number;
+	value: string | number;
 }
 
 const RadioGroup = (props: RadioGroupProps) => {
-	const { name, options, onChange, defaultValue, ...rest } = props;
+	const { name, options, onChange, defaultValue, value, ...rest } = props;
 	const { getRootProps, getRadioProps } = useRadioGroup({
 		name,
 		onChange,
 		defaultValue: defaultValue as string,
+		value: value as string,
 	});
 
 	return (
@@ -65,9 +70,9 @@ const RadioGroup = (props: RadioGroupProps) => {
 			w="full"
 			{...getRootProps(rest)}
 		>
-			{options.map((value) => (
-				<RadioOption key={value} {...getRadioProps({ value })}>
-					{value}
+			{options.map((option) => (
+				<RadioOption key={option} {...getRadioProps({ value: option })}>
+					{option}
 				</RadioOption>
 			))}
 		</SimpleGrid>

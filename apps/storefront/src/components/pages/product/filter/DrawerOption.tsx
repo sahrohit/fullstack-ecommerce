@@ -10,9 +10,22 @@ import {
 	DrawerFooter,
 	ButtonProps,
 } from "@chakra-ui/react";
+import { Variant } from "@/generated/graphql";
+import { Dispatch, SetStateAction } from "react";
 import FilterOptions from "./FilterOptions";
 
-const DrawerOptions = (props: ButtonProps) => {
+interface DrawerOptionsProps extends ButtonProps {
+	variants: Variant[];
+	selectedVariant: Record<string, string | number>;
+	setSelectedVariant: Dispatch<SetStateAction<Record<string, string | number>>>;
+}
+
+const DrawerOptions = ({
+	variants,
+	selectedVariant,
+	setSelectedVariant,
+	...props
+}: DrawerOptionsProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
@@ -27,7 +40,11 @@ const DrawerOptions = (props: ButtonProps) => {
 					<DrawerHeader>Filter by</DrawerHeader>
 
 					<DrawerBody>
-						<FilterOptions />
+						<FilterOptions
+							variants={variants}
+							selectedVariant={selectedVariant}
+							setSelectedVariant={setSelectedVariant}
+						/>
 					</DrawerBody>
 
 					<DrawerFooter>

@@ -380,6 +380,7 @@ export type Query = {
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
 	roles: Array<UserRole>;
+	variants: Array<Variant>;
 };
 
 export type QueryOrderByIdArgs = {
@@ -450,6 +451,7 @@ export type Variant = {
 	updated_at: Scalars["String"];
 	variant_id: Scalars["Int"];
 	variant_name: Scalars["String"];
+	variant_values: Array<VariantValue>;
 };
 
 export type VariantValue = {

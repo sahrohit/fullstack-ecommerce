@@ -61,7 +61,7 @@ interface PriceProps {
 	textProps?: TextProps;
 }
 
-const Price = (props: PriceProps) => {
+export const Price = (props: PriceProps) => {
 	const { isOnSale, children, textProps } = props;
 	const defaultColor = mode("gray.700", "gray.100");
 	const onSaleColor = mode("gray.400", "gray.500");

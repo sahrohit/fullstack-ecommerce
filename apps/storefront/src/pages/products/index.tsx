@@ -1,16 +1,35 @@
-import ProductCard from "@/components/pages/product/ProductCard";
+/* eslint-disable no-nested-ternary */
+import ProductCard, {
+	ProductCardSkeleton,
+} from "@/components/pages/product/ProductCard";
 import ProductGrid from "@/components/pages/product/ProductGrid";
-import FilterLayout from "@/components/pages/product/filter/FilterLayout";
+import DrawerOptions from "@/components/pages/product/filter/DrawerOption";
+import FilterOptions from "@/components/pages/product/filter/FilterOptions";
+import NavBreadrumb from "@/components/pages/product/filter/NavBreadrumb";
 import Footer from "@/components/shared/Footer";
-import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import Navbar from "@/components/shared/navbar";
-import { Product, useProductsQuery } from "@/generated/graphql";
+import {
+	Product,
+	Variant,
+	useProductsQuery,
+	useVariantsQuery,
+} from "@/generated/graphql";
+import { Box, HStack, SimpleGrid, Spinner } from "@chakra-ui/react";
+import { useState } from "react";
 
 const ProductFilterPage = () => {
-	const { data, loading, error } = useProductsQuery();
+	const { data, loading, error } = useVariantsQuery();
 
-	if (loading) return <PageLoader />;
+	const [selectedVariant, setSelectedVariant] = useState<
+		Record<string, string | number>
+	>({});
+
+	const {
+		data: products,
+		loading: pLoading,
+		error: pError,
+	} = useProductsQuery();
 
 	if (error)
 		return (
@@ -25,16 +44,66 @@ const ProductFilterPage = () => {
 	return (
 		<>
 			<Navbar />
-			<FilterLayout>
-				<ProductGrid>
-					{data?.products &&
-						data.products.map((product) => (
-							//! Fixed this typecasting, says Product.inventories is not compatible
-							// TODO: Fix this typecasting
-							<ProductCard key={product.id} product={product as Product} />
-						))}
-				</ProductGrid>
-			</FilterLayout>
+			<Box mx={8}>
+				<NavBreadrumb
+					py={4}
+					items={[
+						{
+							href: "/",
+							label: "Home",
+						},
+						{
+							href: "/products",
+							label: "Products",
+						},
+					]}
+				/>
+				<HStack
+					mx={4}
+					my={2}
+					justifyContent="between"
+					display={{ base: "flex", md: "none" }}
+				>
+					<DrawerOptions
+						variants={data?.variants as Variant[]}
+						selectedVariant={selectedVariant}
+						setSelectedVariant={setSelectedVariant}
+					/>
+				</HStack>
+				<SimpleGrid gap={14} gridTemplateColumns="320px 1fr">
+					{loading ? (
+						<Spinner />
+					) : (
+						<FilterOptions
+							display={{ base: "none", md: "flex" }}
+							variants={data?.variants as Variant[]}
+							selectedVariant={selectedVariant}
+							setSelectedVariant={setSelectedVariant}
+						/>
+					)}
+
+					<ProductGrid>
+						{pLoading ? (
+							Array(10)
+								.fill("product-skeleton")
+								.map((mock, index) => (
+									<ProductCardSkeleton key={`${mock}-${index + 1}`} />
+								))
+						) : pError ? (
+							<Result
+								heading={pError.name}
+								type="error"
+								text={pError.message}
+								dump={pError.stack}
+							/>
+						) : (
+							products?.products?.map((product) => (
+								<ProductCard key={product.id} product={product as Product} />
+							))
+						)}
+					</ProductGrid>
+				</SimpleGrid>
+			</Box>
 			<Footer />
 		</>
 	);

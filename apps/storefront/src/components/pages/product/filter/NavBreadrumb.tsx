@@ -28,7 +28,7 @@ const NavBreadrumb = (props: NavBreadrumbProps) => {
 			{items.map((item) => (
 				<BreadcrumbItem key={item.label}>
 					<BreadcrumbLink as={Link} href={item.href}>
-						Home
+						{item.label}
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 			))}

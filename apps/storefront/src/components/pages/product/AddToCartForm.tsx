@@ -126,6 +126,7 @@ const AddToCartForm = ({ product }: AddToCartFormProps) => {
 							key={`selector-${key}`}
 							options={allCombinations.color}
 							defaultValue={defaultVariant[key] as string}
+							value={(selectedVariant.color as string) ?? ""}
 							onChange={(value) =>
 								setSelectedVariant((last) => ({ ...last, color: value }))
 							}
@@ -137,6 +138,11 @@ const AddToCartForm = ({ product }: AddToCartFormProps) => {
 						options={allCombinations[key]}
 						defaultValue={defaultVariant[key]}
 						variantName={key && key[0].toUpperCase() + key.slice(1)}
+						value={
+							(selectedVariant[
+								key as keyof typeof selectedVariant
+							] as string) ?? ""
+						}
 						key={`selector-${key}`}
 						onChange={(value) =>
 							setSelectedVariant((last) => ({ ...last, [`${key}`]: value }))
