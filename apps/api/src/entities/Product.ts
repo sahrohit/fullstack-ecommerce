@@ -16,6 +16,7 @@ import { Discount } from "./Discount";
 import { ProductCategory } from "./ProductCategory";
 import { ProductImage } from "./ProductImage";
 import { ProductInventory } from "./ProductInventory";
+import { Favourite } from "./Favourite";
 
 @ObjectType()
 @Entity()
@@ -58,6 +59,11 @@ export class Product extends BaseEntity {
 	@OneToMany(() => ProductInventory, (inventory) => inventory.product)
 	@JoinColumn()
 	inventories!: ProductInventory[];
+
+	@Field(() => [Favourite], { nullable: true })
+	@OneToMany(() => Favourite, (favourite) => favourite.product)
+	@JoinColumn()
+	favourites!: Favourite[];
 
 	@Field(() => Discount, { nullable: true })
 	@ManyToOne(() => Discount, (discount) => discount.products)

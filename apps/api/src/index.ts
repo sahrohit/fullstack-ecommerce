@@ -23,6 +23,7 @@ import { Cart } from "./entities/Cart";
 import { PromoResolver } from "./resolvers/promo";
 import { OrderResolver } from "./resolvers/order";
 import { VariantResolver } from "./resolvers/variant";
+import { FavouriteResolver } from "./resolvers/favourite";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -98,6 +99,7 @@ const Server = async () => {
 				PromoResolver,
 				OrderResolver,
 				VariantResolver,
+				FavouriteResolver,
 			],
 			validate: false,
 		}),
