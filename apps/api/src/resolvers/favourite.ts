@@ -19,6 +19,18 @@ export class FavouriteResolver {
 		return await Favourite.find({ where: { userId: req.session?.userId } });
 	}
 
+	@Query(() => [Favourite])
+	async favouritesWithProduct(@Ctx() { req }: MyContext): Promise<Favourite[]> {
+		return await Favourite.find({
+			relations: {
+				product: {
+					images: true,
+				},
+			},
+			where: { userId: req.session?.userId },
+		});
+	}
+
 	@Mutation(() => Favourite)
 	@UseMiddleware(isVerified)
 	async addToFavourite(
