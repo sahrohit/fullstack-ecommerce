@@ -17,6 +17,7 @@ import { ProductCategory } from "./ProductCategory";
 import { ProductImage } from "./ProductImage";
 import { ProductInventory } from "./ProductInventory";
 import { Favourite } from "./Favourite";
+import { ProductReview } from "./ProductReview";
 
 @ObjectType()
 @Entity()
@@ -49,6 +50,10 @@ export class Product extends BaseEntity {
 	@Field(() => [ProductImage])
 	@OneToMany(() => ProductImage, (image) => image.product)
 	images!: ProductImage[];
+
+	@Field(() => [ProductReview])
+	@OneToMany(() => ProductReview, (review) => review.product)
+	reviews!: ProductReview[];
 
 	@Field(() => ProductCategory)
 	@ManyToOne(() => ProductCategory, (category) => category.products)

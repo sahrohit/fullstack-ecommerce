@@ -24,6 +24,7 @@ import { PromoResolver } from "./resolvers/promo";
 import { OrderResolver } from "./resolvers/order";
 import { VariantResolver } from "./resolvers/variant";
 import { FavouriteResolver } from "./resolvers/favourite";
+import { ReviewResolver } from "./resolvers/review";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -100,6 +101,7 @@ const Server = async () => {
 				OrderResolver,
 				VariantResolver,
 				FavouriteResolver,
+				ReviewResolver,
 			],
 			validate: false,
 		}),

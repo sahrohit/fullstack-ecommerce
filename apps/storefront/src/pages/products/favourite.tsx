@@ -62,7 +62,7 @@ const FavouritePage = () => {
 				>
 					{loading
 						? Array(4)
-								.fill("product-skeleton")
+								.fill("favourite-skeleton")
 								.map((mock, index) => (
 									<FavouriteProductCardSkeleton key={`${mock}-${index + 1}`} />
 								))

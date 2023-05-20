@@ -48,7 +48,7 @@ const ProductPage = () => {
 			{data?.product ? (
 				<VStack p={{ base: 4, md: 8, lg: 8, xl: 16 }} spacing={8}>
 					{data && <ProductDetails product={data.product as Product} />}
-					<ProductReview />
+					<ProductReview productId={data.product.id} />
 				</VStack>
 			) : (
 				<SimpleGrid placeItems="center" w="full" h="80vh">

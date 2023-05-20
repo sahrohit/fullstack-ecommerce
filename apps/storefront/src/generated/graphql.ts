@@ -304,6 +304,7 @@ export type Product = {
 	images: Array<ProductImage>;
 	inventories?: Maybe<Array<ProductInventory>>;
 	name: Scalars["String"];
+	reviews: Array<ProductReview>;
 	updated_at: Scalars["String"];
 };
 
@@ -360,6 +361,20 @@ export type ProductInventory = {
 	variants?: Maybe<Array<ProductVariant>>;
 };
 
+export type ProductReview = {
+	__typename?: "ProductReview";
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	id: Scalars["Int"];
+	isAnonymous: Scalars["Boolean"];
+	productId: Scalars["Int"];
+	rating: Scalars["Float"];
+	review: Scalars["String"];
+	updated_at: Scalars["String"];
+	user?: Maybe<User>;
+	userId: Scalars["Int"];
+};
+
 export type ProductVariant = {
 	__typename?: "ProductVariant";
 	created_at: Scalars["String"];
@@ -403,6 +418,7 @@ export type Query = {
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
+	reviews?: Maybe<Array<ProductReview>>;
 	roles: Array<UserRole>;
 	variants: Array<Variant>;
 };
@@ -417,6 +433,10 @@ export type QueryProductArgs = {
 
 export type QueryPromoArgs = {
 	code: Scalars["String"];
+};
+
+export type QueryReviewsArgs = {
+	productId: Scalars["Int"];
 };
 
 export type RegisterInput = {
@@ -917,6 +937,19 @@ export type RegularErrorFragment = {
 	__typename?: "FieldError";
 	field: string;
 	message: string;
+};
+
+export type ReviewFragmentFragment = {
+	__typename?: "ProductReview";
+	id: number;
+	productId: number;
+	userId: number;
+	rating: number;
+	review: string;
+	isAnonymous: boolean;
+	created_at: string;
+	updated_at: string;
+	user?: { __typename?: "User"; first_name: string; last_name: string } | null;
 };
 
 export type UserFragmentFragment = {
@@ -2069,6 +2102,31 @@ export type PromoQuery = {
 	} | null;
 };
 
+export type ReviewsQueryVariables = Exact<{
+	productId: Scalars["Int"];
+}>;
+
+export type ReviewsQuery = {
+	__typename?: "Query";
+	reviews?: Array<{
+		__typename?: "ProductReview";
+		id: number;
+		productId: number;
+		userId: number;
+		rating: number;
+		desc: string;
+		review: string;
+		isAnonymous: boolean;
+		created_at: string;
+		updated_at: string;
+		user?: {
+			__typename?: "User";
+			first_name: string;
+			last_name: string;
+		} | null;
+	}> | null;
+};
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
@@ -2326,6 +2384,22 @@ export const RegularErrorFragmentDoc = gql`
 	fragment RegularError on FieldError {
 		field
 		message
+	}
+`;
+export const ReviewFragmentFragmentDoc = gql`
+	fragment ReviewFragment on ProductReview {
+		id
+		productId
+		userId
+		rating
+		review
+		isAnonymous
+		created_at
+		updated_at
+		user {
+			first_name
+			last_name
+		}
 	}
 `;
 export const UserFragmentFragmentDoc = gql`
@@ -3835,6 +3909,66 @@ export type PromoLazyQueryHookResult = ReturnType<typeof usePromoLazyQuery>;
 export type PromoQueryResult = Apollo.QueryResult<
 	PromoQuery,
 	PromoQueryVariables
+>;
+export const ReviewsDocument = gql`
+	query Reviews($productId: Int!) {
+		reviews(productId: $productId) {
+			id
+			productId
+			userId
+			rating
+			desc
+			review
+			isAnonymous
+			created_at
+			updated_at
+			user {
+				first_name
+				last_name
+			}
+		}
+	}
+`;
+
+/**
+ * __useReviewsQuery__
+ *
+ * To run a query within a React component, call `useReviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReviewsQuery({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useReviewsQuery(
+	baseOptions: Apollo.QueryHookOptions<ReviewsQuery, ReviewsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<ReviewsQuery, ReviewsQueryVariables>(
+		ReviewsDocument,
+		options
+	);
+}
+export function useReviewsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<ReviewsQuery, ReviewsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<ReviewsQuery, ReviewsQueryVariables>(
+		ReviewsDocument,
+		options
+	);
+}
+export type ReviewsQueryHookResult = ReturnType<typeof useReviewsQuery>;
+export type ReviewsLazyQueryHookResult = ReturnType<typeof useReviewsLazyQuery>;
+export type ReviewsQueryResult = Apollo.QueryResult<
+	ReviewsQuery,
+	ReviewsQueryVariables
 >;
 export const MeDocument = gql`
 	query Me {
