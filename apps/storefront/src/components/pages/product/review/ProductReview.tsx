@@ -83,19 +83,16 @@ const ProductReview = ({ productId }: { productId: number }) => {
 						</Heading>
 						<Text>Be the first to review this product.</Text>
 					</Box>
-					<Stack
-						direction={["column", "row", "row"]}
-						justifyContent="space-around"
-						alignItems="center"
-					>
-						<Img
-							width="50%"
-							placeholder="blur"
-							alt="App screenshot"
-							src="/assets/writing.svg"
-						/>
-						<ReviewButtons />
-					</Stack>
+
+					<Img
+						width="50%"
+						placeholder="blur"
+						alt="App screenshot"
+						src="/assets/writing.svg"
+					/>
+					<Button colorScheme="blue" px={12} size="xl">
+						Write a review
+					</Button>
 				</VStack>
 			</SimpleGrid>
 		);
