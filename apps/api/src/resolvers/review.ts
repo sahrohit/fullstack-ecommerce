@@ -10,6 +10,7 @@ import {
 } from "type-graphql";
 import { ProductReview } from "src/entities/ProductReview";
 import { User } from "src/entities/User";
+import ReviewSummaryResponse from "./GqlObjets/ReviewResponse";
 
 @Resolver(ProductReview)
 export class ReviewResolver {
@@ -27,9 +28,37 @@ export class ReviewResolver {
 		};
 	}
 
+	@Query(() => ReviewSummaryResponse, { nullable: true })
+	@UseMiddleware(isVerified)
+	async reviewSummary(
+		@Arg("productId", () => Int) productId: number
+	): Promise<ReviewSummaryResponse | undefined> {
+		return ProductReview.createQueryBuilder("product_review")
+			.where("product_review.productId = :productId", { productId })
+			.select("COUNT(product_review.id)", "count")
+			.addSelect("AVG(product_review.rating)", "rating")
+			.getRawOne();
+	}
+
 	@Query(() => [ProductReview], { nullable: true })
 	@UseMiddleware(isVerified)
 	async reviews(@Arg("productId", () => Int) productId: number) {
+		return ProductReview.find({
+			relations: {
+				user: true,
+			},
+			where: { productId },
+			take: 3,
+			order: {
+				rating: "DESC",
+				desc: "DESC",
+			},
+		});
+	}
+
+	@Query(() => [ProductReview], { nullable: true })
+	@UseMiddleware(isVerified)
+	async allReviews(@Arg("productId", () => Int) productId: number) {
 		return ProductReview.find({
 			relations: {
 				user: true,

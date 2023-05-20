@@ -406,6 +406,7 @@ export type Promo = {
 export type Query = {
 	__typename?: "Query";
 	addresses?: Maybe<Array<Address>>;
+	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
 	favourites: Array<Favourite>;
@@ -418,9 +419,14 @@ export type Query = {
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
+	reviewSummary?: Maybe<ReviewSummaryResponse>;
 	reviews?: Maybe<Array<ProductReview>>;
 	roles: Array<UserRole>;
 	variants: Array<Variant>;
+};
+
+export type QueryAllReviewsArgs = {
+	productId: Scalars["Int"];
 };
 
 export type QueryOrderByIdArgs = {
@@ -435,6 +441,10 @@ export type QueryPromoArgs = {
 	code: Scalars["String"];
 };
 
+export type QueryReviewSummaryArgs = {
+	productId: Scalars["Int"];
+};
+
 export type QueryReviewsArgs = {
 	productId: Scalars["Int"];
 };
@@ -444,6 +454,12 @@ export type RegisterInput = {
 	first_name: Scalars["String"];
 	last_name: Scalars["String"];
 	password: Scalars["String"];
+};
+
+export type ReviewSummaryResponse = {
+	__typename?: "ReviewSummaryResponse";
+	count?: Maybe<Scalars["Int"]>;
+	rating?: Maybe<Scalars["Float"]>;
 };
 
 export type UpdateCategoryInput = {
@@ -2099,6 +2115,44 @@ export type PromoQuery = {
 		expires_at: string;
 		created_at: string;
 		updated_at: string;
+	} | null;
+};
+
+export type AllReviewsQueryVariables = Exact<{
+	productId: Scalars["Int"];
+}>;
+
+export type AllReviewsQuery = {
+	__typename?: "Query";
+	allReviews?: Array<{
+		__typename?: "ProductReview";
+		id: number;
+		productId: number;
+		userId: number;
+		rating: number;
+		desc: string;
+		review: string;
+		isAnonymous: boolean;
+		created_at: string;
+		updated_at: string;
+		user?: {
+			__typename?: "User";
+			first_name: string;
+			last_name: string;
+		} | null;
+	}> | null;
+};
+
+export type ReviewSummaryQueryVariables = Exact<{
+	productId: Scalars["Int"];
+}>;
+
+export type ReviewSummaryQuery = {
+	__typename?: "Query";
+	reviewSummary?: {
+		__typename?: "ReviewSummaryResponse";
+		count?: number | null;
+		rating?: number | null;
 	} | null;
 };
 
@@ -3909,6 +3963,133 @@ export type PromoLazyQueryHookResult = ReturnType<typeof usePromoLazyQuery>;
 export type PromoQueryResult = Apollo.QueryResult<
 	PromoQuery,
 	PromoQueryVariables
+>;
+export const AllReviewsDocument = gql`
+	query allReviews($productId: Int!) {
+		allReviews(productId: $productId) {
+			id
+			productId
+			userId
+			rating
+			desc
+			review
+			isAnonymous
+			created_at
+			updated_at
+			user {
+				first_name
+				last_name
+			}
+		}
+	}
+`;
+
+/**
+ * __useAllReviewsQuery__
+ *
+ * To run a query within a React component, call `useAllReviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllReviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllReviewsQuery({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useAllReviewsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		AllReviewsQuery,
+		AllReviewsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<AllReviewsQuery, AllReviewsQueryVariables>(
+		AllReviewsDocument,
+		options
+	);
+}
+export function useAllReviewsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		AllReviewsQuery,
+		AllReviewsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<AllReviewsQuery, AllReviewsQueryVariables>(
+		AllReviewsDocument,
+		options
+	);
+}
+export type AllReviewsQueryHookResult = ReturnType<typeof useAllReviewsQuery>;
+export type AllReviewsLazyQueryHookResult = ReturnType<
+	typeof useAllReviewsLazyQuery
+>;
+export type AllReviewsQueryResult = Apollo.QueryResult<
+	AllReviewsQuery,
+	AllReviewsQueryVariables
+>;
+export const ReviewSummaryDocument = gql`
+	query ReviewSummary($productId: Int!) {
+		reviewSummary(productId: $productId) {
+			count
+			rating
+		}
+	}
+`;
+
+/**
+ * __useReviewSummaryQuery__
+ *
+ * To run a query within a React component, call `useReviewSummaryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReviewSummaryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReviewSummaryQuery({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useReviewSummaryQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		ReviewSummaryQuery,
+		ReviewSummaryQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<ReviewSummaryQuery, ReviewSummaryQueryVariables>(
+		ReviewSummaryDocument,
+		options
+	);
+}
+export function useReviewSummaryLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		ReviewSummaryQuery,
+		ReviewSummaryQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<ReviewSummaryQuery, ReviewSummaryQueryVariables>(
+		ReviewSummaryDocument,
+		options
+	);
+}
+export type ReviewSummaryQueryHookResult = ReturnType<
+	typeof useReviewSummaryQuery
+>;
+export type ReviewSummaryLazyQueryHookResult = ReturnType<
+	typeof useReviewSummaryLazyQuery
+>;
+export type ReviewSummaryQueryResult = Apollo.QueryResult<
+	ReviewSummaryQuery,
+	ReviewSummaryQueryVariables
 >;
 export const ReviewsDocument = gql`
 	query Reviews($productId: Int!) {

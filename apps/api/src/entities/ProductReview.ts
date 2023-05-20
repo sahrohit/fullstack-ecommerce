@@ -38,10 +38,7 @@ export class ProductReview extends BaseEntity {
 	user!: User;
 
 	@Field()
-	@Column({
-		type: "enum",
-		enum: [1, 2, 3, 4, 5],
-	})
+	@Column()
 	rating!: number;
 
 	@Field()

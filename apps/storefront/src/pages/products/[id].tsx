@@ -25,9 +25,10 @@ const ProductPage = () => {
 		variables: {
 			identifier: id as string,
 		},
+		skip: !id,
 	});
 
-	if (loading) {
+	if (loading || !id) {
 		return <PageLoader />;
 	}
 
