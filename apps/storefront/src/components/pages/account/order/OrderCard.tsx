@@ -31,6 +31,7 @@ import { Link } from "@chakra-ui/next-js";
 import { capitalize } from "@/utils/helpers";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import { KHALTI_LOGO } from "../../cart/checkout/PaymentSelector";
+import { CreateReviewButton } from "../../product/review/ProductReview";
 
 interface OrderCardProps {
 	orderItem: OrderDetail;
@@ -112,7 +113,11 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					<Button w="full" colorScheme="blue">
 						Track Package
 					</Button>
-					<Button w="full">Write a Review</Button>
+					<CreateReviewButton
+						w="full"
+						productId={orderItem?.orderitems?.[0].inventory?.product.id ?? 0}
+					/>
+
 					<ConfirmationModal
 						bodyText="Are you sure you want to cancel this delivery?"
 						onSuccess={() => console.log("cancel")}

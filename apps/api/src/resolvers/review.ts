@@ -76,8 +76,8 @@ export class ReviewResolver {
 	async reviewByUserAndProduct(
 		@Arg("productId", () => Int) productId: number,
 		@Ctx() { req }: MyContext
-	): Promise<ProductReview | undefined> {
-		return ProductReview.findOneOrFail({
+	): Promise<ProductReview | null> {
+		return ProductReview.findOne({
 			relations: {
 				user: true,
 			},

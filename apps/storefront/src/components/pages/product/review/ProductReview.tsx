@@ -2,6 +2,7 @@
 import Rating from "@/components/shared/product/Rating";
 import {
 	Button,
+	ButtonProps,
 	HStack,
 	Heading,
 	SimpleGrid,
@@ -114,7 +115,12 @@ const ProductReview = ({ productId }: { productId: number }) => {
 						productId={productId}
 						summary={summary?.reviewSummary}
 					/>
-					<CreateReviewButton productId={productId} />
+					<CreateReviewButton
+						colorScheme="blue"
+						px={12}
+						size="xl"
+						productId={productId}
+					/>
 				</Stack>
 			)}
 			{loading ? (
@@ -220,11 +226,11 @@ SeeAllReviewsModal.defaultProps = {
 	},
 };
 
-interface ReviewFormProps {
+interface ReviewFormProps extends ButtonProps {
 	productId: number;
 }
 
-export const CreateReviewButton = ({ productId }: ReviewFormProps) => {
+export const CreateReviewButton = ({ productId, ...rest }: ReviewFormProps) => {
 	const modalRef: any = useRef();
 	const { data, loading, error } = useReviewByUserAndProductQuery({
 		variables: {
@@ -258,11 +264,9 @@ export const CreateReviewButton = ({ productId }: ReviewFormProps) => {
 
 	return (
 		<ModalButton
-			colorScheme="blue"
-			px={12}
-			size="xl"
+			{...rest}
 			ref={modalRef}
-			leftIcon={<FiEdit />}
+			leftIcon={data?.reviewByUserAndProduct?.id ? <FiEdit /> : undefined}
 			buttonText={
 				!data?.reviewByUserAndProduct?.id
 					? "Write a review"
