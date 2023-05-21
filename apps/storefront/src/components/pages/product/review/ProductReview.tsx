@@ -14,12 +14,16 @@ import {
 	ProductReview as IProductReview,
 	ReviewSummaryResponse,
 	useAllReviewsQuery,
+	useReviewByUserAndProductQuery,
 	useReviewSummaryQuery,
 	useReviewsQuery,
 } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
 import ModalButton from "@/components/ui/ModalButton";
+import { useRef } from "react";
+import { FiEdit } from "react-icons/fi";
 import ReviewCard, { ReviewCardSkeleton } from "./ReviewCard";
+import ReviewForm from "./ReviewForm";
 
 const ProductReview = ({ productId }: { productId: number }) => {
 	const {
@@ -110,9 +114,7 @@ const ProductReview = ({ productId }: { productId: number }) => {
 						productId={productId}
 						summary={summary?.reviewSummary}
 					/>
-					<Button colorScheme="blue" px={12} size="xl">
-						Write a review
-					</Button>
+					<CreateReviewButton productId={productId} />
 				</Stack>
 			)}
 			{loading ? (
@@ -216,4 +218,78 @@ SeeAllReviewsModal.defaultProps = {
 		rating: 0,
 		count: 0,
 	},
+};
+
+interface ReviewFormProps {
+	productId: number;
+}
+
+export const CreateReviewButton = ({ productId }: ReviewFormProps) => {
+	const modalRef: any = useRef();
+	const { data, loading, error } = useReviewByUserAndProductQuery({
+		variables: {
+			productId,
+		},
+	});
+
+	const closeModal = () => {
+		if (modalRef.current) {
+			modalRef.current.closeModal();
+		}
+	};
+
+	if (loading) {
+		return (
+			<Button colorScheme="blue" px={12} size="xl" isLoading>
+				Write a review
+			</Button>
+		);
+	}
+
+	if (error)
+		return (
+			<Result
+				heading={error.name}
+				type="error"
+				text={error.message}
+				dump={error.stack}
+			/>
+		);
+
+	return (
+		<ModalButton
+			colorScheme="blue"
+			px={12}
+			size="xl"
+			ref={modalRef}
+			leftIcon={<FiEdit />}
+			buttonText={
+				!data?.reviewByUserAndProduct?.id
+					? "Write a review"
+					: "Edit your review"
+			}
+			modalHeader={
+				!data?.reviewByUserAndProduct?.id
+					? "Write a review"
+					: "Edit your review"
+			}
+			modalFooter=" "
+		>
+			<ReviewForm
+				productId={productId}
+				onSubmissionSuccess={closeModal}
+				id={data?.reviewByUserAndProduct?.id}
+				defaultValues={
+					data?.reviewByUserAndProduct
+						? {
+								rating: data.reviewByUserAndProduct.rating,
+								desc: data.reviewByUserAndProduct.desc,
+								isAnonymous: data.reviewByUserAndProduct.isAnonymous,
+								review: data.reviewByUserAndProduct.review,
+						  }
+						: undefined
+				}
+			/>
+		</ModalButton>
+	);
 };

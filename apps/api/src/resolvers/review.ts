@@ -1,8 +1,10 @@
 import { isVerified } from "src/middlewares/isVerified";
 import {
 	Arg,
+	Ctx,
 	FieldResolver,
 	Int,
+	Mutation,
 	Query,
 	Resolver,
 	Root,
@@ -11,6 +13,8 @@ import {
 import { ProductReview } from "src/entities/ProductReview";
 import { User } from "src/entities/User";
 import ReviewSummaryResponse from "./GqlObjets/ReviewResponse";
+import type { MyContext } from "src/types";
+import { OrderDetail } from "src/entities/OrderDetail";
 
 @Resolver(ProductReview)
 export class ReviewResolver {
@@ -64,6 +68,94 @@ export class ReviewResolver {
 				user: true,
 			},
 			where: { productId },
+		});
+	}
+
+	@Query(() => ProductReview, { nullable: true })
+	@UseMiddleware(isVerified)
+	async reviewByUserAndProduct(
+		@Arg("productId", () => Int) productId: number,
+		@Ctx() { req }: MyContext
+	): Promise<ProductReview | undefined> {
+		return ProductReview.findOneOrFail({
+			relations: {
+				user: true,
+			},
+			where: {
+				productId,
+				user: {
+					id: req.session.userId,
+				},
+			},
+		});
+	}
+
+	@Mutation(() => ProductReview, { nullable: true })
+	@UseMiddleware(isVerified)
+	async addReview(
+		@Arg("productId", () => Int) productId: number,
+		@Arg("rating", () => Int) rating: number,
+		@Arg("review", () => String) review: string,
+		@Arg("desc", () => String) desc: string,
+		@Arg("isAnonymous", () => Boolean) isAnonymous: boolean,
+		@Ctx() { req }: MyContext
+	) {
+		const orderRes = await OrderDetail.findOne({
+			relations: {
+				orderitems: {
+					inventory: { product: true },
+				},
+			},
+			where: {
+				orderitems: {
+					inventory: {
+						product: {
+							id: productId,
+						},
+					},
+				},
+				userId: req.session.userId,
+			},
+		});
+
+		// Check if the user has ordered the product
+		if (!orderRes) {
+			return null;
+		}
+
+		return ProductReview.create({
+			productId,
+			rating,
+			review,
+			desc,
+			isAnonymous,
+			userId: req.session.userId,
+		}).save();
+	}
+
+	@Mutation(() => ProductReview, { nullable: true })
+	@UseMiddleware(isVerified)
+	async updateReview(
+		@Arg("productId", () => Int) productId: number,
+		@Arg("rating", () => Int) rating: number,
+		@Arg("review", () => String) review: string,
+		@Arg("desc", () => String) desc: string,
+		@Arg("isAnonymous", () => Boolean) isAnonymous: boolean,
+		@Ctx() { req }: MyContext
+	) {
+		const reviewRes = await ProductReview.findOneOrFail({
+			where: {
+				productId,
+				userId: req.session.userId,
+			},
+		});
+
+		return ProductReview.save({
+			...reviewRes,
+			rating,
+			review,
+			desc,
+			isAnonymous,
 		});
 	}
 }

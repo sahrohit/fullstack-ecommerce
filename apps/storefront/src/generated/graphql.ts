@@ -116,6 +116,7 @@ export type Mutation = {
 	addAddress: Address;
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
+	addReview?: Maybe<ProductReview>;
 	addToCart: Cart;
 	addToFavourite: Favourite;
 	changePassword: UserResponse;
@@ -137,6 +138,7 @@ export type Mutation = {
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
 	updatePassword: UserResponse;
+	updateReview?: Maybe<ProductReview>;
 	updateStatus: OrderDetail;
 	verifyEmail: Scalars["Boolean"];
 };
@@ -153,6 +155,14 @@ export type MutationAddCategoryArgs = {
 
 export type MutationAddDiscountArgs = {
 	options: AddProductInput;
+};
+
+export type MutationAddReviewArgs = {
+	desc: Scalars["String"];
+	isAnonymous: Scalars["Boolean"];
+	productId: Scalars["Int"];
+	rating: Scalars["Int"];
+	review: Scalars["String"];
 };
 
 export type MutationAddToCartArgs = {
@@ -238,6 +248,14 @@ export type MutationUpdatePasswordArgs = {
 	confirmPassword: Scalars["String"];
 	currentPassword: Scalars["String"];
 	newPassword: Scalars["String"];
+};
+
+export type MutationUpdateReviewArgs = {
+	desc: Scalars["String"];
+	isAnonymous: Scalars["Boolean"];
+	productId: Scalars["Int"];
+	rating: Scalars["Int"];
+	review: Scalars["String"];
 };
 
 export type MutationUpdateStatusArgs = {
@@ -419,6 +437,7 @@ export type Query = {
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
+	reviewByUserAndProduct?: Maybe<ProductReview>;
 	reviewSummary?: Maybe<ReviewSummaryResponse>;
 	reviews?: Maybe<Array<ProductReview>>;
 	roles: Array<UserRole>;
@@ -439,6 +458,10 @@ export type QueryProductArgs = {
 
 export type QueryPromoArgs = {
 	code: Scalars["String"];
+};
+
+export type QueryReviewByUserAndProductArgs = {
+	productId: Scalars["Int"];
 };
 
 export type QueryReviewSummaryArgs = {
@@ -1334,6 +1357,54 @@ export type UpdateStatusMutation = {
 	};
 };
 
+export type AddReviewMutationVariables = Exact<{
+	isAnonymous: Scalars["Boolean"];
+	desc: Scalars["String"];
+	rating: Scalars["Int"];
+	productId: Scalars["Int"];
+	review: Scalars["String"];
+}>;
+
+export type AddReviewMutation = {
+	__typename?: "Mutation";
+	addReview?: {
+		__typename?: "ProductReview";
+		id: number;
+		productId: number;
+		userId: number;
+		rating: number;
+		review: string;
+		desc: string;
+		isAnonymous: boolean;
+		created_at: string;
+		updated_at: string;
+	} | null;
+};
+
+export type UpdateReviewMutationVariables = Exact<{
+	isAnonymous: Scalars["Boolean"];
+	desc: Scalars["String"];
+	review: Scalars["String"];
+	rating: Scalars["Int"];
+	productId: Scalars["Int"];
+}>;
+
+export type UpdateReviewMutation = {
+	__typename?: "Mutation";
+	updateReview?: {
+		__typename?: "ProductReview";
+		id: number;
+		productId: number;
+		userId: number;
+		rating: number;
+		review: string;
+		desc: string;
+		isAnonymous: boolean;
+		created_at: string;
+		updated_at: string;
+	} | null;
+};
+
 export type LoginMutationVariables = Exact<{
 	password: Scalars["String"];
 	email: Scalars["String"];
@@ -2141,6 +2212,26 @@ export type AllReviewsQuery = {
 			last_name: string;
 		} | null;
 	}> | null;
+};
+
+export type ReviewByUserAndProductQueryVariables = Exact<{
+	productId: Scalars["Int"];
+}>;
+
+export type ReviewByUserAndProductQuery = {
+	__typename?: "Query";
+	reviewByUserAndProduct?: {
+		__typename?: "ProductReview";
+		id: number;
+		productId: number;
+		userId: number;
+		rating: number;
+		review: string;
+		desc: string;
+		isAnonymous: boolean;
+		created_at: string;
+		updated_at: string;
+	} | null;
 };
 
 export type ReviewSummaryQueryVariables = Exact<{
@@ -3081,6 +3172,153 @@ export type UpdateStatusMutationResult =
 export type UpdateStatusMutationOptions = Apollo.BaseMutationOptions<
 	UpdateStatusMutation,
 	UpdateStatusMutationVariables
+>;
+export const AddReviewDocument = gql`
+	mutation AddReview(
+		$isAnonymous: Boolean!
+		$desc: String!
+		$rating: Int!
+		$productId: Int!
+		$review: String!
+	) {
+		addReview(
+			isAnonymous: $isAnonymous
+			desc: $desc
+			rating: $rating
+			productId: $productId
+			review: $review
+		) {
+			id
+			productId
+			userId
+			rating
+			review
+			desc
+			isAnonymous
+			created_at
+			updated_at
+		}
+	}
+`;
+export type AddReviewMutationFn = Apollo.MutationFunction<
+	AddReviewMutation,
+	AddReviewMutationVariables
+>;
+
+/**
+ * __useAddReviewMutation__
+ *
+ * To run a mutation, you first call `useAddReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addReviewMutation, { data, loading, error }] = useAddReviewMutation({
+ *   variables: {
+ *      isAnonymous: // value for 'isAnonymous'
+ *      desc: // value for 'desc'
+ *      rating: // value for 'rating'
+ *      productId: // value for 'productId'
+ *      review: // value for 'review'
+ *   },
+ * });
+ */
+export function useAddReviewMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AddReviewMutation,
+		AddReviewMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<AddReviewMutation, AddReviewMutationVariables>(
+		AddReviewDocument,
+		options
+	);
+}
+export type AddReviewMutationHookResult = ReturnType<
+	typeof useAddReviewMutation
+>;
+export type AddReviewMutationResult = Apollo.MutationResult<AddReviewMutation>;
+export type AddReviewMutationOptions = Apollo.BaseMutationOptions<
+	AddReviewMutation,
+	AddReviewMutationVariables
+>;
+export const UpdateReviewDocument = gql`
+	mutation UpdateReview(
+		$isAnonymous: Boolean!
+		$desc: String!
+		$review: String!
+		$rating: Int!
+		$productId: Int!
+	) {
+		updateReview(
+			isAnonymous: $isAnonymous
+			desc: $desc
+			review: $review
+			rating: $rating
+			productId: $productId
+		) {
+			id
+			productId
+			userId
+			rating
+			review
+			desc
+			isAnonymous
+			created_at
+			updated_at
+		}
+	}
+`;
+export type UpdateReviewMutationFn = Apollo.MutationFunction<
+	UpdateReviewMutation,
+	UpdateReviewMutationVariables
+>;
+
+/**
+ * __useUpdateReviewMutation__
+ *
+ * To run a mutation, you first call `useUpdateReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateReviewMutation, { data, loading, error }] = useUpdateReviewMutation({
+ *   variables: {
+ *      isAnonymous: // value for 'isAnonymous'
+ *      desc: // value for 'desc'
+ *      review: // value for 'review'
+ *      rating: // value for 'rating'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useUpdateReviewMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateReviewMutation,
+		UpdateReviewMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateReviewMutation,
+		UpdateReviewMutationVariables
+	>(UpdateReviewDocument, options);
+}
+export type UpdateReviewMutationHookResult = ReturnType<
+	typeof useUpdateReviewMutation
+>;
+export type UpdateReviewMutationResult =
+	Apollo.MutationResult<UpdateReviewMutation>;
+export type UpdateReviewMutationOptions = Apollo.BaseMutationOptions<
+	UpdateReviewMutation,
+	UpdateReviewMutationVariables
 >;
 export const LoginDocument = gql`
 	mutation Login($password: String!, $email: String!) {
@@ -4031,6 +4269,72 @@ export type AllReviewsLazyQueryHookResult = ReturnType<
 export type AllReviewsQueryResult = Apollo.QueryResult<
 	AllReviewsQuery,
 	AllReviewsQueryVariables
+>;
+export const ReviewByUserAndProductDocument = gql`
+	query ReviewByUserAndProduct($productId: Int!) {
+		reviewByUserAndProduct(productId: $productId) {
+			id
+			productId
+			userId
+			rating
+			review
+			desc
+			isAnonymous
+			created_at
+			updated_at
+		}
+	}
+`;
+
+/**
+ * __useReviewByUserAndProductQuery__
+ *
+ * To run a query within a React component, call `useReviewByUserAndProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReviewByUserAndProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReviewByUserAndProductQuery({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useReviewByUserAndProductQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		ReviewByUserAndProductQuery,
+		ReviewByUserAndProductQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		ReviewByUserAndProductQuery,
+		ReviewByUserAndProductQueryVariables
+	>(ReviewByUserAndProductDocument, options);
+}
+export function useReviewByUserAndProductLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		ReviewByUserAndProductQuery,
+		ReviewByUserAndProductQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		ReviewByUserAndProductQuery,
+		ReviewByUserAndProductQueryVariables
+	>(ReviewByUserAndProductDocument, options);
+}
+export type ReviewByUserAndProductQueryHookResult = ReturnType<
+	typeof useReviewByUserAndProductQuery
+>;
+export type ReviewByUserAndProductLazyQueryHookResult = ReturnType<
+	typeof useReviewByUserAndProductLazyQuery
+>;
+export type ReviewByUserAndProductQueryResult = Apollo.QueryResult<
+	ReviewByUserAndProductQuery,
+	ReviewByUserAndProductQueryVariables
 >;
 export const ReviewSummaryDocument = gql`
 	query ReviewSummary($productId: Int!) {
