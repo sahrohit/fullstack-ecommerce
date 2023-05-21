@@ -12,7 +12,6 @@ import {
 	HStack,
 	Heading,
 	IconButton,
-	SimpleGrid,
 	Stack,
 	Text,
 	Tooltip,
@@ -27,6 +26,7 @@ import UnderlineLink from "@/components/ui/UnderlineLink";
 import { MdOutlineContentCopy } from "react-icons/md";
 import PageLoader from "@/components/shared/PageLoader";
 import { KHALTI_LOGO } from "@/components/pages/cart/checkout/PaymentSelector";
+import TrackingTimeline from "@/components/pages/account/order/TrackingTimelines";
 import { BRAND_NAME } from "../../../constants";
 
 const OrderPage = () => {
@@ -83,14 +83,14 @@ const OrderPage = () => {
 	}
 
 	return (
-		<SimpleGrid placeItems="center">
+		<HStack justifyContent="space-around" w="full" alignItems="flex-start">
 			<Stack
 				as={Card}
+				my={{ base: 8, lg: 16 }}
 				p={8}
 				gap={8}
 				alignItems="flex-start"
 				justifyContent="space-between"
-				my={{ base: 8, lg: 16 }}
 				maxW="3xl"
 				w={{ base: "unset", lg: "3xl" }}
 			>
@@ -131,6 +131,7 @@ const OrderPage = () => {
 						</Tooltip>
 					</Heading>
 				</CardHeader>
+
 				<Box>
 					<Text>Hi {me?.me?.first_name},</Text>
 					<Text>
@@ -252,7 +253,14 @@ const OrderPage = () => {
 					<UnderlineLink href="/">Customer Support </UnderlineLink>
 				</Text>
 			</Stack>
-		</SimpleGrid>
+			<TrackingTimeline
+				display={{ base: "none", lg: "grid" }}
+				status={data.orderById.status}
+				position="sticky"
+				top={0}
+				// orientation="horizontal"
+			/>
+		</HStack>
 	);
 };
 
@@ -287,6 +295,13 @@ export const orderPageTextFromStatus = (status: string) => {
 			return {
 				info: "Order Placed",
 				header: "Your order has been placed!",
+				footer:
+					"We'll send you shipping confirmation once your order is shipped! We appreciate your business, and hope you enjoy your purchase.",
+			};
+		case "SHIPPED":
+			return {
+				info: "Order Shipped",
+				header: "Your order has been shipped!",
 				footer:
 					"We'll send you shipping confirmation once your order is on the way! We appreciate your business, and hope you enjoy your purchase.",
 			};
