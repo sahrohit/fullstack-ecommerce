@@ -58,7 +58,7 @@ export class User extends BaseEntity {
 	@Column({ default: 1 })
 	roleId!: number;
 
-	@ManyToOne(() => UserRole, (role) => role.user)
+	@ManyToOne(() => UserRole, (role) => role.users)
 	role!: UserRole;
 
 	@OneToMany(() => UserPayment, (userpayment) => userpayment.user)

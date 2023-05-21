@@ -22,7 +22,7 @@ export class UserRole extends BaseEntity {
 	name!: string;
 
 	@OneToOne(() => User, (user) => user.role)
-	user!: User;
+	users!: User[];
 
 	@Field(() => String)
 	@CreateDateColumn()
