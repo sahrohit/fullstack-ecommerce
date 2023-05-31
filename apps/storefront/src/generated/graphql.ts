@@ -437,6 +437,7 @@ export type Query = {
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
+	queryProducts?: Maybe<Array<Product>>;
 	reviewByUserAndProduct?: Maybe<ProductReview>;
 	reviewSummary?: Maybe<ReviewSummaryResponse>;
 	reviews?: Maybe<Array<ProductReview>>;
@@ -458,6 +459,10 @@ export type QueryProductArgs = {
 
 export type QueryPromoArgs = {
 	code: Scalars["String"];
+};
+
+export type QueryQueryProductsArgs = {
+	query: Scalars["String"];
 };
 
 export type QueryReviewByUserAndProductArgs = {
@@ -2166,6 +2171,25 @@ export type ProductsQuery = {
 			created_at: string;
 			updated_at: string;
 		} | null;
+	}> | null;
+};
+
+export type QueryProductsQueryVariables = Exact<{
+	query: Scalars["String"];
+}>;
+
+export type QueryProductsQuery = {
+	__typename?: "Query";
+	queryProducts?: Array<{
+		__typename?: "Product";
+		id: number;
+		identifier: string;
+		name: string;
+		images: Array<{ __typename?: "ProductImage"; imageURL: string }>;
+		inventories?: Array<{
+			__typename?: "ProductInventory";
+			price: number;
+		}> | null;
 	}> | null;
 };
 
@@ -4145,6 +4169,72 @@ export type ProductsLazyQueryHookResult = ReturnType<
 export type ProductsQueryResult = Apollo.QueryResult<
 	ProductsQuery,
 	ProductsQueryVariables
+>;
+export const QueryProductsDocument = gql`
+	query QueryProducts($query: String!) {
+		queryProducts(query: $query) {
+			id
+			identifier
+			name
+			images {
+				imageURL
+			}
+			inventories {
+				price
+			}
+		}
+	}
+`;
+
+/**
+ * __useQueryProductsQuery__
+ *
+ * To run a query within a React component, call `useQueryProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQueryProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQueryProductsQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useQueryProductsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		QueryProductsQuery,
+		QueryProductsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<QueryProductsQuery, QueryProductsQueryVariables>(
+		QueryProductsDocument,
+		options
+	);
+}
+export function useQueryProductsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		QueryProductsQuery,
+		QueryProductsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<QueryProductsQuery, QueryProductsQueryVariables>(
+		QueryProductsDocument,
+		options
+	);
+}
+export type QueryProductsQueryHookResult = ReturnType<
+	typeof useQueryProductsQuery
+>;
+export type QueryProductsLazyQueryHookResult = ReturnType<
+	typeof useQueryProductsLazyQuery
+>;
+export type QueryProductsQueryResult = Apollo.QueryResult<
+	QueryProductsQuery,
+	QueryProductsQueryVariables
 >;
 export const PromoDocument = gql`
 	query Promo($code: String!) {

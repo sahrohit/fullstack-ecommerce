@@ -116,6 +116,7 @@ export type Mutation = {
 	addAddress: Address;
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
+	addReview?: Maybe<ProductReview>;
 	addToCart: Cart;
 	addToFavourite: Favourite;
 	changePassword: UserResponse;
@@ -137,6 +138,7 @@ export type Mutation = {
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
 	updatePassword: UserResponse;
+	updateReview?: Maybe<ProductReview>;
 	updateStatus: OrderDetail;
 	verifyEmail: Scalars["Boolean"];
 };
@@ -153,6 +155,14 @@ export type MutationAddCategoryArgs = {
 
 export type MutationAddDiscountArgs = {
 	options: AddProductInput;
+};
+
+export type MutationAddReviewArgs = {
+	desc: Scalars["String"];
+	isAnonymous: Scalars["Boolean"];
+	productId: Scalars["Int"];
+	rating: Scalars["Int"];
+	review: Scalars["String"];
 };
 
 export type MutationAddToCartArgs = {
@@ -240,6 +250,14 @@ export type MutationUpdatePasswordArgs = {
 	newPassword: Scalars["String"];
 };
 
+export type MutationUpdateReviewArgs = {
+	desc: Scalars["String"];
+	isAnonymous: Scalars["Boolean"];
+	productId: Scalars["Int"];
+	rating: Scalars["Int"];
+	review: Scalars["String"];
+};
+
 export type MutationUpdateStatusArgs = {
 	orderId: Scalars["String"];
 	pidx: Scalars["String"];
@@ -304,6 +322,7 @@ export type Product = {
 	images: Array<ProductImage>;
 	inventories?: Maybe<Array<ProductInventory>>;
 	name: Scalars["String"];
+	reviews: Array<ProductReview>;
 	updated_at: Scalars["String"];
 };
 
@@ -360,6 +379,20 @@ export type ProductInventory = {
 	variants?: Maybe<Array<ProductVariant>>;
 };
 
+export type ProductReview = {
+	__typename?: "ProductReview";
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	id: Scalars["Int"];
+	isAnonymous: Scalars["Boolean"];
+	productId: Scalars["Int"];
+	rating: Scalars["Float"];
+	review: Scalars["String"];
+	updated_at: Scalars["String"];
+	user?: Maybe<User>;
+	userId: Scalars["Int"];
+};
+
 export type ProductVariant = {
 	__typename?: "ProductVariant";
 	created_at: Scalars["String"];
@@ -391,9 +424,11 @@ export type Promo = {
 export type Query = {
 	__typename?: "Query";
 	addresses?: Maybe<Array<Address>>;
+	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
 	favourites: Array<Favourite>;
+	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
@@ -402,8 +437,16 @@ export type Query = {
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
 	promo?: Maybe<Promo>;
+	queryProducts?: Maybe<Array<Product>>;
+	reviewByUserAndProduct?: Maybe<ProductReview>;
+	reviewSummary?: Maybe<ReviewSummaryResponse>;
+	reviews?: Maybe<Array<ProductReview>>;
 	roles: Array<UserRole>;
 	variants: Array<Variant>;
+};
+
+export type QueryAllReviewsArgs = {
+	productId: Scalars["Int"];
 };
 
 export type QueryOrderByIdArgs = {
@@ -418,11 +461,33 @@ export type QueryPromoArgs = {
 	code: Scalars["String"];
 };
 
+export type QueryQueryProductsArgs = {
+	query: Scalars["String"];
+};
+
+export type QueryReviewByUserAndProductArgs = {
+	productId: Scalars["Int"];
+};
+
+export type QueryReviewSummaryArgs = {
+	productId: Scalars["Int"];
+};
+
+export type QueryReviewsArgs = {
+	productId: Scalars["Int"];
+};
+
 export type RegisterInput = {
 	email: Scalars["String"];
 	first_name: Scalars["String"];
 	last_name: Scalars["String"];
 	password: Scalars["String"];
+};
+
+export type ReviewSummaryResponse = {
+	__typename?: "ReviewSummaryResponse";
+	count?: Maybe<Scalars["Int"]>;
+	rating?: Maybe<Scalars["Float"]>;
 };
 
 export type UpdateCategoryInput = {

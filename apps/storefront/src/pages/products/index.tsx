@@ -12,7 +12,7 @@ import Navbar from "@/components/shared/navbar";
 import {
 	Product,
 	Variant,
-	useProductsQuery,
+	useQueryProductsQuery,
 	useVariantsQuery,
 } from "@/generated/graphql";
 import { Box, HStack, SimpleGrid, Spinner } from "@chakra-ui/react";
@@ -29,7 +29,11 @@ const ProductFilterPage = () => {
 		data: products,
 		loading: pLoading,
 		error: pError,
-	} = useProductsQuery();
+	} = useQueryProductsQuery({
+		variables: {
+			query: JSON.stringify(selectedVariant),
+		},
+	});
 
 	if (error)
 		return (
@@ -97,7 +101,7 @@ const ProductFilterPage = () => {
 								dump={pError.stack}
 							/>
 						) : (
-							products?.products?.map((product) => (
+							products?.queryProducts?.map((product) => (
 								<ProductCard key={product.id} product={product as Product} />
 							))
 						)}

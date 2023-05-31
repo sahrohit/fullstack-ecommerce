@@ -1,0 +1,13 @@
+query QueryProducts($query: String!) {
+	queryProducts(query: $query) {
+		id
+		identifier
+		name
+		images {
+			imageURL
+		}
+		inventories {
+			price
+		}
+	}
+}

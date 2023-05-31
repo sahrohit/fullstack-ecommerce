@@ -7,12 +7,14 @@ import { ProductInventory } from "src/entities/ProductInventory";
 export class ProductResolver {
 	@Query(() => [Product], { nullable: true })
 	async queryProducts(@Arg("query") query: string): Promise<Product[]> {
-		try {
-			const { variants, ...rest } = JSON.parse(query);
+		console.warn("QQUUEERRYY===========", query);
 
-			const LOWERPRICE = rest?.lowerPrice ?? 0;
+		try {
+			const variants = JSON.parse(query);
+
+			const LOWERPRICE = variants?.lowerPrice * 100 ?? 0;
 			const HIGHERPRICE =
-				rest?.higherPrice ??
+				variants?.higherPrice * 100 ??
 				(
 					await ProductInventory.findOne({
 						select: ["price"],
@@ -21,6 +23,9 @@ export class ProductResolver {
 					})
 				)?.price ??
 				99999;
+
+			delete variants?.lowerPrice;
+			delete variants?.higherPrice;
 
 			let productQuery: any = [];
 
@@ -55,6 +60,7 @@ export class ProductResolver {
 				},
 			});
 		} catch (error) {
+			console.error(error);
 			return await Product.find({
 				relations: {
 					inventories: true,
