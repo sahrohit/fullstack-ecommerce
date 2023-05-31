@@ -1,8 +1,79 @@
 import { Arg, Query, Resolver } from "type-graphql";
 import { Product } from "../entities/Product";
+import { Between } from "typeorm";
+import { ProductInventory } from "src/entities/ProductInventory";
 
 @Resolver(Product)
 export class ProductResolver {
+	@Query(() => [Product], { nullable: true })
+	async queryProducts(@Arg("query") query: string): Promise<Product[]> {
+		try {
+			const { variants, ...rest } = JSON.parse(query);
+
+			const LOWERPRICE = rest?.lowerPrice ?? 0;
+			const HIGHERPRICE =
+				rest?.higherPrice ??
+				(
+					await ProductInventory.findOne({
+						select: ["price"],
+						where: { isPublished: true },
+						order: { price: "DESC" },
+					})
+				)?.price ??
+				99999;
+
+			let productQuery: any = [];
+
+			Object.keys(variants)?.forEach(function (key) {
+				productQuery.push({
+					value: variants[key],
+					variant: {
+						variant_name: key,
+					},
+				});
+			});
+
+			return await Product.find({
+				relations: {
+					inventories: true,
+					images: true,
+					discount: true,
+					reviews: true,
+				},
+				where: {
+					images: {
+						sequence: 0,
+					},
+					inventories: {
+						price: Between(LOWERPRICE, HIGHERPRICE),
+
+						variants: {
+							variant_value: [...productQuery],
+						},
+						isPublished: true,
+					},
+				},
+			});
+		} catch (error) {
+			return await Product.find({
+				relations: {
+					inventories: true,
+					images: true,
+					discount: true,
+					reviews: true,
+				},
+				where: {
+					images: {
+						sequence: 0,
+					},
+					inventories: {
+						isPublished: true,
+					},
+				},
+			});
+		}
+	}
+
 	@Query(() => [Product], { nullable: true })
 	async products(): Promise<Product[]> {
 		return await Product.find({
