@@ -427,6 +427,7 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
+	expensiveProduct?: Maybe<Scalars["Float"]>;
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
@@ -2004,6 +2005,13 @@ export type OrdersQuery = {
 			} | null;
 		}>;
 	}> | null;
+};
+
+export type ExpensiveProductQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ExpensiveProductQuery = {
+	__typename?: "Query";
+	expensiveProduct?: number | null;
 };
 
 export type ProductByIdQueryVariables = Exact<{
@@ -4015,6 +4023,61 @@ export type OrdersLazyQueryHookResult = ReturnType<typeof useOrdersLazyQuery>;
 export type OrdersQueryResult = Apollo.QueryResult<
 	OrdersQuery,
 	OrdersQueryVariables
+>;
+export const ExpensiveProductDocument = gql`
+	query ExpensiveProduct {
+		expensiveProduct
+	}
+`;
+
+/**
+ * __useExpensiveProductQuery__
+ *
+ * To run a query within a React component, call `useExpensiveProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExpensiveProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExpensiveProductQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useExpensiveProductQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		ExpensiveProductQuery,
+		ExpensiveProductQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<ExpensiveProductQuery, ExpensiveProductQueryVariables>(
+		ExpensiveProductDocument,
+		options
+	);
+}
+export function useExpensiveProductLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		ExpensiveProductQuery,
+		ExpensiveProductQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		ExpensiveProductQuery,
+		ExpensiveProductQueryVariables
+	>(ExpensiveProductDocument, options);
+}
+export type ExpensiveProductQueryHookResult = ReturnType<
+	typeof useExpensiveProductQuery
+>;
+export type ExpensiveProductLazyQueryHookResult = ReturnType<
+	typeof useExpensiveProductLazyQuery
+>;
+export type ExpensiveProductQueryResult = Apollo.QueryResult<
+	ExpensiveProductQuery,
+	ExpensiveProductQueryVariables
 >;
 export const ProductByIdDocument = gql`
 	query ProductById($identifier: String!) {

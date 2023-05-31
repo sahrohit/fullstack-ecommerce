@@ -1,3 +1,4 @@
+import { useExpensiveProductQuery } from "@/generated/graphql";
 import {
 	FormLabel,
 	HStack,
@@ -23,8 +24,10 @@ const PriceSelector = ({
 	selectedVariant,
 	setSelectedVariant,
 }: PriceSelectorProps) => {
+	const { data } = useExpensiveProductQuery();
+
 	const MIN_PRICE = 0;
-	const MAX_PRICE = 1000;
+	const MAX_PRICE = data?.expensiveProduct ?? 9999;
 
 	const lowerPrice = Number(selectedVariant?.lowerPrice) ?? MIN_PRICE;
 	const higherPrice = Number(selectedVariant?.higherPrice) ?? MAX_PRICE;
