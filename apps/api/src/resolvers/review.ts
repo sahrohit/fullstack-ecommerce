@@ -33,7 +33,6 @@ export class ReviewResolver {
 	}
 
 	@Query(() => ReviewSummaryResponse, { nullable: true })
-	@UseMiddleware(isVerified)
 	async reviewSummary(
 		@Arg("productId", () => Int) productId: number
 	): Promise<ReviewSummaryResponse | undefined> {
@@ -45,7 +44,6 @@ export class ReviewResolver {
 	}
 
 	@Query(() => [ProductReview], { nullable: true })
-	@UseMiddleware(isVerified)
 	async reviews(@Arg("productId", () => Int) productId: number) {
 		return ProductReview.find({
 			relations: {
@@ -61,7 +59,6 @@ export class ReviewResolver {
 	}
 
 	@Query(() => [ProductReview], { nullable: true })
-	@UseMiddleware(isVerified)
 	async allReviews(@Arg("productId", () => Int) productId: number) {
 		return ProductReview.find({
 			relations: {
