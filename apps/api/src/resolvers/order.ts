@@ -145,13 +145,15 @@ export class OrderResolver {
 			amount: total,
 		}).save();
 
+		const reqUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+
 		const resposne = await fetch(
 			"https://a.khalti.com/api/v2/epayment/initiate/",
 			{
 				method: "POST",
 				body: JSON.stringify({
-					return_url: `${req.get("referer")}/cart/checkout/result`,
-					website_url: req.get("referer"),
+					return_url: `${reqUrl}/cart/checkout/result`,
+					website_url: reqUrl,
 					amount: total * 10,
 					purchase_order_id: orderRes.id ?? "order-id",
 					purchase_order_name: "Hamropasal Payment",
@@ -252,13 +254,15 @@ export class OrderResolver {
 			throw new Error("Payment Already Completed");
 		}
 
+		const reqUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+
 		const resposne = await fetch(
 			"https://a.khalti.com/api/v2/epayment/initiate/",
 			{
 				method: "POST",
 				body: JSON.stringify({
-					return_url: `${req.get("referer")}/cart/checkout/result`,
-					website_url: req.get("referer"),
+					return_url: `${reqUrl}/cart/checkout/result`,
+					website_url: reqUrl,
 					amount: orderRes.amount * 10,
 					purchase_order_id: orderRes.id ?? "order-id",
 					purchase_order_name: "Hamropasal Payment",
