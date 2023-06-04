@@ -152,7 +152,7 @@ export class OrderResolver {
 				body: JSON.stringify({
 					return_url: `${process.env.CLIENT_URL}/cart/checkout/result`,
 					website_url: process.env.CLIENT_URL,
-					amount: total * 10,
+					amount: 7000,
 					purchase_order_id: orderRes.id ?? "order-id",
 					purchase_order_name: "Hamropasal Payment",
 					customer_info: {
@@ -162,12 +162,12 @@ export class OrderResolver {
 					},
 					amount_breakdown: [
 						{
-							label: "Sub Total",
-							amount: (subTotal - discount) * 10,
+							label: `Sub Total ${(subTotal - discount) / 100}`,
+							amount: 5000,
 						},
 						{
-							label: "Shipping Charges",
-							amount: shipping * 10,
+							label: `Shipping Charges ${shipping / 100}`,
+							amount: 2000,
 						},
 					],
 					product_details: cartRes.map((item) => ({
