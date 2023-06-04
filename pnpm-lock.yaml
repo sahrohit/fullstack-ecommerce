@@ -122,9 +122,6 @@ importers:
       graphql:
         specifier: ^15.8.0
         version: 15.8.0
-      graphql-upload:
-        specifier: ^16.0.2
-        version: 16.0.2(@types/express@4.17.17)(graphql@15.8.0)
       helmet:
         specifier: ^5.1.0
         version: 5.1.0
@@ -5495,7 +5492,7 @@ packages:
       '@graphql-tools/utils': 9.2.1(graphql@16.5.0)
       graphql: 16.5.0
       p-limit: 3.1.0
-      tslib: 2.5.0
+      tslib: 2.5.2
     dev: true
 
   /@graphql-tools/load@7.8.13(graphql@16.6.0):
@@ -6694,12 +6691,6 @@ packages:
       '@types/connect': 3.4.35
       '@types/node': 18.15.11
 
-  /@types/busboy@1.5.0:
-    resolution: {integrity: sha512-ncOOhwmyFDW76c/Tuvv9MA9VGYUCn8blzyWmzYELcNGDb0WXWLSmFi7hJq25YdRBYJrmMBB5jZZwUjlJe9HCjQ==}
-    dependencies:
-      '@types/node': 18.15.11
-    dev: false
-
   /@types/connect-redis@0.0.18:
     resolution: {integrity: sha512-iGygGbXgPIr94DEAuoluWhzre3c2/ew5NPlbW9IWvwCTXMM1YCmc7M9wpXMkYqt6kB9aO1sjZnmDzyugUu+2vQ==}
     dependencies:
@@ -6767,6 +6758,7 @@ packages:
       '@types/express-serve-static-core': 4.17.33
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.1
+    dev: true
 
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
@@ -6886,10 +6878,6 @@ packages:
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
-
-  /@types/object-path@0.11.1:
-    resolution: {integrity: sha512-219LSCO9HPcoXcRTC6DbCs0FRhZgBnEMzf16RRqkT40WbkKx3mOeQuz3e2XqbfhOz/AHfbru0kzB1n1RCAsIIg==}
-    dev: false
 
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -10204,11 +10192,6 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /fs-capacitor@8.0.0:
-    resolution: {integrity: sha512-+Lk6iSKajdGw+7XYxUkwIzreJ2G1JFlYOdnKJv5PzwFLVsoJYBpCuS7WPIUSNT1IbQaEWT1nhYU63Ud03DyzLA==}
-    engines: {node: ^14.17.0 || >=16.0.0}
-    dev: false
-
   /fs-extra@11.1.1:
     resolution: {integrity: sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==}
     engines: {node: '>=14.14'}
@@ -10526,7 +10509,7 @@ packages:
       jiti: 1.17.1
       minimatch: 4.2.3
       string-env-interpolation: 1.0.1
-      tslib: 2.5.0
+      tslib: 2.5.2
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -10648,30 +10631,6 @@ packages:
     dependencies:
       graphql: 16.6.0
       tslib: 2.5.2
-
-  /graphql-upload@16.0.2(@types/express@4.17.17)(graphql@15.8.0):
-    resolution: {integrity: sha512-enwIkZqUELdNH9lrjHlTNfj7gLitSa0EAX4TNXZtg2frnmQzPhpjH0l+6K7ft274fhoRCIcz8SKiNRJDf/cG4Q==}
-    engines: {node: ^14.17.0 || ^16.0.0 || >= 18.0.0}
-    peerDependencies:
-      '@types/express': ^4.0.29
-      '@types/koa': ^2.11.4
-      graphql: ^16.3.0
-    peerDependenciesMeta:
-      '@types/express':
-        optional: true
-      '@types/koa':
-        optional: true
-    dependencies:
-      '@types/busboy': 1.5.0
-      '@types/express': 4.17.17
-      '@types/node': 18.15.11
-      '@types/object-path': 0.11.1
-      busboy: 1.6.0
-      fs-capacitor: 8.0.0
-      graphql: 15.8.0
-      http-errors: 2.0.0
-      object-path: 0.11.8
-    dev: false
 
   /graphql-ws@5.12.0(graphql@16.5.0):
     resolution: {integrity: sha512-PA3ImUp8utrpEjoxBMhvxsjkStvFEdU0E1gEBREt8HZIWkxOUymwJBhFnBL7t/iHhUq1GVPeZevPinkZFENxTw==}
@@ -12693,11 +12652,6 @@ packages:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
     engines: {node: '>= 0.4'}
     dev: true
-
-  /object-path@0.11.8:
-    resolution: {integrity: sha512-YJjNZrlXJFM42wTBn6zgOJVar9KFJvzx6sTWDte8sWZF//cnjl0BxHNpfZx+ZffXX63A9q0b1zsFiBX4g4X5KA==}
-    engines: {node: '>= 10.12.0'}
-    dev: false
 
   /object.assign@4.1.4:
     resolution: {integrity: sha512-1mxKf0e58bvyjSCtKYY4sRe9itRk3PJpquJOjeIkz885CczcI4IvJJDLPS72oowuSh+pBxUFROpX+TU++hxhZQ==}
