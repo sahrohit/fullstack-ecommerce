@@ -393,6 +393,13 @@ export type ProductReview = {
 	userId: Scalars["Int"];
 };
 
+export type ProductSummary = {
+	__typename?: "ProductSummary";
+	count: Scalars["Int"];
+	max: Scalars["Int"];
+	min: Scalars["Int"];
+};
+
 export type ProductVariant = {
 	__typename?: "ProductVariant";
 	created_at: Scalars["String"];
@@ -427,7 +434,6 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
-	expensiveProduct?: Maybe<Scalars["Float"]>;
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
@@ -437,12 +443,14 @@ export type Query = {
 	orders?: Maybe<Array<OrderDetail>>;
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
+	productsSummary?: Maybe<ProductSummary>;
 	promo?: Maybe<Promo>;
 	queryProducts?: Maybe<Array<Product>>;
 	reviewByUserAndProduct?: Maybe<ProductReview>;
 	reviewSummary?: Maybe<ReviewSummaryResponse>;
 	reviews?: Maybe<Array<ProductReview>>;
 	roles: Array<UserRole>;
+	searchProducts?: Maybe<Array<Product>>;
 	variants: Array<Variant>;
 };
 
@@ -476,6 +484,11 @@ export type QueryReviewSummaryArgs = {
 
 export type QueryReviewsArgs = {
 	productId: Scalars["Int"];
+};
+
+export type QuerySearchProductsArgs = {
+	limit?: InputMaybe<Scalars["Int"]>;
+	query: Scalars["String"];
 };
 
 export type RegisterInput = {
@@ -2007,13 +2020,6 @@ export type OrdersQuery = {
 	}> | null;
 };
 
-export type ExpensiveProductQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ExpensiveProductQuery = {
-	__typename?: "Query";
-	expensiveProduct?: number | null;
-};
-
 export type ProductByIdQueryVariables = Exact<{
 	identifier: Scalars["String"];
 }>;
@@ -2199,6 +2205,47 @@ export type QueryProductsQuery = {
 			price: number;
 		}> | null;
 	}> | null;
+};
+
+export type SearchProductsQueryVariables = Exact<{
+	query: Scalars["String"];
+	limit?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type SearchProductsQuery = {
+	__typename?: "Query";
+	searchProducts?: Array<{
+		__typename?: "Product";
+		id: number;
+		identifier: string;
+		name: string;
+		desc: string;
+		categoryId: number;
+		discountId?: number | null;
+		created_at: string;
+		updated_at: string;
+		images: Array<{
+			__typename?: "ProductImage";
+			id: number;
+			imageURL: string;
+			productId: number;
+			sequence: number;
+			created_at: string;
+			updated_at: string;
+		}>;
+	}> | null;
+};
+
+export type ProductsSummaryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ProductsSummaryQuery = {
+	__typename?: "Query";
+	productsSummary?: {
+		__typename?: "ProductSummary";
+		max: number;
+		min: number;
+		count: number;
+	} | null;
 };
 
 export type PromoQueryVariables = Exact<{
@@ -4024,61 +4071,6 @@ export type OrdersQueryResult = Apollo.QueryResult<
 	OrdersQuery,
 	OrdersQueryVariables
 >;
-export const ExpensiveProductDocument = gql`
-	query ExpensiveProduct {
-		expensiveProduct
-	}
-`;
-
-/**
- * __useExpensiveProductQuery__
- *
- * To run a query within a React component, call `useExpensiveProductQuery` and pass it any options that fit your needs.
- * When your component renders, `useExpensiveProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useExpensiveProductQuery({
- *   variables: {
- *   },
- * });
- */
-export function useExpensiveProductQuery(
-	baseOptions?: Apollo.QueryHookOptions<
-		ExpensiveProductQuery,
-		ExpensiveProductQueryVariables
-	>
-) {
-	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useQuery<ExpensiveProductQuery, ExpensiveProductQueryVariables>(
-		ExpensiveProductDocument,
-		options
-	);
-}
-export function useExpensiveProductLazyQuery(
-	baseOptions?: Apollo.LazyQueryHookOptions<
-		ExpensiveProductQuery,
-		ExpensiveProductQueryVariables
-	>
-) {
-	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useLazyQuery<
-		ExpensiveProductQuery,
-		ExpensiveProductQueryVariables
-	>(ExpensiveProductDocument, options);
-}
-export type ExpensiveProductQueryHookResult = ReturnType<
-	typeof useExpensiveProductQuery
->;
-export type ExpensiveProductLazyQueryHookResult = ReturnType<
-	typeof useExpensiveProductLazyQuery
->;
-export type ExpensiveProductQueryResult = Apollo.QueryResult<
-	ExpensiveProductQuery,
-	ExpensiveProductQueryVariables
->;
 export const ProductByIdDocument = gql`
 	query ProductById($identifier: String!) {
 		product(identifier: $identifier) {
@@ -4298,6 +4290,139 @@ export type QueryProductsLazyQueryHookResult = ReturnType<
 export type QueryProductsQueryResult = Apollo.QueryResult<
 	QueryProductsQuery,
 	QueryProductsQueryVariables
+>;
+export const SearchProductsDocument = gql`
+	query SearchProducts($query: String!, $limit: Int) {
+		searchProducts(query: $query, limit: $limit) {
+			id
+			identifier
+			name
+			desc
+			categoryId
+			discountId
+			created_at
+			updated_at
+			images {
+				id
+				imageURL
+				productId
+				sequence
+				created_at
+				updated_at
+			}
+		}
+	}
+`;
+
+/**
+ * __useSearchProductsQuery__
+ *
+ * To run a query within a React component, call `useSearchProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchProductsQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSearchProductsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		SearchProductsQuery,
+		SearchProductsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<SearchProductsQuery, SearchProductsQueryVariables>(
+		SearchProductsDocument,
+		options
+	);
+}
+export function useSearchProductsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		SearchProductsQuery,
+		SearchProductsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<SearchProductsQuery, SearchProductsQueryVariables>(
+		SearchProductsDocument,
+		options
+	);
+}
+export type SearchProductsQueryHookResult = ReturnType<
+	typeof useSearchProductsQuery
+>;
+export type SearchProductsLazyQueryHookResult = ReturnType<
+	typeof useSearchProductsLazyQuery
+>;
+export type SearchProductsQueryResult = Apollo.QueryResult<
+	SearchProductsQuery,
+	SearchProductsQueryVariables
+>;
+export const ProductsSummaryDocument = gql`
+	query ProductsSummary {
+		productsSummary {
+			max
+			min
+			count
+		}
+	}
+`;
+
+/**
+ * __useProductsSummaryQuery__
+ *
+ * To run a query within a React component, call `useProductsSummaryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsSummaryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsSummaryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProductsSummaryQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		ProductsSummaryQuery,
+		ProductsSummaryQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<ProductsSummaryQuery, ProductsSummaryQueryVariables>(
+		ProductsSummaryDocument,
+		options
+	);
+}
+export function useProductsSummaryLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		ProductsSummaryQuery,
+		ProductsSummaryQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		ProductsSummaryQuery,
+		ProductsSummaryQueryVariables
+	>(ProductsSummaryDocument, options);
+}
+export type ProductsSummaryQueryHookResult = ReturnType<
+	typeof useProductsSummaryQuery
+>;
+export type ProductsSummaryLazyQueryHookResult = ReturnType<
+	typeof useProductsSummaryLazyQuery
+>;
+export type ProductsSummaryQueryResult = Apollo.QueryResult<
+	ProductsSummaryQuery,
+	ProductsSummaryQueryVariables
 >;
 export const PromoDocument = gql`
 	query Promo($code: String!) {

@@ -37,7 +37,7 @@ export class ProductResolver {
 	@Query(() => [Product], { nullable: true })
 	async searchProducts(
 		@Arg("query") query: string,
-		@Arg("limit", { nullable: true }) limit: number
+		@Arg("limit", () => Int, { nullable: true }) limit: number
 	): Promise<Product[]> {
 		return Product.createQueryBuilder("p")
 			.select()

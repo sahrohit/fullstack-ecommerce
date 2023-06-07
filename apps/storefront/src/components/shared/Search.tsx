@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useSearchProductsLazyQuery } from "@/generated/graphql";
 import {
 	useDisclosure,
 	Modal,
@@ -6,6 +8,7 @@ import {
 	IconButton,
 	InputGroup,
 	InputRightElement,
+	Spinner,
 } from "@chakra-ui/react";
 import {
 	AutoComplete,
@@ -14,12 +17,17 @@ import {
 	AutoCompleteItem,
 	AutoCompleteCreatable,
 } from "@choc-ui/chakra-autocomplete";
+import { useCallback } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-
-const countries = ["nigeria", "japan", "india", "united states", "south korea"];
+import debounce from "lodash.debounce";
+import { Link } from "@chakra-ui/next-js";
 
 const Search = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [search, { loading, data }] = useSearchProductsLazyQuery();
+
+	const debouncer = useCallback(debounce(search, 400), []);
+
 	return (
 		<>
 			<IconButton
@@ -34,27 +42,43 @@ const Search = () => {
 				<ModalContent>
 					<AutoComplete openOnFocus creatable>
 						<InputGroup>
-							<AutoCompleteInput placeholder="Search Anything" />
+							<AutoCompleteInput
+								onChange={(e) =>
+									debouncer({
+										variables: {
+											query: e.target.value,
+											limit: 5,
+										},
+									})
+								}
+								placeholder="Search Anything"
+							/>
 							<InputRightElement>
-								<IconButton
-									aria-label="Search"
-									variant="link"
-									icon={<AiOutlineSearch size="24" />}
-								/>
+								{loading ? (
+									<Spinner />
+								) : (
+									<IconButton
+										aria-label="Search"
+										variant="link"
+										icon={<AiOutlineSearch size="24" />}
+									/>
+								)}
 							</InputRightElement>
 						</InputGroup>
 						<AutoCompleteList w="full">
-							{countries.map((country, cid) => (
+							{data?.searchProducts?.map((product) => (
 								<AutoCompleteItem
-									key={`option-${cid + 1}`}
-									value={country}
+									as={Link}
+									key={product.identifier}
+									value={product.identifier}
 									textTransform="capitalize"
+									href={`/products/${product.identifier}`}
 								>
-									{country}
+									{product.name}
 								</AutoCompleteItem>
 							))}
 							<AutoCompleteCreatable>
-								{({ value }) => <span>Search specifically for {value} </span>}
+								{({ value }) => <span>Search all results for {value} </span>}
 							</AutoCompleteCreatable>
 						</AutoCompleteList>
 					</AutoComplete>

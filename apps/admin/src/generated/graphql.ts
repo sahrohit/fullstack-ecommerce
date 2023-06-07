@@ -393,6 +393,13 @@ export type ProductReview = {
 	userId: Scalars["Int"];
 };
 
+export type ProductSummary = {
+	__typename?: "ProductSummary";
+	count: Scalars["Int"];
+	max: Scalars["Int"];
+	min: Scalars["Int"];
+};
+
 export type ProductVariant = {
 	__typename?: "ProductVariant";
 	created_at: Scalars["String"];
@@ -427,7 +434,6 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
-	expensiveProduct?: Maybe<Scalars["Float"]>;
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
@@ -437,12 +443,14 @@ export type Query = {
 	orders?: Maybe<Array<OrderDetail>>;
 	product?: Maybe<Product>;
 	products?: Maybe<Array<Product>>;
+	productsSummary?: Maybe<ProductSummary>;
 	promo?: Maybe<Promo>;
 	queryProducts?: Maybe<Array<Product>>;
 	reviewByUserAndProduct?: Maybe<ProductReview>;
 	reviewSummary?: Maybe<ReviewSummaryResponse>;
 	reviews?: Maybe<Array<ProductReview>>;
 	roles: Array<UserRole>;
+	searchProducts?: Maybe<Array<Product>>;
 	variants: Array<Variant>;
 };
 
@@ -476,6 +484,11 @@ export type QueryReviewSummaryArgs = {
 
 export type QueryReviewsArgs = {
 	productId: Scalars["Int"];
+};
+
+export type QuerySearchProductsArgs = {
+	limit?: InputMaybe<Scalars["Int"]>;
+	query: Scalars["String"];
 };
 
 export type RegisterInput = {
