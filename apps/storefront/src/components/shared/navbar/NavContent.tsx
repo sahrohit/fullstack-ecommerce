@@ -19,12 +19,12 @@ import NavLink from "@/components/shared/navbar/NavLink";
 import { Link } from "@chakra-ui/next-js";
 import {
 	AiOutlineHeart,
-	AiOutlineSearch,
 	AiOutlineShoppingCart,
 	AiOutlineUser,
 } from "react-icons/ai";
 import DrawerCart from "@/components/pages/cart/DrawerCart";
 import { BRAND_NAME } from "../../../../constants";
+import Search from "../Search";
 
 const MobileNavContext = (props: FlexProps) => {
 	const { isOpen, onToggle } = useDisclosure();
@@ -135,11 +135,12 @@ const AuthButtons = () => (
 
 const Menu = () => (
 	<HStack>
-		<IconButton
+		{/* <IconButton
 			aria-label="Search"
 			variant="link"
 			icon={<AiOutlineSearch size="24" />}
-		/>
+		/> */}
+		<Search />
 		<IconButton
 			aria-label="Favourite"
 			variant="link"
