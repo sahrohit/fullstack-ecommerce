@@ -1,18 +1,57 @@
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, Field, Int, ObjectType, Query, Resolver } from "type-graphql";
 import { Product } from "../entities/Product";
 import { Between } from "typeorm";
 import { ProductInventory } from "src/entities/ProductInventory";
+import { ProductImage } from "src/entities/ProductImage";
+
+@ObjectType()
+class ProductSummary {
+	@Field(() => Int)
+	max!: number;
+
+	@Field(() => Int)
+	min!: number;
+
+	@Field(() => Int)
+	count!: number;
+}
 
 @Resolver(Product)
 export class ProductResolver {
-	@Query(() => Number, { nullable: true })
-	async expensiveProduct() {
-		const { price } = await ProductInventory.findOneOrFail({
-			select: ["price"],
-			where: { isPublished: true },
-			order: { price: "DESC" },
-		});
-		return price;
+	@Query(() => ProductSummary, { nullable: true })
+	async productsSummary() {
+		const query = ProductInventory.createQueryBuilder("pi");
+		query.select("MAX(pi.price)", "max");
+		query.addSelect("MIN(pi.price)", "min");
+		query.addSelect("COUNT(pi.inventory_id)", "count");
+
+		const { max = 99999, min = 0, count = 0 } = await query.getRawOne();
+
+		return {
+			max,
+			min,
+			count,
+		};
+	}
+
+	@Query(() => [Product], { nullable: true })
+	async searchProducts(
+		@Arg("query") query: string,
+		@Arg("limit", { nullable: true }) limit: number
+	): Promise<Product[]> {
+		return Product.createQueryBuilder("p")
+			.select()
+			.leftJoinAndMapMany("p.images", ProductImage, "pi", "pi.productId = p.id")
+			.where("document_with_weights @@ plainto_tsquery(:query)", {
+				query: `${query}:*`,
+			})
+			.where("pi.sequence = 0")
+			.orderBy(
+				"ts_rank(document_with_weights, plainto_tsquery(:query))",
+				"DESC"
+			)
+			.limit(limit ?? null)
+			.getMany();
 	}
 
 	@Query(() => [Product], { nullable: true })

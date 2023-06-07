@@ -75,6 +75,9 @@ export class Product extends BaseEntity {
 	@JoinTable({ name: "discount_id" })
 	discount!: Discount;
 
+	@Column("tsvector", { select: false })
+	document_with_weights!: string;
+
 	@Field(() => String)
 	@CreateDateColumn()
 	created_at = new Date();
