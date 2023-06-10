@@ -1,11 +1,12 @@
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
 import connectRedis from "connect-redis";
+import { json } from "body-parser";
 import cors from "cors";
 import "dotenv-safe/config";
 import Express from "express";
 import session from "express-session";
 import helmet from "helmet";
-import Redis from "ioredis";
 import { buildSchema } from "type-graphql";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import { AppDataSource } from "./data-source";
@@ -19,12 +20,13 @@ import { ProductResolver } from "./resolvers/product";
 import { UserResolver } from "./resolvers/user";
 import { MyContext } from "./types";
 import "reflect-metadata";
-import { Cart } from "./entities/Cart";
 import { PromoResolver } from "./resolvers/promo";
 import { OrderResolver } from "./resolvers/order";
 import { VariantResolver } from "./resolvers/variant";
 import { FavouriteResolver } from "./resolvers/favourite";
 import { ReviewResolver } from "./resolvers/review";
+import Redis from "ioredis";
+import { Cart } from "./entities/Cart";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -105,17 +107,24 @@ const Server = async () => {
 			],
 			validate: false,
 		}),
-		context: ({ req, res }): MyContext => ({
-			req,
-			res,
-			redis,
-		}),
+
 		introspection: !__prod__,
 	});
 
 	await apolloServer.start();
 
-	apolloServer.applyMiddleware({ app, cors: false });
+	app.use(
+		"/graphql",
+		cors<cors.CorsRequest>(),
+		json(),
+		expressMiddleware(apolloServer, {
+			context: async ({ req, res }): Promise<MyContext> => ({
+				req,
+				res,
+				redis,
+			}),
+		})
+	);
 
 	app.listen(parseInt(process.env.PORT!), () => {
 		console.log(`Server is running on port ${process.env.PORT!}`);

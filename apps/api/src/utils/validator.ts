@@ -18,7 +18,7 @@ export const validateRegister = (options: RegisterInput) => {
 		return [
 			{
 				field: error.details[0].path[0] as string,
-				message: error.details[0].message.replaceAll('"', ""),
+				message: error.details[0].message.split('"').join(""),
 			},
 		];
 	}
