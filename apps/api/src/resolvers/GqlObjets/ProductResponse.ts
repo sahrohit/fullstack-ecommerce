@@ -1,5 +1,5 @@
-import { ProductCategory } from "src/entities/ProductCategory";
-import { ProductImage } from "src/entities/ProductImage";
+import { ProductCategory } from "../../entities/ProductCategory";
+import { ProductImage } from "../../entities/ProductImage";
 import { ObjectType, Field, Int } from "type-graphql";
 
 @ObjectType()

@@ -1,4 +1,4 @@
-import { isVerified } from "src/middlewares/isVerified";
+import { isVerified } from "../middlewares/isVerified";
 import { UserRole } from "../entities/UserRole";
 import { Query, Resolver, UseMiddleware } from "type-graphql";
 

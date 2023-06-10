@@ -1,5 +1,5 @@
 import { Arg, Query, Resolver } from "type-graphql";
-import { Promo } from "src/entities/Promo";
+import { Promo } from "../entities/Promo";
 
 @Resolver()
 export class PromoResolver {

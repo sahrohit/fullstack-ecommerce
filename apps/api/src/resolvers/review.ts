@@ -1,4 +1,4 @@
-import { isVerified } from "src/middlewares/isVerified";
+import { isVerified } from "../middlewares/isVerified";
 import {
 	Arg,
 	Ctx,
@@ -10,11 +10,11 @@ import {
 	Root,
 	UseMiddleware,
 } from "type-graphql";
-import { ProductReview } from "src/entities/ProductReview";
-import { User } from "src/entities/User";
+import { ProductReview } from "../entities/ProductReview";
+import { User } from "../entities/User";
 import ReviewSummaryResponse from "./GqlObjets/ReviewResponse";
-import type { MyContext } from "src/types";
-import { OrderDetail } from "src/entities/OrderDetail";
+import type { MyContext } from "../types";
+import { OrderDetail } from "../entities/OrderDetail";
 
 @Resolver(ProductReview)
 export class ReviewResolver {

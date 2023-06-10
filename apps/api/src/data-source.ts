@@ -47,6 +47,6 @@ export const AppDataSource = new DataSource({
 		Favourite,
 		ProductReview,
 	],
-	migrations: [__dirname + "src/migrations/**/*.ts"],
-	subscribers: [__dirname + "src/migrations/**/*.ts"],
+	migrations: ["dist/migration/**/*.js"],
+	subscribers: [],
 });

@@ -9,8 +9,8 @@ import {
 } from "type-graphql";
 import { Cart } from "../entities/Cart";
 import type { MyContext } from "../types";
-import { isVerified } from "src/middlewares/isVerified";
-import { ProductInventory } from "src/entities/ProductInventory";
+import { isVerified } from "../middlewares/isVerified";
+import { ProductInventory } from "../entities/ProductInventory";
 
 @Resolver(Cart)
 export class CartResolver {

@@ -7,8 +7,8 @@ import {
 	Resolver,
 	UseMiddleware,
 } from "type-graphql";
-import { Favourite } from "src/entities/Favourite";
-import { isVerified } from "src/middlewares/isVerified";
+import { Favourite } from "../entities/Favourite";
+import { isVerified } from "../middlewares/isVerified";
 import type { MyContext } from "../types";
 
 @Resolver(Favourite)

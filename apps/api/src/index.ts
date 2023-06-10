@@ -41,7 +41,7 @@ const Server = async () => {
 
 	app.use(
 		cors({
-			origin: (process.env.ALLOWED_ORIGINS.split(",") || "").map(
+			origin: (process.env.ALLOWED_ORIGINS!.split(",") || "").map(
 				(origin) => origin
 			),
 			credentials: true,
@@ -66,7 +66,7 @@ const Server = async () => {
 				secure: __prod__, //Cookie only works in https
 			},
 			saveUninitialized: false,
-			secret: process.env.SESSION_SECRET,
+			secret: process.env.SESSION_SECRET!,
 			resave: false,
 		})
 	);
@@ -117,8 +117,8 @@ const Server = async () => {
 
 	apolloServer.applyMiddleware({ app, cors: false });
 
-	app.listen(parseInt(process.env.PORT), () => {
-		console.log(`Server is running on port ${process.env.PORT}`);
+	app.listen(parseInt(process.env.PORT!), () => {
+		console.log(`Server is running on port ${process.env.PORT!}`);
 	});
 };
 

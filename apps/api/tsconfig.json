@@ -2,7 +2,7 @@
 	"extends": "tsconfig/base.json",
 	"compilerOptions": {
 		"sourceMap": true,
-		"outDir": "./build",
+		"outDir": "dist",
 		"removeComments": true,
 		"noImplicitAny": true,
 		"strictNullChecks": true,
@@ -13,11 +13,22 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"resolveJsonModule": true,
-		"baseUrl": ".",
+		"baseUrl": "src",
 		"allowSyntheticDefaultImports": true,
 		"lib": ["es2021"],
 		"module": "commonjs",
-		"target": "es2020"
+		"target": "es2020",
+		"rootDir": "src",
+		"allowJs": true,
+		"checkJs": false
+	},
+	"paths": {
+		"@entities/*": ["entities/*"],
+		"@middlewares/*": ["middlewares/*"],
+		"@migration/*": ["migration/*"],
+		"@resolvers/*": ["resolvers/*"],
+		"@static/*": ["static/*"],
+		"@utils/*": ["utils/*"]
 	},
 	"exclude": ["node_modules"],
 	"include": [

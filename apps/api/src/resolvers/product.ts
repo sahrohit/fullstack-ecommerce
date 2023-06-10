@@ -1,8 +1,8 @@
 import { Arg, Field, Int, ObjectType, Query, Resolver } from "type-graphql";
 import { Product } from "../entities/Product";
 import { Between } from "typeorm";
-import { ProductInventory } from "src/entities/ProductInventory";
-import { ProductImage } from "src/entities/ProductImage";
+import { ProductInventory } from "../entities/ProductInventory";
+import { ProductImage } from "../entities/ProductImage";
 
 @ObjectType()
 class ProductSummary {

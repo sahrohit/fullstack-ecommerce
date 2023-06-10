@@ -8,6 +8,7 @@ declare global {
 			PORT: string;
 			SENDGRID_API_KEY: string;
 			CLIENT_URL: string;
+			KHALTI_SECRET_KEY: string;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import { OrderDetail, OrderStatus } from "src/entities/OrderDetail";
+import { OrderDetail, OrderStatus } from "../entities/OrderDetail";
 import { type MyContext } from "../types";
 import {
 	Arg,
@@ -8,14 +8,14 @@ import {
 	Resolver,
 	UseMiddleware,
 } from "type-graphql";
-import { isVerified } from "src/middlewares/isVerified";
-import { Cart } from "src/entities/Cart";
+import { isVerified } from "../middlewares/isVerified";
+import { Cart } from "../entities/Cart";
 import { CreateOrderInput } from "./GqlObjets/OrderInput";
-import { Promo } from "src/entities/Promo";
-import { PaymentDetail, PaymentStatus } from "src/entities/PaymentDetail";
-import { OrderItem } from "src/entities/OrderItem";
-import { User } from "src/entities/User";
-import { capitalize } from "src/utils/helpers";
+import { Promo } from "../entities/Promo";
+import { PaymentDetail, PaymentStatus } from "../entities/PaymentDetail";
+import { OrderItem } from "../entities/OrderItem";
+import { User } from "../entities/User";
+import { capitalize } from "../utils/helpers";
 
 @Resolver()
 export class OrderResolver {

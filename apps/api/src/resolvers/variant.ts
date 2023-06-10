@@ -1,4 +1,4 @@
-import { Variant } from "src/entities/Variant";
+import { Variant } from "../entities/Variant";
 import { Query, Resolver } from "type-graphql";
 
 @Resolver()
