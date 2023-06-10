@@ -5,9 +5,10 @@
 	"private": true,
 	"scripts": {
 		"build": "tsc",
+		"start": "node dist/index.js",
 		"dev": "tsc-watch --onSuccess \"node dist/index.js\"",
 		"lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
-		"start": "tsc && node dist/index.js",
+		"build:start": "tsc && node dist/index.js",
 		"gen-env": "gen-env-types .env -o src/env.d.ts -e .",
 		"format:check": "prettier --check .",
 		"format:write": "prettier --write .",
