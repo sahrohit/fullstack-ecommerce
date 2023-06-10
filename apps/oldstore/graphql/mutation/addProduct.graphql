@@ -1,5 +1,0 @@
-mutation AddProduct($options: AddProductInput!) {
-	addProducts(options: $options) {
-		...ProductFragment
-	}
-}

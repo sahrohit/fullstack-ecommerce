@@ -1,5 +1,0 @@
-query Product($identifier: String!) {
-	product(identifier: $identifier) {
-		...ProductFragment
-	}
-}
