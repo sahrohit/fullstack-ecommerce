@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="./apps/storefront/public/logo_dark.svg" alt="Logo" width="160" height="80">
+    <img src="./apps/storefront/public/logo_dark.svg" alt="Logo" width="160">
   </a>
 
   <h3 align="center">Hamro Pasal</h3>
@@ -10,7 +10,6 @@
   <p align="center">
     Built with god knows what
     <br />
-    <a href="https://madre.vercel.app"></a>
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-electricity.svg)](https://forthebadge.com)
@@ -26,18 +25,18 @@
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these simple example steps:
 
 ### Installation
 
 1. Clone the repo
-   ```sh
+   ```sh copy
    git clone https://github.com/sahrohit/fullstack-ecommerce.git
    ```
 2. Install the project dependencies
 
-   ```powershell
-       $ pnpm install
+   ```sh copy
+   pnpm install
    ```
 
 3. Rename the `env.example` to `env.local` & update you enviroment variables in all the apps.
@@ -48,21 +47,17 @@ To get a local copy up and running follow these simple example steps.
 
 4. Run the following commands to start the development server
 
-   ```powershell
-   $ pnpm dev
+   ```sh copy
+   pnpm dev
    ```
 
 ### After Setting Up
 
-To initialize the backend,
+To initialize the project,
 
-`yarn watch` - Run Typescript in watch mode
+`pnpm dev` - Run project in development mode
 
-`yarn dev` - Start a Nodejs server on the port specified in .env
-
-To initialize the frontend,
-
-`yarn dev` - Starts a Next App at http://localhost:3000
+`pnpm build` - Generate production build for the project
 
 For other commands, check `scripts` in package.json.
 
@@ -73,7 +68,6 @@ For other commands, check `scripts` in package.json.
 | api        | Backend Server for the infrastructure |
 | admin      | Frontend Nextjs app for Managment     |
 | storefront | Frontend Nextjs app for end users     |
-| oldstore   | Last iteration of frontend app        |
 
 ## Built With
 
@@ -104,5 +98,3 @@ Don't forget to give the project a star! Thanks again!
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<!-- CONTACT -->
