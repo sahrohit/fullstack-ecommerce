@@ -107,7 +107,6 @@ const Server = async () => {
 			],
 			validate: false,
 		}),
-
 		introspection: !__prod__,
 	});
 
@@ -115,7 +114,6 @@ const Server = async () => {
 
 	app.use(
 		"/graphql",
-		cors<cors.CorsRequest>(),
 		json(),
 		expressMiddleware(apolloServer, {
 			context: async ({ req, res }): Promise<MyContext> => ({
