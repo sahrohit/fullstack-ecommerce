@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:root@db/ecommerce
+      - REDIS_URL=redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@redis:6379
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:latest
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=ecommerce
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - ./redisdata:/data
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    ports:
+      - 6379:6379

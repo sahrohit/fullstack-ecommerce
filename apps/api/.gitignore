@@ -28,7 +28,3 @@ redisdata
 .env.test.local
 .env.production.local
 .env.local
-
-# Docker files
-docker-compose.yml
-Dockerfile
