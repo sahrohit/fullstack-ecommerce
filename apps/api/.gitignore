@@ -13,6 +13,8 @@ node_modules/
 build/
 tmp/
 temp/
+pgdata
+redisdata
 
 #IDE
 .vscode
@@ -26,3 +28,7 @@ temp/
 .env.test.local
 .env.production.local
 .env.local
+
+# Docker files
+docker-compose.yml
+Dockerfile

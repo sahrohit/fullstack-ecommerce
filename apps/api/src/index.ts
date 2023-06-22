@@ -74,7 +74,9 @@ const Server = async () => {
 	);
 
 	app.get("/", (_req, res) => {
-		res.json({ status: "ok" });
+		console.log(_req.headers["x-forwarded-for"]);
+		console.log("Request received on /");
+		res.json({ status: "ok", from: _req.headers["x-forwarded-for"] });
 	});
 
 	app.get("/test", async (_req, res) => {
