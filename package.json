@@ -3,8 +3,8 @@
 	"scripts": {
 		"build": "turbo run build --no-daemon",
 		"clean": "turbo run clean --no-daemon",
-		"dev": "turbo run dev --no-daemon --parallel --no-cache --continue --filter=admin --filter=api --filter=storefront",
-		"dev:all": "turbo run dev --parallel --no-cache --continue",
+		"dev": "turbo run dev --no-daemon --parallel --no-cache --continue",
+		"dev:store": "turbo run dev --no-daemon --parallel --no-cache --continue --filter=storefront",
 		"format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"lint": "turbo run lint --no-daemon",

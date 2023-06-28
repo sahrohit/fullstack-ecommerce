@@ -23,4 +23,4 @@ RUN pnpm run build
 
 # Start the Node.js application
 
-CMD [ "pnpm", "build:start" ]
+CMD [ "pnpm", "start" ]
