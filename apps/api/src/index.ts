@@ -26,7 +26,7 @@ import { VariantResolver } from "./resolvers/variant";
 import { FavouriteResolver } from "./resolvers/favourite";
 import { ReviewResolver } from "./resolvers/review";
 import Redis from "ioredis";
-import { Cart } from "./entities/Cart";
+import { Product } from "./entities/Product";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -74,20 +74,32 @@ const Server = async () => {
 	);
 
 	app.get("/", (_req, res) => {
-		console.log(_req.headers["x-forwarded-for"]);
-		console.log("Request received on /");
-		res.json({ status: "ok", from: _req.headers["x-forwarded-for"] });
+		console.log("Request Home");
+		res.json({ status: "ok" });
 	});
 
-	app.get("/test", async (_req, res) => {
-		const products = await Cart.create({
-			userId: 3,
-			inventoryId: 3,
-			quantity: 2,
-		}).save();
-		res.json({
-			products,
-		});
+	app.get("/products", async (_req, res) => {
+		res.json(
+			await Product.find({
+				relations: {
+					inventories: {
+						variants: {
+							variant_value: {
+								variant: true,
+							},
+						},
+					},
+					category: true,
+					images: true,
+					discount: true,
+				},
+				where: {
+					inventories: {
+						isPublished: true,
+					},
+				},
+			})
+		);
 	});
 
 	const apolloServer = new ApolloServer({
