@@ -1,0 +1,21 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Push to dokku
+        uses: dokku/github-action@main
+        with:
+          git_remote_url: "ssh://azureuser@20.204.142.65/api"
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
