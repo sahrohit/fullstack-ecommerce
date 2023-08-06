@@ -28,7 +28,7 @@ export function formatPrice(
 		style: "currency",
 		maximumFractionDigits: 2,
 	});
-	return formatter.format(value / 100);
+	return formatter.format(value);
 }
 
 export const PriceTag = (props: PriceTagProps) => {

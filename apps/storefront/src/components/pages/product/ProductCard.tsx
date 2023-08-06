@@ -110,7 +110,7 @@ const ProductCard = (props: ProductCardProps) => {
 					<PriceTag
 						price={inventories?.[0]?.price || 0}
 						// salePrice={salePrice}
-						currency="USD"
+						currency="NPR"
 					/>
 				</Stack>
 				<HStack>
