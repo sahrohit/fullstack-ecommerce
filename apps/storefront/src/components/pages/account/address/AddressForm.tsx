@@ -1,4 +1,4 @@
-import { Button, Card, HStack, Stack, Text } from "@chakra-ui/react";
+import { Button, Card, HStack, Stack, Text, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -69,6 +69,7 @@ const AddressForm = ({
 		defaultValues: defaultValues ?? emptyAddressFormValues,
 		resolver: yupResolver(AddressFormSchema),
 	});
+	const toast = useToast();
 	const [autoFillLoading, setAutoFillLoading] = useState(false);
 	const [addAddressMutation, { loading: addLoading }] = useAddAddressMutation({
 		refetchQueries: ["Addresses"],
@@ -125,23 +126,52 @@ const AddressForm = ({
 						isLoading={autoFillLoading}
 						type="button"
 						variant="solid"
-						onClick={() => {
+						onClick={async () => {
 							setAutoFillLoading(true);
 							if (navigator?.geolocation) {
-								navigator.geolocation.getCurrentPosition(async (location) => {
-									if (location) {
-										const data = await getLocationInformation(
-											location.coords.latitude,
-											location.coords.longitude
-										);
-										setValue("city", data.locality);
-										setValue("state", data.principalSubdivision);
-										setValue("zip", data.postcode);
-										setValue("country", data.countryName);
+								navigator.geolocation.getCurrentPosition(
+									async (location) => {
+										if (location) {
+											const data = await getLocationInformation(
+												location.coords.latitude,
+												location.coords.longitude
+											);
+											setValue(
+												"address",
+												`${
+													data.address?.neighbourhood || data.address?.suburb
+												} ${data.address?.municipality}`
+											);
+											setValue(
+												"city",
+												data.address?.city ||
+													data.address?.county ||
+													data.address?.municipality ||
+													data.address?.town ||
+													data.address?.village
+											);
+											setValue("zip", data.address.postcode);
+											setValue(
+												"state",
+												data.address?.state ||
+													data.address?.state_district ||
+													data.address?.region
+											);
+											setValue("country", data.address?.country);
+											setAutoFillLoading(false);
+										}
+									},
+									(error) => {
+										toast({
+											title: "An Error Occured",
+											description: error.message,
+											status: "error",
+											duration: 5000,
+										});
+										setAutoFillLoading(false);
 									}
-								});
+								);
 							}
-							setAutoFillLoading(false);
 						}}
 					>
 						Autofill
@@ -275,8 +305,9 @@ export default AddressForm;
 
 const getLocationInformation = async (lat: number, lng: number) => {
 	const res = await fetch(
-		`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+		`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
 	);
 	const data = await res.json();
+	console.log(data);
 	return data;
 };
