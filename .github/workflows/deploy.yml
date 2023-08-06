@@ -5,17 +5,11 @@ on:
     branches:
       - main
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cloning repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Push to dokku
-        uses: dokku/github-action@master
-        with:
-          git_remote_url: "ssh://azureuser@20.204.142.65/api"
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+steps:
+  - name: executing remote ssh commands using password
+    uses: appleboy/ssh-action@v1.0.0
+    with:
+      host: "hamroapi.rudejellyfish.live"
+      username: "azureuser"
+      key: ${{ secrets.SSH_PRIVATE_KEY }}
+      script: dokku git:sync --build api https://github.com/sahrohit/fullstack-ecommmerce.git main
