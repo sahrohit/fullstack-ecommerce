@@ -27,6 +27,8 @@ import { FavouriteResolver } from "./resolvers/favourite";
 import { ReviewResolver } from "./resolvers/review";
 import Redis from "ioredis";
 import { Product } from "./entities/Product";
+import { verifyEmailTemplate } from "./static/verifyEmailTemplate";
+import { sendEmail } from "./utils/sendEmail";
 
 const Server = async () => {
 	AppDataSource.initialize()

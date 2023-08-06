@@ -24,7 +24,6 @@ import { type MyContext } from "../types";
 import { sendEmail } from "../utils/sendEmail";
 import { validateRegister } from "../utils/validator";
 import { RegisterInput } from "./GqlObjets/RegisterInput";
-// import {Upload} from "apollo-upload"
 
 @ObjectType()
 class FieldError {
@@ -106,14 +105,12 @@ export class UserResolver {
 			1000 * 60 * 60 * 24 * 3 //3 day
 		);
 
-		// //TODO: SEND EMAIL FOR VERIFICATION
-		// await sendEmail(
-		// 	options.email,
-		// 	"Verify Email",
-		// 	verifyEmailTemplate(`/auth/verify-email/${token}`)
-		// );
+		await sendEmail(
+			options.email,
+			"Verify Email",
+			verifyEmailTemplate(`/auth/verify-email/${token}`)
+		);
 
-		// req.session.userId = user.id;
 		return { user };
 	}
 
@@ -237,7 +234,9 @@ export class UserResolver {
 		await sendEmail(
 			email,
 			"Forgot Password",
-			forgetPasswordTemplate(`/auth/change-password/${token}`)
+			forgetPasswordTemplate(
+				`${process.env.CLIENT_URL}/auth/change-password/${token}`
+			)
 		);
 
 		return true;
@@ -330,17 +329,4 @@ export class UserResolver {
 
 		return { user };
 	}
-
-	// @Mutation(() => Boolean)
-	// async uploadFile(@Arg("file") file: Upload, @Ctx() { req }: MyContext) {
-	// 	const { createReadStream } = await file;
-
-	// 	await new Promise((res) =>
-	// 		createReadStream()
-	// 			.pipe(createWriteStream(path.join(__dirname, `../../images/test`)))
-	// 			.on("close", res)
-	// 	);
-
-	// 	return true;
-	// }
 }

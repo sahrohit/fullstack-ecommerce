@@ -41,6 +41,7 @@
 	},
 	"dependencies": {
 		"@apollo/server": "^4.7.3",
+		"@react-email/render": "^0.0.7",
 		"argon2": "^0.30.3",
 		"body-parser": "^1.20.2",
 		"connect-redis": "^6.1.3",
