@@ -18,7 +18,7 @@ const DesktopNavLink = forwardRef<any, NavLinkProps>((props, ref) => {
 			ref={ref}
 			display="inline-block"
 			px="4"
-			py="6"
+			py="2"
 			fontWeight="semibold"
 			aria-current={active ? "page" : undefined}
 			color={mode("gray.600", "gray.400")}

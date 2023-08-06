@@ -13,6 +13,7 @@ interface SubmenuProps {
 	link: Link;
 }
 
+// TODO: Update the design of navabr submenu
 const DesktopSubmenu = (props: SubmenuProps) => {
 	const { link } = props;
 	const { isOpen, getMenuProps, getTriggerProps } = useNavMenu();

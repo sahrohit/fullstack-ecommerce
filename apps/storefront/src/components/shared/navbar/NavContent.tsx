@@ -8,6 +8,7 @@ import {
 	VisuallyHidden,
 	useColorModeValue as mode,
 	IconButton,
+	VStack,
 } from "@chakra-ui/react";
 
 import NavMenu from "@/components/shared/navbar/NavMenu";
@@ -23,6 +24,7 @@ import {
 	AiOutlineUser,
 } from "react-icons/ai";
 import DrawerCart from "@/components/pages/cart/DrawerCart";
+import { useMeQuery } from "@/generated/graphql";
 import { BRAND_NAME } from "../../../../constants";
 import Search from "../Search";
 
@@ -73,37 +75,55 @@ const MobileNavContext = (props: FlexProps) => {
 	);
 };
 
-const DesktopNavContent = (props: FlexProps) => (
-	<Flex
-		className="nav-content__desktop"
-		align="center"
-		justify="space-between"
-		{...props}
-	>
-		<Box>
-			<VisuallyHidden>{BRAND_NAME}</VisuallyHidden>
-			<Logo h="8" iconColor="blue.500" />
-		</Box>
-		<HStack
-			as="ul"
-			id="nav__primary-menu"
-			aria-label="Main Menu"
-			listStyleType="none"
+const DesktopNavContent = (props: FlexProps) => {
+	const { data, loading, error } = useMeQuery();
+
+	return (
+		<Flex
+			className="nav-content__desktop"
+			align="center"
+			justify="space-between"
+			{...props}
 		>
-			{links.map((link, idx) => (
-				<Box as="li" key={link.label} id={`nav__menuitem-${idx}`}>
-					{link.children ? (
-						<Submenu.Desktop link={link} />
-					) : (
-						<NavLink.Desktop href={link.href!}>{link.label}</NavLink.Desktop>
-					)}
+			<HStack>
+				<Search />
+				<IconButton
+					aria-label="Favourite"
+					variant="link"
+					href="/products/favourite"
+					as={Link}
+					icon={<AiOutlineHeart size="24" />}
+				/>
+			</HStack>
+			<VStack my={4}>
+				<Box>
+					<VisuallyHidden>{BRAND_NAME}</VisuallyHidden>
+					<Logo h="8" iconColor="blue.500" />
 				</Box>
-			))}
-		</HStack>
-		{/* <AuthButtons /> */}
-		<Menu />
-	</Flex>
-);
+				<HStack
+					as="ul"
+					id="nav__primary-menu"
+					aria-label="Main Menu"
+					listStyleType="none"
+				>
+					{links.map((link, idx) => (
+						<Box as="li" key={link.label} id={`nav__menuitem-${idx}`}>
+							{link.children ? (
+								<Submenu.Desktop link={link} />
+							) : (
+								<NavLink.Desktop href={link.href!}>
+									{link.label}
+								</NavLink.Desktop>
+							)}
+						</Box>
+					))}
+				</HStack>
+			</VStack>
+			{/* eslint-disable-next-line no-nested-ternary */}
+			{!loading && !error ? data?.me?.id ? <Menu /> : <AuthButtons /> : <p />}
+		</Flex>
+	);
+};
 
 const NavContent = {
 	Mobile: MobileNavContext,
@@ -135,19 +155,6 @@ const AuthButtons = () => (
 
 const Menu = () => (
 	<HStack>
-		{/* <IconButton
-			aria-label="Search"
-			variant="link"
-			icon={<AiOutlineSearch size="24" />}
-		/> */}
-		<Search />
-		<IconButton
-			aria-label="Favourite"
-			variant="link"
-			href="/products/favourite"
-			as={Link}
-			icon={<AiOutlineHeart size="24" />}
-		/>
 		<IconButton
 			aria-label="Dashboard"
 			variant="link"

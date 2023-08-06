@@ -13,37 +13,36 @@ export interface Link {
 }
 
 export const links: Link[] = [
-	{ label: "Products", href: "/products" },
-	{ label: "Cart", href: "/cart" },
 	{
-		label: "Resources",
+		label: "Shop",
 		children: [
 			{
-				label: "Get Help",
-				description: "Read our documentation and FAQs, or get in touch.",
+				label: "Category1",
+				description: "Description of Product Category1",
 				href: "/cart",
 				icon: <IoHelpBuoy />,
 			},
 			{
-				label: "Events & Meetups",
-				description: "Discover and join your local Sketch community.",
+				label: "Category2",
+				description: "Description of Product Category2",
 				href: "/cart",
 				icon: <IoCalendar />,
 			},
 			{
-				label: "Extensions",
-				description: "Do even more with Assistants, plugins and integrations.",
+				label: "Category3",
+				description: "Description of Product Category3",
 				href: "/cart",
 				icon: <IoGrid />,
 			},
 			{
-				label: "Blog",
-				description: "Get updates, articles and insights from the team.",
+				label: "Category4",
+				description: "Description of Product Category4",
 				href: "/cart",
 				icon: <MdWeb />,
 			},
 		],
 	},
-
-	{ label: "Pricing", href: "/cart" },
+	{ label: "Collections", href: "/category" },
+	{ label: "New Arrival", href: "/new" },
+	{ label: "Brands", href: "/category" },
 ];

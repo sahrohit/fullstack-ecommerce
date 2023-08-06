@@ -8,6 +8,7 @@ import ProductCard, {
 } from "@/components/pages/product/ProductCard";
 import { Product, useProductsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
+import Banner from "@/components/shared/banner";
 import { BRAND_NAME } from "../../constants";
 
 const HomePage = () => {
@@ -30,6 +31,7 @@ const HomePage = () => {
 			</Head>
 			<main>
 				<Navbar />
+				<Banner />
 				<Box
 					maxW="7xl"
 					mx="auto"

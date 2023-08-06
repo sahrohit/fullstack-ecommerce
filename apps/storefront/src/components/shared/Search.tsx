@@ -21,7 +21,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import debounce from "lodash.debounce";
 import { Link } from "@chakra-ui/next-js";
 
-export const Search = () => {
+const Search = () => {
 	const [value, setValue] = useState("not-found");
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [search, { loading, data }] = useSearchProductsLazyQuery();

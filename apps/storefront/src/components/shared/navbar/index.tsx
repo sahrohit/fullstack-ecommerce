@@ -1,14 +1,8 @@
-import { Box, useColorModeValue as mode } from "@chakra-ui/react";
-
+import { Box } from "@chakra-ui/react";
 import NavContent from "./NavContent";
 
 const Navbar = () => (
-	<Box
-		as="header"
-		bg={mode("white", "gray.800")}
-		position="relative"
-		zIndex="10"
-	>
+	<Box as="header" position="relative" zIndex="10">
 		<Box
 			as="nav"
 			aria-label="Main navigation"
