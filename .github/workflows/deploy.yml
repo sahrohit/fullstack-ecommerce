@@ -15,4 +15,4 @@ jobs:
           host: "hamroapi.rudejellyfish.live"
           username: "azureuser"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: dokku git:sync --build api https://github.com/sahrohit/fullstack-ecommmerce.git main
+          script: dokku git:sync --build api https://github.com/sahrohit/fullstack-ecommerce.git main
