@@ -6,6 +6,7 @@ import {
 	Heading,
 	Text,
 	useColorModeValue,
+	useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -18,6 +19,8 @@ import { BiMailSend } from "react-icons/bi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect } from "react";
 import withAuthPages from "@/routes/withAuthPages";
+import { useForgotPasswordMutation } from "@/generated/graphql";
+import { PROD } from "../../../constants";
 
 const ForgotPasswordPage = () => (
 	<Box
@@ -57,11 +60,13 @@ const ForgotPasswordFormSchema = Yup.object({
 
 const ForgotPasswordForm = () => {
 	const [timeOut, setTimeOut] = useLocalStorage("timeOut", 0);
+	const [forgotPasswordMutation] = useForgotPasswordMutation();
+	const toast = useToast();
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, touchedFields },
+		formState: { errors, touchedFields, isSubmitting },
 	} = useForm<FormValues>({
 		defaultValues: {
 			email: "",
@@ -80,10 +85,22 @@ const ForgotPasswordForm = () => {
 
 	return (
 		<form
-			onSubmit={handleSubmit(() => {
-				// ? Anonymouse function recieves data as a parameter
-				// console.log(data);
-				setTimeOut(10);
+			onSubmit={handleSubmit(async (values) => {
+				await forgotPasswordMutation({
+					variables: {
+						email: values.email,
+					},
+				});
+				toast({
+					title: "Email sent",
+					description:
+						"We've sent you an email with a link to reset your password.",
+					status: "success",
+					duration: 4000,
+					isClosable: true,
+				});
+
+				setTimeOut(PROD ? 120 : 10);
 			})}
 		>
 			<Stack spacing="6">
@@ -105,6 +122,7 @@ const ForgotPasswordForm = () => {
 					fontSize="md"
 					leftIcon={<BiMailSend fontSize={20} />}
 					isDisabled={timeOut > 1}
+					isLoading={isSubmitting}
 				>
 					{timeOut > 0 ? `Resend again in ${timeOut}s` : "Send Email"}
 				</Button>
