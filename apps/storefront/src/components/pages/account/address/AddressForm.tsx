@@ -166,7 +166,8 @@ const AddressForm = ({
 											title: "An Error Occured",
 											description: error.message,
 											status: "error",
-											duration: 5000,
+											duration: 3000,
+											isClosable: true,
 										});
 										setAutoFillLoading(false);
 									}
