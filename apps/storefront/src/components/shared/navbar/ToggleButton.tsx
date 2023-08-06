@@ -49,7 +49,6 @@ const ToggleButton = (props: ToggleButtonProps) => {
 	const { isOpen, onClick } = props;
 	return (
 		<Center
-			marginStart="-6"
 			px="4"
 			py="4"
 			as="button"

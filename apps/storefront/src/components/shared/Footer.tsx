@@ -1,11 +1,11 @@
 import {
 	Box,
 	Button,
-	ButtonGroup,
 	ButtonGroupProps,
+	HStack,
 	Heading,
 	HeadingProps,
-	IconButton,
+	Icon,
 	Link,
 	SimpleGrid,
 	Stack,
@@ -14,12 +14,13 @@ import {
 	useColorModeValue,
 } from "@chakra-ui/react";
 
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import InputField from "@/components/ui/InputField";
+import { AiOutlineMail } from "react-icons/ai";
 import Logo from "@/components/logo";
+import { EsewaLogoFull, KhaltiLogoFull } from "@/config/brands";
 import { ThemeSwitchButton } from "./ThemeSwitch";
 import { BRAND_NAME } from "../../../constants";
 
@@ -38,7 +39,7 @@ const Footer = () => (
 				spacing={{ base: "10", lg: "28" }}
 			>
 				<Stack>
-					<Logo h={8} alignContent="center" />
+					<Logo h={8} alignContent="center" iconColor="blue.400" />
 					<Box mt={2}>
 						<ThemeSwitchButton />
 					</Box>
@@ -53,11 +54,12 @@ const Footer = () => (
 						flex="1"
 					>
 						<Box minW="130px">
-							<FooterHeading mb="4">Product</FooterHeading>
+							<FooterHeading mb="4">Customer Care</FooterHeading>
 							<Stack>
-								<Link href="/">How it works</Link>
-								<Link href="/">Pricing</Link>
-								<Link href="/">Use Cases</Link>
+								<Link href="/">About Us</Link>
+								<Link href="/">Returns</Link>
+								<Link href="/">FAQs</Link>
+								<Link href="/">Contact Us</Link>
 							</Stack>
 						</Box>
 						<Box minW="130px">
@@ -66,6 +68,7 @@ const Footer = () => (
 								<Link href="/">Privacy</Link>
 								<Link href="/">Terms</Link>
 								<Link href="/">License</Link>
+								<Link href="/">Return Policy</Link>
 							</Stack>
 						</Box>
 					</SimpleGrid>
@@ -103,26 +106,10 @@ export const FooterHeading = (props: HeadingProps) => (
 );
 
 export const SocialMediaLinks = (props: ButtonGroupProps) => (
-	<ButtonGroup variant="ghost" color="gray.600" {...props}>
-		<IconButton
-			as="a"
-			href="#"
-			aria-label="LinkedIn"
-			icon={<FaLinkedin fontSize="20px" />}
-		/>
-		<IconButton
-			as="a"
-			href="#"
-			aria-label="GitHub"
-			icon={<FaGithub fontSize="20px" />}
-		/>
-		<IconButton
-			as="a"
-			href="#"
-			aria-label="Twitter"
-			icon={<FaTwitter fontSize="20px" />}
-		/>
-	</ButtonGroup>
+	<HStack gap={2} {...props}>
+		<Icon maxW={8} as={KhaltiLogoFull} />
+		<Icon maxW={8} as={EsewaLogoFull} />
+	</HStack>
 );
 
 interface FormValues {
@@ -148,12 +135,16 @@ export const SubscribeForm = () => {
 	return (
 		<form onSubmit={handleSubmit(() => {})}>
 			<Stack spacing="4">
-				<FooterHeading>Subscribe to our newsletter</FooterHeading>
+				<FooterHeading>Subscribe and Save</FooterHeading>
 				<Text>
-					Get notified when we add new components or we have exciting news for
-					you.
+					Subscribe to get special offers, free giveaways, and
+					once-in-a-lifetime deals.
 				</Text>
-				<Stack spacing="4" direction={{ base: "column", md: "row" }}>
+				<Stack
+					spacing="4"
+					alignItems="center"
+					direction={{ base: "column", md: "row" }}
+				>
 					<InputField
 						name="email"
 						register={{ ...register("email") }}
@@ -169,11 +160,10 @@ export const SubscribeForm = () => {
 							color: useColorModeValue("gray.500", "whiteAlpha.700"),
 						}}
 					/>
-
 					<Button
 						type="submit"
 						colorScheme="blue"
-						flexShrink={0}
+						leftIcon={<AiOutlineMail />}
 						width={{ base: "full", md: "auto" }}
 					>
 						Subscribe

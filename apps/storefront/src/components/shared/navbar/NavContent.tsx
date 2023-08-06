@@ -1,4 +1,4 @@
-import type { FlexProps } from "@chakra-ui/react";
+import type { FlexProps, StackProps } from "@chakra-ui/react";
 import {
 	Box,
 	Button,
@@ -6,9 +6,9 @@ import {
 	HStack,
 	useDisclosure,
 	VisuallyHidden,
-	useColorModeValue as mode,
 	IconButton,
 	VStack,
+	Stack,
 } from "@chakra-ui/react";
 
 import NavMenu from "@/components/shared/navbar/NavMenu";
@@ -30,6 +30,9 @@ import Search from "../Search";
 
 const MobileNavContext = (props: FlexProps) => {
 	const { isOpen, onToggle } = useDisclosure();
+
+	const { data, loading, error } = useMeQuery();
+
 	return (
 		<>
 			<Flex
@@ -38,17 +41,17 @@ const MobileNavContext = (props: FlexProps) => {
 				className="nav-content__mobile"
 				{...props}
 			>
-				<Box flexBasis="6rem">
-					<ToggleButton isOpen={isOpen} onClick={onToggle} />
-				</Box>
+				<ToggleButton isOpen={isOpen} onClick={onToggle} />
 				<Box mx="auto">
 					<Logo h="7" iconColor="blue.400" />
 				</Box>
-				<Box visibility={{ base: "hidden", sm: "visible" }}>
-					<Button href="/auth/register" as={Link} colorScheme="blue">
-						Get Started
-					</Button>
-				</Box>
+				<IconButton
+					aria-label="Dashboard"
+					variant="link"
+					href="/account"
+					as={Link}
+					icon={<AiOutlineUser size="24" />}
+				/>
 			</Flex>
 			<NavMenu animate={isOpen ? "open" : "closed"}>
 				{links.map((link) =>
@@ -60,16 +63,16 @@ const MobileNavContext = (props: FlexProps) => {
 						</NavLink.Mobile>
 					)
 				)}
-				<Button
-					href="/auth/register"
-					as={Link}
-					colorScheme="blue"
-					w="full"
-					size="lg"
-					mt="5"
-				>
-					Get Started
-				</Button>
+				{/* eslint-disable-next-line no-nested-ternary */}
+				{!loading && !error ? (
+					data?.me?.id ? (
+						<Menu w="full" justifyContent="center" mt={2} />
+					) : (
+						<AuthButtons />
+					)
+				) : (
+					<p />
+				)}
 			</NavMenu>
 		</>
 	);
@@ -85,7 +88,7 @@ const DesktopNavContent = (props: FlexProps) => {
 			justify="space-between"
 			{...props}
 		>
-			<HStack>
+			<HStack minW="118px">
 				<Search />
 				<IconButton
 					aria-label="Favourite"
@@ -120,7 +123,17 @@ const DesktopNavContent = (props: FlexProps) => {
 				</HStack>
 			</VStack>
 			{/* eslint-disable-next-line no-nested-ternary */}
-			{!loading && !error ? data?.me?.id ? <Menu /> : <AuthButtons /> : <p />}
+			{!loading && !error ? (
+				data?.me?.id ? (
+					<Menu minW="118px" />
+				) : (
+					<AuthButtons minW="118px" />
+				)
+			) : (
+				<Box minW="118px" opacity={0}>
+					Loading
+				</Box>
+			)}
 		</Flex>
 	);
 };
@@ -132,29 +145,44 @@ const NavContent = {
 
 export default NavContent;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const AuthButtons = () => (
-	<HStack spacing="8" minW="240px" justify="center">
-		<Link
+const AuthButtons = (props: StackProps) => (
+	<Stack
+		spacing="8"
+		// minW="240px"
+		justify="center"
+		alignItems="center"
+		direction={{
+			base: "column-reverse",
+			lg: "row",
+		}}
+		{...props}
+	>
+		{/* <Link
 			href="/auth/login"
 			color={mode("blue.600", "blue.300")}
 			fontWeight="bold"
+			_hover={{
+				textDecoration: "none",
+			}}
 		>
 			Login
-		</Link>
+		</Link> */}
 		<Button
 			href="/auth/register"
 			as={Link}
 			colorScheme="blue"
 			fontWeight="bold"
+			_hover={{
+				textDecoration: "none",
+			}}
 		>
 			Get Started
 		</Button>
-	</HStack>
+	</Stack>
 );
 
-const Menu = () => (
-	<HStack>
+const Menu = (props: StackProps) => (
+	<HStack {...props}>
 		<IconButton
 			aria-label="Dashboard"
 			variant="link"

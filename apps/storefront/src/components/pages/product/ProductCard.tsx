@@ -70,7 +70,7 @@ const ProductCard = (props: ProductCardProps) => {
 					right="4"
 					aria-label={`Add ${name} to your favourites`}
 				/>
-				{(isHovering || isMobile) && (
+				{(isHovering || !isMobile) && (
 					<ButtonGroup
 						as={SlideFade}
 						in={isHovering || isMobile}

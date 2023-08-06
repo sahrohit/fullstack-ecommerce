@@ -1,9 +1,8 @@
-import { Box, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
-import { HiX } from "react-icons/hi";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import CallToActionLink from "./CallToActionLink";
 
 const Banner = () => (
-	<Box as="section" pt="8" pb="12">
+	<Box as="section" py="4">
 		<Box
 			// bgGradient="linear(to-r, blue.500, teal.500)"
 			bg="teal.400"
@@ -11,28 +10,40 @@ const Banner = () => (
 			py="3"
 			px={{ base: "3", md: "6", lg: "8" }}
 		>
-			<HStack spacing="3">
+			<Stack
+				spacing="3"
+				direction={{
+					base: "column",
+					sm: "row",
+				}}
+			>
 				<Stack
 					direction={{ base: "column", sm: "row" }}
 					justifyContent="center"
 					alignItems="center"
+					textAlign="center"
 					spacing={{ base: "3", md: "6" }}
 					width="full"
 				>
-					<Text>
-						<b>FLAT 10% OFF </b>
-						Valid on order value above NRP 10,000
-					</Text>
+					<Stack
+						direction={{
+							base: "column",
+							sm: "row",
+						}}
+					>
+						<Text as="strong">FLAT 10% OFF</Text>
+						<Text>Valid on order value above NRP 10,000</Text>
+					</Stack>
 					<CallToActionLink href="/">Code: HAMROC10</CallToActionLink>
 				</Stack>
-				<IconButton
+				{/* <IconButton
 					fontSize="1.5em"
 					variant="ghost"
 					icon={<HiX />}
 					alignSelf={{ base: "self-start", sm: "initial" }}
 					aria-label="Close banner"
-				/>
-			</HStack>
+				/> */}
+			</Stack>
 		</Box>
 	</Box>
 );
