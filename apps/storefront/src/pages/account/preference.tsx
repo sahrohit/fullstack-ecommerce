@@ -7,7 +7,7 @@ const AccountPage = () => (
 	<Stack as="section" spacing="6" maxW="3xl" my={8}>
 		<HeadingGroup
 			title="Account Preferences"
-			description="Change your profile, request your data, and more"
+			description="Change your account preference, language currency and more"
 		/>
 		<AccountPreference />
 	</Stack>

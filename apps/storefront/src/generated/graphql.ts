@@ -1538,6 +1538,38 @@ export type ResendVerificationEmailMutation = {
 	resendVerificationEmail: boolean;
 };
 
+export type UpdatePasswordMutationVariables = Exact<{
+	confirmPassword: Scalars["String"];
+	newPassword: Scalars["String"];
+	currentPassword: Scalars["String"];
+}>;
+
+export type UpdatePasswordMutation = {
+	__typename?: "Mutation";
+	updatePassword: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			imageUrl?: string | null;
+			roleId: number;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
+
 export type VerifyEmailMutationVariables = Exact<{
 	token: Scalars["String"];
 }>;
@@ -3745,6 +3777,73 @@ export type ResendVerificationEmailMutationResult =
 export type ResendVerificationEmailMutationOptions = Apollo.BaseMutationOptions<
 	ResendVerificationEmailMutation,
 	ResendVerificationEmailMutationVariables
+>;
+export const UpdatePasswordDocument = gql`
+	mutation UpdatePassword(
+		$confirmPassword: String!
+		$newPassword: String!
+		$currentPassword: String!
+	) {
+		updatePassword(
+			confirmPassword: $confirmPassword
+			newPassword: $newPassword
+			currentPassword: $currentPassword
+		) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type UpdatePasswordMutationFn = Apollo.MutationFunction<
+	UpdatePasswordMutation,
+	UpdatePasswordMutationVariables
+>;
+
+/**
+ * __useUpdatePasswordMutation__
+ *
+ * To run a mutation, you first call `useUpdatePasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePasswordMutation, { data, loading, error }] = useUpdatePasswordMutation({
+ *   variables: {
+ *      confirmPassword: // value for 'confirmPassword'
+ *      newPassword: // value for 'newPassword'
+ *      currentPassword: // value for 'currentPassword'
+ *   },
+ * });
+ */
+export function useUpdatePasswordMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdatePasswordMutation,
+		UpdatePasswordMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdatePasswordMutation,
+		UpdatePasswordMutationVariables
+	>(UpdatePasswordDocument, options);
+}
+export type UpdatePasswordMutationHookResult = ReturnType<
+	typeof useUpdatePasswordMutation
+>;
+export type UpdatePasswordMutationResult =
+	Apollo.MutationResult<UpdatePasswordMutation>;
+export type UpdatePasswordMutationOptions = Apollo.BaseMutationOptions<
+	UpdatePasswordMutation,
+	UpdatePasswordMutationVariables
 >;
 export const VerifyEmailDocument = gql`
 	mutation VerifyEmail($token: String!) {

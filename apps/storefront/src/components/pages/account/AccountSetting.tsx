@@ -11,13 +11,28 @@ import {
 import { useMeQuery } from "@/generated/graphql";
 import dayjs from "dayjs";
 import PageLoader from "@/components/shared/PageLoader";
+import { useRef } from "react";
+import ModalButton from "@/components/ui/ModalButton";
+import UpdatePasswordForm from "@/components/pages/account/setting/UpdatePasswordForm";
+import relativeTime from "dayjs/plugin/relativeTime";
 import Card from "./Card";
 import FieldGroup from "./FieldGroup";
+import ProfileForm from "./setting/ProfileForm";
+
+dayjs.extend(relativeTime);
 
 const AccountSettings = () => {
 	const { data, loading, error } = useMeQuery({
 		fetchPolicy: "cache-first",
 	});
+
+	const modalRef: any = useRef();
+
+	const closeModal = () => {
+		if (modalRef.current) {
+			modalRef.current.closeModal();
+		}
+	};
 
 	if (loading) return <PageLoader />;
 
@@ -44,17 +59,32 @@ const AccountSettings = () => {
 							<Text>{name}</Text>
 							<Text color="gray.500" fontSize="sm">
 								Joined{" "}
-								{dayjs(Number(data?.me?.created_at!)).format("MMMM YYYY")}
+								{dayjs(Number(data?.me?.created_at!)).format(
+									"DD[th] MMMM YYYY"
+								)}{" "}
+								({dayjs(Number(data?.me?.created_at!)).fromNow()})
 							</Text>
 						</Box>
 					</HStack>
 					<HStack mt="5">
-						<Button size="sm" fontWeight="normal">
-							Change name
-						</Button>
-						<Button size="sm" fontWeight="normal">
-							Change gravatar
-						</Button>
+						<ModalButton
+							ref={modalRef}
+							size="sm"
+							fontWeight="normal"
+							buttonText="Change Name & Avatar"
+							modalHeader="Change Name & Avatar"
+							modalFooter=" "
+						>
+							<ProfileForm
+								first_name={data?.me?.first_name || ""}
+								last_name={data?.me?.last_name || ""}
+								imageUrl={
+									data?.me?.imageUrl ??
+									`https://api.dicebear.com/6.x/micah/svg?size=256&seed=${data?.me?.first_name}`
+								}
+								onSubmissionSuccess={closeModal}
+							/>
+						</ModalButton>
 					</HStack>
 				</FieldGroup>
 
@@ -65,11 +95,18 @@ const AccountSettings = () => {
 					<Text fontSize="sm">{data?.me?.email}</Text>
 					<HStack mt="5">
 						<Button size="sm" fontWeight="normal">
-							Change email
+							Change Phone Number
 						</Button>
-						<Button size="sm" fontWeight="normal">
-							Change password
-						</Button>
+						<ModalButton
+							ref={modalRef}
+							size="sm"
+							fontWeight="normal"
+							buttonText="Change password"
+							modalHeader="Update Password"
+							modalFooter=" "
+						>
+							<UpdatePasswordForm onSubmissionSuccess={closeModal} />
+						</ModalButton>
 					</HStack>
 				</FieldGroup>
 			</Stack>

@@ -26,17 +26,16 @@ const AccountPreference = () => (
 						<FormLabel fontSize="sm">Language</FormLabel>
 						<Select size="sm" maxW="2xs">
 							<option>English</option>
-							<option>Hebrew</option>
-							<option>Arabic</option>
+							<option>Nepali</option>
+							<option>Newari</option>
 						</Select>
 					</FormControl>
 
 					<FormControl id="currency">
 						<FormLabel fontSize="sm">Currency</FormLabel>
 						<Select size="sm" maxW="2xs">
+							<option>NPR (रू)</option>
 							<option>USD ($)</option>
-							<option>AED (dh)</option>
-							<option>EUR (€)</option>
 						</Select>
 					</FormControl>
 				</Stack>

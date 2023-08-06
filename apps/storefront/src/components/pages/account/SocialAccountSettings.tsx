@@ -1,6 +1,6 @@
 import type { StackProps } from "@chakra-ui/react";
 import { Stack } from "@chakra-ui/react";
-import { FaBitbucket, FaGithub, FaGoogle, FaSpotify } from "react-icons/fa";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
 
 import Card from "./Card";
 import HeadingGroup from "./HeadingGroup";
@@ -10,26 +10,21 @@ const SocialAccountSettings = (props: StackProps) => (
 	<Stack as="section" spacing="6" {...props}>
 		<HeadingGroup
 			title="Connected accounts"
-			description="Connect your Chakra account to one or more provides"
+			description="Connect your Hamropasal account to one or more provides"
 		/>
 		<Card>
 			<Stack spacing="5">
 				<SocialAccount
-					provider="Github"
-					icon={FaGithub}
-					username="dabestcoder03"
+					provider="Google"
+					icon={FaGoogle}
+					iconColor="red.500"
+					username="Rohit Sah"
 				/>
-				<SocialAccount provider="Google" icon={FaGoogle} iconColor="red.500" />
 				<SocialAccount
-					provider="Bitbucket"
-					icon={FaBitbucket}
+					provider="Facebook"
+					icon={FaFacebook}
+					// username="sahrohit9586"
 					iconColor="blue.500"
-				/>
-				<SocialAccount
-					provider="Spotify"
-					icon={FaSpotify}
-					iconColor="green.500"
-					username="lisabeats09"
 				/>
 			</Stack>
 		</Card>
