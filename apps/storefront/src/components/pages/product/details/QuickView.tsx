@@ -25,9 +25,8 @@ const QuickView = ({ product }: QuickViewProps) => {
 			<IconButton
 				size="sm"
 				flexGrow={1}
-				variant="ghost"
-				colorScheme="blue"
-				aria-label="Search database"
+				variant="link"
+				aria-label="Open Preview"
 				onClick={onOpen}
 				icon={<AiOutlineEye size={24} />}
 			/>

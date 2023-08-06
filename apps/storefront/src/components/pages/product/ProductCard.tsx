@@ -3,8 +3,6 @@ import {
 	Box,
 	ButtonGroup,
 	HStack,
-	IconButton,
-	Image,
 	Skeleton,
 	SlideFade,
 	Stack,
@@ -13,10 +11,10 @@ import {
 	useBreakpointValue,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useState } from "react";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import Link from "next/link";
+import Image from "next/image";
 import { Product } from "@/generated/graphql";
 import Rating from "@/components/shared/product/Rating";
 import FavouriteButton from "./FavouriteButton";
@@ -59,8 +57,8 @@ const ProductCard = (props: ProductCardProps) => {
 						src={images?.[0]?.imageURL ?? "https://picsum.photos/200/300"}
 						alt={name}
 						draggable="false"
-						fallback={<Skeleton />}
-						borderRadius={{ base: "md", md: "xl" }}
+						width={400}
+						height={500}
 					/>
 				</AspectRatio>
 				<FavouriteButton
@@ -78,23 +76,12 @@ const ProductCard = (props: ProductCardProps) => {
 						bg={optionsBackgroundColor}
 						p={2}
 						rounded="md"
-						variant="outline"
 						spacing="6"
 						position="absolute"
 						bottom="4"
-						right="0"
-						left="0"
-						mx={3}
+						right="4"
 						aria-label={`Add ${name} to your favourites`}
 					>
-						<IconButton
-							size="sm"
-							flexGrow={1}
-							variant="ghost"
-							colorScheme="blue"
-							aria-label="Search database"
-							icon={<AiOutlineShoppingCart size={24} />}
-						/>
 						<QuickView product={product} />
 					</ButtonGroup>
 				)}
