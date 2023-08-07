@@ -7,6 +7,7 @@ import Rating from "@/components/shared/product/Rating";
 import {
 	Favourite,
 	useFavouritesWithProductQuery,
+	useMeQuery,
 	useRemoveFromFavouriteMutation,
 } from "@/generated/graphql";
 import {
@@ -29,15 +30,18 @@ import Image from "next/image";
 import services from "../../../public/assets/services.svg";
 
 const FavouritePage = () => {
-	const { data, loading, error } = useFavouritesWithProductQuery();
+	const { data: user, loading: userLoading, error: userError } = useMeQuery();
+	const { data, loading, error } = useFavouritesWithProductQuery({
+		skip: !user?.me?.id,
+	});
 
-	if (error) {
+	if (error || userError) {
 		return (
 			<Result
-				heading={error.name}
+				heading={error ? error.name : userError?.name!}
 				type="error"
-				text={error.message}
-				dump={error.stack}
+				text={error ? error.message : userError?.message!}
+				dump={error ? error.stack : userError?.stack}
 			/>
 		);
 	}
@@ -63,7 +67,7 @@ const FavouritePage = () => {
 					rowGap={{ base: "8", md: "10" }}
 				>
 					{/* eslint-disable-next-line no-nested-ternary */}
-					{loading ? (
+					{loading || userLoading ? (
 						Array(4)
 							.fill("favourite-skeleton")
 							.map((mock, index) => (

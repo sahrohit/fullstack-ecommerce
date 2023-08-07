@@ -15,6 +15,7 @@ import {
 	ProductReview as IProductReview,
 	ReviewSummaryResponse,
 	useAllReviewsQuery,
+	useMeQuery,
 	useReviewByUserAndProductQuery,
 	useReviewSummaryQuery,
 	useReviewsQuery,
@@ -232,10 +233,12 @@ interface ReviewFormProps extends ButtonProps {
 
 export const CreateReviewButton = ({ productId, ...rest }: ReviewFormProps) => {
 	const modalRef: any = useRef();
+	const { data: user, loading: userLoading, error: userError } = useMeQuery();
 	const { data, loading, error } = useReviewByUserAndProductQuery({
 		variables: {
 			productId,
 		},
+		skip: !user?.me?.id,
 	});
 
 	const closeModal = () => {
@@ -244,7 +247,7 @@ export const CreateReviewButton = ({ productId, ...rest }: ReviewFormProps) => {
 		}
 	};
 
-	if (loading) {
+	if (loading || userLoading) {
 		return (
 			<Button colorScheme="blue" px={12} size="xl" isLoading>
 				Write a review
@@ -252,13 +255,17 @@ export const CreateReviewButton = ({ productId, ...rest }: ReviewFormProps) => {
 		);
 	}
 
-	if (error)
+	if (!userLoading && !user?.me?.id) {
+		return null;
+	}
+
+	if (error || userError)
 		return (
 			<Result
-				heading={error.name}
+				heading={error ? error.name : userError?.name!}
 				type="error"
-				text={error.message}
-				dump={error.stack}
+				text={error ? error.message : userError?.message!}
+				dump={error ? error.stack : userError?.stack}
 			/>
 		);
 
