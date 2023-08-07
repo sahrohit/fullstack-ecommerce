@@ -23,6 +23,7 @@ import {
 	Flex,
 	Tag,
 	Heading,
+	useToast,
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { useMemo } from "react";
@@ -38,6 +39,7 @@ interface OrderCardProps {
 }
 
 const OrderCard = ({ orderItem }: OrderCardProps) => {
+	const toast = useToast();
 	const successPayment = orderItem.paymentdetails?.find(
 		(payment) => payment.status === "COMPLETED"
 	);
@@ -120,7 +122,15 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 
 					<ConfirmationModal
 						bodyText="Are you sure you want to cancel this delivery?"
-						onSuccess={() => console.log("cancel")}
+						onSuccess={() =>
+							toast({
+								title: "Cannot cancel delivery.",
+								description: "Please contact our support team.",
+								status: "error",
+								duration: 4000,
+								isClosable: true,
+							})
+						}
 						headerText="Cancel Delivery"
 						w="full"
 					>
