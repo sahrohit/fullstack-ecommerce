@@ -36,7 +36,7 @@ const VerifyEmailPage: NextPage = () => {
 	}, [router, token, verifyEmail]);
 
 	if (emailVerified === "loading") {
-		return <PageLoader />;
+		return <PageLoader text="Verifying Email" />;
 	}
 
 	if (emailVerified === "not-verified") {

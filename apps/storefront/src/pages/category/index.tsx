@@ -10,7 +10,7 @@ import { Box, HStack, Heading } from "@chakra-ui/react";
 const CategoryPage = () => {
 	const { data, loading, error } = useCategoriesQuery();
 
-	if (loading) return <PageLoader />;
+	if (loading) return <PageLoader text="Categories Loading" />;
 
 	if (error)
 		return (

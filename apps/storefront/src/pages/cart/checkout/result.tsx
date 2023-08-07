@@ -54,7 +54,7 @@ const SuccessPage = () => {
 	);
 
 	if (loading || !mounted) {
-		return <PageLoader />;
+		return <PageLoader text="Order Status Loading" />;
 	}
 
 	if (error) {

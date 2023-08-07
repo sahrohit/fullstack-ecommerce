@@ -24,7 +24,7 @@ const Cart = () => {
 
 	const linkColor = mode("blue.500", "blue.200");
 
-	if (loading) return <PageLoader />;
+	if (loading) return <PageLoader text="Loading Cart Items" />;
 
 	if (error)
 		return (

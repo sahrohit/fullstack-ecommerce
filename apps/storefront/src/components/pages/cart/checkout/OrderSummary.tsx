@@ -64,7 +64,7 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 	const shippingPrice = watch("shippingMethod") === "standard" ? 150 : 300;
 
 	if (loading) {
-		return <PageLoader />;
+		return <PageLoader text="Promo Code Loading" />;
 	}
 
 	if (error || promoError)
@@ -79,7 +79,7 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 
 	if (data?.fetchCartItems?.length === 0) {
 		router.push("/cart");
-		return <PageLoader />;
+		return <PageLoader text="Redirecting to Cart" />;
 	}
 
 	return (

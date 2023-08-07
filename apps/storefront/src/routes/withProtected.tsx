@@ -10,7 +10,7 @@ const withProtected = (Component: any) =>
 		const router = useRouter();
 
 		if (loading) {
-			return <PageLoader />;
+			return <PageLoader text="User Loading" />;
 		}
 
 		if (error) {
@@ -30,7 +30,7 @@ const withProtected = (Component: any) =>
 					shallow: true,
 				}
 			);
-			return <PageLoader />;
+			return <PageLoader text="Redirecting to Login" />;
 		}
 
 		return <Component {...props} />;

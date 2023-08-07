@@ -17,7 +17,7 @@ const OrdersPage = () => {
 	const { data, loading, error } = useOrdersQuery();
 
 	if (loading) {
-		return <PageLoader />;
+		return <PageLoader text="Loading User" />;
 	}
 
 	if (error) {

@@ -34,7 +34,7 @@ const AccountSettings = () => {
 		}
 	};
 
-	if (loading) return <PageLoader />;
+	if (loading) return <PageLoader text="Loading User" />;
 
 	if (error) return <p>Error: {error.message}</p>;
 

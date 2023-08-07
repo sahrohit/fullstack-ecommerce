@@ -11,7 +11,7 @@ const withAuthPages = (Component: any) =>
 		const { redirect } = router.query;
 
 		if (loading) {
-			return <PageLoader />;
+			return <PageLoader text="Loading User" />;
 		}
 
 		if (error) {
@@ -24,7 +24,7 @@ const withAuthPages = (Component: any) =>
 			} else {
 				router.push("/");
 			}
-			return <PageLoader />;
+			return <PageLoader text="Redirecting to Home" />;
 		}
 
 		return <Component {...props} />;

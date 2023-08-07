@@ -1,9 +1,17 @@
-import { Grid, Spinner } from "@chakra-ui/react";
+import { Grid, Spinner, Text, VStack } from "@chakra-ui/react";
+import { PROD } from "../../../constants";
 
-const PageLoader = () => (
+const PageLoader = ({ text }: { text?: string }) => (
 	<Grid placeItems="center" h="100vh">
-		<Spinner size="xl" />
+		<VStack>
+			<Spinner size="xl" />
+			{!PROD ? <Text>{text}</Text> : null}
+		</VStack>
 	</Grid>
 );
+
+PageLoader.defaultProps = {
+	text: "",
+};
 
 export default PageLoader;

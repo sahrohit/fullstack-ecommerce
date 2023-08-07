@@ -58,7 +58,7 @@ const OrderPage = () => {
 	);
 
 	if (loading || userLoading) {
-		return <PageLoader />;
+		return <PageLoader text="Order Detail Loading" />;
 	}
 
 	if (error || userError) {

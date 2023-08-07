@@ -29,7 +29,7 @@ const ProductPage = () => {
 	});
 
 	if (loading || !id) {
-		return <PageLoader />;
+		return <PageLoader text="Product Loading" />;
 	}
 
 	if (error) {

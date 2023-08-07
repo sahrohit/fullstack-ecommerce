@@ -7,8 +7,8 @@ import PageLoader from "@/components/shared/PageLoader";
 const TestPage = () => {
 	const { data, loading } = useMeQuery();
 
-	if (loading) {
-		return <PageLoader />;
+	if (!loading) {
+		return <PageLoader text="Loading User" />;
 	}
 
 	return (
