@@ -31,10 +31,14 @@ const Banner = () => (
 							sm: "row",
 						}}
 					>
-						<Text as="strong">FLAT 10% OFF</Text>
-						<Text>Valid on order value above NRP 10,000</Text>
+						<Text>
+							<Text as="strong">IMPORTANT!</Text> This is a dummy website. The
+							items you order here, wont be delivered.
+						</Text>
 					</Stack>
-					<CallToActionLink href="/">Code: HAMROC10</CallToActionLink>
+					<CallToActionLink href="https://sahrohit.com.np">
+						Contact Us
+					</CallToActionLink>
 				</Stack>
 				{/* <IconButton
 					fontSize="1.5em"
