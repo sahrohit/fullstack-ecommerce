@@ -1,13 +1,16 @@
-query QueryProducts($query: String!) {
-	queryProducts(query: $query) {
-		id
-		identifier
-		name
-		images {
-			imageURL
-		}
-		inventories {
-			price
+query QueryProducts($query: String!, $limit: Float, $offset: Float) {
+	queryProducts(query: $query, limit: $limit, offset: $offset) {
+		hasMore
+		products {
+			id
+			identifier
+			name
+			images {
+				imageURL
+			}
+			inventories {
+				price
+			}
 		}
 	}
 }

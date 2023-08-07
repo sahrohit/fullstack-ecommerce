@@ -16,6 +16,15 @@ class ProductSummary {
 	count!: number;
 }
 
+@ObjectType()
+class PaginatedProducts {
+	@Field(() => [Product])
+	products!: Product[];
+
+	@Field(() => Boolean)
+	hasMore!: boolean;
+}
+
 @Resolver(Product)
 export class ProductResolver {
 	@Query(() => ProductSummary, { nullable: true })
@@ -54,8 +63,14 @@ export class ProductResolver {
 			.getMany();
 	}
 
-	@Query(() => [Product], { nullable: true })
-	async queryProducts(@Arg("query") query: string): Promise<Product[]> {
+	@Query(() => PaginatedProducts, { nullable: true })
+	async queryProducts(
+		@Arg("query") query: string,
+		@Arg("limit", { nullable: true }) limit?: number,
+		@Arg("offset", { nullable: true }) offset?: number
+	): Promise<PaginatedProducts> {
+		const realLimit = Math.min(30, limit ?? 30);
+		const realLimitPlusOne = realLimit + 1;
 		try {
 			const variants = JSON.parse(query);
 
@@ -84,7 +99,7 @@ export class ProductResolver {
 				});
 			});
 
-			return await Product.find({
+			const products = await Product.find({
 				relations: {
 					inventories: true,
 					images: true,
@@ -104,10 +119,16 @@ export class ProductResolver {
 						isPublished: true,
 					},
 				},
+				take: realLimitPlusOne,
+				skip: offset ?? 0,
 			});
+
+			return {
+				products: products.slice(0, realLimit),
+				hasMore: products.length === realLimitPlusOne,
+			};
 		} catch (error) {
-			console.error(error);
-			return await Product.find({
+			const products = await Product.find({
 				relations: {
 					inventories: true,
 					images: true,
@@ -123,6 +144,11 @@ export class ProductResolver {
 					},
 				},
 			});
+
+			return {
+				products: products.slice(0, realLimit),
+				hasMore: products.length === realLimitPlusOne,
+			};
 		}
 	}
 

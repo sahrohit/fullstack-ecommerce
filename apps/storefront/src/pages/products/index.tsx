@@ -19,6 +19,8 @@ import { Box, HStack, SimpleGrid, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 
 const ProductFilterPage = () => {
+	// const ref = useRef(null);
+	// const isInView = useInView(ref);
 	const { data, loading, error } = useVariantsQuery();
 
 	const [selectedVariant, setSelectedVariant] = useState<
@@ -32,8 +34,29 @@ const ProductFilterPage = () => {
 	} = useQueryProductsQuery({
 		variables: {
 			query: JSON.stringify(selectedVariant),
+			limit: 12,
+			offset: 0,
 		},
 	});
+
+	// useEffect(() => {
+	// 	if (isInView && products?.queryProducts?.hasMore) {
+	// 		fetchMore({
+	// 			variables: {
+	// 				query: JSON.stringify(selectedVariant),
+	// 				limit: 6,
+	// 				offset: products?.queryProducts?.products?.length,
+	// 			},
+	// 		});
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [
+	// 	fetchMore,
+	// 	isInView,
+	// 	pLoading,
+	// 	products?.queryProducts?.hasMore,
+	// 	selectedVariant,
+	// ]);
 
 	if (error)
 		return (
@@ -101,10 +124,28 @@ const ProductFilterPage = () => {
 								dump={pError.stack}
 							/>
 						) : (
-							products?.queryProducts?.map((product) => (
+							products?.queryProducts?.products.map((product) => (
 								<ProductCard key={product.id} product={product as Product} />
 							))
 						)}
+						{/* {products?.queryProducts?.hasMore && (
+							<Button
+								onClick={async () => {
+									await fetchMore({
+										variables: {
+											query: JSON.stringify(selectedVariant),
+											limit: 6,
+											offset: products?.queryProducts?.products.length,
+										},
+									});
+								}}
+							>
+								Fetch More
+							</Button>
+						)} */}
+						{/* <HStack ref={ref} w="full" justifyContent="center">
+							{!pLoading && products?.queryProducts?.hasMore && <Spinner />}
+						</HStack> */}
 					</ProductGrid>
 				</SimpleGrid>
 			</Box>

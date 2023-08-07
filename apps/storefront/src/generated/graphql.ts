@@ -295,6 +295,12 @@ export type OrderItem = {
 	updated_at: Scalars["String"];
 };
 
+export type PaginatedProducts = {
+	__typename?: "PaginatedProducts";
+	hasMore: Scalars["Boolean"];
+	products: Array<Product>;
+};
+
 export type PaymentDetail = {
 	__typename?: "PaymentDetail";
 	amount: Scalars["Float"];
@@ -445,7 +451,7 @@ export type Query = {
 	products?: Maybe<Array<Product>>;
 	productsSummary?: Maybe<ProductSummary>;
 	promo?: Maybe<Promo>;
-	queryProducts?: Maybe<Array<Product>>;
+	queryProducts?: Maybe<PaginatedProducts>;
 	reviewByUserAndProduct?: Maybe<ProductReview>;
 	reviewSummary?: Maybe<ReviewSummaryResponse>;
 	reviews?: Maybe<Array<ProductReview>>;
@@ -471,6 +477,8 @@ export type QueryPromoArgs = {
 };
 
 export type QueryQueryProductsArgs = {
+	limit?: InputMaybe<Scalars["Float"]>;
+	offset?: InputMaybe<Scalars["Float"]>;
 	query: Scalars["String"];
 };
 
@@ -2262,21 +2270,27 @@ export type ProductsQuery = {
 
 export type QueryProductsQueryVariables = Exact<{
 	query: Scalars["String"];
+	limit?: InputMaybe<Scalars["Float"]>;
+	offset?: InputMaybe<Scalars["Float"]>;
 }>;
 
 export type QueryProductsQuery = {
 	__typename?: "Query";
-	queryProducts?: Array<{
-		__typename?: "Product";
-		id: number;
-		identifier: string;
-		name: string;
-		images: Array<{ __typename?: "ProductImage"; imageURL: string }>;
-		inventories?: Array<{
-			__typename?: "ProductInventory";
-			price: number;
-		}> | null;
-	}> | null;
+	queryProducts?: {
+		__typename?: "PaginatedProducts";
+		hasMore: boolean;
+		products: Array<{
+			__typename?: "Product";
+			id: number;
+			identifier: string;
+			name: string;
+			images: Array<{ __typename?: "ProductImage"; imageURL: string }>;
+			inventories?: Array<{
+				__typename?: "ProductInventory";
+				price: number;
+			}> | null;
+		}>;
+	} | null;
 };
 
 export type SearchProductsQueryVariables = Exact<{
@@ -4471,16 +4485,19 @@ export type ProductsQueryResult = Apollo.QueryResult<
 	ProductsQueryVariables
 >;
 export const QueryProductsDocument = gql`
-	query QueryProducts($query: String!) {
-		queryProducts(query: $query) {
-			id
-			identifier
-			name
-			images {
-				imageURL
-			}
-			inventories {
-				price
+	query QueryProducts($query: String!, $limit: Float, $offset: Float) {
+		queryProducts(query: $query, limit: $limit, offset: $offset) {
+			hasMore
+			products {
+				id
+				identifier
+				name
+				images {
+					imageURL
+				}
+				inventories {
+					price
+				}
 			}
 		}
 	}
@@ -4499,6 +4516,8 @@ export const QueryProductsDocument = gql`
  * const { data, loading, error } = useQueryProductsQuery({
  *   variables: {
  *      query: // value for 'query'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
  *   },
  * });
  */

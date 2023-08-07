@@ -471,6 +471,8 @@ export type QueryPromoArgs = {
 };
 
 export type QueryQueryProductsArgs = {
+	limit?: InputMaybe<Scalars["Float"]>;
+	offset?: InputMaybe<Scalars["Float"]>;
 	query: Scalars["String"];
 };
 

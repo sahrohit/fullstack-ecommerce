@@ -12,7 +12,30 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 	const client = new ApolloClient({
 		uri: process.env.NEXT_PUBLIC_API_URL,
-		cache: new InMemoryCache(),
+		cache: new InMemoryCache({
+			// ! Pagination is working, but filtering stops working after this
+			// typePolicies: {
+			// 	Query: {
+			// 		fields: {
+			// 			queryProducts: {
+			// 				keyArgs: [],
+			// 				merge(
+			// 					existing: PaginatedProducts | undefined,
+			// 					incomming: PaginatedProducts
+			// 				): PaginatedProducts {
+			// 					return {
+			// 						...incomming,
+			// 						products: [
+			// 							...(existing?.products || []),
+			// 							...incomming.products,
+			// 						],
+			// 					};
+			// 				},
+			// 			},
+			// 		},
+			// 	},
+			// },
+		}),
 		credentials: "include",
 	});
 
