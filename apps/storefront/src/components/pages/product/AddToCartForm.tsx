@@ -116,7 +116,7 @@ const AddToCartForm = ({ product }: AddToCartFormProps) => {
 					}}
 					// salePrice={299}
 					price={Number(result.price)}
-					currency="USD"
+					currency="NPR"
 				/>
 			)}
 			<Text

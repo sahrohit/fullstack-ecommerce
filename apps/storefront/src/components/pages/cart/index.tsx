@@ -8,7 +8,6 @@ import {
 	Stack,
 	Button,
 	useColorModeValue as mode,
-	Img,
 	VStack,
 	Text,
 } from "@chakra-ui/react";
@@ -16,8 +15,10 @@ import { FaArrowRight } from "react-icons/fa";
 import { Cart as ICart, useFetchCartItemsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
 import PageLoader from "@/components/shared/PageLoader";
+import Image from "next/image";
 import CartItem, { CartItemSkeleton } from "./CartItem";
 import { CartOrderSummary } from "./CartOrderSummary";
+import emptyListImage from "../../../../public/assets/empty-list.svg";
 
 const Cart = () => {
 	const { data, loading, error } = useFetchCartItemsQuery();
@@ -79,12 +80,7 @@ const Cart = () => {
 									</Heading>
 									<Text>Treat yourself, and add something here now.</Text>
 								</Box>
-								<Img
-									width="50%"
-									placeholder="blur"
-									alt="App screenshot"
-									src="/assets/empty-list.svg"
-								/>
+								<Image width={300} alt="App screenshot" src={emptyListImage} />
 							</VStack>
 						) : (
 							data?.fetchCartItems?.map((item) => (

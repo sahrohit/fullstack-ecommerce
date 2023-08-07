@@ -4,14 +4,9 @@ import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import { OrderDetail, useOrdersQuery } from "@/generated/graphql";
 import withProtected from "@/routes/withProtected";
-import {
-	Heading,
-	Img,
-	SimpleGrid,
-	Stack,
-	Text,
-	VStack,
-} from "@chakra-ui/react";
+import { Heading, SimpleGrid, Stack, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
+import noComments from "../../../public/assets/no-comments.svg";
 
 const OrdersPage = () => {
 	const { data, loading, error } = useOrdersQuery();
@@ -41,12 +36,7 @@ const OrdersPage = () => {
 						</Heading>
 						<Text>This page is ready to be filled by your orders.</Text>
 					</VStack>
-					<Img
-						width="50%"
-						placeholder="blur"
-						alt="App screenshot"
-						src="/assets/no-comments.svg"
-					/>
+					<Image width={300} alt="Empty Order" src={noComments} />
 				</VStack>
 			</SimpleGrid>
 		);

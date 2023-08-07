@@ -15,7 +15,6 @@ import {
 	HStack,
 	Link,
 	Skeleton,
-	Image,
 	Text,
 	Stack,
 	useColorModeValue,
@@ -23,8 +22,11 @@ import {
 	Button,
 	SimpleGrid,
 	SkeletonText,
+	Heading,
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
+import Image from "next/image";
+import services from "../../../public/assets/services.svg";
 
 const FavouritePage = () => {
 	const { data, loading, error } = useFavouritesWithProductQuery();
@@ -60,18 +62,33 @@ const FavouritePage = () => {
 					columnGap={{ base: "4", md: "6" }}
 					rowGap={{ base: "8", md: "10" }}
 				>
-					{loading
-						? Array(4)
-								.fill("favourite-skeleton")
-								.map((mock, index) => (
-									<FavouriteProductCardSkeleton key={`${mock}-${index + 1}`} />
-								))
-						: data?.favouritesWithProduct?.map((favourite) => (
-								<FavouriteProductCard
-									key={favourite.id}
-									favourite={favourite as Favourite}
-								/>
-						  ))}
+					{/* eslint-disable-next-line no-nested-ternary */}
+					{loading ? (
+						Array(4)
+							.fill("favourite-skeleton")
+							.map((mock, index) => (
+								<FavouriteProductCardSkeleton key={`${mock}-${index + 1}`} />
+							))
+					) : data?.favouritesWithProduct.length ? (
+						data?.favouritesWithProduct?.map((favourite) => (
+							<FavouriteProductCard
+								key={favourite.id}
+								favourite={favourite as Favourite}
+							/>
+						))
+					) : (
+						<VStack py={8} gap={4}>
+							<Image width={300} alt="App screenshot" src={services} />
+							<Box textAlign="center">
+								<Heading as="h3" fontSize="2xl" lineHeight="2">
+									Nothing in Favourites
+								</Heading>
+								<Text>
+									Save you favourite items here, so that you can buy it later.
+								</Text>
+							</Box>
+						</VStack>
+					)}
 				</SimpleGrid>
 			</Box>
 		</>
@@ -111,9 +128,9 @@ const FavouriteProductCard = ({ favourite }: { favourite: Favourite }) => {
 					<Image
 						src={images?.[0]?.imageURL ?? "https://picsum.photos/200/300"}
 						alt={name}
+						width={400}
+						height={500}
 						draggable="false"
-						fallback={<Skeleton />}
-						borderRadius={{ base: "md", md: "xl" }}
 					/>
 				</AspectRatio>
 				<Stack
@@ -135,7 +152,7 @@ const FavouriteProductCard = ({ favourite }: { favourite: Favourite }) => {
 							<PriceTag
 								price={inventories?.[0]?.price || 0}
 								// salePrice={salePrice}
-								currency="USD"
+								currency="NPR"
 								rootProps={{
 									display: "inline-flex",
 								}}

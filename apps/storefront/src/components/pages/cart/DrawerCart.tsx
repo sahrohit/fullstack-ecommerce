@@ -16,7 +16,6 @@ import {
 	Text,
 	IconButtonProps,
 	Box,
-	Img,
 	VStack,
 } from "@chakra-ui/react";
 import { BsBag, BsBoxSeam } from "react-icons/bs";
@@ -27,8 +26,10 @@ import Result from "@/components/shared/Result";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import Image from "next/image";
 import DrawerCartItem from "./DrawerCartItem";
 import { CartItemSkeleton } from "./CartItem";
+import emptyListImage from "../../../../public/assets/empty-list.svg";
 
 interface DrawerCartProps extends IconButtonProps {}
 
@@ -103,11 +104,10 @@ const DrawerCart = (props: DrawerCartProps) => {
 										</Heading>
 										<Text>Treat yourself, and add something here now.</Text>
 									</Box>
-									<Img
-										width="50%"
-										placeholder="blur"
+									<Image
+										width={300}
 										alt="App screenshot"
-										src="/assets/empty-list.svg"
+										src={emptyListImage}
 									/>
 								</VStack>
 							) : (
