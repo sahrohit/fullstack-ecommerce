@@ -100,12 +100,14 @@ const ProductCard = (props: ProductCardProps) => {
 						currency="NPR"
 					/>
 				</Stack>
-				<HStack>
+				{/*
+				// ? Rating on the product page is maybe un-necessary
+				 <HStack>
 					<Rating defaultValue={2} size="sm" />
 					<Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>
 						12 Reviews
 					</Text>
-				</HStack>
+				</HStack> */}
 			</Stack>
 		</Stack>
 	);
