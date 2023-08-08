@@ -1,4 +1,12 @@
 /* eslint-disable no-nested-ternary */
+import {
+	Product,
+	Variant,
+	useQueryProductsQuery,
+	useVariantsQuery,
+} from "@/generated/graphql";
+import { Box, HStack, SimpleGrid, Spinner } from "@chakra-ui/react";
+import { useState } from "react";
 import ProductCard, {
 	ProductCardSkeleton,
 } from "@/components/pages/product/ProductCard";
@@ -9,14 +17,6 @@ import NavBreadrumb from "@/components/pages/product/filter/NavBreadrumb";
 import Footer from "@/components/shared/Footer";
 import Result from "@/components/shared/Result";
 import Navbar from "@/components/shared/navbar";
-import {
-	Product,
-	Variant,
-	useQueryProductsQuery,
-	useVariantsQuery,
-} from "@/generated/graphql";
-import { Box, HStack, SimpleGrid, Spinner } from "@chakra-ui/react";
-import { useState } from "react";
 
 const ProductFilterPage = () => {
 	// const ref = useRef(null);
@@ -27,6 +27,8 @@ const ProductFilterPage = () => {
 		Record<string, string | number>
 	>({});
 
+	const [selectedSorting, setSelectedSorting] = useState<string>("");
+
 	const {
 		data: products,
 		loading: pLoading,
@@ -34,6 +36,7 @@ const ProductFilterPage = () => {
 	} = useQueryProductsQuery({
 		variables: {
 			query: JSON.stringify(selectedVariant),
+			sort: selectedSorting,
 			limit: 12,
 			offset: 0,
 		},
@@ -86,7 +89,6 @@ const ProductFilterPage = () => {
 					]}
 				/>
 				<HStack
-					mx={4}
 					my={2}
 					justifyContent="between"
 					display={{ base: "flex", md: "none" }}
@@ -95,6 +97,8 @@ const ProductFilterPage = () => {
 						variants={data?.variants as Variant[]}
 						selectedVariant={selectedVariant}
 						setSelectedVariant={setSelectedVariant}
+						selectedSorting={selectedSorting}
+						setSelectedSorting={setSelectedSorting}
 					/>
 				</HStack>
 				<SimpleGrid gap={14} gridTemplateColumns="320px 1fr">
@@ -106,6 +110,8 @@ const ProductFilterPage = () => {
 							variants={data?.variants as Variant[]}
 							selectedVariant={selectedVariant}
 							setSelectedVariant={setSelectedVariant}
+							selectedSorting={selectedSorting}
+							setSelectedSorting={setSelectedSorting}
 						/>
 					)}
 

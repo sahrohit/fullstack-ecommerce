@@ -9,7 +9,9 @@ import {
 	DrawerBody,
 	DrawerFooter,
 	ButtonProps,
+	IconButton,
 } from "@chakra-ui/react";
+import { BiFilter } from "react-icons/bi";
 import { Variant } from "@/generated/graphql";
 import { Dispatch, SetStateAction } from "react";
 import FilterOptions from "./FilterOptions";
@@ -18,21 +20,38 @@ interface DrawerOptionsProps extends ButtonProps {
 	variants: Variant[];
 	selectedVariant: Record<string, string | number>;
 	setSelectedVariant: Dispatch<SetStateAction<Record<string, string | number>>>;
+	selectedSorting: string;
+	setSelectedSorting: Dispatch<SetStateAction<string>>;
 }
 
 const DrawerOptions = ({
 	variants,
 	selectedVariant,
 	setSelectedVariant,
+	selectedSorting,
+	setSelectedSorting,
 	...props
 }: DrawerOptionsProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
 		<>
-			<Button size="sm" variant="outline" onClick={onOpen} {...props}>
+			<IconButton
+				zIndex={10}
+				aria-label="Filter products"
+				borderRadius="50%"
+				size="xl"
+				variant="solid"
+				colorScheme="blue"
+				position="fixed"
+				bottom={8}
+				right={8}
+				onClick={onOpen}
+				{...props}
+				icon={<BiFilter size="48" />}
+			>
 				Open
-			</Button>
+			</IconButton>
 			<Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>
 				<DrawerOverlay />
 				<DrawerContent>
@@ -44,6 +63,8 @@ const DrawerOptions = ({
 							variants={variants}
 							selectedVariant={selectedVariant}
 							setSelectedVariant={setSelectedVariant}
+							selectedSorting={selectedSorting}
+							setSelectedSorting={setSelectedSorting}
 						/>
 					</DrawerBody>
 

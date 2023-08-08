@@ -66,6 +66,7 @@ export class ProductResolver {
 	@Query(() => PaginatedProducts, { nullable: true })
 	async queryProducts(
 		@Arg("query") query: string,
+		@Arg("sort", { nullable: true }) sort?: string,
 		@Arg("limit", { nullable: true }) limit?: number,
 		@Arg("offset", { nullable: true }) offset?: number
 	): Promise<PaginatedProducts> {
@@ -121,6 +122,16 @@ export class ProductResolver {
 				},
 				take: realLimitPlusOne,
 				skip: offset ?? 0,
+				order: {
+					created_at: sort === "newest" ? "DESC" : "ASC",
+					// inventories: {
+					// 	price:
+					// 		(sort === "price-low-to-high" && "ASC") ||
+					// 		(sort === "price-high-to-low" && "DESC") ||
+					// 		undefined,
+					// 	quantity: sort === "popularity" ? "DESC" : undefined,
+					// },
+				},
 			});
 
 			return {
@@ -142,6 +153,9 @@ export class ProductResolver {
 					inventories: {
 						isPublished: true,
 					},
+				},
+				order: {
+					created_at: sort === "newest" ? "DESC" : "ASC",
 				},
 			});
 

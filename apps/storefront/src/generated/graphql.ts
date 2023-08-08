@@ -480,6 +480,7 @@ export type QueryQueryProductsArgs = {
 	limit?: InputMaybe<Scalars["Float"]>;
 	offset?: InputMaybe<Scalars["Float"]>;
 	query: Scalars["String"];
+	sort?: InputMaybe<Scalars["String"]>;
 };
 
 export type QueryReviewByUserAndProductArgs = {
@@ -2270,6 +2271,7 @@ export type ProductsQuery = {
 
 export type QueryProductsQueryVariables = Exact<{
 	query: Scalars["String"];
+	sort?: InputMaybe<Scalars["String"]>;
 	limit?: InputMaybe<Scalars["Float"]>;
 	offset?: InputMaybe<Scalars["Float"]>;
 }>;
@@ -4485,8 +4487,13 @@ export type ProductsQueryResult = Apollo.QueryResult<
 	ProductsQueryVariables
 >;
 export const QueryProductsDocument = gql`
-	query QueryProducts($query: String!, $limit: Float, $offset: Float) {
-		queryProducts(query: $query, limit: $limit, offset: $offset) {
+	query QueryProducts(
+		$query: String!
+		$sort: String
+		$limit: Float
+		$offset: Float
+	) {
+		queryProducts(query: $query, sort: $sort, limit: $limit, offset: $offset) {
 			hasMore
 			products {
 				id
@@ -4516,6 +4523,7 @@ export const QueryProductsDocument = gql`
  * const { data, loading, error } = useQueryProductsQuery({
  *   variables: {
  *      query: // value for 'query'
+ *      sort: // value for 'sort'
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *   },

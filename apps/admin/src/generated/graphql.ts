@@ -295,6 +295,12 @@ export type OrderItem = {
 	updated_at: Scalars["String"];
 };
 
+export type PaginatedProducts = {
+	__typename?: "PaginatedProducts";
+	hasMore: Scalars["Boolean"];
+	products: Array<Product>;
+};
+
 export type PaymentDetail = {
 	__typename?: "PaymentDetail";
 	amount: Scalars["Float"];
@@ -445,7 +451,7 @@ export type Query = {
 	products?: Maybe<Array<Product>>;
 	productsSummary?: Maybe<ProductSummary>;
 	promo?: Maybe<Promo>;
-	queryProducts?: Maybe<Array<Product>>;
+	queryProducts?: Maybe<PaginatedProducts>;
 	reviewByUserAndProduct?: Maybe<ProductReview>;
 	reviewSummary?: Maybe<ReviewSummaryResponse>;
 	reviews?: Maybe<Array<ProductReview>>;
@@ -474,6 +480,7 @@ export type QueryQueryProductsArgs = {
 	limit?: InputMaybe<Scalars["Float"]>;
 	offset?: InputMaybe<Scalars["Float"]>;
 	query: Scalars["String"];
+	sort?: InputMaybe<Scalars["String"]>;
 };
 
 export type QueryReviewByUserAndProductArgs = {

@@ -1,5 +1,10 @@
-query QueryProducts($query: String!, $limit: Float, $offset: Float) {
-	queryProducts(query: $query, limit: $limit, offset: $offset) {
+query QueryProducts(
+	$query: String!
+	$sort: String
+	$limit: Float
+	$offset: Float
+) {
+	queryProducts(query: $query, sort: $sort, limit: $limit, offset: $offset) {
 		hasMore
 		products {
 			id
