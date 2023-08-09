@@ -1,4 +1,3 @@
-import Logo from "@/components/logo";
 import {
 	BoxProps,
 	Flex,
@@ -9,6 +8,7 @@ import {
 	Spacer,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import Logo from "@/components/logo";
 import {
 	ACCOUNT_NAV_LINKS,
 	ORDER_NAV_LINKS,

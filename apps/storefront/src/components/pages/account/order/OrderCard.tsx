@@ -1,10 +1,3 @@
-import { PriceTag } from "@/components/shared/product/PriceTag";
-import { OrderDetail, OrderItem } from "@/generated/graphql";
-import {
-	OrderInfo,
-	colorFromStatus,
-	orderPageTextFromStatus,
-} from "@/pages/order/[id]";
 import {
 	CardBody,
 	CardFooter,
@@ -29,6 +22,13 @@ import dayjs from "dayjs";
 import { useMemo } from "react";
 import { BiDownload } from "react-icons/bi";
 import { Link } from "@chakra-ui/next-js";
+import { OrderDetail, OrderItem } from "@/generated/graphql";
+import {
+	OrderInfo,
+	colorFromStatus,
+	orderPageTextFromStatus,
+} from "@/pages/order/[id]";
+import { PriceTag } from "@/components/shared/product/PriceTag";
 import { capitalize } from "@/utils/helpers";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import { KHALTI_LOGO } from "../../cart/checkout/PaymentSelector";

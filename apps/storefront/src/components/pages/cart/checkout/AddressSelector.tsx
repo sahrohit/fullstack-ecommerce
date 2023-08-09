@@ -1,7 +1,5 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import Result from "@/components/shared/Result";
-import { Address, useAddressesQuery } from "@/generated/graphql";
 import {
 	Box,
 	useRadioGroup,
@@ -23,8 +21,10 @@ import {
 	MdCheckBox,
 	MdCheckBoxOutlineBlank,
 } from "react-icons/md";
-import ListRadioBox from "@/components/ui/radio/list/ListRadioBox";
 import { Control, useController } from "react-hook-form";
+import { Address, useAddressesQuery } from "@/generated/graphql";
+import ListRadioBox from "@/components/ui/radio/list/ListRadioBox";
+import Result from "@/components/shared/Result";
 import { CheckoutForm } from "@/pages/cart/checkout";
 
 interface AddressSelectorProps {

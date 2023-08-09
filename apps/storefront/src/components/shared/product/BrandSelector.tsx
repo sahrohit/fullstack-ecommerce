@@ -1,4 +1,3 @@
-import BRANDS from "@/data/options";
 import {
 	FormControl,
 	FormLabel,
@@ -12,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
+import BRANDS from "@/data/options";
 
 const BrandSelector = () => {
 	const [searchText, setSearchText] = useState<string>("");

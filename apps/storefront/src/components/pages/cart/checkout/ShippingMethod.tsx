@@ -1,5 +1,4 @@
 /* eslint-disable import/no-cycle */
-import { CheckoutForm } from "@/pages/cart/checkout";
 import {
 	RadioGroup,
 	Stack,
@@ -11,6 +10,7 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import { Control, useController } from "react-hook-form";
+import { CheckoutForm } from "@/pages/cart/checkout";
 
 interface ShippingMethodProps extends UseRadioGroupProps {
 	control: Control<CheckoutForm, any>;

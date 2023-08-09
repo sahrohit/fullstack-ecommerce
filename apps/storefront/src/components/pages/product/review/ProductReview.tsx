@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-import Rating from "@/components/shared/product/Rating";
 import {
 	Button,
 	ButtonProps,
@@ -11,6 +10,8 @@ import {
 	Text,
 	VStack,
 } from "@chakra-ui/react";
+import { useRef } from "react";
+import { FiEdit } from "react-icons/fi";
 import {
 	ProductReview as IProductReview,
 	ReviewSummaryResponse,
@@ -20,10 +21,9 @@ import {
 	useReviewSummaryQuery,
 	useReviewsQuery,
 } from "@/generated/graphql";
+import Rating from "@/components/shared/product/Rating";
 import Result from "@/components/shared/Result";
 import ModalButton from "@/components/ui/ModalButton";
-import { useRef } from "react";
-import { FiEdit } from "react-icons/fi";
 import ReviewCard, { ReviewCardSkeleton } from "./ReviewCard";
 import ReviewForm from "./ReviewForm";
 

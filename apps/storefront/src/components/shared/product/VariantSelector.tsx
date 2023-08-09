@@ -1,4 +1,3 @@
-import UnderlineLink from "@/components/ui/UnderlineLink";
 import type { SquareProps, UseRadioProps, StackProps } from "@chakra-ui/react";
 import {
 	VStack,
@@ -13,6 +12,7 @@ import {
 	SimpleGrid,
 	HStack,
 } from "@chakra-ui/react";
+import UnderlineLink from "@/components/ui/UnderlineLink";
 
 interface VariantSelectorProps {
 	options: string[];

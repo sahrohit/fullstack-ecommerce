@@ -1,14 +1,4 @@
 /* eslint-disable import/no-cycle */
-import PageLoader from "@/components/shared/PageLoader";
-import Result from "@/components/shared/Result";
-import { PriceTag } from "@/components/shared/product/PriceTag";
-import {
-	Cart,
-	useFetchCartItemsQuery,
-	usePromoLazyQuery,
-} from "@/generated/graphql";
-import { CheckoutForm } from "@/pages/cart/checkout";
-import { capitalize } from "@/utils/helpers";
 import {
 	Box,
 	Button,
@@ -30,6 +20,16 @@ import {
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { UseFormWatch } from "react-hook-form";
+import {
+	Cart,
+	useFetchCartItemsQuery,
+	usePromoLazyQuery,
+} from "@/generated/graphql";
+import PageLoader from "@/components/shared/PageLoader";
+import Result from "@/components/shared/Result";
+import { PriceTag } from "@/components/shared/product/PriceTag";
+import { CheckoutForm } from "@/pages/cart/checkout";
+import { capitalize } from "@/utils/helpers";
 
 interface OrderSummaryProps {
 	setFormPromoCode: (promoCode: string) => void;

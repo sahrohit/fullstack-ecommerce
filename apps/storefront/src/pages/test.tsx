@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Result from "@/components/shared/Result";
-import { useMeQuery } from "@/generated/graphql";
 import { Button } from "@chakra-ui/react";
+import { useMeQuery } from "@/generated/graphql";
+import Result from "@/components/shared/Result";
 import PageLoader from "@/components/shared/PageLoader";
 
 const TestPage = () => {

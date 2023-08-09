@@ -1,11 +1,11 @@
-import PageLoader from "@/components/shared/PageLoader";
-import Result from "@/components/shared/Result";
-import { useVerifyEmailMutation } from "@/generated/graphql";
 import { Link } from "@chakra-ui/next-js";
 import { Button } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useVerifyEmailMutation } from "@/generated/graphql";
+import Result from "@/components/shared/Result";
+import PageLoader from "@/components/shared/PageLoader";
 
 const VerifyEmailPage: NextPage = () => {
 	const router = useRouter();

@@ -1,12 +1,12 @@
 /* eslint-disable no-nested-ternary */
+import { Box, HStack, SimpleGrid, Spinner } from "@chakra-ui/react";
+import { useState } from "react";
 import {
 	Product,
 	Variant,
 	useQueryProductsQuery,
 	useVariantsQuery,
 } from "@/generated/graphql";
-import { Box, HStack, SimpleGrid, Spinner } from "@chakra-ui/react";
-import { useState } from "react";
 import ProductCard, {
 	ProductCardSkeleton,
 } from "@/components/pages/product/ProductCard";

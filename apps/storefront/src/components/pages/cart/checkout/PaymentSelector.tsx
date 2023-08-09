@@ -1,9 +1,9 @@
 /* eslint-disable import/no-cycle */
-import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
-import { CheckoutForm } from "@/pages/cart/checkout";
 import { Box, Heading } from "@chakra-ui/react";
 import { Control, useController } from "react-hook-form";
 import { BsCashStack } from "react-icons/bs";
+import { CheckoutForm } from "@/pages/cart/checkout";
+import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
 
 interface PaymentSelectorProps {
 	control: Control<CheckoutForm, any>;

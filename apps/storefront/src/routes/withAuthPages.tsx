@@ -1,7 +1,7 @@
-import PageLoader from "@/components/shared/PageLoader";
-import { useMeQuery } from "@/generated/graphql";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
+import { useMeQuery } from "@/generated/graphql";
+import PageLoader from "@/components/shared/PageLoader";
 
 const withAuthPages = (Component: any) =>
 	function WithAuthPages(props: NextPageContext) {

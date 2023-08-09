@@ -9,8 +9,8 @@ import {
 	ModalOverlay,
 	useDisclosure,
 } from "@chakra-ui/react";
-import { Product } from "@/generated/graphql";
 import { AiOutlineEye } from "react-icons/ai";
+import { Product } from "@/generated/graphql";
 import ProductDetails from "../ProductDetails";
 
 interface QuickViewProps {

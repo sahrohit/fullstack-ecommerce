@@ -11,15 +11,15 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { BiMailSend } from "react-icons/bi";
+import { useEffect } from "react";
+import { useForgotPasswordMutation } from "@/generated/graphql";
 import InputField from "@/components/ui/InputField";
 
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import Logo from "@/components/logo";
-import { BiMailSend } from "react-icons/bi";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import { useEffect } from "react";
 import withAuthPages from "@/routes/withAuthPages";
-import { useForgotPasswordMutation } from "@/generated/graphql";
 import { PROD } from "../../../constants";
 
 const ForgotPasswordPage = () => (

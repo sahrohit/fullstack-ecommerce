@@ -1,6 +1,6 @@
-import Rating from "@/components/shared/product/Rating";
 import { Stack, VStack, HStack, Heading, Box } from "@chakra-ui/react";
 import { Product, ProductImage } from "@/generated/graphql";
+import Rating from "@/components/shared/product/Rating";
 import Carousel from "./Carousel";
 import ImageGrid from "./ImageGrid";
 import AddToCartForm from "./AddToCartForm";

@@ -2,15 +2,15 @@ import { Button, Card, HStack, Stack, Text, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import InputField from "@/components/ui/InputField";
 import { useState } from "react";
+import { AiOutlineHome } from "react-icons/ai";
+import { MdWorkOutline } from "react-icons/md";
 import {
 	useAddAddressMutation,
 	useUpdateAddressMutation,
 } from "@/generated/graphql";
+import InputField from "@/components/ui/InputField";
 import { ToggleButtonGroup, ToggleButton } from "@/components/ui/ToggleButton";
-import { AiOutlineHome } from "react-icons/ai";
-import { MdWorkOutline } from "react-icons/md";
 
 type AddressFormValues = {
 	name: string;

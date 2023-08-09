@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable import/no-cycle */
-import AddressForm from "@/components/pages/account/address/AddressForm";
-import AddressSelector from "@/components/pages/cart/checkout/AddressSelector";
-import OrderSummary from "@/components/pages/cart/checkout/OrderSummary";
-import PaymentSelector from "@/components/pages/cart/checkout/PaymentSelector";
-import ShippingMethod from "@/components/pages/cart/checkout/ShippingMethod";
-import ModalButton from "@/components/ui/ModalButton";
-import { useCreateOrderMutation } from "@/generated/graphql";
 import {
 	Stack,
 	Box,
@@ -21,6 +14,13 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { IoAdd } from "react-icons/io5";
 import * as Yup from "yup";
+import { useCreateOrderMutation } from "@/generated/graphql";
+import AddressForm from "@/components/pages/account/address/AddressForm";
+import AddressSelector from "@/components/pages/cart/checkout/AddressSelector";
+import OrderSummary from "@/components/pages/cart/checkout/OrderSummary";
+import PaymentSelector from "@/components/pages/cart/checkout/PaymentSelector";
+import ShippingMethod from "@/components/pages/cart/checkout/ShippingMethod";
+import ModalButton from "@/components/ui/ModalButton";
 
 export interface CheckoutForm {
 	addressId: string;

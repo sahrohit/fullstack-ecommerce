@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useSearchProductsLazyQuery } from "@/generated/graphql";
 import {
 	useDisclosure,
 	Modal,
@@ -20,6 +19,7 @@ import { Command } from "cmdk";
 import { AiOutlineSearch } from "react-icons/ai";
 import debounce from "lodash.debounce";
 import { Link } from "@chakra-ui/next-js";
+import { useSearchProductsLazyQuery } from "@/generated/graphql";
 
 const Search = () => {
 	const [value, setValue] = useState("not-found");

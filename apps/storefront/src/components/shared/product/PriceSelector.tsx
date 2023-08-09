@@ -1,4 +1,3 @@
-import { useProductsSummaryQuery } from "@/generated/graphql";
 import {
 	FormLabel,
 	HStack,
@@ -14,6 +13,7 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
+import { useProductsSummaryQuery } from "@/generated/graphql";
 
 interface PriceSelectorProps {
 	selectedVariant: Record<string, string | number>;

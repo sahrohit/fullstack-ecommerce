@@ -1,7 +1,7 @@
-import { useMeQuery } from "@/generated/graphql";
-import PageLoader from "@/components/shared/PageLoader";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
+import { useMeQuery } from "@/generated/graphql";
+import PageLoader from "@/components/shared/PageLoader";
 
 const withProtected = (Component: any) =>
 	function WithProtected(props: NextPageContext) {

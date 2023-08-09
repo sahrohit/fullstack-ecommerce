@@ -1,15 +1,3 @@
-import QuantitySelect from "@/components/shared/cart/QuantitySelect";
-import { ColorSelector } from "@/components/shared/product/ColorSelector";
-import { PriceTag } from "@/components/shared/product/PriceTag";
-import { VariantSelector } from "@/components/shared/product/VariantSelector";
-import {
-	Product,
-	useAddToCartMutation,
-	useAddToFavouriteMutation,
-	useFavouritesQuery,
-	useRemoveFromFavouriteMutation,
-} from "@/generated/graphql";
-import { validVariants, allVariants, selectorsToKeys } from "@/utils/mappers";
 import {
 	useToast,
 	useColorModeValue,
@@ -20,6 +8,18 @@ import {
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { FiHeart } from "react-icons/fi";
+import {
+	Product,
+	useAddToCartMutation,
+	useAddToFavouriteMutation,
+	useFavouritesQuery,
+	useRemoveFromFavouriteMutation,
+} from "@/generated/graphql";
+import QuantitySelect from "@/components/shared/cart/QuantitySelect";
+import { ColorSelector } from "@/components/shared/product/ColorSelector";
+import { PriceTag } from "@/components/shared/product/PriceTag";
+import { VariantSelector } from "@/components/shared/product/VariantSelector";
+import { validVariants, allVariants, selectorsToKeys } from "@/utils/mappers";
 
 interface AddToCartFormProps {
 	product: Product;

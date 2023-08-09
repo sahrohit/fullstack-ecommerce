@@ -1,15 +1,3 @@
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
-import HeadingGroup from "@/components/pages/account/HeadingGroup";
-import Result from "@/components/shared/Result";
-import Navbar from "@/components/shared/navbar";
-import { PriceTag } from "@/components/shared/product/PriceTag";
-import Rating from "@/components/shared/product/Rating";
-import {
-	Favourite,
-	useFavouritesWithProductQuery,
-	useMeQuery,
-	useRemoveFromFavouriteMutation,
-} from "@/generated/graphql";
 import {
 	AspectRatio,
 	Box,
@@ -27,6 +15,18 @@ import {
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import Image from "next/image";
+import {
+	Favourite,
+	useFavouritesWithProductQuery,
+	useMeQuery,
+	useRemoveFromFavouriteMutation,
+} from "@/generated/graphql";
+import ConfirmationModal from "@/components/helpers/ConfirmationModal";
+import HeadingGroup from "@/components/pages/account/HeadingGroup";
+import Result from "@/components/shared/Result";
+import Navbar from "@/components/shared/navbar";
+import { PriceTag } from "@/components/shared/product/PriceTag";
+import Rating from "@/components/shared/product/Rating";
 import services from "../../../public/assets/services.svg";
 
 const FavouritePage = () => {

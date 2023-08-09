@@ -8,13 +8,13 @@ import {
 	StackDivider,
 } from "@chakra-ui/react";
 
-import { useMeQuery } from "@/generated/graphql";
 import dayjs from "dayjs";
-import PageLoader from "@/components/shared/PageLoader";
 import { useRef } from "react";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { useMeQuery } from "@/generated/graphql";
+import PageLoader from "@/components/shared/PageLoader";
 import ModalButton from "@/components/ui/ModalButton";
 import UpdatePasswordForm from "@/components/pages/account/setting/UpdatePasswordForm";
-import relativeTime from "dayjs/plugin/relativeTime";
 import Card from "./Card";
 import FieldGroup from "./FieldGroup";
 import ProfileForm from "./setting/ProfileForm";

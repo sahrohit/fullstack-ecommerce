@@ -1,5 +1,3 @@
-import Rating from "@/components/shared/product/Rating";
-import { ProductReview } from "@/generated/graphql";
 import {
 	HStack,
 	Heading,
@@ -10,6 +8,8 @@ import {
 	useColorModeValue,
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
+import { ProductReview } from "@/generated/graphql";
+import Rating from "@/components/shared/product/Rating";
 
 export interface ReviewCardProps {
 	review: ProductReview;

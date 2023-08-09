@@ -1,10 +1,10 @@
+import { Icon, IconButton, IconButtonProps, LightMode } from "@chakra-ui/react";
+import { FiHeart } from "react-icons/fi";
 import {
 	useAddToFavouriteMutation,
 	useFavouritesQuery,
 	useRemoveFromFavouriteMutation,
 } from "@/generated/graphql";
-import { Icon, IconButton, IconButtonProps, LightMode } from "@chakra-ui/react";
-import { FiHeart } from "react-icons/fi";
 
 interface FavouriteButtonProps extends IconButtonProps {
 	productId: number;

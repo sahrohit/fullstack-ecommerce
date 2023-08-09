@@ -11,8 +11,8 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import InputField from "@/components/ui/InputField";
 import { HiCloudUpload } from "react-icons/hi";
+import InputField from "@/components/ui/InputField";
 
 type ProfileFormValues = {
 	first_name: string;

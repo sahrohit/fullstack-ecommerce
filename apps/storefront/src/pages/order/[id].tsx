@@ -1,8 +1,3 @@
-import { OrderSummaryItem } from "@/components/pages/cart/checkout/OrderSummary";
-import Result from "@/components/shared/Result";
-import { PriceTag } from "@/components/shared/product/PriceTag";
-import { Cart, useMeQuery, useOrderByIdQuery } from "@/generated/graphql";
-import { capitalize } from "@/utils/helpers";
 import {
 	Badge,
 	Box,
@@ -22,8 +17,13 @@ import {
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { ReactNode, useMemo } from "react";
-import UnderlineLink from "@/components/ui/UnderlineLink";
 import { MdOutlineContentCopy } from "react-icons/md";
+import { Cart, useMeQuery, useOrderByIdQuery } from "@/generated/graphql";
+import { OrderSummaryItem } from "@/components/pages/cart/checkout/OrderSummary";
+import Result from "@/components/shared/Result";
+import { PriceTag } from "@/components/shared/product/PriceTag";
+import { capitalize } from "@/utils/helpers";
+import UnderlineLink from "@/components/ui/UnderlineLink";
 import PageLoader from "@/components/shared/PageLoader";
 import { KHALTI_LOGO } from "@/components/pages/cart/checkout/PaymentSelector";
 import TrackingTimeline from "@/components/pages/account/order/TrackingTimelines";

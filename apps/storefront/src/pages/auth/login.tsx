@@ -1,8 +1,3 @@
-import SignInWithGoogle from "@/components/auth/AuthProvider";
-import LoginForm from "@/components/auth/LoginForm";
-import Logo from "@/components/logo";
-import UnderlineLink from "@/components/ui/UnderlineLink";
-import withAuthPages from "@/routes/withAuthPages";
 import {
 	Badge,
 	Box,
@@ -12,6 +7,11 @@ import {
 	Text,
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
+import SignInWithGoogle from "@/components/auth/AuthProvider";
+import LoginForm from "@/components/auth/LoginForm";
+import Logo from "@/components/logo";
+import UnderlineLink from "@/components/ui/UnderlineLink";
+import withAuthPages from "@/routes/withAuthPages";
 
 const LoginPage = () => (
 	<Flex

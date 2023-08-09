@@ -8,10 +8,10 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import UnderlineLink from "@/components/ui/UnderlineLink";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useLoginMutation } from "@/generated/graphql";
+import UnderlineLink from "@/components/ui/UnderlineLink";
 import InputField from "../ui/InputField";
 
 interface FormValues {

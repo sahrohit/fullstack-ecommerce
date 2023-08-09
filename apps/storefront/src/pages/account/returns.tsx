@@ -1,6 +1,6 @@
-import withProtected from "@/routes/withProtected";
 import { SimpleGrid, VStack, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import withProtected from "@/routes/withProtected";
 import tasks from "../../../public/assets/tasks.svg";
 
 const ReturnsPage = () => (
