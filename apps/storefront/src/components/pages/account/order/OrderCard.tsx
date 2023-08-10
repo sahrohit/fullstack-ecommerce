@@ -22,7 +22,11 @@ import dayjs from "dayjs";
 import { useMemo } from "react";
 import { BiDownload } from "react-icons/bi";
 import { Link } from "@chakra-ui/next-js";
-import { OrderDetail, OrderItem } from "@/generated/graphql";
+import {
+	OrderDetail,
+	OrderItem,
+	useGenerateInvoiceLazyQuery,
+} from "@/generated/graphql";
 import {
 	OrderInfo,
 	colorFromStatus,
@@ -43,6 +47,9 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 	const successPayment = orderItem.paymentdetails?.find(
 		(payment) => payment.status === "COMPLETED"
 	);
+
+	const [generateInvoice, { loading: invoiceLoading }] =
+		useGenerateInvoiceLazyQuery();
 
 	const subTotal = useMemo(
 		() =>
@@ -79,7 +86,22 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					<Button size="sm" as={Link} href={`/order/${orderItem.id}`}>
 						View Order
 					</Button>
-					<Button size="sm" leftIcon={<BiDownload />}>
+					<Button
+						size="sm"
+						leftIcon={<BiDownload />}
+						isLoading={invoiceLoading}
+						onClick={async () => {
+							const res = await generateInvoice({
+								variables: {
+									orderId: orderItem.id,
+								},
+							});
+							window.open(
+								`data:application/pdf;base64,${res.data?.generate}`,
+								"_blank"
+							);
+						}}
+					>
 						Download Invoice
 					</Button>
 				</HStack>

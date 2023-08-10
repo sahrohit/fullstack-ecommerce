@@ -440,9 +440,11 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
+	emailInvoice: Scalars["Boolean"];
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
+	generate?: Maybe<Scalars["String"]>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
@@ -462,6 +464,14 @@ export type Query = {
 
 export type QueryAllReviewsArgs = {
 	productId: Scalars["Int"];
+};
+
+export type QueryEmailInvoiceArgs = {
+	orderId: Scalars["String"];
+};
+
+export type QueryGenerateArgs = {
+	orderId: Scalars["String"];
 };
 
 export type QueryOrderByIdArgs = {
@@ -1823,6 +1833,15 @@ export type FavouritesWithProductQuery = {
 			} | null;
 		};
 	}>;
+};
+
+export type GenerateInvoiceQueryVariables = Exact<{
+	orderId: Scalars["String"];
+}>;
+
+export type GenerateInvoiceQuery = {
+	__typename?: "Query";
+	generate?: string | null;
 };
 
 export type OrderByIdQueryVariables = Exact<{
@@ -4229,6 +4248,62 @@ export type FavouritesWithProductLazyQueryHookResult = ReturnType<
 export type FavouritesWithProductQueryResult = Apollo.QueryResult<
 	FavouritesWithProductQuery,
 	FavouritesWithProductQueryVariables
+>;
+export const GenerateInvoiceDocument = gql`
+	query GenerateInvoice($orderId: String!) {
+		generate(orderId: $orderId)
+	}
+`;
+
+/**
+ * __useGenerateInvoiceQuery__
+ *
+ * To run a query within a React component, call `useGenerateInvoiceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGenerateInvoiceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGenerateInvoiceQuery({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useGenerateInvoiceQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GenerateInvoiceQuery,
+		GenerateInvoiceQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<GenerateInvoiceQuery, GenerateInvoiceQueryVariables>(
+		GenerateInvoiceDocument,
+		options
+	);
+}
+export function useGenerateInvoiceLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GenerateInvoiceQuery,
+		GenerateInvoiceQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GenerateInvoiceQuery,
+		GenerateInvoiceQueryVariables
+	>(GenerateInvoiceDocument, options);
+}
+export type GenerateInvoiceQueryHookResult = ReturnType<
+	typeof useGenerateInvoiceQuery
+>;
+export type GenerateInvoiceLazyQueryHookResult = ReturnType<
+	typeof useGenerateInvoiceLazyQuery
+>;
+export type GenerateInvoiceQueryResult = Apollo.QueryResult<
+	GenerateInvoiceQuery,
+	GenerateInvoiceQueryVariables
 >;
 export const OrderByIdDocument = gql`
 	query OrderById($orderId: String!) {

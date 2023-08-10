@@ -1,0 +1,3 @@
+query GenerateInvoice($orderId: String!) {
+	generate(orderId: $orderId)
+}

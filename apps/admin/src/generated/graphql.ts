@@ -440,9 +440,11 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
+	emailInvoice: Scalars["Boolean"];
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
+	generate?: Maybe<Scalars["String"]>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
@@ -462,6 +464,14 @@ export type Query = {
 
 export type QueryAllReviewsArgs = {
 	productId: Scalars["Int"];
+};
+
+export type QueryEmailInvoiceArgs = {
+	orderId: Scalars["String"];
+};
+
+export type QueryGenerateArgs = {
+	orderId: Scalars["String"];
 };
 
 export type QueryOrderByIdArgs = {

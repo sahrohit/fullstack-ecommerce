@@ -4,7 +4,7 @@ export const FORGOT_PASSWORD_PREFIX = "forgot-password:";
 export const VERIFY_EMAIL_PREFIX = "verify-email:";
 export const COMPANY = {
 	name: "Hamropasal",
-	logo: `${process.env.CLIENT_URL}/logo.png`,
+	logo: `https://hamropasal.vercel.app/logo.png`,
 	address: "Tikathali, Mahalaxmi",
 	zip: "44708",
 	city: "Kathmandu",
