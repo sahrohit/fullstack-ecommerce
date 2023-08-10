@@ -1,4 +1,4 @@
-import { COMPANY_NAME } from "../constants";
+import { COMPANY } from "../constants";
 
 export const verifyEmailTemplate = (link: string) => `
 <!DOCTYPE html>
@@ -155,7 +155,7 @@ export const verifyEmailTemplate = (link: string) => `
                     </tr>
                     <tr>
                         <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">Cheers,<br>${COMPANY_NAME} Team</p>
+                            <p style="margin: 0;">Cheers,<br>${COMPANY.name} Team</p>
                         </td>
                     </tr>
                 </table>

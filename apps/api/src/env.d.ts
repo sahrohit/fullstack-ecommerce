@@ -6,9 +6,12 @@ declare global {
 			REDIS_URL: string;
 			SESSION_SECRET: string;
 			PORT: string;
-			SENDGRID_API_KEY: string;
 			CLIENT_URL: string;
 			KHALTI_SECRET_KEY: string;
+			RESEND_HOST: string;
+			RESENT_PORT: string;
+			RESEND_AUTH_USER: string;
+			RESEND_AUTH_PASS: string;
 		}
 	}
 }

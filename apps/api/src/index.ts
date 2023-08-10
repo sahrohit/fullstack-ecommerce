@@ -27,8 +27,7 @@ import { FavouriteResolver } from "./resolvers/favourite";
 import { ReviewResolver } from "./resolvers/review";
 import Redis from "ioredis";
 import { Product } from "./entities/Product";
-import { verifyEmailTemplate } from "./static/verifyEmailTemplate";
-import { sendEmail } from "./utils/sendEmail";
+import { InvoiceResolver } from "./resolvers/invoice";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -120,6 +119,7 @@ const Server = async () => {
 				VariantResolver,
 				FavouriteResolver,
 				ReviewResolver,
+				InvoiceResolver,
 			],
 			validate: false,
 		}),
