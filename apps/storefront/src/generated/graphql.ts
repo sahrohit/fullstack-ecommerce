@@ -127,7 +127,9 @@ export type Mutation = {
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
 	deleteFromCart: Scalars["Boolean"];
+	emailInvoice: Scalars["Boolean"];
 	forgotPassword: Scalars["Boolean"];
+	generateInvoice?: Maybe<Scalars["String"]>;
 	login: UserResponse;
 	logout: Scalars["Boolean"];
 	register: UserResponse;
@@ -204,8 +206,17 @@ export type MutationDeleteFromCartArgs = {
 	quantity: Scalars["Int"];
 };
 
+export type MutationEmailInvoiceArgs = {
+	email: Scalars["String"];
+	orderId: Scalars["String"];
+};
+
 export type MutationForgotPasswordArgs = {
 	email: Scalars["String"];
+};
+
+export type MutationGenerateInvoiceArgs = {
+	orderId: Scalars["String"];
 };
 
 export type MutationLoginArgs = {
@@ -440,11 +451,9 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
-	emailInvoice: Scalars["Boolean"];
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
-	generate?: Maybe<Scalars["String"]>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
@@ -464,14 +473,6 @@ export type Query = {
 
 export type QueryAllReviewsArgs = {
 	productId: Scalars["Int"];
-};
-
-export type QueryEmailInvoiceArgs = {
-	orderId: Scalars["String"];
-};
-
-export type QueryGenerateArgs = {
-	orderId: Scalars["String"];
 };
 
 export type QueryOrderByIdArgs = {
@@ -1237,6 +1238,25 @@ export type RemoveFromFavouriteMutation = {
 	removeFromFavourite: boolean;
 };
 
+export type EmailInvoiceMutationVariables = Exact<{
+	email: Scalars["String"];
+	orderId: Scalars["String"];
+}>;
+
+export type EmailInvoiceMutation = {
+	__typename?: "Mutation";
+	emailInvoice: boolean;
+};
+
+export type GenerateInvoiceMutationVariables = Exact<{
+	orderId: Scalars["String"];
+}>;
+
+export type GenerateInvoiceMutation = {
+	__typename?: "Mutation";
+	generateInvoice?: string | null;
+};
+
 export type CreateOrderMutationVariables = Exact<{
 	options: CreateOrderInput;
 }>;
@@ -1833,15 +1853,6 @@ export type FavouritesWithProductQuery = {
 			} | null;
 		};
 	}>;
-};
-
-export type GenerateInvoiceQueryVariables = Exact<{
-	orderId: Scalars["String"];
-}>;
-
-export type GenerateInvoiceQuery = {
-	__typename?: "Query";
-	generate?: string | null;
 };
 
 export type OrderByIdQueryVariables = Exact<{
@@ -3211,6 +3222,103 @@ export type RemoveFromFavouriteMutationOptions = Apollo.BaseMutationOptions<
 	RemoveFromFavouriteMutation,
 	RemoveFromFavouriteMutationVariables
 >;
+export const EmailInvoiceDocument = gql`
+	mutation EmailInvoice($email: String!, $orderId: String!) {
+		emailInvoice(email: $email, orderId: $orderId)
+	}
+`;
+export type EmailInvoiceMutationFn = Apollo.MutationFunction<
+	EmailInvoiceMutation,
+	EmailInvoiceMutationVariables
+>;
+
+/**
+ * __useEmailInvoiceMutation__
+ *
+ * To run a mutation, you first call `useEmailInvoiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEmailInvoiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [emailInvoiceMutation, { data, loading, error }] = useEmailInvoiceMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useEmailInvoiceMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		EmailInvoiceMutation,
+		EmailInvoiceMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		EmailInvoiceMutation,
+		EmailInvoiceMutationVariables
+	>(EmailInvoiceDocument, options);
+}
+export type EmailInvoiceMutationHookResult = ReturnType<
+	typeof useEmailInvoiceMutation
+>;
+export type EmailInvoiceMutationResult =
+	Apollo.MutationResult<EmailInvoiceMutation>;
+export type EmailInvoiceMutationOptions = Apollo.BaseMutationOptions<
+	EmailInvoiceMutation,
+	EmailInvoiceMutationVariables
+>;
+export const GenerateInvoiceDocument = gql`
+	mutation GenerateInvoice($orderId: String!) {
+		generateInvoice(orderId: $orderId)
+	}
+`;
+export type GenerateInvoiceMutationFn = Apollo.MutationFunction<
+	GenerateInvoiceMutation,
+	GenerateInvoiceMutationVariables
+>;
+
+/**
+ * __useGenerateInvoiceMutation__
+ *
+ * To run a mutation, you first call `useGenerateInvoiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGenerateInvoiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [generateInvoiceMutation, { data, loading, error }] = useGenerateInvoiceMutation({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useGenerateInvoiceMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		GenerateInvoiceMutation,
+		GenerateInvoiceMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		GenerateInvoiceMutation,
+		GenerateInvoiceMutationVariables
+	>(GenerateInvoiceDocument, options);
+}
+export type GenerateInvoiceMutationHookResult = ReturnType<
+	typeof useGenerateInvoiceMutation
+>;
+export type GenerateInvoiceMutationResult =
+	Apollo.MutationResult<GenerateInvoiceMutation>;
+export type GenerateInvoiceMutationOptions = Apollo.BaseMutationOptions<
+	GenerateInvoiceMutation,
+	GenerateInvoiceMutationVariables
+>;
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($options: CreateOrderInput!) {
 		createOrder(options: $options)
@@ -4248,62 +4356,6 @@ export type FavouritesWithProductLazyQueryHookResult = ReturnType<
 export type FavouritesWithProductQueryResult = Apollo.QueryResult<
 	FavouritesWithProductQuery,
 	FavouritesWithProductQueryVariables
->;
-export const GenerateInvoiceDocument = gql`
-	query GenerateInvoice($orderId: String!) {
-		generate(orderId: $orderId)
-	}
-`;
-
-/**
- * __useGenerateInvoiceQuery__
- *
- * To run a query within a React component, call `useGenerateInvoiceQuery` and pass it any options that fit your needs.
- * When your component renders, `useGenerateInvoiceQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGenerateInvoiceQuery({
- *   variables: {
- *      orderId: // value for 'orderId'
- *   },
- * });
- */
-export function useGenerateInvoiceQuery(
-	baseOptions: Apollo.QueryHookOptions<
-		GenerateInvoiceQuery,
-		GenerateInvoiceQueryVariables
-	>
-) {
-	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useQuery<GenerateInvoiceQuery, GenerateInvoiceQueryVariables>(
-		GenerateInvoiceDocument,
-		options
-	);
-}
-export function useGenerateInvoiceLazyQuery(
-	baseOptions?: Apollo.LazyQueryHookOptions<
-		GenerateInvoiceQuery,
-		GenerateInvoiceQueryVariables
-	>
-) {
-	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useLazyQuery<
-		GenerateInvoiceQuery,
-		GenerateInvoiceQueryVariables
-	>(GenerateInvoiceDocument, options);
-}
-export type GenerateInvoiceQueryHookResult = ReturnType<
-	typeof useGenerateInvoiceQuery
->;
-export type GenerateInvoiceLazyQueryHookResult = ReturnType<
-	typeof useGenerateInvoiceLazyQuery
->;
-export type GenerateInvoiceQueryResult = Apollo.QueryResult<
-	GenerateInvoiceQuery,
-	GenerateInvoiceQueryVariables
 >;
 export const OrderByIdDocument = gql`
 	query OrderById($orderId: String!) {

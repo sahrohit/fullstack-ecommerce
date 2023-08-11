@@ -127,7 +127,9 @@ export type Mutation = {
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
 	deleteFromCart: Scalars["Boolean"];
+	emailInvoice: Scalars["Boolean"];
 	forgotPassword: Scalars["Boolean"];
+	generateInvoice?: Maybe<Scalars["String"]>;
 	login: UserResponse;
 	logout: Scalars["Boolean"];
 	register: UserResponse;
@@ -204,8 +206,17 @@ export type MutationDeleteFromCartArgs = {
 	quantity: Scalars["Int"];
 };
 
+export type MutationEmailInvoiceArgs = {
+	email: Scalars["String"];
+	orderId: Scalars["String"];
+};
+
 export type MutationForgotPasswordArgs = {
 	email: Scalars["String"];
+};
+
+export type MutationGenerateInvoiceArgs = {
+	orderId: Scalars["String"];
 };
 
 export type MutationLoginArgs = {
@@ -440,11 +451,9 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
-	emailInvoice: Scalars["Boolean"];
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
-	generate?: Maybe<Scalars["String"]>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
@@ -464,14 +473,6 @@ export type Query = {
 
 export type QueryAllReviewsArgs = {
 	productId: Scalars["Int"];
-};
-
-export type QueryEmailInvoiceArgs = {
-	orderId: Scalars["String"];
-};
-
-export type QueryGenerateArgs = {
-	orderId: Scalars["String"];
 };
 
 export type QueryOrderByIdArgs = {

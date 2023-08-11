@@ -1,62 +1,41 @@
 import { COMPANY } from "../constants";
 import { OrderDetail } from "../entities/OrderDetail";
-import { Arg, Ctx, Query, Resolver, UseMiddleware } from "type-graphql";
+import { Arg, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import easyinvoice from "easyinvoice";
-import fs from "fs";
 import { sendEmailWithAttachment } from "../utils/sendEmail";
-import { type MyContext } from "../types";
-import { User } from "../entities/User";
 import { invoiceTemplate } from "../static/invoiceTemplate";
 import { isAuth } from "../middlewares/isAuth";
 
 @Resolver()
 export class InvoiceResolver {
-	@Query(() => String, { nullable: true })
+	@Mutation(() => String, { nullable: true })
 	@UseMiddleware(isAuth)
-	async generate(
+	async generateInvoice(
 		@Arg("orderId", () => String) orderId: string
 	): Promise<string> {
 		return (await easyinvoice.createInvoice(await getSampleData(orderId))).pdf;
 	}
 
-	@Query(() => Boolean)
+	@Mutation(() => Boolean)
 	@UseMiddleware(isAuth)
 	async emailInvoice(
 		@Arg("orderId", () => String) orderId: string,
-		@Ctx() { req }: MyContext
+		@Arg("email", () => String) email: string
 	): Promise<boolean> {
-		const user = await User.findOne({ where: { id: req.session?.userId } });
-
-		if (!user) {
-			return false;
-		}
-
 		await easyinvoice.createInvoice(
 			await getSampleData(orderId),
 			async function (result) {
-				// TODO: Email doesn't attach the file yet.
-				// fs.writeFile(`${orderId}.pdf`, result.pdf, "base64", function (err) {
-				// 	if (err) {
-				// 		console.error(err);
-				// 		return;
-				// 	}
-				// });
 				await sendEmailWithAttachment(
-					user?.email,
+					email,
 					`Invoice for ${orderId}`,
 					invoiceTemplate(orderId),
 					[
 						{
-							path: `${orderId}.pdf`,
+							filename: `INVOICE-${orderId}.pdf`,
+							path: `data:application/pdf;base64,${result.pdf}`,
 						},
 					]
 				);
-				// fs.unlink(`${orderId}.pdf`, (err) => {
-				// 	if (err) {
-				// 		console.error(err);
-				// 		return;
-				// 	}
-				// });
 			}
 		);
 		return true;

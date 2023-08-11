@@ -25,7 +25,7 @@ import { Link } from "@chakra-ui/next-js";
 import {
 	OrderDetail,
 	OrderItem,
-	useGenerateInvoiceLazyQuery,
+	useGenerateInvoiceMutation,
 } from "@/generated/graphql";
 import {
 	OrderInfo,
@@ -35,8 +35,11 @@ import {
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import { capitalize } from "@/utils/helpers";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
+import ModalButton from "@/components/ui/ModalButton";
+import DividerWithText from "@/components/ui/DividerWithText";
 import { KHALTI_LOGO } from "../../cart/checkout/PaymentSelector";
 import { CreateReviewButton } from "../../product/review/ProductReview";
+import EmailInvoice from "./EmailInvoice";
 
 interface OrderCardProps {
 	orderItem: OrderDetail;
@@ -48,8 +51,8 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 		(payment) => payment.status === "COMPLETED"
 	);
 
-	const [generateInvoice, { loading: invoiceLoading }] =
-		useGenerateInvoiceLazyQuery();
+	const [generateInvoiceMutation, { loading: invoiceLoading }] =
+		useGenerateInvoiceMutation();
 
 	const subTotal = useMemo(
 		() =>
@@ -86,24 +89,34 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					<Button size="sm" as={Link} href={`/order/${orderItem.id}`}>
 						View Order
 					</Button>
-					<Button
+					<ModalButton
 						size="sm"
-						leftIcon={<BiDownload />}
 						isLoading={invoiceLoading}
-						onClick={async () => {
-							const res = await generateInvoice({
-								variables: {
-									orderId: orderItem.id,
-								},
-							});
-							window.open(
-								`data:application/pdf;base64,${res.data?.generate}`,
-								"_blank"
-							);
-						}}
+						buttonText="View Invoice"
+						modalHeader="Invoice"
 					>
-						Download Invoice
-					</Button>
+						<VStack w="full">
+							<Button
+								leftIcon={<BiDownload />}
+								isLoading={invoiceLoading}
+								onClick={async () => {
+									const res = await generateInvoiceMutation({
+										variables: {
+											orderId: orderItem.id,
+										},
+									});
+									const downloadLink = document.createElement("a");
+									downloadLink.href = `data:application/pdf;base64,${res.data?.generateInvoice}`;
+									downloadLink.download = `invoice-${orderItem.id}.pdf`;
+									downloadLink.click();
+								}}
+							>
+								Download Invoice
+							</Button>
+							<DividerWithText w="full">OR</DividerWithText>
+							<EmailInvoice orderId={orderItem.id} />
+						</VStack>
+					</ModalButton>
 				</HStack>
 			</CardHeader>
 			<Divider />
