@@ -1,12 +1,12 @@
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
+import { Product, useProductsQuery } from "@/generated/graphql";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
 import ProductGrid from "@/components/pages/product/ProductGrid";
 import ProductCard, {
 	ProductCardSkeleton,
 } from "@/components/pages/product/ProductCard";
-import { Product, useProductsQuery } from "@/generated/graphql";
 import Result from "@/components/shared/Result";
 import Banner from "@/components/shared/banner";
 import { BRAND_NAME } from "../../constants";

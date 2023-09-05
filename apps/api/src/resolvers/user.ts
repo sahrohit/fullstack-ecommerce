@@ -63,6 +63,19 @@ export class UserResolver {
 		return User.findOne({ where: { id: req.session?.userId } });
 	}
 
+	@Query(() => User, { nullable: true })
+	meWithAccount(@Ctx() { req }: MyContext) {
+		if (!req.session?.userId) {
+			return null;
+		}
+		return User.findOne({
+			where: { id: req.session?.userId },
+			relations: {
+				accounts: true,
+			},
+		});
+	}
+
 	@Mutation(() => UserResponse)
 	async register(
 		@Arg("options") options: RegisterInput,
