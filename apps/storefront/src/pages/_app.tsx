@@ -11,7 +11,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 	const router = useRouter();
 
 	const client = new ApolloClient({
-		uri: process.env.NEXT_PUBLIC_API_URL,
+		uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
 		cache: new InMemoryCache({
 			// ! Pagination is working, but filtering stops working after this
 			// typePolicies: {

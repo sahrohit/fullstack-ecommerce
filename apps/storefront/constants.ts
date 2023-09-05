@@ -6,3 +6,5 @@ export const COLOR = "Ecommerce Storefront";
 export const APP_URL = !PROD
 	? "http://localhost:3000"
 	: "https://www.rudejellyfish.live";
+
+export const GOOGLE_OAUTH_REDIRECT_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/google/callback`;

@@ -20,6 +20,7 @@ import { ProductVariant } from "./entities/ProductVariant";
 import { Promo } from "./entities/Promo";
 import { Favourite } from "./entities/Favourite";
 import { ProductReview } from "./entities/ProductReview";
+import { Account } from "./entities/Account";
 
 export const AppDataSource = new DataSource({
 	type: "postgres",
@@ -46,6 +47,7 @@ export const AppDataSource = new DataSource({
 		Promo,
 		Favourite,
 		ProductReview,
+		Account,
 	],
 	migrations: ["dist/migration/**/*.js"],
 	subscribers: [],

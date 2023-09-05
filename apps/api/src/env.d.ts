@@ -12,6 +12,9 @@ declare global {
 			RESENT_PORT: string;
 			RESEND_AUTH_USER: string;
 			RESEND_AUTH_PASS: string;
+			GOOGLE_CLIENT_ID: string;
+			GOOGLE_CLIENT_SECRET: string;
+			API_URL: string;
 		}
 	}
 }

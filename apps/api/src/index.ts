@@ -28,6 +28,7 @@ import { ReviewResolver } from "./resolvers/review";
 import Redis from "ioredis";
 import { Product } from "./entities/Product";
 import { InvoiceResolver } from "./resolvers/invoice";
+import authRouter from "./routers/auth";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -78,6 +79,8 @@ const Server = async () => {
 		console.log("Request Home");
 		res.json({ status: "ok" });
 	});
+
+	app.use("/auth", authRouter);
 
 	app.get("/products", async (_req, res) => {
 		res.json(
