@@ -117,7 +117,7 @@ const CheckoutPage = () => {
 						</Heading>
 						<ModalButton
 							ref={modalRef}
-							colorScheme="blue"
+							colorScheme="primary"
 							leftIcon={<IoAdd />}
 							buttonText="Add Address"
 							modalHeader="Add Address"

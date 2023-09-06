@@ -32,7 +32,7 @@ const LoginPage = () => (
 					mb={{ base: "14", md: "14" }}
 					w="auto"
 					h="12"
-					iconColor="green.600"
+					iconColor="primary.600"
 				/>
 				<Box textAlign="center" mb={{ base: "10", md: "16" }}>
 					<Heading
@@ -63,13 +63,13 @@ const LoginPage = () => (
 			maxH="100vh"
 			overflow="hidden"
 			flex="1"
-			bg="blue.600"
+			bg={"primary.600" ?? "blue.600"}
 			color="white"
 			px="20"
 			pt="28"
 		>
 			<Badge
-				bg="blue.700"
+				bg={"primary.700" ?? "blue.700"}
 				px="4"
 				py="1"
 				rounded="md"

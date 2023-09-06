@@ -86,7 +86,12 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					</OrderInfo>
 				</HStack>
 				<HStack>
-					<Button size="sm" as={Link} href={`/order/${orderItem.id}`}>
+					<Button
+						size="sm"
+						as={Link}
+						href={`/order/${orderItem.id}`}
+						colorScheme="secondary"
+					>
 						View Order
 					</Button>
 					<ModalButton
@@ -94,6 +99,7 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 						isLoading={invoiceLoading}
 						buttonText="View Invoice"
 						modalHeader="Invoice"
+						// colorScheme="ternary"
 					>
 						<VStack w="full">
 							<Button
@@ -147,7 +153,7 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					py={4}
 					w={{ base: "full", lg: "md" }}
 				>
-					<Button w="full" colorScheme="blue">
+					<Button w="full" colorScheme="primary">
 						Track Package
 					</Button>
 					<CreateReviewButton

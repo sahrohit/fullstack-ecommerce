@@ -35,7 +35,7 @@ export const ToggleButton = (props: ToggleButtonProps) => {
 				id={id}
 				color={useColorModeValue("gray.600	", "whiteAlpha.700")}
 				_checked={{
-					color: useColorModeValue("inherit", "whiteAlpha.900"),
+					color: useColorModeValue("primary", "whiteAlpha.900"),
 					bg: useColorModeValue("gray.200", "whiteAlpha.300"),
 				}}
 				{...getRadioProps()}

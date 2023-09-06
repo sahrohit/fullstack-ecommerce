@@ -111,6 +111,7 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 					</FormControl>
 					<Button
 						size="lg"
+						colorScheme="secondary"
 						onClick={async () => {
 							const { data: promoData } = await checkPromo({
 								variables: {
@@ -186,7 +187,7 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 						currency="NPR"
 					/>
 				</HStack>
-				<Button size="xl" w="full" colorScheme="blue" type="submit">
+				<Button size="xl" w="full" colorScheme="primary" type="submit">
 					Place Order
 				</Button>
 			</VStack>

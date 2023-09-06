@@ -107,8 +107,8 @@ const RadioOption = (props: RadioOptionProps) => {
 					bg: mode("gray.200", "whiteAlpha.300"),
 				}}
 				_checked={{
-					bg: mode("blue.100", "blue.300"),
-					borderColor: mode("blue.500", "blue.300"),
+					bg: mode("primary.100", "primary.300"),
+					borderColor: mode("primary.500", "primary.300"),
 				}}
 				_disabled={{
 					cursor: "not-allowed",

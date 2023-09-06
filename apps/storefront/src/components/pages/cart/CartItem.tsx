@@ -8,14 +8,14 @@ import {
 	VStack,
 	useToast,
 } from "@chakra-ui/react";
-import { UnderlineButton } from "@/components/ui/UnderlineLink";
-import { PriceTag } from "@/components/shared/product/PriceTag";
-import QuantitySelect from "@/components/shared/cart/QuantitySelect";
 import {
 	Cart,
 	useDeleteFromCartMutation,
 	useUpdateCartMutation,
 } from "@/generated/graphql";
+import { UnderlineButton } from "@/components/ui/UnderlineLink";
+import { PriceTag } from "@/components/shared/product/PriceTag";
+import QuantitySelect from "@/components/shared/cart/QuantitySelect";
 import { capitalize } from "@/utils/helpers";
 import { CartProductMeta } from "./CartProductMeta";
 

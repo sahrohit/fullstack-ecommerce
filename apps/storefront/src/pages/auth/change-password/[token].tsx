@@ -139,7 +139,7 @@ const ResetPasswordForm = () => {
 				/>
 				<Button
 					type="submit"
-					colorScheme="blue"
+					colorScheme="primary"
 					size="lg"
 					fontSize="md"
 					isLoading={isSubmitting}

@@ -40,7 +40,11 @@ const ShippingMethod = ({ control, options }: ShippingMethodProps) => {
 					gap={4}
 				>
 					{options.map((option) => (
-						<Radio key={option.title} value={option.value}>
+						<Radio
+							key={option.title}
+							value={option.value}
+							colorScheme="primary"
+						>
 							<VStack alignItems="left" ml={2}>
 								<Text fontSize="lg" fontWeight="bold" lineHeight="1">
 									{option.title}

@@ -31,7 +31,7 @@ const AccountPage = () => {
 
 				<ModalButton
 					ref={modalRef}
-					colorScheme="blue"
+					colorScheme="primary"
 					leftIcon={<IoAdd />}
 					w={{ base: "full", md: "unset" }}
 					buttonText="Add Address"

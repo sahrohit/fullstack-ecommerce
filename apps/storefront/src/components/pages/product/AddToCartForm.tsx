@@ -165,7 +165,7 @@ const AddToCartForm = ({ product }: AddToCartFormProps) => {
 				<FavouriteButton productId={product.id} />
 			</SimpleGrid>
 			<Button
-				colorScheme="blue"
+				colorScheme="primary"
 				w="full"
 				isDisabled={!result}
 				onClick={handleAddToCart}

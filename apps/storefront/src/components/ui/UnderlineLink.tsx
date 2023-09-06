@@ -31,7 +31,7 @@ const UnderlineLink = (props: UnderlineLinkProps) => {
 };
 
 UnderlineLink.defaultProps = {
-	color: "blue.500",
+	color: "primary.500",
 };
 
 export default UnderlineLink;
@@ -62,5 +62,5 @@ export const UnderlineButton = ({ color, ...rest }: UnderlineButtonProps) => (
 );
 
 UnderlineButton.defaultProps = {
-	color: "blue.500",
+	color: "primary.500",
 };

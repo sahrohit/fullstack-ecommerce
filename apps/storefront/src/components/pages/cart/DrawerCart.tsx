@@ -135,7 +135,7 @@ const DrawerCart = (props: DrawerCartProps) => {
 							</Flex>
 							<Button
 								isDisabled={!data?.fetchCartItems?.length}
-								colorScheme="blue"
+								colorScheme="primary"
 								size="lg"
 								fontSize="md"
 								rightIcon={<FaArrowRight />}

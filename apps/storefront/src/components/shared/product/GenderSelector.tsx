@@ -9,7 +9,7 @@ import {
 const GenderSelector = () => (
 	<FormControl>
 		<FormLabel>Gender</FormLabel>
-		<CheckboxGroup colorScheme="green" defaultValue={[]}>
+		<CheckboxGroup colorScheme="secondary" defaultValue={[]}>
 			<Stack
 				spacing={[1, 2]}
 				direction="column"

@@ -69,7 +69,7 @@ const MobileNav = ({ onOpen }: MobileNavProps) => (
 			variant="ghost"
 		/>
 		<HStack w="full" justifyContent="center">
-			<Logo iconColor="blue.500" h={8} />
+			<Logo iconColor="primary.500" h={8} />
 		</HStack>
 	</HStack>
 );

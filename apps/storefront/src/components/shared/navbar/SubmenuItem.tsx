@@ -39,7 +39,7 @@ const SubmenuItem = (props: SubmenuItemProps) => {
 				w="10"
 				h="10"
 				fontSize="3xl"
-				color={mode("blue.600", "blue.400")}
+				color={mode("primary.600", "primary.400")}
 			>
 				{icon}
 			</Center>
@@ -48,7 +48,7 @@ const SubmenuItem = (props: SubmenuItemProps) => {
 					<Text
 						fontWeight="semibold"
 						color={mode("gray.900", "white")}
-						_groupHover={{ color: mode("blue.600", "inherit") }}
+						_groupHover={{ color: mode("primary.600", "inherit") }}
 					>
 						{title}
 					</Text>
@@ -57,7 +57,7 @@ const SubmenuItem = (props: SubmenuItemProps) => {
 						as={FaChevronRight}
 						transition="all 0.2s"
 						_groupHover={{
-							color: mode("blue.600", "inherit"),
+							color: mode("primary.600", "inherit"),
 							transform: "translateX(2px)",
 						}}
 					/>
