@@ -141,8 +141,8 @@ const CheckoutPage = () => {
 				tAmt: createPayment.createPayment.tAmt,
 				pid: createPayment.createPayment.pid,
 				scd: createPayment.createPayment.scd,
-				su: `http://localhost:3000/cart/checkout/result`,
-				fu: `http://localhost:3000/cart/checkout/result`,
+				su: `${process.env.CLIENT_URL}/cart/checkout/result`,
+				fu: `${process.env.CLIENT_URL}/cart/checkout/result`,
 			};
 
 			const form = document.createElement("form");

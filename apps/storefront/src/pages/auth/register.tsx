@@ -66,7 +66,7 @@ const RegisterPage = () => (
 						>
 							Already have an account?{" "}
 							<UnderlineLink href="/auth/login">
-								Log in with Chakra
+								Log in with Hamropasal
 							</UnderlineLink>
 						</Text>
 					</Box>

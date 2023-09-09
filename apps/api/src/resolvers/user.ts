@@ -121,7 +121,9 @@ export class UserResolver {
 		await sendEmail(
 			options.email,
 			"Verify Email",
-			verifyEmailTemplate(`/auth/verify-email/${token}`)
+			verifyEmailTemplate(
+				`${process.env.CLIENT_URL}/auth/verify-email/${token}`
+			)
 		);
 
 		return { user };

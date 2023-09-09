@@ -33,6 +33,7 @@ import {
 } from "@/generated/graphql";
 import {
 	OrderInfo,
+	PaymentProviderLogo,
 	colorFromStatus,
 	orderPageTextFromStatus,
 } from "@/pages/order/[id]";
@@ -41,19 +42,10 @@ import { capitalize } from "@/utils/helpers";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import ModalButton from "@/components/ui/ModalButton";
 import DividerWithText from "@/components/ui/DividerWithText";
-import { EsewaLogoFull } from "@/config/brands";
 import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
-import {
-	KHALTI_LOGO,
-	paymentOptions,
-} from "../../cart/checkout/PaymentSelector";
+import { paymentOptions } from "../../cart/checkout/PaymentSelector";
 import { CreateReviewButton } from "../../product/review/ProductReview";
 import EmailInvoice from "./EmailInvoice";
-
-const PaymentProviderLogo = {
-	khalti: <KHALTI_LOGO />,
-	esewa: <EsewaLogoFull />,
-};
 
 interface OrderCardProps {
 	orderItem: OrderDetail;

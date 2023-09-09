@@ -25,9 +25,14 @@ import { PriceTag } from "@/components/shared/product/PriceTag";
 import { capitalize } from "@/utils/helpers";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import PageLoader from "@/components/shared/PageLoader";
-import { KHALTI_LOGO } from "@/components/pages/cart/checkout/PaymentSelector";
 import TrackingTimeline from "@/components/pages/account/order/TrackingTimelines";
+import { EsewaLogoFull, KhaltiLogoFull } from "@/config/brands";
 import { BRAND_NAME } from "../../../constants";
+
+export const PaymentProviderLogo = {
+	khalti: <KhaltiLogoFull />,
+	esewa: <EsewaLogoFull />,
+};
 
 const OrderPage = () => {
 	const router = useRouter();
@@ -167,8 +172,10 @@ const OrderPage = () => {
 					</OrderInfo>
 					<OrderInfo label="Payment">
 						<Text>
-							{successPayment?.provider?.toUpperCase() === "KHALTI" ? (
-								<KHALTI_LOGO />
+							{successPayment?.provider ? (
+								PaymentProviderLogo[
+									successPayment.provider as keyof typeof PaymentProviderLogo
+								]
 							) : (
 								<Badge colorScheme={successPayment ? "green" : "red"}>
 									{successPayment?.provider?.toUpperCase() ?? "UNPAID"}
