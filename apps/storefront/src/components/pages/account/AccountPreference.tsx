@@ -53,13 +53,13 @@ const AccountPreference = () => (
 						<FormLabel htmlFor="email-marketing" flex="1" fontSize="sm" mb="0">
 							Product intro, tips, and inspiration
 						</FormLabel>
-						<Switch id="email-marketing" />
+						<Switch id="email-marketing" colorScheme="primary" />
 					</FormControl>
 					<FormControl display="flex" alignItems="center">
 						<FormLabel htmlFor="email-news" flex="1" fontSize="sm" mb="0">
 							Updates about company news and features
 						</FormLabel>
-						<Switch id="email-news" />
+						<Switch id="email-news" colorScheme="primary" />
 					</FormControl>
 				</Stack>
 				<Button mt="5" size="sm" fontWeight="normal">

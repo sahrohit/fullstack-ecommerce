@@ -4,9 +4,7 @@ import { GOOGLE_OAUTH_REDIRECT_URL } from "../../../constants";
 
 const SignInWithGoogle = () => (
 	<Stack spacing="4" as="a" href={getGoogleOAuthUrl()}>
-		<Button leftIcon={<Box as={FcGoogle} color="red.500" />}>
-			Sign up with Google
-		</Button>
+		<Button leftIcon={<Box as={FcGoogle} />}>Continue with Google</Button>
 	</Stack>
 );
 

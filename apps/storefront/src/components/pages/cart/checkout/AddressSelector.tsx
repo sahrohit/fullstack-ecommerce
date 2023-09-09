@@ -90,7 +90,7 @@ const AddressSelectorRadio = ({ address, ...rest }: ListRadioProps) => {
 						data-checked={state.isChecked ? "" : undefined}
 						fontSize="2xl"
 						_checked={{
-							color: mode("blue.500", "blue.300"),
+							color: mode("primary.500", "primary.300"),
 						}}
 						color={mode("gray.300", "whiteAlpha.400")}
 					>
@@ -125,7 +125,7 @@ const AddressSelectorRadioSkeleton = () => (
 		_focus={{ shadow: "outline" }}
 		_checked={{
 			bg: mode("gray.50", "whiteAlpha.100"),
-			borderColor: mode("blue.500", "blue.300"),
+			borderColor: mode("primary.500", "primary.300"),
 		}}
 	>
 		<HStack spacing="4">

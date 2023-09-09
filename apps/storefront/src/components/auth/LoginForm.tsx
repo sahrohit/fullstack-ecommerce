@@ -129,7 +129,7 @@ const LoginForm = () => {
 				<LightMode>
 					<Checkbox
 						size="lg"
-						colorScheme="blue"
+						colorScheme="primary"
 						sx={{
 							".chakra-checkbox__control": {
 								"&:not([data-checked])": { bg: mode("white", "gray.700") },
@@ -153,7 +153,7 @@ const LoginForm = () => {
 					type="submit"
 					mt="8"
 					w="full"
-					colorScheme="blue"
+					colorScheme="primary"
 					fontSize="md"
 					fontWeight="bold"
 				>

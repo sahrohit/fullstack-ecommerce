@@ -1,3 +1,13 @@
-mutation CreatePayment($orderId: String!) {
-	createPayment(orderId: $orderId)
+mutation CreatePayment($provider: String!, $orderId: String!) {
+	createPayment(provider: $provider, orderId: $orderId) {
+		provider
+		amt
+		psc
+		pdc
+		txAmt
+		tAmt
+		pid
+		scd
+		paymentUrl
+	}
 }

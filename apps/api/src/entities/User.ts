@@ -16,6 +16,7 @@ import { UserPayment } from "./UserPayment";
 import { UserRole } from "./UserRole";
 import { ProductReview } from "./ProductReview";
 import { Account } from "./Account";
+import { Tenant } from "./Tenant";
 
 @ObjectType()
 @Entity()
@@ -70,6 +71,9 @@ export class User extends BaseEntity {
 
 	@OneToMany(() => Address, (address) => address.user)
 	addresses!: Address[];
+
+	@OneToMany(() => Tenant, (tenant) => tenant.user)
+	tenants!: Tenant[];
 
 	@OneToMany(() => OrderDetail, (orderdetails) => orderdetails.user)
 	orderdetails!: OrderDetail[];

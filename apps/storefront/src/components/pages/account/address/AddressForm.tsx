@@ -117,7 +117,7 @@ const AddressForm = ({
 					as={Card}
 					p={2}
 					justifyContent="space-around"
-					bgGradient="linear(to-r, teal.500, green.500)"
+					bgGradient="linear(to-r, secondary.500, primary.500)"
 				>
 					<Text fontWeight="semibold">
 						Save time. Autofill your current location.
@@ -284,7 +284,7 @@ const AddressForm = ({
 
 				<Button
 					type="submit"
-					colorScheme="blue"
+					colorScheme="primary"
 					size="lg"
 					fontSize="md"
 					isLoading={addLoading || updateLoading}

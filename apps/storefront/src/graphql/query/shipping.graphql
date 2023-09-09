@@ -1,0 +1,5 @@
+query Shippingmethods {
+	shippingmethods {
+		...ShippingMethodFragment
+	}
+}

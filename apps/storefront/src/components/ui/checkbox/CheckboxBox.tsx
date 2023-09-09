@@ -11,7 +11,7 @@ const CheckboxBox = (props: BoxProps) => (
 		_focus={{ shadow: "outline" }}
 		_checked={{
 			bg: useColorModeValue("gray.50", "whiteAlpha.100"),
-			borderColor: useColorModeValue("blue.500", "blue.300"),
+			borderColor: useColorModeValue("primary.500", "primary.300"),
 		}}
 		{...props}
 	/>

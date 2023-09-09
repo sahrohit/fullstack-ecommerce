@@ -117,7 +117,7 @@ const ForgotPasswordForm = () => {
 				/>
 				<Button
 					type="submit"
-					colorScheme="blue"
+					colorScheme="primary"
 					size="lg"
 					fontSize="md"
 					leftIcon={<BiMailSend fontSize={20} />}

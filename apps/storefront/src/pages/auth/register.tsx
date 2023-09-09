@@ -50,7 +50,7 @@ const RegisterPage = () => (
 							<Logo
 								h={{ base: 12, md: 6 }}
 								// mb={{ base: "16", md: "10" }}
-								iconColor="blue.600"
+								iconColor="primary.600"
 								mx={{ base: "auto", md: "unset" }}
 							/>
 						</Stack>

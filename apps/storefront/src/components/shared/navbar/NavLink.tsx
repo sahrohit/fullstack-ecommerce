@@ -25,9 +25,9 @@ const DesktopNavLink = forwardRef<any, NavLinkProps>((props, ref) => {
 			transition="all 0.2s"
 			{...rest}
 			_hover={{ color: "gray.500" }}
-			_active={{ color: "blue.600" }}
+			_active={{ color: "primary.600" }}
 			_activeLink={{
-				color: "blue.600",
+				color: "primary.600",
 				fontWeight: "bold",
 			}}
 		/>

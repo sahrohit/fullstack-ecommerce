@@ -42,7 +42,7 @@ const DrawerOptions = ({
 				borderRadius="50%"
 				size="xl"
 				variant="solid"
-				colorScheme="blue"
+				colorScheme="primary"
 				position="fixed"
 				bottom={8}
 				right={8}
@@ -69,7 +69,7 @@ const DrawerOptions = ({
 					</DrawerBody>
 
 					<DrawerFooter>
-						<Button colorScheme="blue" w="full" mr={3} onClick={onClose}>
+						<Button colorScheme="primary" w="full" mr={3} onClick={onClose}>
 							Show Results
 						</Button>
 					</DrawerFooter>

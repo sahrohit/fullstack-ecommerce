@@ -43,7 +43,7 @@ const MobileNavContext = (props: FlexProps) => {
 			>
 				<ToggleButton isOpen={isOpen} onClick={onToggle} />
 				<Box mx="auto">
-					<Logo h="7" iconColor="blue.400" />
+					<Logo h="7" iconColor="primary.400" />
 				</Box>
 				<IconButton
 					aria-label="Dashboard"
@@ -101,7 +101,7 @@ const DesktopNavContent = (props: FlexProps) => {
 			<VStack my={4}>
 				<Box>
 					<VisuallyHidden>{BRAND_NAME}</VisuallyHidden>
-					<Logo h="8" iconColor="blue.500" />
+					<Logo h="8" iconColor="primary.500" />
 				</Box>
 				<HStack
 					as="ul"
@@ -170,7 +170,7 @@ const AuthButtons = (props: StackProps) => (
 		<Button
 			href="/auth/register"
 			as={Link}
-			colorScheme="blue"
+			colorScheme="primary"
 			fontWeight="bold"
 			_hover={{
 				textDecoration: "none",

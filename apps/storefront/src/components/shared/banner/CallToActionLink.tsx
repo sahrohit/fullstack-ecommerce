@@ -11,7 +11,7 @@ const CallToActionLink = ({ href, ...rest }: CallToActionLinkProps) => (
 			py="1"
 			px="4"
 			bg="white"
-			color="blue.600"
+			color="secondary.600"
 			fontWeight="semibold"
 			rounded="xl"
 			whiteSpace="nowrap"

@@ -5,7 +5,7 @@ const Banner = () => (
 	<Box as="section" py="4">
 		<Box
 			// bgGradient="linear(to-r, blue.500, teal.500)"
-			bg="teal.400"
+			bg="secondary.400"
 			color="white"
 			py="3"
 			px={{ base: "3", md: "6", lg: "8" }}

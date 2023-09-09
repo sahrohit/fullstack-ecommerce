@@ -8,24 +8,39 @@ import {
 	Heading,
 	Box,
 	Text,
+	Spinner,
 } from "@chakra-ui/react";
 import { Control, useController } from "react-hook-form";
+import { useShippingmethodsQuery } from "@/generated/graphql";
 import { CheckoutForm } from "@/pages/cart/checkout";
+import Result from "@/components/shared/Result";
 
 interface ShippingMethodProps extends UseRadioGroupProps {
 	control: Control<CheckoutForm, any>;
-	options: {
-		title: string;
-		desc: string;
-		value: string;
-	}[];
 }
 
-const ShippingMethod = ({ control, options }: ShippingMethodProps) => {
+const ShippingMethod = ({ control }: ShippingMethodProps) => {
+	const { data, loading, error } = useShippingmethodsQuery();
+
 	const { field } = useController({
-		name: "shippingMethod",
+		name: "shippingId",
 		control,
 	});
+
+	if (loading) {
+		return <Spinner />;
+	}
+
+	if (error) {
+		return (
+			<Result
+				heading={error.name}
+				type="error"
+				text={error.message}
+				dump={error.stack}
+			/>
+		);
+	}
 
 	return (
 		<Box as="section" w="full">
@@ -39,13 +54,19 @@ const ShippingMethod = ({ control, options }: ShippingMethodProps) => {
 					flexWrap="wrap"
 					gap={4}
 				>
-					{options.map((option) => (
-						<Radio key={option.title} value={option.value}>
+					{data?.shippingmethods.map((option) => (
+						<Radio
+							key={option.name}
+							value={option.id.toString()}
+							colorScheme="primary"
+						>
 							<VStack alignItems="left" ml={2}>
 								<Text fontSize="lg" fontWeight="bold" lineHeight="1">
-									{option.title}
+									{option.name} (NPR {option.price / 100})
 								</Text>
-								<Text fontSize="lg">{option.desc}</Text>
+								<Text fontSize="lg">
+									Dispatchs within {option.dispatch_in} hr
+								</Text>
 							</VStack>
 						</Radio>
 					))}

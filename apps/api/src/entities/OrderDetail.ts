@@ -15,6 +15,7 @@ import { PaymentDetail } from "./PaymentDetail";
 import { User } from "./User";
 import { Promo } from "./Promo";
 import { Address } from "./Address";
+import { ShippingMethod } from "./ShippingMethod";
 
 export type OrderStatus =
 	| "PENDING"
@@ -50,6 +51,14 @@ export class OrderDetail extends BaseEntity {
 	@Field(() => Address)
 	@ManyToOne(() => Address, (address) => address.orderdetails)
 	address!: Address;
+
+	@Field(() => Int)
+	@Column()
+	shippingId!: number;
+
+	@Field(() => ShippingMethod)
+	@ManyToOne(() => ShippingMethod, (shipping) => shipping.orderdetails)
+	shipping!: ShippingMethod;
 
 	@Field(() => Int, { nullable: true })
 	@Column({ nullable: true })

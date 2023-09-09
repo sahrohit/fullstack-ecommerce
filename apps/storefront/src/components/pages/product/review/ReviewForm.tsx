@@ -1,12 +1,12 @@
 import { Button, Stack } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-import InputField from "@/components/ui/InputField";
 import {
 	useAddReviewMutation,
 	useUpdateReviewMutation,
 } from "@/generated/graphql";
+import InputField from "@/components/ui/InputField";
 import { RatingButton } from "@/components/shared/product/Rating";
 
 type ReviewFormValues = {
@@ -116,7 +116,7 @@ const ReviewForm = ({
 
 				<Button
 					type="submit"
-					colorScheme="blue"
+					colorScheme="primary"
 					size="lg"
 					fontSize="md"
 					isLoading={addLoading || updateLoading}

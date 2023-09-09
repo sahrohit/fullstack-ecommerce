@@ -39,6 +39,7 @@ const PriceSelector = ({
 			</FormLabel>
 
 			<RangeSlider
+				colorScheme="primary"
 				min={MIN_PRICE}
 				max={MAX_PRICE}
 				value={[lowerPrice || MIN_PRICE, higherPrice || MAX_PRICE]}

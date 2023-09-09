@@ -76,7 +76,7 @@ const EmailInvoice = ({ orderId }: { orderId: string }) => {
 						<Button
 							type="submit"
 							fontSize="md"
-							colorScheme="blue"
+							colorScheme="primary"
 							leftIcon={<BiMailSend fontSize={20} />}
 							isLoading={isSubmitting}
 						>

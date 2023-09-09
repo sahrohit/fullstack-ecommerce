@@ -55,7 +55,7 @@ const VerifyEmailPage: NextPage = () => {
 			heading="Successfully Verified"
 			text="Your account is successfully verifed. You can now login."
 		>
-			<Button as={Link} href="/" textDecoration="none!">
+			<Button as={Link} href="/" textDecoration="none!" colorScheme="primary">
 				Go to Dashboard
 			</Button>
 		</Result>

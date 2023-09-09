@@ -249,7 +249,7 @@ export const CreateReviewButton = ({ productId, ...rest }: ReviewFormProps) => {
 
 	if (loading || userLoading) {
 		return (
-			<Button colorScheme="blue" px={12} size="xl" isLoading>
+			<Button colorScheme="primary" px={12} size="xl" isLoading>
 				Write a review
 			</Button>
 		);

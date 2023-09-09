@@ -53,7 +53,7 @@ const ToggleButton = (props: ToggleButtonProps) => {
 			py="4"
 			as="button"
 			color="gray.400"
-			_active={{ color: "blue.600" }}
+			_active={{ color: "primary.600" }}
 			onClick={onClick}
 		>
 			<ToggleIcon active={isOpen} />

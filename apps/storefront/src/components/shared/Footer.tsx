@@ -39,7 +39,7 @@ const Footer = () => (
 				spacing={{ base: "10", lg: "28" }}
 			>
 				<Stack>
-					<Logo h={8} alignContent="center" iconColor="blue.400" />
+					<Logo h={8} alignContent="center" iconColor="primary.400" />
 					<Box mt={2}>
 						<ThemeSwitchButton />
 					</Box>
@@ -162,7 +162,7 @@ export const SubscribeForm = () => {
 					/>
 					<Button
 						type="submit"
-						colorScheme="blue"
+						colorScheme="primary"
 						leftIcon={<AiOutlineMail />}
 						width={{ base: "full", md: "auto" }}
 					>

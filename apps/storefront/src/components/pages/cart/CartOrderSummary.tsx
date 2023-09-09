@@ -75,7 +75,7 @@ export const CartOrderSummary = ({ data }: CartOrderSummaryProps) => {
 				// as={Link}
 				// href={data.length ? "/cart/checkout" : ""}
 				isDisabled={!data.length}
-				colorScheme="blue"
+				colorScheme="primary"
 				size="lg"
 				fontSize="md"
 				rightIcon={<FaArrowRight />}

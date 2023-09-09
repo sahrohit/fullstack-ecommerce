@@ -29,6 +29,8 @@ import Redis from "ioredis";
 import { Product } from "./entities/Product";
 import { InvoiceResolver } from "./resolvers/invoice";
 import authRouter from "./routers/auth";
+import tenantRouter from "./routers/tenant";
+import { ShippingMethodResolver } from "./resolvers/shipping";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -81,6 +83,7 @@ const Server = async () => {
 	});
 
 	app.use("/auth", authRouter);
+	app.use("/tenant", tenantRouter);
 
 	app.get("/products", async (_req, res) => {
 		res.json(
@@ -123,6 +126,7 @@ const Server = async () => {
 				FavouriteResolver,
 				ReviewResolver,
 				InvoiceResolver,
+				ShippingMethodResolver,
 			],
 			validate: false,
 		}),

@@ -36,7 +36,7 @@ const ListRadio = (props: ListRadioProps) => {
 						data-checked={state.isChecked ? "" : undefined}
 						fontSize="2xl"
 						_checked={{
-							color: mode("blue.500", "blue.300"),
+							color: mode("primary.500", "primary.300"),
 						}}
 						color={mode("gray.300", "whiteAlpha.400")}
 					>
@@ -52,7 +52,7 @@ const ListRadio = (props: ListRadioProps) => {
 							<Text fontSize="sm">{anotherDescription}</Text>
 						)} */}
 					</Box>
-					<Box fontWeight="bold" color={mode("blue.600", "blue.400")}>
+					<Box fontWeight="bold" color={mode("primary.600", "primary.400")}>
 						{price}
 					</Box>
 				</HStack>

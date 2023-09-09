@@ -24,6 +24,7 @@ import {
 	Cart,
 	useFetchCartItemsQuery,
 	usePromoLazyQuery,
+	useShippingmethodsQuery,
 } from "@/generated/graphql";
 import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
@@ -42,6 +43,10 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 	const { data, loading, error } = useFetchCartItemsQuery({
 		fetchPolicy: "network-only",
 	});
+
+	const { data: shippingMethod, loading: shippingMethodLoading } =
+		useShippingmethodsQuery();
+
 	const [
 		checkPromo,
 		{ data: promo, loading: promoLoading, error: promoError },
@@ -61,10 +66,17 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 		[data?.fetchCartItems]
 	);
 
-	const shippingPrice = watch("shippingMethod") === "standard" ? 150 : 300;
+	const shippingPrice =
+		shippingMethod?.shippingmethods.find(
+			(method) => method.id.toString() === watch("shippingId")
+		)?.price ?? 0;
 
-	if (loading) {
-		return <PageLoader text="Promo Code Loading" />;
+	if (loading || shippingMethodLoading) {
+		return (
+			<PageLoader
+				text={loading ? "Promo Code Loading" : "Shipping Method Loading"}
+			/>
+		);
 	}
 
 	if (error || promoError)
@@ -111,6 +123,7 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 					</FormControl>
 					<Button
 						size="lg"
+						colorScheme="secondary"
 						onClick={async () => {
 							const { data: promoData } = await checkPromo({
 								variables: {
@@ -144,10 +157,10 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 				</HStack>
 				<HStack justify="space-between" w="full" fontSize="lg">
 					<Text color={mode("gray.600", "gray.400")}>Shipping Cost</Text>
-					{watch("shippingMethod") ? (
+					{watch("shippingId") ? (
 						<HStack>
 							<Text>+</Text>
-							<PriceTag price={shippingPrice} currency="NPR" />
+							<PriceTag price={shippingPrice / 100} currency="NPR" />
 						</HStack>
 					) : (
 						<Text fontSize="sm" textDecoration="underline">
@@ -181,12 +194,14 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 					<Text color={mode("gray.500", "gray.300")}>Order Total</Text>
 					<PriceTag
 						price={
-							subTotal + shippingPrice - (promo?.promo?.discount_amount ?? 0)
+							subTotal +
+							shippingPrice / 100 -
+							(promo?.promo?.discount_amount ?? 0)
 						}
 						currency="NPR"
 					/>
 				</HStack>
-				<Button size="xl" w="full" colorScheme="blue" type="submit">
+				<Button size="xl" w="full" colorScheme="primary" type="submit">
 					Place Order
 				</Button>
 			</VStack>

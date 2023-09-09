@@ -1,9 +1,9 @@
-import { Button, FormControl, HStack, Stack, useToast } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import InputField from "@/components/ui/InputField";
+import { Button, FormControl, HStack, Stack, useToast } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import { useRegisterMutation } from "@/generated/graphql";
+import InputField from "@/components/ui/InputField";
 
 type RegisterFormValues = {
 	first_name: string;
@@ -136,7 +136,7 @@ const RegisterForm = () => {
 						placeholder=""
 					/>
 				</FormControl>
-				<Button type="submit" colorScheme="blue" size="lg" fontSize="md">
+				<Button type="submit" colorScheme="primary" size="lg" fontSize="md">
 					Create my account
 				</Button>
 			</Stack>

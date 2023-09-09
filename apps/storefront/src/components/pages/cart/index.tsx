@@ -23,7 +23,7 @@ import emptyListImage from "../../../../public/assets/empty-list.svg";
 const Cart = () => {
 	const { data, loading, error } = useFetchCartItemsQuery();
 
-	const linkColor = mode("blue.500", "blue.200");
+	const linkColor = mode("primary.500", "primary.200");
 
 	if (loading) return <PageLoader text="Loading Cart Items" />;
 
@@ -57,7 +57,7 @@ const Cart = () => {
 
 					<Button
 						display={{ base: "block", lg: "none" }}
-						colorScheme="blue"
+						colorScheme="primary"
 						size="lg"
 						fontSize="md"
 						rightIcon={<FaArrowRight />}
