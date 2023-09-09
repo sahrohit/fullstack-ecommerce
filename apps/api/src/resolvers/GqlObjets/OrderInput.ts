@@ -1,4 +1,4 @@
-import { InputType, Field, ObjectType } from "type-graphql";
+import { InputType, Field, ObjectType, Int } from "type-graphql";
 
 @InputType()
 export class CreateOrderInput {
@@ -9,7 +9,7 @@ export class CreateOrderInput {
 	addressId!: number;
 
 	@Field()
-	shippingMethod!: string;
+	shippingId!: number;
 }
 
 @ObjectType()
@@ -25,4 +25,34 @@ export class CreateOrderResponse {
 
 	@Field()
 	provider!: string;
+}
+
+@ObjectType()
+export class CreatePaymentResponse {
+	@Field()
+	provider!: string;
+
+	@Field(() => Int, { nullable: true })
+	amt?: number;
+
+	@Field(() => Int, { nullable: true })
+	psc?: number;
+
+	@Field(() => Int, { nullable: true })
+	pdc?: number;
+
+	@Field(() => Int, { nullable: true })
+	txAmt?: number;
+
+	@Field(() => Int, { nullable: true })
+	tAmt?: number;
+
+	@Field(() => String, { nullable: true })
+	pid?: string;
+
+	@Field(() => String, { nullable: true })
+	scd?: string;
+
+	@Field(() => String, { nullable: true })
+	paymentUrl?: string;
 }

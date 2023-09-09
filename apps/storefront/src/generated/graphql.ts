@@ -72,7 +72,20 @@ export type Cart = {
 export type CreateOrderInput = {
 	addressId: Scalars["Float"];
 	promoCode: Scalars["String"];
-	shippingMethod: Scalars["String"];
+	shippingId: Scalars["Float"];
+};
+
+export type CreatePaymentResponse = {
+	__typename?: "CreatePaymentResponse";
+	amt?: Maybe<Scalars["Int"]>;
+	paymentUrl?: Maybe<Scalars["String"]>;
+	pdc?: Maybe<Scalars["Int"]>;
+	pid?: Maybe<Scalars["String"]>;
+	provider: Scalars["String"];
+	psc?: Maybe<Scalars["Int"]>;
+	scd?: Maybe<Scalars["String"]>;
+	tAmt?: Maybe<Scalars["Int"]>;
+	txAmt?: Maybe<Scalars["Int"]>;
 };
 
 export type Discount = {
@@ -121,8 +134,8 @@ export type Mutation = {
 	addToFavourite: Favourite;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
-	createOrder: Scalars["String"];
-	createPayment: Scalars["String"];
+	createOrder: OrderDetail;
+	createPayment: CreatePaymentResponse;
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
@@ -187,6 +200,7 @@ export type MutationCreateOrderArgs = {
 
 export type MutationCreatePaymentArgs = {
 	orderId: Scalars["String"];
+	provider: Scalars["String"];
 };
 
 export type MutationDeleteAddressArgs = {
@@ -271,7 +285,8 @@ export type MutationUpdateReviewArgs = {
 
 export type MutationUpdateStatusArgs = {
 	orderId: Scalars["String"];
-	pidx: Scalars["String"];
+	pidx?: InputMaybe<Scalars["String"]>;
+	refId?: InputMaybe<Scalars["String"]>;
 };
 
 export type MutationVerifyEmailArgs = {
@@ -289,6 +304,8 @@ export type OrderDetail = {
 	paymentdetails?: Maybe<Array<PaymentDetail>>;
 	promo?: Maybe<Promo>;
 	promoId?: Maybe<Scalars["Int"]>;
+	shipping: ShippingMethod;
+	shippingId: Scalars["Int"];
 	status: Scalars["String"];
 	updated_at: Scalars["String"];
 	userId: Scalars["Int"];
@@ -456,6 +473,7 @@ export type Query = {
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
+	meWithAccount?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
 	orders?: Maybe<Array<OrderDetail>>;
 	product?: Maybe<Product>;
@@ -468,6 +486,7 @@ export type Query = {
 	reviews?: Maybe<Array<ProductReview>>;
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
+	shippingmethods: Array<ShippingMethod>;
 	variants: Array<Variant>;
 };
 
@@ -522,6 +541,16 @@ export type ReviewSummaryResponse = {
 	__typename?: "ReviewSummaryResponse";
 	count?: Maybe<Scalars["Int"]>;
 	rating?: Maybe<Scalars["Float"]>;
+};
+
+export type ShippingMethod = {
+	__typename?: "ShippingMethod";
+	created_at: Scalars["String"];
+	dispatch_in: Scalars["Int"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	price: Scalars["Int"];
+	updated_at: Scalars["String"];
 };
 
 export type UpdateCategoryInput = {
@@ -1030,6 +1059,16 @@ export type ReviewFragmentFragment = {
 	user?: { __typename?: "User"; first_name: string; last_name: string } | null;
 };
 
+export type ShippingMethodFragmentFragment = {
+	__typename?: "ShippingMethod";
+	id: number;
+	name: string;
+	price: number;
+	dispatch_in: number;
+	created_at: string;
+	updated_at: string;
+};
+
 export type UserFragmentFragment = {
 	__typename?: "User";
 	id: number;
@@ -1263,20 +1302,44 @@ export type CreateOrderMutationVariables = Exact<{
 
 export type CreateOrderMutation = {
 	__typename?: "Mutation";
-	createOrder: string;
+	createOrder: {
+		__typename?: "OrderDetail";
+		id: string;
+		userId: number;
+		addressId: number;
+		amount: number;
+		shippingId: number;
+		promoId?: number | null;
+		status: string;
+		created_at: string;
+		updated_at: string;
+	};
 };
 
 export type CreatePaymentMutationVariables = Exact<{
+	provider: Scalars["String"];
 	orderId: Scalars["String"];
 }>;
 
 export type CreatePaymentMutation = {
 	__typename?: "Mutation";
-	createPayment: string;
+	createPayment: {
+		__typename?: "CreatePaymentResponse";
+		provider: string;
+		amt?: number | null;
+		psc?: number | null;
+		pdc?: number | null;
+		txAmt?: number | null;
+		tAmt?: number | null;
+		pid?: string | null;
+		scd?: string | null;
+		paymentUrl?: string | null;
+	};
 };
 
 export type UpdateStatusMutationVariables = Exact<{
-	pidx: Scalars["String"];
+	pidx?: InputMaybe<Scalars["String"]>;
+	refId?: InputMaybe<Scalars["String"]>;
 	orderId: Scalars["String"];
 }>;
 
@@ -2469,6 +2532,21 @@ export type ReviewsQuery = {
 	}> | null;
 };
 
+export type ShippingmethodsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ShippingmethodsQuery = {
+	__typename?: "Query";
+	shippingmethods: Array<{
+		__typename?: "ShippingMethod";
+		id: number;
+		name: string;
+		price: number;
+		dispatch_in: number;
+		created_at: string;
+		updated_at: string;
+	}>;
+};
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
@@ -2742,6 +2820,16 @@ export const ReviewFragmentFragmentDoc = gql`
 			first_name
 			last_name
 		}
+	}
+`;
+export const ShippingMethodFragmentFragmentDoc = gql`
+	fragment ShippingMethodFragment on ShippingMethod {
+		id
+		name
+		price
+		dispatch_in
+		created_at
+		updated_at
 	}
 `;
 export const UserFragmentFragmentDoc = gql`
@@ -3321,7 +3409,17 @@ export type GenerateInvoiceMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($options: CreateOrderInput!) {
-		createOrder(options: $options)
+		createOrder(options: $options) {
+			id
+			userId
+			addressId
+			amount
+			shippingId
+			promoId
+			status
+			created_at
+			updated_at
+		}
 	}
 `;
 export type CreateOrderMutationFn = Apollo.MutationFunction<
@@ -3368,8 +3466,18 @@ export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<
 	CreateOrderMutationVariables
 >;
 export const CreatePaymentDocument = gql`
-	mutation CreatePayment($orderId: String!) {
-		createPayment(orderId: $orderId)
+	mutation CreatePayment($provider: String!, $orderId: String!) {
+		createPayment(provider: $provider, orderId: $orderId) {
+			provider
+			amt
+			psc
+			pdc
+			txAmt
+			tAmt
+			pid
+			scd
+			paymentUrl
+		}
 	}
 `;
 export type CreatePaymentMutationFn = Apollo.MutationFunction<
@@ -3390,6 +3498,7 @@ export type CreatePaymentMutationFn = Apollo.MutationFunction<
  * @example
  * const [createPaymentMutation, { data, loading, error }] = useCreatePaymentMutation({
  *   variables: {
+ *      provider: // value for 'provider'
  *      orderId: // value for 'orderId'
  *   },
  * });
@@ -3416,8 +3525,8 @@ export type CreatePaymentMutationOptions = Apollo.BaseMutationOptions<
 	CreatePaymentMutationVariables
 >;
 export const UpdateStatusDocument = gql`
-	mutation UpdateStatus($pidx: String!, $orderId: String!) {
-		updateStatus(pidx: $pidx, orderId: $orderId) {
+	mutation UpdateStatus($pidx: String, $refId: String, $orderId: String!) {
+		updateStatus(pidx: $pidx, refId: $refId, orderId: $orderId) {
 			...OrderDetailFragment
 		}
 	}
@@ -3442,6 +3551,7 @@ export type UpdateStatusMutationFn = Apollo.MutationFunction<
  * const [updateStatusMutation, { data, loading, error }] = useUpdateStatusMutation({
  *   variables: {
  *      pidx: // value for 'pidx'
+ *      refId: // value for 'refId'
  *      orderId: // value for 'orderId'
  *   },
  * });
@@ -5131,6 +5241,64 @@ export type ReviewsLazyQueryHookResult = ReturnType<typeof useReviewsLazyQuery>;
 export type ReviewsQueryResult = Apollo.QueryResult<
 	ReviewsQuery,
 	ReviewsQueryVariables
+>;
+export const ShippingmethodsDocument = gql`
+	query Shippingmethods {
+		shippingmethods {
+			...ShippingMethodFragment
+		}
+	}
+	${ShippingMethodFragmentFragmentDoc}
+`;
+
+/**
+ * __useShippingmethodsQuery__
+ *
+ * To run a query within a React component, call `useShippingmethodsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShippingmethodsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShippingmethodsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useShippingmethodsQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		ShippingmethodsQuery,
+		ShippingmethodsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<ShippingmethodsQuery, ShippingmethodsQueryVariables>(
+		ShippingmethodsDocument,
+		options
+	);
+}
+export function useShippingmethodsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		ShippingmethodsQuery,
+		ShippingmethodsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		ShippingmethodsQuery,
+		ShippingmethodsQueryVariables
+	>(ShippingmethodsDocument, options);
+}
+export type ShippingmethodsQueryHookResult = ReturnType<
+	typeof useShippingmethodsQuery
+>;
+export type ShippingmethodsLazyQueryHookResult = ReturnType<
+	typeof useShippingmethodsLazyQuery
+>;
+export type ShippingmethodsQueryResult = Apollo.QueryResult<
+	ShippingmethodsQuery,
+	ShippingmethodsQueryVariables
 >;
 export const MeDocument = gql`
 	query Me {

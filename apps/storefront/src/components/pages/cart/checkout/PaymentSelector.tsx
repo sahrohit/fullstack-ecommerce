@@ -4,10 +4,32 @@ import { Control, useController } from "react-hook-form";
 import { BsCashStack } from "react-icons/bs";
 import { CheckoutForm } from "@/pages/cart/checkout";
 import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
+import { EsewaLogoFull, KhaltiLogoFull } from "@/config/brands";
 
 interface PaymentSelectorProps {
 	control: Control<CheckoutForm, any>;
 }
+
+export const paymentOptions = [
+	{
+		label: "Khalti Wallet",
+		description: "Pay online using your khalti wallet",
+		icon: <KhaltiLogoFull />,
+		value: "khalti",
+	},
+	{
+		label: "ESewa",
+		description: "Pay online using your eSewa wallet",
+		icon: <EsewaLogoFull />,
+		value: "esewa",
+	},
+	{
+		label: "Cash on Delivery",
+		description: "Pay at your doorstep",
+		icon: <BsCashStack />,
+		value: "cashondelivery",
+	},
+];
 
 const PaymentSelector = ({ control }: PaymentSelectorProps) => {
 	const { field } = useController({
@@ -26,23 +48,7 @@ const PaymentSelector = ({ control }: PaymentSelectorProps) => {
 				px={{ base: "6", md: "8" }}
 			>
 				<Box maxW="xl" mx="auto">
-					<LargeButtonRadioGroup
-						{...field}
-						options={[
-							{
-								label: "Khalti Wallet",
-								description: "Pay online using your khalti wallet",
-								icon: <KHALTI_LOGO />,
-								value: "khalti",
-							},
-							{
-								label: "Cash on Delivery",
-								description: "Pay at your doorstep",
-								icon: <BsCashStack />,
-								value: "cashondelivery",
-							},
-						]}
-					/>
+					<LargeButtonRadioGroup {...field} options={paymentOptions} />
 				</Box>
 			</Box>
 		</Box>

@@ -72,7 +72,20 @@ export type Cart = {
 export type CreateOrderInput = {
 	addressId: Scalars["Float"];
 	promoCode: Scalars["String"];
-	shippingMethod: Scalars["String"];
+	shippingId: Scalars["Float"];
+};
+
+export type CreatePaymentResponse = {
+	__typename?: "CreatePaymentResponse";
+	amt?: Maybe<Scalars["Int"]>;
+	paymentUrl?: Maybe<Scalars["String"]>;
+	pdc?: Maybe<Scalars["Int"]>;
+	pid?: Maybe<Scalars["String"]>;
+	provider: Scalars["String"];
+	psc?: Maybe<Scalars["Int"]>;
+	scd?: Maybe<Scalars["String"]>;
+	tAmt?: Maybe<Scalars["Int"]>;
+	txAmt?: Maybe<Scalars["Int"]>;
 };
 
 export type Discount = {
@@ -121,8 +134,8 @@ export type Mutation = {
 	addToFavourite: Favourite;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
-	createOrder: Scalars["String"];
-	createPayment: Scalars["String"];
+	createOrder: OrderDetail;
+	createPayment: CreatePaymentResponse;
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
@@ -187,6 +200,7 @@ export type MutationCreateOrderArgs = {
 
 export type MutationCreatePaymentArgs = {
 	orderId: Scalars["String"];
+	provider: Scalars["String"];
 };
 
 export type MutationDeleteAddressArgs = {
@@ -271,7 +285,8 @@ export type MutationUpdateReviewArgs = {
 
 export type MutationUpdateStatusArgs = {
 	orderId: Scalars["String"];
-	pidx: Scalars["String"];
+	pidx?: InputMaybe<Scalars["String"]>;
+	refId?: InputMaybe<Scalars["String"]>;
 };
 
 export type MutationVerifyEmailArgs = {
@@ -289,6 +304,8 @@ export type OrderDetail = {
 	paymentdetails?: Maybe<Array<PaymentDetail>>;
 	promo?: Maybe<Promo>;
 	promoId?: Maybe<Scalars["Int"]>;
+	shipping: ShippingMethod;
+	shippingId: Scalars["Int"];
 	status: Scalars["String"];
 	updated_at: Scalars["String"];
 	userId: Scalars["Int"];
@@ -456,6 +473,7 @@ export type Query = {
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
 	me?: Maybe<User>;
+	meWithAccount?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
 	orders?: Maybe<Array<OrderDetail>>;
 	product?: Maybe<Product>;
@@ -468,6 +486,7 @@ export type Query = {
 	reviews?: Maybe<Array<ProductReview>>;
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
+	shippingmethods: Array<ShippingMethod>;
 	variants: Array<Variant>;
 };
 
@@ -522,6 +541,16 @@ export type ReviewSummaryResponse = {
 	__typename?: "ReviewSummaryResponse";
 	count?: Maybe<Scalars["Int"]>;
 	rating?: Maybe<Scalars["Float"]>;
+};
+
+export type ShippingMethod = {
+	__typename?: "ShippingMethod";
+	created_at: Scalars["String"];
+	dispatch_in: Scalars["Int"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	price: Scalars["Int"];
+	updated_at: Scalars["String"];
 };
 
 export type UpdateCategoryInput = {

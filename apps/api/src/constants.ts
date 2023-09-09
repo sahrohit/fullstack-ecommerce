@@ -12,3 +12,4 @@ export const COMPANY = {
 	country: "Nepal",
 };
 export const GOOGLE_OAUTH_REDIRECT_URL = `${process.env.API_URL}/auth/google/callback`;
+export const ESEWA_MERCHANT_CODE = "EPAYTEST";

@@ -35,17 +35,26 @@ const SuccessPage = () => {
 	const { onCopy, hasCopied } = useClipboard(data?.updateStatus.id as string);
 
 	useEffect(() => {
-		if (router.query.pidx) {
+		if (router.query.pidx && router.query.purchase_order_id) {
 			updateOrderStatusMutation({
 				variables: {
 					pidx: router.query.pidx as string,
 					orderId: router.query.purchase_order_id as string,
 				},
 			});
+		} else if (router.query.refId && router.query.oid) {
+			updateOrderStatusMutation({
+				variables: {
+					refId: router.query.refId as string,
+					orderId: router.query.oid as string,
+				},
+			});
 		}
 	}, [
+		router.query.oid,
 		router.query.pidx,
 		router.query.purchase_order_id,
+		router.query.refId,
 		updateOrderStatusMutation,
 	]);
 

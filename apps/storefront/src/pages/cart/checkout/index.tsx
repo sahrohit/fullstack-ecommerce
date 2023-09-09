@@ -14,7 +14,10 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { IoAdd } from "react-icons/io5";
 import * as Yup from "yup";
-import { useCreateOrderMutation } from "@/generated/graphql";
+import {
+	useCreateOrderMutation,
+	useCreatePaymentMutation,
+} from "@/generated/graphql";
 import AddressForm from "@/components/pages/account/address/AddressForm";
 import AddressSelector from "@/components/pages/cart/checkout/AddressSelector";
 import OrderSummary from "@/components/pages/cart/checkout/OrderSummary";
@@ -24,23 +27,22 @@ import ModalButton from "@/components/ui/ModalButton";
 
 export interface CheckoutForm {
 	addressId: string;
-	shippingMethod: "express" | "standard";
-	paymentMethod: "khalti" | "cashondelivery";
+	shippingId: string;
+	paymentMethod: "khalti" | "cashondelivery" | "esewa";
 	promoCode: string;
 }
 
 const CheckutFormSchema = Yup.object({
 	addressId: Yup.string().required("Select Delivery Address"),
-	shippingMethod: Yup.string()
-		.required("Select Shipping Method")
-		.oneOf(["express", "standard"]),
+	shippingId: Yup.string().required("Select Shipping Method"),
 	paymentMethod: Yup.string()
 		.required("Select Payment Method")
-		.oneOf(["khalti", "cashondelivery"]),
+		.oneOf(["khalti", "cashondelivery", "esewa"]),
 });
 
 const CheckoutPage = () => {
 	const [createOrderMutation] = useCreateOrderMutation();
+	const [createPaymentMutation] = useCreatePaymentMutation();
 
 	const toast = useToast();
 	const bgColor = mode("gray.50", "gray.700");
@@ -53,7 +55,7 @@ const CheckoutPage = () => {
 	} = useForm<CheckoutForm>({
 		defaultValues: {
 			addressId: undefined,
-			shippingMethod: undefined,
+			shippingId: undefined,
 			paymentMethod: "khalti",
 			promoCode: "",
 		},
@@ -77,7 +79,7 @@ const CheckoutPage = () => {
 				options: {
 					addressId: Number(values.addressId),
 					promoCode: values.promoCode,
-					shippingMethod: "standard",
+					shippingId: Number(values.shippingId),
 				},
 			},
 		});
@@ -91,7 +93,76 @@ const CheckoutPage = () => {
 			return;
 		}
 
-		window.location.assign(createOrder?.createOrder);
+		if (values.paymentMethod === "khalti") {
+			const { data: createPayment } = await createPaymentMutation({
+				variables: {
+					orderId: createOrder.createOrder.id,
+					provider: "khalti",
+				},
+			});
+
+			if (!createPayment?.createPayment.paymentUrl) {
+				toast({
+					title: "Khalti Payment Failed",
+					status: "error",
+					duration: 2000,
+				});
+				return;
+			}
+
+			window.location.assign(createPayment?.createPayment.paymentUrl);
+		} else if (values.paymentMethod === "esewa") {
+			const { data: createPayment } = await createPaymentMutation({
+				variables: {
+					orderId: createOrder.createOrder.id,
+					provider: "esewa",
+				},
+			});
+
+			if (
+				!createPayment?.createPayment.amt ||
+				!createPayment?.createPayment.tAmt ||
+				!createPayment?.createPayment.pid ||
+				!createPayment?.createPayment.scd
+			) {
+				toast({
+					title: "ESewa Payment Failed",
+					status: "error",
+					duration: 2000,
+				});
+				return;
+			}
+
+			const params = {
+				amt: createPayment.createPayment.amt,
+				psc: createPayment.createPayment.psc,
+				pdc: createPayment.createPayment.pdc,
+				txAmt: createPayment.createPayment.txAmt,
+				tAmt: createPayment.createPayment.tAmt,
+				pid: createPayment.createPayment.pid,
+				scd: createPayment.createPayment.scd,
+				su: `http://localhost:3000/cart/checkout/result`,
+				fu: `http://localhost:3000/cart/checkout/result`,
+			};
+
+			const form = document.createElement("form");
+			form.setAttribute("method", "POST");
+			form.setAttribute("action", "https://uat.esewa.com.np/epay/main");
+
+			Object.keys(params).forEach((key) => {
+				const hiddenField = document.createElement("input");
+				hiddenField.setAttribute("type", "hidden");
+				hiddenField.setAttribute("name", key);
+				hiddenField.setAttribute(
+					"value",
+					params[key as keyof typeof params] as string
+				);
+				form.appendChild(hiddenField);
+			});
+
+			document.body.appendChild(form);
+			form.submit();
+		}
 	};
 
 	if (errors) {
@@ -129,21 +200,7 @@ const CheckoutPage = () => {
 					</HStack>
 					<AddressSelector control={control} />
 
-					<ShippingMethod
-						options={[
-							{
-								title: "Standard $4.99",
-								desc: "Dispatched in 1-2 days",
-								value: "standard",
-							},
-							{
-								title: "Express $14.99",
-								desc: "Dispatched in 24 hours",
-								value: "express",
-							},
-						]}
-						control={control}
-					/>
+					<ShippingMethod control={control} />
 
 					<PaymentSelector control={control} />
 				</VStack>

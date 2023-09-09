@@ -25,8 +25,12 @@ import { Link } from "@chakra-ui/next-js";
 import {
 	OrderDetail,
 	OrderItem,
+	useCreatePaymentMutation,
 	useGenerateInvoiceMutation,
 } from "@/generated/graphql";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useController, useForm } from "react-hook-form";
+import * as Yup from "yup";
 import {
 	OrderInfo,
 	colorFromStatus,
@@ -37,9 +41,19 @@ import { capitalize } from "@/utils/helpers";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import ModalButton from "@/components/ui/ModalButton";
 import DividerWithText from "@/components/ui/DividerWithText";
-import { KHALTI_LOGO } from "../../cart/checkout/PaymentSelector";
+import { EsewaLogoFull } from "@/config/brands";
+import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
+import {
+	KHALTI_LOGO,
+	paymentOptions,
+} from "../../cart/checkout/PaymentSelector";
 import { CreateReviewButton } from "../../product/review/ProductReview";
 import EmailInvoice from "./EmailInvoice";
+
+const PaymentProviderLogo = {
+	khalti: <KHALTI_LOGO />,
+	esewa: <EsewaLogoFull />,
+};
 
 interface OrderCardProps {
 	orderItem: OrderDetail;
@@ -90,39 +104,46 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 						size="sm"
 						as={Link}
 						href={`/order/${orderItem.id}`}
-						colorScheme="secondary"
+						colorScheme={successPayment?.status ? "secondary" : "gray"}
 					>
 						View Order
 					</Button>
-					<ModalButton
-						size="sm"
-						isLoading={invoiceLoading}
-						buttonText="View Invoice"
-						modalHeader="Invoice"
-						// colorScheme="ternary"
-					>
-						<VStack w="full">
-							<Button
-								leftIcon={<BiDownload />}
-								isLoading={invoiceLoading}
-								onClick={async () => {
-									const res = await generateInvoiceMutation({
-										variables: {
-											orderId: orderItem.id,
-										},
-									});
-									const downloadLink = document.createElement("a");
-									downloadLink.href = `data:application/pdf;base64,${res.data?.generateInvoice}`;
-									downloadLink.download = `invoice-${orderItem.id}.pdf`;
-									downloadLink.click();
-								}}
-							>
-								Download Invoice
-							</Button>
-							<DividerWithText w="full">OR</DividerWithText>
-							<EmailInvoice orderId={orderItem.id} />
-						</VStack>
-					</ModalButton>
+					{!successPayment?.status ? (
+						<RetryPaymentModal
+							orderId={orderItem.id}
+							amount={orderItem.amount}
+						/>
+					) : (
+						<ModalButton
+							size="sm"
+							isLoading={invoiceLoading}
+							buttonText="View Invoice"
+							modalHeader="Invoice"
+							// colorScheme="ternary"
+						>
+							<VStack w="full">
+								<Button
+									leftIcon={<BiDownload />}
+									isLoading={invoiceLoading}
+									onClick={async () => {
+										const res = await generateInvoiceMutation({
+											variables: {
+												orderId: orderItem.id,
+											},
+										});
+										const downloadLink = document.createElement("a");
+										downloadLink.href = `data:application/pdf;base64,${res.data?.generateInvoice}`;
+										downloadLink.download = `invoice-${orderItem.id}.pdf`;
+										downloadLink.click();
+									}}
+								>
+									Download Invoice
+								</Button>
+								<DividerWithText w="full">OR</DividerWithText>
+								<EmailInvoice orderId={orderItem.id} />
+							</VStack>
+						</ModalButton>
+					)}
 				</HStack>
 			</CardHeader>
 			<Divider />
@@ -141,7 +162,7 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 						lineHeight={2}
 						color={colorFromStatus(orderItem.status)}
 					>
-						{orderPageTextFromStatus(orderItem.status).info}
+						{orderPageTextFromStatus(orderItem.status).info}{" "}
 					</Heading>
 					{orderItem.orderitems?.map((item) => (
 						<OrderCardItem key={item.id} cartItem={item as OrderItem} />
@@ -156,10 +177,10 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					<Button w="full" colorScheme="primary">
 						Track Package
 					</Button>
-					<CreateReviewButton
+					{/* <CreateReviewButton
 						w="full"
 						productId={orderItem?.orderitems?.[0].inventory?.product.id ?? 0}
-					/>
+					/> */}
 
 					<ConfirmationModal
 						bodyText="Are you sure you want to cancel this delivery?"
@@ -190,8 +211,10 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					</Text>
 				</OrderInfo>
 				<OrderInfo label="Payment">
-					{successPayment?.provider === "khalti" ? (
-						<KHALTI_LOGO />
+					{successPayment ? (
+						PaymentProviderLogo[
+							successPayment.provider as keyof typeof PaymentProviderLogo
+						]
 					) : (
 						<Badge colorScheme="red" fontSize="lg" px={2}>
 							UNPAID
@@ -278,11 +301,158 @@ export const OrderCardItem = ({ cartItem }: OrderCardItemProps) => {
 										fontSize: "lg",
 									}}
 								/>
+								<CreateReviewButton
+									size="sm"
+									w="full"
+									productId={inventory?.product.id ?? 0}
+								/>
 							</VStack>
 						</Flex>
 					</Stack>
 				</Stack>
 			</Box>
 		</HStack>
+	);
+};
+
+export interface RetryPaymentForm {
+	paymentMethod: "khalti" | "cashondelivery" | "esewa";
+}
+
+const RetryPaymentSchema = Yup.object({
+	paymentMethod: Yup.string()
+		.required("Select Payment Method")
+		.oneOf(["khalti", "cashondelivery", "esewa"]),
+});
+
+interface RetryPaymentModalProps {
+	orderId: string;
+	amount: number;
+}
+
+export const RetryPaymentModal = ({
+	orderId,
+	amount,
+}: RetryPaymentModalProps) => {
+	const { handleSubmit, control } = useForm<RetryPaymentForm>({
+		defaultValues: {
+			paymentMethod: "khalti",
+		},
+		resolver: yupResolver(RetryPaymentSchema),
+	});
+
+	const { field } = useController({
+		name: "paymentMethod",
+		control,
+	});
+
+	const [createPaymentMutation] = useCreatePaymentMutation();
+
+	const toast = useToast();
+
+	const handleCheckout = async (values: RetryPaymentForm) => {
+		if (values.paymentMethod === "khalti") {
+			const { data: createPayment } = await createPaymentMutation({
+				variables: {
+					orderId,
+					provider: "khalti",
+				},
+			});
+
+			if (!createPayment?.createPayment.paymentUrl) {
+				toast({
+					title: "Khalti Payment Failed",
+					status: "error",
+					duration: 2000,
+				});
+				return;
+			}
+
+			window.location.assign(createPayment?.createPayment.paymentUrl);
+		} else if (values.paymentMethod === "esewa") {
+			const { data: createPayment } = await createPaymentMutation({
+				variables: {
+					orderId,
+					provider: "esewa",
+				},
+			});
+
+			if (
+				!createPayment?.createPayment.amt ||
+				!createPayment?.createPayment.tAmt ||
+				!createPayment?.createPayment.pid ||
+				!createPayment?.createPayment.scd
+			) {
+				toast({
+					title: "ESewa Payment Failed",
+					status: "error",
+					duration: 2000,
+				});
+				return;
+			}
+
+			const params = {
+				amt: createPayment.createPayment.amt,
+				psc: createPayment.createPayment.psc,
+				pdc: createPayment.createPayment.pdc,
+				txAmt: createPayment.createPayment.txAmt,
+				tAmt: createPayment.createPayment.tAmt,
+				pid: createPayment.createPayment.pid,
+				scd: createPayment.createPayment.scd,
+				su: `http://localhost:3000/cart/checkout/result`,
+				fu: `http://localhost:3000/cart/checkout/result`,
+			};
+
+			const form = document.createElement("form");
+			form.setAttribute("method", "POST");
+			form.setAttribute("action", "https://uat.esewa.com.np/epay/main");
+
+			Object.keys(params).forEach((key) => {
+				const hiddenField = document.createElement("input");
+				hiddenField.setAttribute("type", "hidden");
+				hiddenField.setAttribute("name", key);
+				hiddenField.setAttribute(
+					"value",
+					params[key as keyof typeof params] as string
+				);
+				form.appendChild(hiddenField);
+			});
+
+			document.body.appendChild(form);
+			form.submit();
+		}
+	};
+
+	return (
+		<ModalButton
+			size="sm"
+			buttonText="Retry Payment"
+			modalHeader="Retry Payment"
+			modalSize="2xl"
+			colorScheme="secondary"
+		>
+			<form onSubmit={handleSubmit(handleCheckout)}>
+				<VStack w="full">
+					<Box as="section" py="4" w="full">
+						<Heading fontSize="xl" fontWeight="bold" lineHeight="1.2" my={4}>
+							Payment Information
+						</Heading>
+						<Box
+							maxW={{ base: "xl", md: "7xl" }}
+							mx="auto"
+							px={{ base: "6", md: "8" }}
+						>
+							<Box maxW="xl" mx="auto">
+								<LargeButtonRadioGroup {...field} options={paymentOptions} />
+							</Box>
+						</Box>
+					</Box>
+
+					<Button type="submit" colorScheme="primary">
+						Proceed to Pay NPR {amount}
+					</Button>
+				</VStack>
+			</form>
+		</ModalButton>
 	);
 };

@@ -17,6 +17,7 @@ const LargeButtonRadioGroup = (props: LargeButtonRadioGroupProps) => {
 	return (
 		<Stack
 			justify="center"
+			alignItems="baseline"
 			direction={{ base: "column", md: "row" }}
 			spacing="3"
 			{...getRootProps()}

@@ -29,6 +29,7 @@ import Redis from "ioredis";
 import { Product } from "./entities/Product";
 import { InvoiceResolver } from "./resolvers/invoice";
 import authRouter from "./routers/auth";
+import { ShippingMethodResolver } from "./resolvers/shipping";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -123,6 +124,7 @@ const Server = async () => {
 				FavouriteResolver,
 				ReviewResolver,
 				InvoiceResolver,
+				ShippingMethodResolver,
 			],
 			validate: false,
 		}),

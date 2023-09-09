@@ -15,9 +15,9 @@ import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 const RadioBox = chakra("div", {
 	baseStyle: {
 		borderWidth: "3px",
-		px: { base: 3, lg: 6 },
-		pt: { base: 6, lg: 12 },
-		pb: { base: 4, lg: 8 },
+		px: { base: 3, lg: 4 },
+		pt: { base: 4, lg: 4 },
+		pb: { base: 4, lg: 4 },
 		borderRadius: "md",
 		cursor: "pointer",
 		transition: "all 0.2s",
