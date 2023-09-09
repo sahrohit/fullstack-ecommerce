@@ -1,11 +1,11 @@
-import {
-	useAddReviewMutation,
-	useUpdateReviewMutation,
-} from "@/generated/graphql";
 import { Button, Stack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
+import {
+	useAddReviewMutation,
+	useUpdateReviewMutation,
+} from "@/generated/graphql";
 import InputField from "@/components/ui/InputField";
 import { RatingButton } from "@/components/shared/product/Rating";
 

@@ -1,8 +1,8 @@
+import * as Yup from "yup";
 import { useRegisterMutation } from "@/generated/graphql";
 import { Button, FormControl, HStack, Stack, useToast } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import * as Yup from "yup";
 import InputField from "@/components/ui/InputField";
 
 type RegisterFormValues = {

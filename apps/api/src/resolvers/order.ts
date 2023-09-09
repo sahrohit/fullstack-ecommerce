@@ -144,7 +144,7 @@ export class OrderResolver {
 			},
 		});
 
-		const shipping = shippingResponse?.price ?? 0;
+		const shipping = (shippingResponse?.price ?? 0) / 100;
 		const total = subTotal - discount + shipping;
 
 		// Creating Order

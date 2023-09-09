@@ -22,15 +22,15 @@ import dayjs from "dayjs";
 import { useMemo } from "react";
 import { BiDownload } from "react-icons/bi";
 import { Link } from "@chakra-ui/next-js";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useController, useForm } from "react-hook-form";
+import * as Yup from "yup";
 import {
 	OrderDetail,
 	OrderItem,
 	useCreatePaymentMutation,
 	useGenerateInvoiceMutation,
 } from "@/generated/graphql";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useController, useForm } from "react-hook-form";
-import * as Yup from "yup";
 import {
 	OrderInfo,
 	colorFromStatus,
