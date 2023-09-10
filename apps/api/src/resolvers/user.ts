@@ -9,6 +9,7 @@ import {
 	Query,
 	Resolver,
 	Root,
+	UseMiddleware,
 } from "type-graphql";
 import { v4 } from "uuid";
 import {
@@ -24,6 +25,7 @@ import { type MyContext } from "../types";
 import { sendEmail } from "../utils/sendEmail";
 import { validateRegister } from "../utils/validator";
 import { RegisterInput } from "./GqlObjets/RegisterInput";
+import { isVerified } from "../middlewares/isVerified";
 
 @ObjectType()
 class FieldError {
@@ -343,5 +345,40 @@ export class UserResolver {
 		);
 
 		return { user };
+	}
+
+	@Mutation(() => Boolean)
+	@UseMiddleware(isVerified)
+	async updateLanguagePreference(
+		@Arg("language") language: string,
+		@Arg("currency") currency: string,
+		@Ctx() { req }: MyContext
+	): Promise<boolean> {
+		await User.update(
+			{ id: req.session.userId },
+			{ language: language, currency: currency }
+		);
+
+		return true;
+	}
+
+	@Mutation(() => Boolean)
+	@UseMiddleware(isVerified)
+	async updateMarketingPreference(
+		@Arg("marketing_product_news")
+		marketing_product_news: boolean,
+		@Arg("marketing_company_news")
+		marketing_company_news: boolean,
+		@Ctx() { req }: MyContext
+	): Promise<boolean> {
+		await User.update(
+			{ id: req.session.userId },
+			{
+				marketing_company_news: marketing_company_news,
+				marketing_product_news: marketing_product_news,
+			}
+		);
+
+		return true;
 	}
 }

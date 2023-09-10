@@ -152,6 +152,8 @@ export type Mutation = {
 	updateCart: Cart;
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
+	updateLanguagePreference: Scalars["Boolean"];
+	updateMarketingPreference: Scalars["Boolean"];
 	updatePassword: UserResponse;
 	updateReview?: Maybe<ProductReview>;
 	updateStatus: OrderDetail;
@@ -267,6 +269,16 @@ export type MutationUpdateCategoryArgs = {
 
 export type MutationUpdateDiscountArgs = {
 	options: UpdateDiscountInput;
+};
+
+export type MutationUpdateLanguagePreferenceArgs = {
+	currency: Scalars["String"];
+	language: Scalars["String"];
+};
+
+export type MutationUpdateMarketingPreferenceArgs = {
+	marketing_company_news: Scalars["Boolean"];
+	marketing_product_news: Scalars["Boolean"];
 };
 
 export type MutationUpdatePasswordArgs = {
@@ -570,12 +582,16 @@ export type UpdateDiscountInput = {
 export type User = {
 	__typename?: "User";
 	created_at: Scalars["String"];
+	currency: Scalars["String"];
 	email: Scalars["String"];
 	email_verified: Scalars["Boolean"];
 	first_name: Scalars["String"];
 	id: Scalars["Int"];
 	imageUrl?: Maybe<Scalars["String"]>;
+	language: Scalars["String"];
 	last_name: Scalars["String"];
+	marketing_company_news: Scalars["Boolean"];
+	marketing_product_news: Scalars["Boolean"];
 	phone_number?: Maybe<Scalars["String"]>;
 	phone_number_verified: Scalars["Boolean"];
 	roleId: Scalars["Float"];
@@ -1080,6 +1096,10 @@ export type UserFragmentFragment = {
 	phone_number_verified: boolean;
 	imageUrl?: string | null;
 	roleId: number;
+	language: string;
+	currency: string;
+	marketing_product_news: boolean;
+	marketing_company_news: boolean;
 	created_at: string;
 	updated_at: string;
 };
@@ -1551,6 +1571,10 @@ export type ChangePasswordMutation = {
 			phone_number_verified: boolean;
 			imageUrl?: string | null;
 			roleId: number;
+			language: string;
+			currency: string;
+			marketing_product_news: boolean;
+			marketing_company_news: boolean;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -1591,6 +1615,10 @@ export type LoginMutation = {
 			phone_number_verified: boolean;
 			imageUrl?: string | null;
 			roleId: number;
+			language: string;
+			currency: string;
+			marketing_product_news: boolean;
+			marketing_company_news: boolean;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -1625,6 +1653,10 @@ export type RegisterMutation = {
 			phone_number_verified: boolean;
 			imageUrl?: string | null;
 			roleId: number;
+			language: string;
+			currency: string;
+			marketing_product_news: boolean;
+			marketing_company_news: boolean;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -1638,6 +1670,26 @@ export type ResendVerificationEmailMutationVariables = Exact<{
 export type ResendVerificationEmailMutation = {
 	__typename?: "Mutation";
 	resendVerificationEmail: boolean;
+};
+
+export type UpdateLanguagePreferenceMutationVariables = Exact<{
+	currency: Scalars["String"];
+	language: Scalars["String"];
+}>;
+
+export type UpdateLanguagePreferenceMutation = {
+	__typename?: "Mutation";
+	updateLanguagePreference: boolean;
+};
+
+export type UpdateMarketingPreferenceMutationVariables = Exact<{
+	marketing_company_news: Scalars["Boolean"];
+	marketing_product_news: Scalars["Boolean"];
+}>;
+
+export type UpdateMarketingPreferenceMutation = {
+	__typename?: "Mutation";
+	updateMarketingPreference: boolean;
 };
 
 export type UpdatePasswordMutationVariables = Exact<{
@@ -1666,6 +1718,10 @@ export type UpdatePasswordMutation = {
 			phone_number_verified: boolean;
 			imageUrl?: string | null;
 			roleId: number;
+			language: string;
+			currency: string;
+			marketing_product_news: boolean;
+			marketing_company_news: boolean;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -2562,6 +2618,10 @@ export type MeQuery = {
 		phone_number_verified: boolean;
 		imageUrl?: string | null;
 		roleId: number;
+		language: string;
+		currency: string;
+		marketing_product_news: boolean;
+		marketing_company_news: boolean;
 		created_at: string;
 		updated_at: string;
 	} | null;
@@ -2843,6 +2903,10 @@ export const UserFragmentFragmentDoc = gql`
 		phone_number_verified
 		imageUrl
 		roleId
+		language
+		currency
+		marketing_product_news
+		marketing_company_news
 		created_at
 		updated_at
 	}
@@ -4031,6 +4095,112 @@ export type ResendVerificationEmailMutationOptions = Apollo.BaseMutationOptions<
 	ResendVerificationEmailMutation,
 	ResendVerificationEmailMutationVariables
 >;
+export const UpdateLanguagePreferenceDocument = gql`
+	mutation UpdateLanguagePreference($currency: String!, $language: String!) {
+		updateLanguagePreference(currency: $currency, language: $language)
+	}
+`;
+export type UpdateLanguagePreferenceMutationFn = Apollo.MutationFunction<
+	UpdateLanguagePreferenceMutation,
+	UpdateLanguagePreferenceMutationVariables
+>;
+
+/**
+ * __useUpdateLanguagePreferenceMutation__
+ *
+ * To run a mutation, you first call `useUpdateLanguagePreferenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateLanguagePreferenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateLanguagePreferenceMutation, { data, loading, error }] = useUpdateLanguagePreferenceMutation({
+ *   variables: {
+ *      currency: // value for 'currency'
+ *      language: // value for 'language'
+ *   },
+ * });
+ */
+export function useUpdateLanguagePreferenceMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateLanguagePreferenceMutation,
+		UpdateLanguagePreferenceMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateLanguagePreferenceMutation,
+		UpdateLanguagePreferenceMutationVariables
+	>(UpdateLanguagePreferenceDocument, options);
+}
+export type UpdateLanguagePreferenceMutationHookResult = ReturnType<
+	typeof useUpdateLanguagePreferenceMutation
+>;
+export type UpdateLanguagePreferenceMutationResult =
+	Apollo.MutationResult<UpdateLanguagePreferenceMutation>;
+export type UpdateLanguagePreferenceMutationOptions =
+	Apollo.BaseMutationOptions<
+		UpdateLanguagePreferenceMutation,
+		UpdateLanguagePreferenceMutationVariables
+	>;
+export const UpdateMarketingPreferenceDocument = gql`
+	mutation UpdateMarketingPreference(
+		$marketing_company_news: Boolean!
+		$marketing_product_news: Boolean!
+	) {
+		updateMarketingPreference(
+			marketing_company_news: $marketing_company_news
+			marketing_product_news: $marketing_product_news
+		)
+	}
+`;
+export type UpdateMarketingPreferenceMutationFn = Apollo.MutationFunction<
+	UpdateMarketingPreferenceMutation,
+	UpdateMarketingPreferenceMutationVariables
+>;
+
+/**
+ * __useUpdateMarketingPreferenceMutation__
+ *
+ * To run a mutation, you first call `useUpdateMarketingPreferenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMarketingPreferenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMarketingPreferenceMutation, { data, loading, error }] = useUpdateMarketingPreferenceMutation({
+ *   variables: {
+ *      marketing_company_news: // value for 'marketing_company_news'
+ *      marketing_product_news: // value for 'marketing_product_news'
+ *   },
+ * });
+ */
+export function useUpdateMarketingPreferenceMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateMarketingPreferenceMutation,
+		UpdateMarketingPreferenceMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateMarketingPreferenceMutation,
+		UpdateMarketingPreferenceMutationVariables
+	>(UpdateMarketingPreferenceDocument, options);
+}
+export type UpdateMarketingPreferenceMutationHookResult = ReturnType<
+	typeof useUpdateMarketingPreferenceMutation
+>;
+export type UpdateMarketingPreferenceMutationResult =
+	Apollo.MutationResult<UpdateMarketingPreferenceMutation>;
+export type UpdateMarketingPreferenceMutationOptions =
+	Apollo.BaseMutationOptions<
+		UpdateMarketingPreferenceMutation,
+		UpdateMarketingPreferenceMutationVariables
+	>;
 export const UpdatePasswordDocument = gql`
 	mutation UpdatePassword(
 		$confirmPassword: String!

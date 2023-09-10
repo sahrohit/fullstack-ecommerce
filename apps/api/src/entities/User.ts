@@ -57,6 +57,22 @@ export class User extends BaseEntity {
 	imageUrl!: string;
 
 	@Field()
+	@Column({ default: "en" })
+	language!: string;
+
+	@Field()
+	@Column({ default: "NPR" })
+	currency!: string;
+
+	@Field()
+	@Column({ default: false })
+	marketing_product_news!: boolean;
+
+	@Field()
+	@Column({ default: false })
+	marketing_company_news!: boolean;
+
+	@Field()
 	@Column({ default: 1 })
 	roleId!: number;
 

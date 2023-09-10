@@ -152,6 +152,8 @@ export type Mutation = {
 	updateCart: Cart;
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
+	updateLanguagePreference: Scalars["Boolean"];
+	updateMarketingPreference: Scalars["Boolean"];
 	updatePassword: UserResponse;
 	updateReview?: Maybe<ProductReview>;
 	updateStatus: OrderDetail;
@@ -267,6 +269,16 @@ export type MutationUpdateCategoryArgs = {
 
 export type MutationUpdateDiscountArgs = {
 	options: UpdateDiscountInput;
+};
+
+export type MutationUpdateLanguagePreferenceArgs = {
+	currency: Scalars["String"];
+	language: Scalars["String"];
+};
+
+export type MutationUpdateMarketingPreferenceArgs = {
+	marketing_company_news: Scalars["Boolean"];
+	marketing_product_news: Scalars["Boolean"];
 };
 
 export type MutationUpdatePasswordArgs = {
@@ -570,12 +582,16 @@ export type UpdateDiscountInput = {
 export type User = {
 	__typename?: "User";
 	created_at: Scalars["String"];
+	currency: Scalars["String"];
 	email: Scalars["String"];
 	email_verified: Scalars["Boolean"];
 	first_name: Scalars["String"];
 	id: Scalars["Int"];
 	imageUrl?: Maybe<Scalars["String"]>;
+	language: Scalars["String"];
 	last_name: Scalars["String"];
+	marketing_company_news: Scalars["Boolean"];
+	marketing_product_news: Scalars["Boolean"];
 	phone_number?: Maybe<Scalars["String"]>;
 	phone_number_verified: Scalars["Boolean"];
 	roleId: Scalars["Float"];
