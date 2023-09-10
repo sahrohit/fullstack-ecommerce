@@ -33,7 +33,7 @@ router.get(
 
 		// 2. Get the id and access token
 
-		const { id_token, access_token, refresh_token, expires_in } =
+		const { id_token, access_token, refresh_token, expires_in, scope } =
 			await getGoogleOAuthToken({ code });
 
 		// 3. Get user with token
@@ -72,6 +72,8 @@ router.get(
 				access_token: access_token,
 				refresh_token: refresh_token,
 				expires_at: expires_in,
+				id_token: id_token,
+				scope: scope,
 			}).save();
 
 			req.session.userId = existingUserByEmail.id;
@@ -98,6 +100,8 @@ router.get(
 			access_token: access_token,
 			refresh_token: refresh_token,
 			expires_at: expires_in,
+			id_token: id_token,
+			scope: scope,
 		}).save();
 
 		req.session.userId = userRes.id;
