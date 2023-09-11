@@ -12,16 +12,19 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { HiCloudUpload } from "react-icons/hi";
+import { useUpdateProfileMutation } from "@/generated/graphql";
 import InputField from "@/components/ui/InputField";
 
 type ProfileFormValues = {
 	first_name: string;
 	last_name: string;
+	imageUrl: string;
 };
 
 const ProfileFormSchema = Yup.object({
 	first_name: Yup.string().required("Required"),
 	last_name: Yup.string().required("Required"),
+	imageUrl: Yup.string().required("Required"),
 });
 
 interface ProfileFormProps {
@@ -37,6 +40,7 @@ const ProfileForm = ({
 	imageUrl,
 	onSubmissionSuccess: closeModal,
 }: ProfileFormProps) => {
+	const toast = useToast();
 	const {
 		register,
 		handleSubmit,
@@ -45,16 +49,41 @@ const ProfileForm = ({
 		defaultValues: {
 			first_name,
 			last_name,
+			imageUrl,
 		},
 		resolver: yupResolver(ProfileFormSchema),
 	});
-	const toast = useToast();
+
+	const [updateProfileMutation] = useUpdateProfileMutation({
+		refetchQueries: ["Me"],
+		onCompleted: () => {
+			toast({
+				title: "Successfully Updated",
+				description: `Profile Updated`,
+				status: "success",
+				duration: 5000,
+				isClosable: true,
+			});
+		},
+		onError: (error) => {
+			toast({
+				title: "Profile Update Failed",
+				description: error.message,
+				status: "error",
+				duration: 5000,
+				isClosable: true,
+			});
+		},
+	});
 
 	return (
 		<form
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			onSubmit={handleSubmit(async (values) => {
-				if (closeModal) {
+				const res = await updateProfileMutation({
+					variables: values,
+				});
+
+				if (closeModal && res.data?.updateProfile.id) {
 					closeModal();
 				}
 			})}

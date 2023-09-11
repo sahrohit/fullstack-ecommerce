@@ -208,6 +208,7 @@ export type Mutation = {
 	updateLanguagePreference: Scalars["Boolean"];
 	updateMarketingPreference: Scalars["Boolean"];
 	updatePassword: UserResponse;
+	updateProfile: User;
 	updateReview?: Maybe<ProductReview>;
 	updateStatus: OrderDetail;
 	verifyEmail: Scalars["Boolean"];
@@ -356,6 +357,12 @@ export type MutationUpdatePasswordArgs = {
 	confirmPassword: Scalars["String"];
 	currentPassword: Scalars["String"];
 	newPassword: Scalars["String"];
+};
+
+export type MutationUpdateProfileArgs = {
+	first_name: Scalars["String"];
+	imageUrl: Scalars["String"];
+	last_name: Scalars["String"];
 };
 
 export type MutationUpdateReviewArgs = {
@@ -1891,6 +1898,34 @@ export type UpdatePasswordMutation = {
 			created_at: string;
 			updated_at: string;
 		} | null;
+	};
+};
+
+export type UpdateProfileMutationVariables = Exact<{
+	first_name: Scalars["String"];
+	last_name: Scalars["String"];
+	imageUrl: Scalars["String"];
+}>;
+
+export type UpdateProfileMutation = {
+	__typename?: "Mutation";
+	updateProfile: {
+		__typename?: "User";
+		id: number;
+		first_name: string;
+		last_name: string;
+		email: string;
+		email_verified: boolean;
+		phone_number?: string | null;
+		phone_number_verified: boolean;
+		imageUrl?: string | null;
+		roleId: number;
+		language: string;
+		currency: string;
+		marketing_product_news: boolean;
+		marketing_company_news: boolean;
+		created_at: string;
+		updated_at: string;
 	};
 };
 
@@ -4729,6 +4764,67 @@ export type UpdatePasswordMutationResult =
 export type UpdatePasswordMutationOptions = Apollo.BaseMutationOptions<
 	UpdatePasswordMutation,
 	UpdatePasswordMutationVariables
+>;
+export const UpdateProfileDocument = gql`
+	mutation UpdateProfile(
+		$first_name: String!
+		$last_name: String!
+		$imageUrl: String!
+	) {
+		updateProfile(
+			first_name: $first_name
+			last_name: $last_name
+			imageUrl: $imageUrl
+		) {
+			...UserFragment
+		}
+	}
+	${UserFragmentFragmentDoc}
+`;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<
+	UpdateProfileMutation,
+	UpdateProfileMutationVariables
+>;
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      first_name: // value for 'first_name'
+ *      last_name: // value for 'last_name'
+ *      imageUrl: // value for 'imageUrl'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateProfileMutation,
+		UpdateProfileMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateProfileMutation,
+		UpdateProfileMutationVariables
+	>(UpdateProfileDocument, options);
+}
+export type UpdateProfileMutationHookResult = ReturnType<
+	typeof useUpdateProfileMutation
+>;
+export type UpdateProfileMutationResult =
+	Apollo.MutationResult<UpdateProfileMutation>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<
+	UpdateProfileMutation,
+	UpdateProfileMutationVariables
 >;
 export const VerifyEmailDocument = gql`
 	mutation VerifyEmail($token: String!) {

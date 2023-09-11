@@ -1,0 +1,13 @@
+mutation UpdateProfile(
+	$first_name: String!
+	$last_name: String!
+	$imageUrl: String!
+) {
+	updateProfile(
+		first_name: $first_name
+		last_name: $last_name
+		imageUrl: $imageUrl
+	) {
+		...UserFragment
+	}
+}

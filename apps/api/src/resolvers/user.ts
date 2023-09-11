@@ -78,6 +78,32 @@ export class UserResolver {
 		});
 	}
 
+	@Mutation(() => User)
+	@UseMiddleware(isVerified)
+	async updateProfile(
+		@Arg("imageUrl") imageUrl: string,
+		@Arg("first_name") first_name: string,
+		@Arg("last_name") last_name: string,
+		@Ctx() { req }: MyContext
+	): Promise<User> {
+		await User.update(
+			{
+				id: req.session.userId,
+			},
+			{
+				imageUrl,
+				first_name,
+				last_name,
+			}
+		);
+
+		return User.findOneOrFail({
+			where: {
+				id: req.session.userId,
+			},
+		});
+	}
+
 	@Mutation(() => UserResponse)
 	async register(
 		@Arg("options") options: RegisterInput,

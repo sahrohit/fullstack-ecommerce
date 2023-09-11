@@ -124,6 +124,55 @@ export type FieldError = {
 	message: Scalars["String"];
 };
 
+export type Issue = {
+	__typename?: "Issue";
+	category: IssueCategory;
+	categoryId: Scalars["Int"];
+	comments?: Maybe<Array<IssueComment>>;
+	completed_at?: Maybe<Scalars["String"]>;
+	content: Scalars["String"];
+	created_at: Scalars["String"];
+	html?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	status: Scalars["String"];
+	subject: Scalars["String"];
+	updated_at: Scalars["String"];
+	user: User;
+	userId: Scalars["Float"];
+};
+
+export type IssueCategory = {
+	__typename?: "IssueCategory";
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	issues?: Maybe<Array<Issue>>;
+	name: Scalars["String"];
+	updated_at: Scalars["String"];
+};
+
+export type IssueComment = {
+	__typename?: "IssueComment";
+	completed_at?: Maybe<Scalars["String"]>;
+	content: Scalars["String"];
+	created_at: Scalars["String"];
+	html?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	issue: Issue;
+	issueId: Scalars["Int"];
+	updated_at: Scalars["String"];
+	user: User;
+	userId: Scalars["Float"];
+};
+
+export type IssueInput = {
+	categoryId: Scalars["Float"];
+	content: Scalars["String"];
+	html: Scalars["String"];
+	subject: Scalars["String"];
+};
+
 export type Mutation = {
 	__typename?: "Mutation";
 	addAddress: Address;
@@ -134,6 +183,8 @@ export type Mutation = {
 	addToFavourite: Favourite;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
+	createComment: IssueComment;
+	createIssue: Issue;
 	createOrder: OrderDetail;
 	createPayment: CreatePaymentResponse;
 	deleteAddress: Scalars["Boolean"];
@@ -148,13 +199,16 @@ export type Mutation = {
 	register: UserResponse;
 	removeFromFavourite: Scalars["Boolean"];
 	resendVerificationEmail: Scalars["Boolean"];
+	resolveByCustomer: Scalars["Boolean"];
 	updateAddress: Address;
 	updateCart: Cart;
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
+	updateIssue: Issue;
 	updateLanguagePreference: Scalars["Boolean"];
 	updateMarketingPreference: Scalars["Boolean"];
 	updatePassword: UserResponse;
+	updateProfile: User;
 	updateReview?: Maybe<ProductReview>;
 	updateStatus: OrderDetail;
 	verifyEmail: Scalars["Boolean"];
@@ -194,6 +248,15 @@ export type MutationAddToFavouriteArgs = {
 export type MutationChangePasswordArgs = {
 	newPassword: Scalars["String"];
 	token: Scalars["String"];
+};
+
+export type MutationCreateCommentArgs = {
+	content: Scalars["String"];
+	issueId: Scalars["Int"];
+};
+
+export type MutationCreateIssueArgs = {
+	input: IssueInput;
 };
 
 export type MutationCreateOrderArgs = {
@@ -252,6 +315,10 @@ export type MutationResendVerificationEmailArgs = {
 	email: Scalars["String"];
 };
 
+export type MutationResolveByCustomerArgs = {
+	issueId: Scalars["Int"];
+};
+
 export type MutationUpdateAddressArgs = {
 	id: Scalars["Int"];
 	input: AddressInput;
@@ -271,6 +338,11 @@ export type MutationUpdateDiscountArgs = {
 	options: UpdateDiscountInput;
 };
 
+export type MutationUpdateIssueArgs = {
+	id: Scalars["Int"];
+	input: IssueInput;
+};
+
 export type MutationUpdateLanguagePreferenceArgs = {
 	currency: Scalars["String"];
 	language: Scalars["String"];
@@ -285,6 +357,12 @@ export type MutationUpdatePasswordArgs = {
 	confirmPassword: Scalars["String"];
 	currentPassword: Scalars["String"];
 	newPassword: Scalars["String"];
+};
+
+export type MutationUpdateProfileArgs = {
+	first_name: Scalars["String"];
+	imageUrl: Scalars["String"];
+	last_name: Scalars["String"];
 };
 
 export type MutationUpdateReviewArgs = {
@@ -484,6 +562,9 @@ export type Query = {
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
+	issueCategories: Array<IssueCategory>;
+	issues: Array<Issue>;
+	issuesWithComments: Issue;
 	me?: Maybe<User>;
 	meWithAccount?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
@@ -504,6 +585,10 @@ export type Query = {
 
 export type QueryAllReviewsArgs = {
 	productId: Scalars["Int"];
+};
+
+export type QueryIssuesWithCommentsArgs = {
+	issueId: Scalars["Int"];
 };
 
 export type QueryOrderByIdArgs = {
@@ -594,6 +679,7 @@ export type User = {
 	marketing_product_news: Scalars["Boolean"];
 	phone_number?: Maybe<Scalars["String"]>;
 	phone_number_verified: Scalars["Boolean"];
+	role: UserRole;
 	roleId: Scalars["Float"];
 	updated_at: Scalars["String"];
 };
@@ -610,6 +696,7 @@ export type UserRole = {
 	id: Scalars["Int"];
 	name: Scalars["String"];
 	updated_at: Scalars["String"];
+	users: Array<User>;
 };
 
 export type Variant = {
