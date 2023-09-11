@@ -34,7 +34,6 @@ import {
 import {
 	OrderInfo,
 	PaymentProviderLogo,
-	colorFromStatus,
 	orderPageTextFromStatus,
 } from "@/pages/order/[id]";
 import { PriceTag } from "@/components/shared/product/PriceTag";
@@ -43,6 +42,7 @@ import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import ModalButton from "@/components/ui/ModalButton";
 import DividerWithText from "@/components/ui/DividerWithText";
 import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
+import colorFromStatus from "@/config/color";
 import { paymentOptions } from "../../cart/checkout/PaymentSelector";
 import { CreateReviewButton } from "../../product/review/ProductReview";
 import EmailInvoice from "./EmailInvoice";

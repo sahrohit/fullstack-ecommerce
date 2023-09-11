@@ -340,32 +340,3 @@ export const orderPageTextFromStatus = (status: string) => {
 			};
 	}
 };
-
-export const colorFromStatus = (status: string) => {
-	switch (status) {
-		case "PENDING":
-			return "red";
-		case "INITIATED":
-			return "yellow";
-		case "COMPLETED":
-			return "green";
-		case "PLACED":
-			return "blue.500";
-		case "SHIPPED":
-			return "blue.500";
-		case "OUTFORDELIVERY":
-			return "green";
-		case "DELIVERED":
-			return "green";
-		case "REFUNDED":
-			return "green";
-		case "REJECTED":
-			return "red";
-		case "FAILED":
-			return "red";
-		case "EXPIRED":
-			return "red";
-		default:
-			return "gray";
-	}
-};

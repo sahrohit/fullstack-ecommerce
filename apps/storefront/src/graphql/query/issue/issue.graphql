@@ -1,0 +1,11 @@
+query Issues {
+	issues {
+		...IssueFragment
+		comments {
+			...IssueCommentFragment
+		}
+		category {
+			...IssueCategoryFragment
+		}
+	}
+}

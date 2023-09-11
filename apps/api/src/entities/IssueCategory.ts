@@ -4,26 +4,36 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	ManyToOne,
+	JoinTable,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
-import { User } from "./User";
+import { Issue } from "./Issue";
 
 @ObjectType()
 @Entity()
-export class UserRole extends BaseEntity {
+export class IssueCategory extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Field()
+	@Field(() => String)
 	@Column()
 	name!: string;
 
-	@Field(() => [User])
-	@ManyToOne(() => User, (user) => user.role)
-	users!: User[];
+	@Field(() => String)
+	@Column({ unique: true })
+	identifier!: string;
+
+	@Field(() => String)
+	@Column({ type: "text" })
+	desc!: string;
+
+	@Field(() => [Issue], { nullable: true })
+	@OneToMany(() => Issue, (issue) => issue.category)
+	@JoinTable({ name: "issue_id" })
+	issues?: Issue[];
 
 	@Field(() => String)
 	@CreateDateColumn()

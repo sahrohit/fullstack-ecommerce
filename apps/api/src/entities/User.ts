@@ -17,6 +17,8 @@ import { UserRole } from "./UserRole";
 import { ProductReview } from "./ProductReview";
 import { Account } from "./Account";
 import { Tenant } from "./Tenant";
+import { Issue } from "./Issue";
+import { IssueComment } from "./IssueComment";
 
 @ObjectType()
 @Entity()
@@ -76,6 +78,7 @@ export class User extends BaseEntity {
 	@Column({ default: 1 })
 	roleId!: number;
 
+	@Field(() => UserRole)
 	@ManyToOne(() => UserRole, (role) => role.users)
 	role!: UserRole;
 
@@ -87,6 +90,12 @@ export class User extends BaseEntity {
 
 	@OneToMany(() => Address, (address) => address.user)
 	addresses!: Address[];
+
+	@OneToMany(() => Issue, (issue) => issue.user)
+	issues!: Issue[];
+
+	@OneToMany(() => IssueComment, (comment) => comment.user)
+	comments!: IssueComment[];
 
 	@OneToMany(() => Tenant, (tenant) => tenant.user)
 	tenants!: Tenant[];

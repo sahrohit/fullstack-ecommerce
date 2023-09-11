@@ -9,14 +9,14 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { ApolloError } from "@apollo/client";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
 	useMeQuery,
 	useUpdateLanguagePreferenceMutation,
 	useUpdateMarketingPreferenceMutation,
 } from "@/generated/graphql";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ApolloError } from "@apollo/client";
 import Result from "@/components/shared/Result";
 import Card from "./Card";
 import FieldGroup from "./FieldGroup";

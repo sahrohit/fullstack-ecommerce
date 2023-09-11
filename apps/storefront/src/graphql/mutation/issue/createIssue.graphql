@@ -1,0 +1,5 @@
+mutation createIssue($input: IssueInput!) {
+	createIssue(input: $input) {
+		...IssueFragment
+	}
+}

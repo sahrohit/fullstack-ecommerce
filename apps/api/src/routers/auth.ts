@@ -52,6 +52,30 @@ router.get(
 		});
 
 		if (exisitingUser) {
+			await Account.update(
+				{
+					providerAccountId: profile.sub,
+				},
+				{
+					access_token: access_token,
+					refresh_token: refresh_token,
+					expires_at: expires_in,
+					id_token: id_token,
+					scope: scope,
+				}
+			);
+
+			if (exisitingUser.user.imageUrl.includes("dicebear")) {
+				await User.update(
+					{
+						id: exisitingUser.userId,
+					},
+					{
+						imageUrl: profile.picture,
+					}
+				);
+			}
+
 			req.session.userId = exisitingUser.userId;
 			res.redirect(`${process.env.CLIENT_URL}`);
 			return;

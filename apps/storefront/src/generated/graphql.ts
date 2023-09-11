@@ -124,6 +124,55 @@ export type FieldError = {
 	message: Scalars["String"];
 };
 
+export type Issue = {
+	__typename?: "Issue";
+	category: IssueCategory;
+	categoryId: Scalars["Int"];
+	comments?: Maybe<Array<IssueComment>>;
+	completed_at?: Maybe<Scalars["String"]>;
+	content: Scalars["String"];
+	created_at: Scalars["String"];
+	html?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	status: Scalars["String"];
+	subject: Scalars["String"];
+	updated_at: Scalars["String"];
+	user: User;
+	userId: Scalars["Float"];
+};
+
+export type IssueCategory = {
+	__typename?: "IssueCategory";
+	created_at: Scalars["String"];
+	desc: Scalars["String"];
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	issues?: Maybe<Array<Issue>>;
+	name: Scalars["String"];
+	updated_at: Scalars["String"];
+};
+
+export type IssueComment = {
+	__typename?: "IssueComment";
+	completed_at?: Maybe<Scalars["String"]>;
+	content: Scalars["String"];
+	created_at: Scalars["String"];
+	html?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	issue: Issue;
+	issueId: Scalars["Int"];
+	updated_at: Scalars["String"];
+	user: User;
+	userId: Scalars["Float"];
+};
+
+export type IssueInput = {
+	categoryId: Scalars["Float"];
+	content: Scalars["String"];
+	html: Scalars["String"];
+	subject: Scalars["String"];
+};
+
 export type Mutation = {
 	__typename?: "Mutation";
 	addAddress: Address;
@@ -134,6 +183,8 @@ export type Mutation = {
 	addToFavourite: Favourite;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
+	createComment: IssueComment;
+	createIssue: Issue;
 	createOrder: OrderDetail;
 	createPayment: CreatePaymentResponse;
 	deleteAddress: Scalars["Boolean"];
@@ -148,10 +199,12 @@ export type Mutation = {
 	register: UserResponse;
 	removeFromFavourite: Scalars["Boolean"];
 	resendVerificationEmail: Scalars["Boolean"];
+	resolveByCustomer: Scalars["Boolean"];
 	updateAddress: Address;
 	updateCart: Cart;
 	updateCategory: ProductCategory;
 	updateDiscount?: Maybe<DiscountResponse>;
+	updateIssue: Issue;
 	updateLanguagePreference: Scalars["Boolean"];
 	updateMarketingPreference: Scalars["Boolean"];
 	updatePassword: UserResponse;
@@ -194,6 +247,15 @@ export type MutationAddToFavouriteArgs = {
 export type MutationChangePasswordArgs = {
 	newPassword: Scalars["String"];
 	token: Scalars["String"];
+};
+
+export type MutationCreateCommentArgs = {
+	content: Scalars["String"];
+	issueId: Scalars["Int"];
+};
+
+export type MutationCreateIssueArgs = {
+	input: IssueInput;
 };
 
 export type MutationCreateOrderArgs = {
@@ -252,6 +314,10 @@ export type MutationResendVerificationEmailArgs = {
 	email: Scalars["String"];
 };
 
+export type MutationResolveByCustomerArgs = {
+	issueId: Scalars["Int"];
+};
+
 export type MutationUpdateAddressArgs = {
 	id: Scalars["Int"];
 	input: AddressInput;
@@ -269,6 +335,11 @@ export type MutationUpdateCategoryArgs = {
 
 export type MutationUpdateDiscountArgs = {
 	options: UpdateDiscountInput;
+};
+
+export type MutationUpdateIssueArgs = {
+	id: Scalars["Int"];
+	input: IssueInput;
 };
 
 export type MutationUpdateLanguagePreferenceArgs = {
@@ -484,6 +555,9 @@ export type Query = {
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
 	hello: Scalars["String"];
+	issueCategories: Array<IssueCategory>;
+	issues: Array<Issue>;
+	issuesWithComments: Issue;
 	me?: Maybe<User>;
 	meWithAccount?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
@@ -504,6 +578,10 @@ export type Query = {
 
 export type QueryAllReviewsArgs = {
 	productId: Scalars["Int"];
+};
+
+export type QueryIssuesWithCommentsArgs = {
+	issueId: Scalars["Int"];
 };
 
 export type QueryOrderByIdArgs = {
@@ -594,6 +672,7 @@ export type User = {
 	marketing_product_news: Scalars["Boolean"];
 	phone_number?: Maybe<Scalars["String"]>;
 	phone_number_verified: Scalars["Boolean"];
+	role: UserRole;
 	roleId: Scalars["Float"];
 	updated_at: Scalars["String"];
 };
@@ -610,6 +689,7 @@ export type UserRole = {
 	id: Scalars["Int"];
 	name: Scalars["String"];
 	updated_at: Scalars["String"];
+	users: Array<User>;
 };
 
 export type Variant = {
@@ -685,6 +765,42 @@ export type ImageFragmentFragment = {
 	imageURL: string;
 	productId: number;
 	sequence: number;
+	created_at: string;
+	updated_at: string;
+};
+
+export type IssueCategoryFragmentFragment = {
+	__typename?: "IssueCategory";
+	id: number;
+	name: string;
+	identifier: string;
+	desc: string;
+	created_at: string;
+	updated_at: string;
+};
+
+export type IssueCommentFragmentFragment = {
+	__typename?: "IssueComment";
+	id: number;
+	content: string;
+	html?: string | null;
+	completed_at?: string | null;
+	issueId: number;
+	userId: number;
+	created_at: string;
+	updated_at: string;
+};
+
+export type IssueFragmentFragment = {
+	__typename?: "Issue";
+	id: number;
+	subject: string;
+	content: string;
+	html?: string | null;
+	status: string;
+	completed_at?: string | null;
+	categoryId: number;
+	userId: number;
 	created_at: string;
 	updated_at: string;
 };
@@ -1314,6 +1430,56 @@ export type GenerateInvoiceMutationVariables = Exact<{
 export type GenerateInvoiceMutation = {
 	__typename?: "Mutation";
 	generateInvoice?: string | null;
+};
+
+export type CreateCommentMutationVariables = Exact<{
+	issueId: Scalars["Int"];
+	content: Scalars["String"];
+}>;
+
+export type CreateCommentMutation = {
+	__typename?: "Mutation";
+	createComment: {
+		__typename?: "IssueComment";
+		id: number;
+		content: string;
+		html?: string | null;
+		completed_at?: string | null;
+		issueId: number;
+		userId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
+export type CreateIssueMutationVariables = Exact<{
+	input: IssueInput;
+}>;
+
+export type CreateIssueMutation = {
+	__typename?: "Mutation";
+	createIssue: {
+		__typename?: "Issue";
+		id: number;
+		subject: string;
+		content: string;
+		html?: string | null;
+		status: string;
+		completed_at?: string | null;
+		categoryId: number;
+		userId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
+export type ResolveByCustomerMutationVariables = Exact<{
+	issueId: Scalars["Int"];
+}>;
+
+export type ResolveByCustomerMutation = {
+	__typename?: "Mutation";
+	resolveByCustomer: boolean;
 };
 
 export type CreateOrderMutationVariables = Exact<{
@@ -1972,6 +2138,115 @@ export type FavouritesWithProductQuery = {
 			} | null;
 		};
 	}>;
+};
+
+export type IssuesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type IssuesQuery = {
+	__typename?: "Query";
+	issues: Array<{
+		__typename?: "Issue";
+		id: number;
+		subject: string;
+		content: string;
+		html?: string | null;
+		status: string;
+		completed_at?: string | null;
+		categoryId: number;
+		userId: number;
+		created_at: string;
+		updated_at: string;
+		comments?: Array<{
+			__typename?: "IssueComment";
+			id: number;
+			content: string;
+			html?: string | null;
+			completed_at?: string | null;
+			issueId: number;
+			userId: number;
+			created_at: string;
+			updated_at: string;
+		}> | null;
+		category: {
+			__typename?: "IssueCategory";
+			id: number;
+			name: string;
+			identifier: string;
+			desc: string;
+			created_at: string;
+			updated_at: string;
+		};
+	}>;
+};
+
+export type IssueCategoriesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type IssueCategoriesQuery = {
+	__typename?: "Query";
+	issueCategories: Array<{
+		__typename?: "IssueCategory";
+		id: number;
+		name: string;
+		identifier: string;
+		desc: string;
+		created_at: string;
+		updated_at: string;
+	}>;
+};
+
+export type IssuesWithCommentsQueryVariables = Exact<{
+	issueId: Scalars["Int"];
+}>;
+
+export type IssuesWithCommentsQuery = {
+	__typename?: "Query";
+	issuesWithComments: {
+		__typename?: "Issue";
+		id: number;
+		subject: string;
+		content: string;
+		html?: string | null;
+		status: string;
+		completed_at?: string | null;
+		categoryId: number;
+		userId: number;
+		created_at: string;
+		updated_at: string;
+		comments?: Array<{
+			__typename?: "IssueComment";
+			id: number;
+			content: string;
+			html?: string | null;
+			completed_at?: string | null;
+			issueId: number;
+			userId: number;
+			created_at: string;
+			updated_at: string;
+			user: {
+				__typename?: "User";
+				first_name: string;
+				last_name: string;
+				imageUrl?: string | null;
+				role: { __typename?: "UserRole"; name: string };
+			};
+		}> | null;
+		category: {
+			__typename?: "IssueCategory";
+			id: number;
+			name: string;
+			identifier: string;
+			desc: string;
+			created_at: string;
+			updated_at: string;
+		};
+		user: {
+			__typename?: "User";
+			first_name: string;
+			last_name: string;
+			imageUrl?: string | null;
+			role: { __typename?: "UserRole"; name: string };
+		};
+	};
 };
 
 export type OrderByIdQueryVariables = Exact<{
@@ -2647,6 +2922,42 @@ export type VariantsQuery = {
 	}>;
 };
 
+export const IssueCategoryFragmentFragmentDoc = gql`
+	fragment IssueCategoryFragment on IssueCategory {
+		id
+		name
+		identifier
+		desc
+		created_at
+		updated_at
+	}
+`;
+export const IssueCommentFragmentFragmentDoc = gql`
+	fragment IssueCommentFragment on IssueComment {
+		id
+		content
+		html
+		completed_at
+		issueId
+		userId
+		created_at
+		updated_at
+	}
+`;
+export const IssueFragmentFragmentDoc = gql`
+	fragment IssueFragment on Issue {
+		id
+		subject
+		content
+		html
+		status
+		completed_at
+		categoryId
+		userId
+		created_at
+		updated_at
+	}
+`;
 export const AddressFragmentFragmentDoc = gql`
 	fragment AddressFragment on Address {
 		id
@@ -3470,6 +3781,157 @@ export type GenerateInvoiceMutationResult =
 export type GenerateInvoiceMutationOptions = Apollo.BaseMutationOptions<
 	GenerateInvoiceMutation,
 	GenerateInvoiceMutationVariables
+>;
+export const CreateCommentDocument = gql`
+	mutation createComment($issueId: Int!, $content: String!) {
+		createComment(issueId: $issueId, content: $content) {
+			...IssueCommentFragment
+		}
+	}
+	${IssueCommentFragmentFragmentDoc}
+`;
+export type CreateCommentMutationFn = Apollo.MutationFunction<
+	CreateCommentMutation,
+	CreateCommentMutationVariables
+>;
+
+/**
+ * __useCreateCommentMutation__
+ *
+ * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
+ *   variables: {
+ *      issueId: // value for 'issueId'
+ *      content: // value for 'content'
+ *   },
+ * });
+ */
+export function useCreateCommentMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		CreateCommentMutation,
+		CreateCommentMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		CreateCommentMutation,
+		CreateCommentMutationVariables
+	>(CreateCommentDocument, options);
+}
+export type CreateCommentMutationHookResult = ReturnType<
+	typeof useCreateCommentMutation
+>;
+export type CreateCommentMutationResult =
+	Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<
+	CreateCommentMutation,
+	CreateCommentMutationVariables
+>;
+export const CreateIssueDocument = gql`
+	mutation createIssue($input: IssueInput!) {
+		createIssue(input: $input) {
+			...IssueFragment
+		}
+	}
+	${IssueFragmentFragmentDoc}
+`;
+export type CreateIssueMutationFn = Apollo.MutationFunction<
+	CreateIssueMutation,
+	CreateIssueMutationVariables
+>;
+
+/**
+ * __useCreateIssueMutation__
+ *
+ * To run a mutation, you first call `useCreateIssueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateIssueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createIssueMutation, { data, loading, error }] = useCreateIssueMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateIssueMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		CreateIssueMutation,
+		CreateIssueMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<CreateIssueMutation, CreateIssueMutationVariables>(
+		CreateIssueDocument,
+		options
+	);
+}
+export type CreateIssueMutationHookResult = ReturnType<
+	typeof useCreateIssueMutation
+>;
+export type CreateIssueMutationResult =
+	Apollo.MutationResult<CreateIssueMutation>;
+export type CreateIssueMutationOptions = Apollo.BaseMutationOptions<
+	CreateIssueMutation,
+	CreateIssueMutationVariables
+>;
+export const ResolveByCustomerDocument = gql`
+	mutation resolveByCustomer($issueId: Int!) {
+		resolveByCustomer(issueId: $issueId)
+	}
+`;
+export type ResolveByCustomerMutationFn = Apollo.MutationFunction<
+	ResolveByCustomerMutation,
+	ResolveByCustomerMutationVariables
+>;
+
+/**
+ * __useResolveByCustomerMutation__
+ *
+ * To run a mutation, you first call `useResolveByCustomerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResolveByCustomerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resolveByCustomerMutation, { data, loading, error }] = useResolveByCustomerMutation({
+ *   variables: {
+ *      issueId: // value for 'issueId'
+ *   },
+ * });
+ */
+export function useResolveByCustomerMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ResolveByCustomerMutation,
+		ResolveByCustomerMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ResolveByCustomerMutation,
+		ResolveByCustomerMutationVariables
+	>(ResolveByCustomerDocument, options);
+}
+export type ResolveByCustomerMutationHookResult = ReturnType<
+	typeof useResolveByCustomerMutation
+>;
+export type ResolveByCustomerMutationResult =
+	Apollo.MutationResult<ResolveByCustomerMutation>;
+export type ResolveByCustomerMutationOptions = Apollo.BaseMutationOptions<
+	ResolveByCustomerMutation,
+	ResolveByCustomerMutationVariables
 >;
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($options: CreateOrderInput!) {
@@ -4636,6 +5098,203 @@ export type FavouritesWithProductLazyQueryHookResult = ReturnType<
 export type FavouritesWithProductQueryResult = Apollo.QueryResult<
 	FavouritesWithProductQuery,
 	FavouritesWithProductQueryVariables
+>;
+export const IssuesDocument = gql`
+	query Issues {
+		issues {
+			...IssueFragment
+			comments {
+				...IssueCommentFragment
+			}
+			category {
+				...IssueCategoryFragment
+			}
+		}
+	}
+	${IssueFragmentFragmentDoc}
+	${IssueCommentFragmentFragmentDoc}
+	${IssueCategoryFragmentFragmentDoc}
+`;
+
+/**
+ * __useIssuesQuery__
+ *
+ * To run a query within a React component, call `useIssuesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIssuesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIssuesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIssuesQuery(
+	baseOptions?: Apollo.QueryHookOptions<IssuesQuery, IssuesQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<IssuesQuery, IssuesQueryVariables>(
+		IssuesDocument,
+		options
+	);
+}
+export function useIssuesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<IssuesQuery, IssuesQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<IssuesQuery, IssuesQueryVariables>(
+		IssuesDocument,
+		options
+	);
+}
+export type IssuesQueryHookResult = ReturnType<typeof useIssuesQuery>;
+export type IssuesLazyQueryHookResult = ReturnType<typeof useIssuesLazyQuery>;
+export type IssuesQueryResult = Apollo.QueryResult<
+	IssuesQuery,
+	IssuesQueryVariables
+>;
+export const IssueCategoriesDocument = gql`
+	query IssueCategories {
+		issueCategories {
+			...IssueCategoryFragment
+		}
+	}
+	${IssueCategoryFragmentFragmentDoc}
+`;
+
+/**
+ * __useIssueCategoriesQuery__
+ *
+ * To run a query within a React component, call `useIssueCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIssueCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIssueCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIssueCategoriesQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		IssueCategoriesQuery,
+		IssueCategoriesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<IssueCategoriesQuery, IssueCategoriesQueryVariables>(
+		IssueCategoriesDocument,
+		options
+	);
+}
+export function useIssueCategoriesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		IssueCategoriesQuery,
+		IssueCategoriesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		IssueCategoriesQuery,
+		IssueCategoriesQueryVariables
+	>(IssueCategoriesDocument, options);
+}
+export type IssueCategoriesQueryHookResult = ReturnType<
+	typeof useIssueCategoriesQuery
+>;
+export type IssueCategoriesLazyQueryHookResult = ReturnType<
+	typeof useIssueCategoriesLazyQuery
+>;
+export type IssueCategoriesQueryResult = Apollo.QueryResult<
+	IssueCategoriesQuery,
+	IssueCategoriesQueryVariables
+>;
+export const IssuesWithCommentsDocument = gql`
+	query IssuesWithComments($issueId: Int!) {
+		issuesWithComments(issueId: $issueId) {
+			...IssueFragment
+			comments {
+				...IssueCommentFragment
+				user {
+					first_name
+					last_name
+					role {
+						name
+					}
+					imageUrl
+				}
+			}
+			category {
+				...IssueCategoryFragment
+			}
+			user {
+				first_name
+				last_name
+				role {
+					name
+				}
+				imageUrl
+			}
+		}
+	}
+	${IssueFragmentFragmentDoc}
+	${IssueCommentFragmentFragmentDoc}
+	${IssueCategoryFragmentFragmentDoc}
+`;
+
+/**
+ * __useIssuesWithCommentsQuery__
+ *
+ * To run a query within a React component, call `useIssuesWithCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIssuesWithCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIssuesWithCommentsQuery({
+ *   variables: {
+ *      issueId: // value for 'issueId'
+ *   },
+ * });
+ */
+export function useIssuesWithCommentsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		IssuesWithCommentsQuery,
+		IssuesWithCommentsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		IssuesWithCommentsQuery,
+		IssuesWithCommentsQueryVariables
+	>(IssuesWithCommentsDocument, options);
+}
+export function useIssuesWithCommentsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		IssuesWithCommentsQuery,
+		IssuesWithCommentsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		IssuesWithCommentsQuery,
+		IssuesWithCommentsQueryVariables
+	>(IssuesWithCommentsDocument, options);
+}
+export type IssuesWithCommentsQueryHookResult = ReturnType<
+	typeof useIssuesWithCommentsQuery
+>;
+export type IssuesWithCommentsLazyQueryHookResult = ReturnType<
+	typeof useIssuesWithCommentsLazyQuery
+>;
+export type IssuesWithCommentsQueryResult = Apollo.QueryResult<
+	IssuesWithCommentsQuery,
+	IssuesWithCommentsQueryVariables
 >;
 export const OrderByIdDocument = gql`
 	query OrderById($orderId: String!) {

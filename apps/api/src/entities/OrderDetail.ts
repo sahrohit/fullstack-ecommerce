@@ -17,6 +17,15 @@ import { Promo } from "./Promo";
 import { Address } from "./Address";
 import { ShippingMethod } from "./ShippingMethod";
 
+export const POSSIBLE_ORDER_STATUS = [
+	"PENDING",
+	"PLACED",
+	"SHIPPED",
+	"OUTFORDELIVERY",
+	"DELIVERED",
+	"REJECTED",
+];
+
 export type OrderStatus =
 	| "PENDING"
 	| "PLACED"
@@ -71,14 +80,7 @@ export class OrderDetail extends BaseEntity {
 	@Field(() => String)
 	@Column({
 		type: "enum",
-		enum: [
-			"PENDING",
-			"PLACED",
-			"SHIPPED",
-			"OUTFORDELIVERY",
-			"DELIVERED",
-			"REJECTED",
-		],
+		enum: POSSIBLE_ORDER_STATUS,
 		default: "PENDING",
 	})
 	status!: OrderStatus;
