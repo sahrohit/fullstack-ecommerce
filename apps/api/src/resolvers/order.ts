@@ -96,6 +96,20 @@ export class OrderResolver {
 		});
 	}
 
+	@Query(() => OrderDetail, { nullable: true })
+	trackById(
+		@Arg("orderId", () => String) orderId: string,
+		@Ctx() { req }: MyContext
+	): Promise<OrderDetail | null> {
+		return OrderDetail.findOne({
+			relations: {
+				address: true,
+				paymentdetails: true,
+			},
+			where: { userId: req.session.userId, id: orderId },
+		});
+	}
+
 	@Mutation(() => OrderDetail)
 	@UseMiddleware(isVerified)
 	async createOrder(

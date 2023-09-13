@@ -2,6 +2,7 @@ fragment OrderDetailFragment on OrderDetail {
 	id
 	userId
 	addressId
+	amount
 	address {
 		...AddressFragment
 	}

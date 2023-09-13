@@ -1,12 +1,15 @@
 import {
 	Badge,
 	Box,
+	Button,
 	Card,
 	CardHeader,
 	Divider,
 	HStack,
 	Heading,
 	IconButton,
+	Image,
+	SimpleGrid,
 	Stack,
 	Text,
 	Tooltip,
@@ -18,9 +21,9 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { ReactNode, useMemo } from "react";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { Cart, useMeQuery, useOrderByIdQuery } from "@/generated/graphql";
+import Link from "next/link";
+import { type Cart, useMeQuery, useOrderByIdQuery } from "@/generated/graphql";
 import { OrderSummaryItem } from "@/components/pages/cart/checkout/OrderSummary";
-import Result from "@/components/shared/Result";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import { capitalize } from "@/utils/helpers";
 import UnderlineLink from "@/components/ui/UnderlineLink";
@@ -66,25 +69,28 @@ const OrderPage = () => {
 		return <PageLoader text="Order Detail Loading" />;
 	}
 
-	if (error || userError) {
-		return (
-			<Result
-				heading={error ? error.name : userError!.name}
-				text={error ? error.message : userError!.message}
-				type="error"
-				dump={error ? error.stack : userError!.stack}
-			/>
-		);
-	}
+	// if (error || userError) {
+	// 	toast({
+	// 		id: "order-not-found",
+	// 		title: "Order Not Found",
+	// 		description: "An Error Occurred",
+	// 		status: "error",
+	// 		duration: 5000,
+	// 		isClosable: true,
+	// 	});
+	// 	router.push("/404");
+	// 	return (
+	// 		<Result
+	// 			heading={error ? error.name : userError!.name}
+	// 			text={error ? error.message : userError!.message}
+	// 			type="error"
+	// 			dump={error ? error.stack : userError!.stack}
+	// 		/>
+	// 	);
+	// }
 
-	if (!data?.orderById) {
-		return (
-			<Result
-				heading="Order Not Found"
-				text="The tracking id may be invalid. Please check for typo and enter it again."
-				type="error"
-			/>
-		);
+	if (!data?.orderById || error || userError) {
+		return <OrderNotFound />;
 	}
 
 	return (
@@ -340,3 +346,48 @@ export const orderPageTextFromStatus = (status: string) => {
 			};
 	}
 };
+
+export const OrderNotFound = () => (
+	<SimpleGrid placeItems="center" minH="100vh">
+		<Stack
+			p={8}
+			gap={{ base: 8, lg: 48 }}
+			alignItems="center"
+			justifyContent="space-between"
+			my={{ base: 8, lg: 16 }}
+			direction={["column", "row"]}
+		>
+			<VStack alignItems="flex-start" gap={6}>
+				<VStack alignItems="flex-start" gap={2}>
+					<Heading fontSize="5xl" fontWeight="extrabold" lineHeight={1}>
+						Order Not Found.
+					</Heading>
+				</VStack>
+				<VStack alignItems="flex-start">
+					<Heading fontSize="lg" lineHeight={1}>
+						We&apos;re having trouble finding your order.
+					</Heading>
+				</VStack>
+				<HStack gap="4">
+					<Button colorScheme="primary" as={Link} href="/account/orders">
+						Go to Your Orders
+					</Button>
+					<Button as={Link} href="/">
+						Go Home
+					</Button>
+				</HStack>
+				<Text w="full" fontSize="lg">
+					Have a Problem? Contact our{" "}
+					<UnderlineLink href="/account/helpcenter">
+						Customer Support{" "}
+					</UnderlineLink>
+				</Text>
+			</VStack>
+			<Image
+				h="60vh"
+				maxW={{ base: "80vw", lg: "30vw" }}
+				src="/assets/bored.svg"
+			/>
+		</Stack>
+	</SimpleGrid>
+);

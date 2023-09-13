@@ -580,6 +580,7 @@ export type Query = {
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
 	shippingmethods: Array<ShippingMethod>;
+	trackById?: Maybe<OrderDetail>;
 	variants: Array<Variant>;
 };
 
@@ -625,6 +626,10 @@ export type QueryReviewsArgs = {
 export type QuerySearchProductsArgs = {
 	limit?: InputMaybe<Scalars["Int"]>;
 	query: Scalars["String"];
+};
+
+export type QueryTrackByIdArgs = {
+	orderId: Scalars["String"];
 };
 
 export type RegisterInput = {

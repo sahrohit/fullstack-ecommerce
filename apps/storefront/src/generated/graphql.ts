@@ -580,6 +580,7 @@ export type Query = {
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
 	shippingmethods: Array<ShippingMethod>;
+	trackById?: Maybe<OrderDetail>;
 	variants: Array<Variant>;
 };
 
@@ -625,6 +626,10 @@ export type QueryReviewsArgs = {
 export type QuerySearchProductsArgs = {
 	limit?: InputMaybe<Scalars["Int"]>;
 	query: Scalars["String"];
+};
+
+export type QueryTrackByIdArgs = {
+	orderId: Scalars["String"];
 };
 
 export type RegisterInput = {
@@ -817,6 +822,7 @@ export type OrderDetailFragmentFragment = {
 	id: string;
 	userId: number;
 	addressId: number;
+	amount: number;
 	promoId?: number | null;
 	status: string;
 	created_at: string;
@@ -1543,6 +1549,7 @@ export type UpdateStatusMutation = {
 		id: string;
 		userId: number;
 		addressId: number;
+		amount: number;
 		promoId?: number | null;
 		status: string;
 		created_at: string;
@@ -2295,6 +2302,7 @@ export type OrderByIdQuery = {
 		id: string;
 		userId: number;
 		addressId: number;
+		amount: number;
 		promoId?: number | null;
 		status: string;
 		created_at: string;
@@ -2432,6 +2440,7 @@ export type OrdersQuery = {
 		id: string;
 		userId: number;
 		addressId: number;
+		amount: number;
 		promoId?: number | null;
 		status: string;
 		created_at: string;
@@ -2558,6 +2567,50 @@ export type OrdersQuery = {
 			} | null;
 		}>;
 	}> | null;
+};
+
+export type TrackByIdQueryVariables = Exact<{
+	orderId: Scalars["String"];
+}>;
+
+export type TrackByIdQuery = {
+	__typename?: "Query";
+	trackById?: {
+		__typename?: "OrderDetail";
+		id: string;
+		userId: number;
+		addressId: number;
+		amount: number;
+		promoId?: number | null;
+		status: string;
+		created_at: string;
+		updated_at: string;
+		address: {
+			__typename?: "Address";
+			id: number;
+			type: string;
+			isDefault: boolean;
+			name: string;
+			address: string;
+			city: string;
+			state: string;
+			zip: string;
+			country: string;
+			phone_number: string;
+			userId: number;
+			created_at: string;
+			updated_at: string;
+		};
+		paymentdetails?: Array<{
+			__typename?: "PaymentDetail";
+			orderId: string;
+			amount: number;
+			provider: string;
+			status: string;
+			created_at: string;
+			updated_at: string;
+		}> | null;
+	} | null;
 };
 
 export type ProductByIdQueryVariables = Exact<{
@@ -3152,6 +3205,7 @@ export const OrderDetailFragmentFragmentDoc = gql`
 		id
 		userId
 		addressId
+		amount
 		address {
 			...AddressFragment
 		}
@@ -5493,6 +5547,78 @@ export type OrdersLazyQueryHookResult = ReturnType<typeof useOrdersLazyQuery>;
 export type OrdersQueryResult = Apollo.QueryResult<
 	OrdersQuery,
 	OrdersQueryVariables
+>;
+export const TrackByIdDocument = gql`
+	query TrackById($orderId: String!) {
+		trackById(orderId: $orderId) {
+			id
+			userId
+			addressId
+			amount
+			address {
+				...AddressFragment
+			}
+			promoId
+			status
+			paymentdetails {
+				orderId
+				amount
+				provider
+				status
+				created_at
+				updated_at
+			}
+			created_at
+			updated_at
+		}
+	}
+	${AddressFragmentFragmentDoc}
+`;
+
+/**
+ * __useTrackByIdQuery__
+ *
+ * To run a query within a React component, call `useTrackByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTrackByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTrackByIdQuery({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useTrackByIdQuery(
+	baseOptions: Apollo.QueryHookOptions<TrackByIdQuery, TrackByIdQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<TrackByIdQuery, TrackByIdQueryVariables>(
+		TrackByIdDocument,
+		options
+	);
+}
+export function useTrackByIdLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		TrackByIdQuery,
+		TrackByIdQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<TrackByIdQuery, TrackByIdQueryVariables>(
+		TrackByIdDocument,
+		options
+	);
+}
+export type TrackByIdQueryHookResult = ReturnType<typeof useTrackByIdQuery>;
+export type TrackByIdLazyQueryHookResult = ReturnType<
+	typeof useTrackByIdLazyQuery
+>;
+export type TrackByIdQueryResult = Apollo.QueryResult<
+	TrackByIdQuery,
+	TrackByIdQueryVariables
 >;
 export const ProductByIdDocument = gql`
 	query ProductById($identifier: String!) {

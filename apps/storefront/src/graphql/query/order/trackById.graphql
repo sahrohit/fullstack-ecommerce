@@ -1,0 +1,23 @@
+query TrackById($orderId: String!) {
+	trackById(orderId: $orderId) {
+		id
+		userId
+		addressId
+		amount
+		address {
+			...AddressFragment
+		}
+		promoId
+		status
+		paymentdetails {
+			orderId
+			amount
+			provider
+			status
+			created_at
+			updated_at
+		}
+		created_at
+		updated_at
+	}
+}
