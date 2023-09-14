@@ -46,6 +46,7 @@ import colorFromStatus from "@/config/color";
 import { paymentOptions } from "../../cart/checkout/PaymentSelector";
 import { CreateReviewButton } from "../../product/review/ProductReview";
 import EmailInvoice from "./EmailInvoice";
+import { BRAND_NAME, PROD } from "../../../../../constants";
 
 interface OrderCardProps {
 	orderItem: OrderDetail;
@@ -166,8 +167,34 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					py={4}
 					w={{ base: "full", lg: "md" }}
 				>
-					<Button w="full" colorScheme="primary">
-						Track Package
+					<Button
+						w="full"
+						colorScheme="primary"
+						onClick={async () => {
+							try {
+								await navigator.share({
+									title: `Track my ${BRAND_NAME} Order #${orderItem.id}`,
+									text: orderItem.orderitems
+										?.map((item) => item?.inventory?.product.name)
+										.join(", "),
+									url: `${
+										PROD
+											? `https://hamropasal.vercel.app`
+											: `http://localhost:3000`
+									}/order/${orderItem.id}`,
+								});
+							} catch (err) {
+								toast({
+									title: "Cannot share",
+									description: "Please contact our support team.",
+									status: "error",
+									duration: 4000,
+									isClosable: true,
+								});
+							}
+						}}
+					>
+						Share Order Tracking
 					</Button>
 					{/* <CreateReviewButton
 						w="full"

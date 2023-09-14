@@ -61,12 +61,21 @@ export class OrderResolver {
 	}
 
 	@Query(() => OrderDetail, { nullable: true })
-	@UseMiddleware(isVerified)
 	orderById(
 		@Arg("orderId", () => String) orderId: string,
 		@Ctx() { req }: MyContext
 	): Promise<OrderDetail | null> {
-		return OrderDetail.findOne({
+		if (!req.session.userId) {
+			return OrderDetail.findOneOrFail({
+				relations: {
+					address: true,
+					paymentdetails: true,
+				},
+				where: { id: orderId },
+			});
+		}
+
+		return OrderDetail.findOneOrFail({
 			relations: {
 				orderitems: {
 					inventory: {
@@ -91,20 +100,6 @@ export class OrderResolver {
 				address: true,
 				paymentdetails: true,
 				promo: true,
-			},
-			where: { userId: req.session.userId, id: orderId },
-		});
-	}
-
-	@Query(() => OrderDetail, { nullable: true })
-	trackById(
-		@Arg("orderId", () => String) orderId: string,
-		@Ctx() { req }: MyContext
-	): Promise<OrderDetail | null> {
-		return OrderDetail.findOne({
-			relations: {
-				address: true,
-				paymentdetails: true,
 			},
 			where: { userId: req.session.userId, id: orderId },
 		});
@@ -185,132 +180,6 @@ export class OrderResolver {
 
 		return orderRes;
 	}
-
-	// @Mutation(() => String)
-	// @UseMiddleware(isVerified)
-	// async createOrder(
-	// 	@Arg("options", () => CreateOrderInput) options: CreateOrderInput,
-	// 	@Ctx() { req }: MyContext
-	// ): Promise<string> {
-	// 	// Getting Current User Information
-	// 	const userId = req.session.userId;
-	// 	const userRes = await User.findOneByOrFail({ id: userId });
-
-	// 	// Getting Cart Items
-	// 	const cartRes = await Cart.find({
-	// 		relations: {
-	// 			inventory: {
-	// 				product: {
-	// 					inventories: {
-	// 						variants: {
-	// 							variant_value: {
-	// 								variant: true,
-	// 							},
-	// 						},
-	// 					},
-	// 				},
-	// 			},
-	// 		},
-	// 		where: {
-	// 			userId,
-	// 		},
-	// 	});
-
-	// 	// Getting Promo Information by Promo Code
-	// 	const promo = await Promo.findOneBy({ code: options.promoCode });
-
-	// 	// Calculating Sub Total, Shipping, Discount and Total
-	// 	const subTotal = cartRes.reduce(
-	// 		(acc, item) => acc + item.inventory.price * item.quantity,
-	// 		0
-	// 	);
-	// 	const discount =
-	// 		(promo?.isDiscountAmountPercentage
-	// 			? (subTotal * promo.discount_amount) / 100
-	// 			: promo?.discount_amount) ?? 0;
-	// 	const shipping = options.shippingMethod === "standard" ? 150 : 300;
-	// 	const total = subTotal - discount + shipping;
-
-	// 	// Creating Order
-	// 	const orderRes = await OrderDetail.create({
-	// 		addressId: options.addressId,
-	// 		promoId: promo?.id,
-	// 		userId,
-	// 		status: "PENDING",
-	// 		amount: total,
-	// 	}).save();
-
-	// 	const resposne = await fetch(
-	// 		"https://a.khalti.com/api/v2/epayment/initiate/",
-	// 		{
-	// 			method: "POST",
-	// 			body: JSON.stringify({
-	// 				return_url: `${process.env.CLIENT_URL}/cart/checkout/result`,
-	// 				website_url: process.env.CLIENT_URL,
-	// 				amount: 7000,
-	// 				purchase_order_id: orderRes.id ?? "order-id",
-	// 				purchase_order_name: "Hamropasal Payment",
-	// 				customer_info: {
-	// 					name: `${userRes?.first_name} ${userRes?.last_name}`,
-	// 					email: userRes?.email,
-	// 					phone: userRes?.phone_number ?? 9800000000,
-	// 				},
-	// 				amount_breakdown: [
-	// 					{
-	// 						label: `Sub Total ${(subTotal - discount) / 100}`,
-	// 						amount: 5000,
-	// 					},
-	// 					{
-	// 						label: `Shipping Charges ${shipping / 100}`,
-	// 						amount: 2000,
-	// 					},
-	// 				],
-	// 				product_details: cartRes.map((item) => ({
-	// 					identity: `${item.inventory?.product.name}-${
-	// 						item.inventory?.variants
-	// 							?.map((variant) =>
-	// 								capitalize(variant.variant_value.value as string)
-	// 							)
-	// 							.sort()
-	// 							.join("-") ?? ""
-	// 					}`,
-	// 					name: item.inventory?.product.name,
-	// 					total_price: item.quantity * (item.inventory?.price ?? 0) * 10,
-	// 					quantity: item.quantity,
-	// 					unit_price: item.inventory?.price ?? 0 * 10,
-	// 				})),
-	// 			}),
-	// 			headers: {
-	// 				"content-type": "application/json",
-	// 				Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
-	// 			},
-	// 		}
-	// 	);
-
-	// 	const { pidx, payment_url } = await resposne.json();
-
-	// 	await OrderItem.insert(
-	// 		cartRes.map((cartitem) => ({
-	// 			inventoryId: cartitem.inventoryId,
-	// 			quantity: cartitem.quantity,
-	// 			orderId: orderRes.id,
-	// 		}))
-	// 	);
-
-	// 	await Cart.delete({
-	// 		userId,
-	// 	});
-
-	// 	await PaymentDetail.create({
-	// 		id: pidx,
-	// 		amount: total,
-	// 		provider: "khalti",
-	// 		orderId: orderRes.id,
-	// 		status: "PENDING",
-	// 	}).save();
-
-	// 	return payment_url as string;
-	// }
 
 	@Mutation(() => CreatePaymentResponse)
 	@UseMiddleware(isVerified)

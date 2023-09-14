@@ -89,7 +89,7 @@ export class OrderDetail extends BaseEntity {
 	@OneToMany(() => PaymentDetail, (paymentdetail) => paymentdetail.orderdetail)
 	paymentdetails!: PaymentDetail[];
 
-	@Field(() => [OrderItem])
+	@Field(() => [OrderItem], { nullable: true })
 	@OneToMany(() => OrderItem, (orderitem) => orderitem.orderdetail)
 	orderitems!: OrderItem[];
 
