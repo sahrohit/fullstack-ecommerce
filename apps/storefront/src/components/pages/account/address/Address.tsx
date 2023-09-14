@@ -31,7 +31,7 @@ const AddressSection = () => {
 	if (error) return <div>Error: {error.message}</div>;
 
 	return (
-		<Box mx="auto">
+		<Box mx="auto" w="full">
 			<Box
 				rounded="lg"
 				bg={mode("white", "gray.700")}
