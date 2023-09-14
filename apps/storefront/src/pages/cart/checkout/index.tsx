@@ -14,6 +14,7 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { IoAdd } from "react-icons/io5";
 import * as Yup from "yup";
+import { useRouter } from "next/router";
 import {
 	useCreateOrderMutation,
 	useCreatePaymentMutation,
@@ -41,6 +42,7 @@ const CheckutFormSchema = Yup.object({
 });
 
 const CheckoutPage = () => {
+	const router = useRouter();
 	const [createOrderMutation] = useCreateOrderMutation();
 	const [createPaymentMutation] = useCreatePaymentMutation();
 
@@ -142,7 +144,7 @@ const CheckoutPage = () => {
 				pid: createPayment.createPayment.pid,
 				scd: createPayment.createPayment.scd,
 				su: `${process.env.CLIENT_URL}/cart/checkout/result`,
-				fu: `${process.env.CLIENT_URL}/cart/checkout/result`,
+				fu: `${process.env.CLIENT_URL}/cart/checkout/result?orderId=${createOrder.createOrder.id}`,
 			};
 
 			const form = document.createElement("form");
@@ -162,6 +164,21 @@ const CheckoutPage = () => {
 
 			document.body.appendChild(form);
 			form.submit();
+		} else if (values.paymentMethod === "cashondelivery") {
+			const { data: createPayment } = await createPaymentMutation({
+				variables: {
+					orderId: createOrder.createOrder.id,
+					provider: "cashondelivery",
+				},
+			});
+
+			router.replace({
+				pathname: `/cart/checkout/result`,
+				query: {
+					orderId: createOrder.createOrder.id,
+					paymentId: createPayment?.createPayment.paymentId,
+				},
+			});
 		}
 	};
 

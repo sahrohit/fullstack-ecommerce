@@ -9,5 +9,6 @@ mutation CreatePayment($provider: String!, $orderId: String!) {
 		pid
 		scd
 		paymentUrl
+		paymentId
 	}
 }

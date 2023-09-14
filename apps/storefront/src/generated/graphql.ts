@@ -78,6 +78,7 @@ export type CreateOrderInput = {
 export type CreatePaymentResponse = {
 	__typename?: "CreatePaymentResponse";
 	amt?: Maybe<Scalars["Int"]>;
+	paymentId?: Maybe<Scalars["String"]>;
 	paymentUrl?: Maybe<Scalars["String"]>;
 	pdc?: Maybe<Scalars["Int"]>;
 	pid?: Maybe<Scalars["String"]>;
@@ -1528,6 +1529,7 @@ export type CreatePaymentMutation = {
 		pid?: string | null;
 		scd?: string | null;
 		paymentUrl?: string | null;
+		paymentId?: string | null;
 	};
 };
 
@@ -4043,6 +4045,7 @@ export const CreatePaymentDocument = gql`
 			pid
 			scd
 			paymentUrl
+			paymentId
 		}
 	}
 `;

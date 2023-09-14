@@ -318,6 +318,20 @@ export class OrderResolver {
 					scd: ESEWA_MERCHANT_CODE,
 				};
 
+			case "cashondelivery":
+				const res = await PaymentDetail.create({
+					id: nanoid(),
+					amount: orderRes.amount,
+					provider: "cashondelivery",
+					orderId: orderId,
+					status: "PENDING",
+				}).save();
+
+				return {
+					provider: "cashondelivery",
+					paymentId: res.id,
+				};
+
 			default:
 				throw new Error("Provider Not Selected");
 		}

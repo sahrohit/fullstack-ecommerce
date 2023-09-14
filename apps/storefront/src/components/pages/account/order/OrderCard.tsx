@@ -25,6 +25,7 @@ import { Link } from "@chakra-ui/next-js";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useController, useForm } from "react-hook-form";
 import * as Yup from "yup";
+import { useRouter } from "next/router";
 import {
 	OrderDetail,
 	OrderItem,
@@ -353,6 +354,9 @@ export const RetryPaymentModal = ({
 	orderId,
 	amount,
 }: RetryPaymentModalProps) => {
+	const router = useRouter();
+
+	const toast = useToast();
 	const { handleSubmit, control } = useForm<RetryPaymentForm>({
 		defaultValues: {
 			paymentMethod: "khalti",
@@ -366,8 +370,6 @@ export const RetryPaymentModal = ({
 	});
 
 	const [createPaymentMutation] = useCreatePaymentMutation();
-
-	const toast = useToast();
 
 	const handleCheckout = async (values: RetryPaymentForm) => {
 		if (values.paymentMethod === "khalti") {
@@ -439,6 +441,21 @@ export const RetryPaymentModal = ({
 
 			document.body.appendChild(form);
 			form.submit();
+		} else if (values.paymentMethod === "cashondelivery") {
+			const { data: createPayment } = await createPaymentMutation({
+				variables: {
+					orderId,
+					provider: "cashondelivery",
+				},
+			});
+
+			router.replace({
+				pathname: `/cart/checkout/result`,
+				query: {
+					orderId,
+					paymentId: createPayment?.createPayment.paymentId,
+				},
+			});
 		}
 	};
 

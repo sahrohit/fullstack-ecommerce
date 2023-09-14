@@ -55,4 +55,7 @@ export class CreatePaymentResponse {
 
 	@Field(() => String, { nullable: true })
 	paymentUrl?: string;
+
+	@Field(() => String, { nullable: true })
+	paymentId?: string;
 }
