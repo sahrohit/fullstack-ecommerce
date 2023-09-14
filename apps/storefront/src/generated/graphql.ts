@@ -21,6 +21,25 @@ export type Scalars = {
 	Float: number;
 };
 
+export type Account = {
+	__typename?: "Account";
+	access_token?: Maybe<Scalars["String"]>;
+	created_at: Scalars["String"];
+	expires_at?: Maybe<Scalars["Float"]>;
+	id: Scalars["Int"];
+	id_token?: Maybe<Scalars["String"]>;
+	provider: Scalars["String"];
+	providerAccountId: Scalars["String"];
+	refresh_token?: Maybe<Scalars["String"]>;
+	scope?: Maybe<Scalars["String"]>;
+	session_state?: Maybe<Scalars["String"]>;
+	token_type?: Maybe<Scalars["String"]>;
+	type: Scalars["String"];
+	updated_at: Scalars["String"];
+	user: User;
+	userId: Scalars["Float"];
+};
+
 export type AddProductInput = {
 	categoryId: Scalars["Float"];
 	desc: Scalars["String"];
@@ -667,6 +686,7 @@ export type UpdateDiscountInput = {
 
 export type User = {
 	__typename?: "User";
+	accounts?: Maybe<Array<Account>>;
 	created_at: Scalars["String"];
 	currency: Scalars["String"];
 	email: Scalars["String"];
@@ -2940,6 +2960,47 @@ export type MeQuery = {
 		marketing_company_news: boolean;
 		created_at: string;
 		updated_at: string;
+	} | null;
+};
+
+export type MeWithAccountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeWithAccountQuery = {
+	__typename?: "Query";
+	meWithAccount?: {
+		__typename?: "User";
+		id: number;
+		first_name: string;
+		last_name: string;
+		email: string;
+		email_verified: boolean;
+		phone_number?: string | null;
+		phone_number_verified: boolean;
+		imageUrl?: string | null;
+		roleId: number;
+		language: string;
+		currency: string;
+		marketing_product_news: boolean;
+		marketing_company_news: boolean;
+		created_at: string;
+		updated_at: string;
+		accounts?: Array<{
+			__typename?: "Account";
+			id: number;
+			userId: number;
+			type: string;
+			provider: string;
+			providerAccountId: string;
+			refresh_token?: string | null;
+			expires_at?: number | null;
+			token_type?: string | null;
+			scope?: string | null;
+			id_token?: string | null;
+			session_state?: string | null;
+			created_at: string;
+			updated_at: string;
+			access_token?: string | null;
+		}> | null;
 	} | null;
 };
 
@@ -6272,6 +6333,80 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const MeWithAccountDocument = gql`
+	query MeWithAccount {
+		meWithAccount {
+			...UserFragment
+			accounts {
+				id
+				userId
+				type
+				provider
+				providerAccountId
+				refresh_token
+				expires_at
+				token_type
+				scope
+				id_token
+				session_state
+				created_at
+				updated_at
+				access_token
+			}
+		}
+	}
+	${UserFragmentFragmentDoc}
+`;
+
+/**
+ * __useMeWithAccountQuery__
+ *
+ * To run a query within a React component, call `useMeWithAccountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeWithAccountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeWithAccountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeWithAccountQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		MeWithAccountQuery,
+		MeWithAccountQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<MeWithAccountQuery, MeWithAccountQueryVariables>(
+		MeWithAccountDocument,
+		options
+	);
+}
+export function useMeWithAccountLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		MeWithAccountQuery,
+		MeWithAccountQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<MeWithAccountQuery, MeWithAccountQueryVariables>(
+		MeWithAccountDocument,
+		options
+	);
+}
+export type MeWithAccountQueryHookResult = ReturnType<
+	typeof useMeWithAccountQuery
+>;
+export type MeWithAccountLazyQueryHookResult = ReturnType<
+	typeof useMeWithAccountLazyQuery
+>;
+export type MeWithAccountQueryResult = Apollo.QueryResult<
+	MeWithAccountQuery,
+	MeWithAccountQueryVariables
+>;
 export const VariantsDocument = gql`
 	query Variants {
 		variants {

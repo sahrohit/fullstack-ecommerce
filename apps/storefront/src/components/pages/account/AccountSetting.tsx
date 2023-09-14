@@ -6,11 +6,14 @@ import {
 	Text,
 	Stack,
 	StackDivider,
+	Icon,
+	Tooltip,
 } from "@chakra-ui/react";
 
 import dayjs from "dayjs";
 import { useRef } from "react";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { MdVerified } from "react-icons/md";
 import { useMeQuery } from "@/generated/graphql";
 import PageLoader from "@/components/shared/PageLoader";
 import ModalButton from "@/components/ui/ModalButton";
@@ -92,7 +95,21 @@ const AccountSettings = () => {
 					title="Login details"
 					description="Change your email and password"
 				>
-					<Text fontSize="sm">{data?.me?.email}</Text>
+					<HStack>
+						<Text fontSize="sm">
+							<strong>Email:</strong> {data?.me?.email}
+						</Text>
+						{data?.me?.email_verified ? (
+							<Tooltip hasArrow label="Verified" placement="bottom">
+								<Icon as={MdVerified} color="green" />
+							</Tooltip>
+						) : null}
+					</HStack>
+					{data?.me?.phone_number && (
+						<Text fontSize="sm">
+							<strong>Phone Number:</strong> {data?.me?.phone_number}
+						</Text>
+					)}
 					<HStack mt="5">
 						<Button size="sm" fontWeight="normal">
 							Change Phone Number

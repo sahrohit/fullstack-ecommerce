@@ -85,6 +85,7 @@ export class User extends BaseEntity {
 	@OneToMany(() => UserPayment, (userpayment) => userpayment.user)
 	userpayments!: UserPayment[];
 
+	@Field(() => [Account], { nullable: true })
 	@OneToMany(() => Account, (account) => account.user)
 	accounts!: Account[];
 

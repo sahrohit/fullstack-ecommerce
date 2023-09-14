@@ -70,11 +70,12 @@ export class UserResolver {
 		if (!req.session?.userId) {
 			return null;
 		}
+
 		return User.findOne({
-			where: { id: req.session?.userId },
 			relations: {
 				accounts: true,
 			},
+			where: { id: req.session?.userId },
 		});
 	}
 

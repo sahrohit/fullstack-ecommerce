@@ -21,7 +21,8 @@ export class Account extends BaseEntity {
 	@Column()
 	userId!: number;
 
-	@ManyToOne(() => User, (user) => user.addresses)
+	@Field(() => User)
+	@ManyToOne(() => User, (user) => user.accounts)
 	user!: User;
 
 	@Field(() => String)
