@@ -134,6 +134,10 @@ export class OrderResolver {
 			},
 		});
 
+		if (cartRes.length === 0) {
+			throw new Error("Cart is Empty");
+		}
+
 		// Getting Promo Information by Promo Code
 		const promo = await Promo.findOneBy({ code: options.promoCode });
 
