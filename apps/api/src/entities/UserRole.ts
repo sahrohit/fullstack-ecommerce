@@ -4,7 +4,9 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
@@ -21,9 +23,12 @@ export class UserRole extends BaseEntity {
 	@Column()
 	name!: string;
 
-	@Field(() => [User])
-	@ManyToOne(() => User, (user) => user.role)
-	users!: User[];
+	@Field(() => [User], { nullable: true })
+	@OneToMany(() => User, (user) => user.role)
+	@JoinColumn({
+		name: "user_id",
+	})
+	users?: User[];
 
 	@Field(() => String)
 	@CreateDateColumn()

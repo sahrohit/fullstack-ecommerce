@@ -7,8 +7,13 @@ import {
 	UpdateDateColumn,
 	BaseEntity,
 	ManyToOne,
+	OneToMany,
+	OneToOne,
+	JoinTable,
 } from "typeorm";
 import { User } from "./User";
+import { Staff } from "./Staff";
+import { TenantCategory } from "./TenantCategory";
 
 @ObjectType()
 @Entity()
@@ -25,7 +30,17 @@ export class Tenant extends BaseEntity {
 	@Column()
 	desc!: string;
 
-	@Field()
+	@Field({
+		nullable: true,
+	})
+	@Column({
+		nullable: true,
+	})
+	address?: string;
+
+	@Field({
+		nullable: true,
+	})
 	@Column({
 		nullable: true,
 		default:
@@ -33,7 +48,7 @@ export class Tenant extends BaseEntity {
 	})
 	logo?: string;
 
-	@Field()
+	@Field({ nullable: true })
 	@Column({
 		nullable: true,
 		default: "Popins",
@@ -44,7 +59,7 @@ export class Tenant extends BaseEntity {
 	@Column()
 	subdomain!: string;
 
-	@Field()
+	@Field({ nullable: true })
 	@Column({ nullable: true })
 	customDomain?: string;
 
@@ -58,8 +73,20 @@ export class Tenant extends BaseEntity {
 	@Column()
 	userId!: number;
 
-	@ManyToOne(() => User, (user) => user.addresses)
+	@Field(() => Int)
+	@Column()
+	categoryId!: number;
+
+	@Field(() => TenantCategory)
+	@ManyToOne(() => TenantCategory, (category) => category.tenants)
+	@JoinTable({ name: "category_id" })
+	category!: TenantCategory;
+
+	@ManyToOne(() => User, (user) => user.tenants)
 	user!: User;
+
+	@OneToOne(() => Staff, (staff) => staff.user)
+	staff!: Staff;
 
 	@Field(() => String)
 	@CreateDateColumn()

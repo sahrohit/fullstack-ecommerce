@@ -2,10 +2,8 @@ import argon2 from "argon2";
 import {
 	Arg,
 	Ctx,
-	Field,
 	FieldResolver,
 	Mutation,
-	ObjectType,
 	Query,
 	Resolver,
 	Root,
@@ -26,24 +24,7 @@ import { sendEmail } from "../utils/sendEmail";
 import { validateRegister } from "../utils/validator";
 import { RegisterInput } from "./GqlObjets/RegisterInput";
 import { isVerified } from "../middlewares/isVerified";
-
-@ObjectType()
-class FieldError {
-	@Field()
-	field!: string;
-
-	@Field()
-	message!: string;
-}
-
-@ObjectType()
-class UserResponse {
-	@Field(() => [FieldError], { nullable: true })
-	errors?: FieldError[];
-
-	@Field(() => User, { nullable: true })
-	user?: User;
-}
+import { UserResponse } from "./GqlObjets/User";
 
 @Resolver(User)
 export class UserResolver {

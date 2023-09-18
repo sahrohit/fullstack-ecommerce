@@ -8,6 +8,7 @@ import {
 	BaseEntity,
 	OneToMany,
 	ManyToOne,
+	OneToOne,
 } from "typeorm";
 import { Address } from "./Address";
 import { Cart } from "./Cart";
@@ -19,6 +20,7 @@ import { Account } from "./Account";
 import { Tenant } from "./Tenant";
 import { Issue } from "./Issue";
 import { IssueComment } from "./IssueComment";
+import { Staff } from "./Staff";
 
 @ObjectType()
 @Entity()
@@ -100,6 +102,10 @@ export class User extends BaseEntity {
 
 	@OneToMany(() => Tenant, (tenant) => tenant.user)
 	tenants!: Tenant[];
+
+	@Field(() => Staff, { nullable: true })
+	@OneToOne(() => Staff, (staff) => staff.user)
+	staff!: Staff;
 
 	@OneToMany(() => OrderDetail, (orderdetails) => orderdetails.user)
 	orderdetails!: OrderDetail[];
