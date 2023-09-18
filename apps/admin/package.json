@@ -19,12 +19,15 @@
 		"@chakra-ui/react": "^2.8.0",
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
+		"@hookform/resolvers": "^2.9.11",
 		"@tanstack/react-table": "^8.9.11",
 		"framer-motion": "^6.5.1",
 		"next": "latest",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"react-icons": "^4.11.0"
+		"react-hook-form": "^7.45.4",
+		"react-icons": "^4.11.0",
+		"yup": "^0.32.11"
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "2.6.2",

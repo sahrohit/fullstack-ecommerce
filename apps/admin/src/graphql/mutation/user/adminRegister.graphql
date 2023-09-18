@@ -1,0 +1,17 @@
+mutation AdminRegister($options: AdminRegisterInput!) {
+	adminRegister(options: $options) {
+		errors {
+			field
+			message
+		}
+		user {
+			...UserFragment
+			staff {
+				...StaffFragment
+				tenant {
+					...TenantFragment
+				}
+			}
+		}
+	}
+}

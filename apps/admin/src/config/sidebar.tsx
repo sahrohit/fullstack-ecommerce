@@ -7,17 +7,17 @@ import { BsArrowReturnLeft } from "react-icons/bs";
 export const ORDER_NAV_LINKS = [
 	{
 		label: "Orders",
-		href: "/account/orders",
+		href: "/dashboard/orders",
 		icon: BiPackage,
 	},
 	{
 		label: "Returns",
-		href: "/account/returns",
+		href: "/dashboard/returns",
 		icon: TbTruckReturn,
 	},
 	{
 		label: "Address",
-		href: "/account/address",
+		href: "/dashboard/address",
 		icon: BiHomeAlt,
 	},
 ];
@@ -25,17 +25,17 @@ export const ORDER_NAV_LINKS = [
 export const ACCOUNT_NAV_LINKS = [
 	{
 		label: "Account",
-		href: "/account",
+		href: "/dashboard",
 		icon: FaUser,
 	},
 	{
 		label: "Preference",
-		href: "/account/preference",
+		href: "/dashboard/preference",
 		icon: AiOutlineSetting,
 	},
 	{
 		label: "Manage Staffs",
-		href: "/staffs",
+		href: "/dashboard/staffs",
 		icon: AiOutlineSetting,
 	},
 ];
@@ -48,7 +48,7 @@ export const SUPPORT_NAV_LINKS = [
 	},
 	{
 		label: "Help Center",
-		href: "/account/helpcenter",
+		href: "/dashboard/helpcenter",
 		icon: BiSupport,
 	},
 ];

@@ -77,6 +77,16 @@ export type AddressInput = {
 	zip: Scalars["String"];
 };
 
+export type AdminRegisterInput = {
+	email: Scalars["String"];
+	first_name: Scalars["String"];
+	last_name: Scalars["String"];
+	password: Scalars["String"];
+	subdomain: Scalars["String"];
+	tenant_category_id: Scalars["Float"];
+	tenant_name: Scalars["String"];
+};
+
 export type Cart = {
 	__typename?: "Cart";
 	created_at: Scalars["String"];
@@ -201,6 +211,8 @@ export type Mutation = {
 	addReview?: Maybe<ProductReview>;
 	addToCart: Cart;
 	addToFavourite: Favourite;
+	adminLogin: UserResponse;
+	adminRegister: UserResponse;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	createComment: IssueComment;
@@ -263,6 +275,15 @@ export type MutationAddToCartArgs = {
 
 export type MutationAddToFavouriteArgs = {
 	productId: Scalars["Int"];
+};
+
+export type MutationAdminLoginArgs = {
+	email: Scalars["String"];
+	password: Scalars["String"];
+};
+
+export type MutationAdminRegisterArgs = {
+	options: AdminRegisterInput;
 };
 
 export type MutationChangePasswordArgs = {
@@ -586,6 +607,7 @@ export type Query = {
 	issues: Array<Issue>;
 	issuesWithComments: Issue;
 	me?: Maybe<User>;
+	meStaff?: Maybe<User>;
 	meWithAccount?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
 	orders?: Maybe<Array<OrderDetail>>;
@@ -600,6 +622,7 @@ export type Query = {
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
 	shippingmethods: Array<ShippingMethod>;
+	tenantCategories: Array<TenantCategory>;
 	variants: Array<Variant>;
 };
 
@@ -670,6 +693,46 @@ export type ShippingMethod = {
 	updated_at: Scalars["String"];
 };
 
+export type Staff = {
+	__typename?: "Staff";
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	tenant?: Maybe<Tenant>;
+	tenantId: Scalars["Float"];
+	updated_at: Scalars["String"];
+	user?: Maybe<User>;
+	userId: Scalars["Float"];
+};
+
+export type Tenant = {
+	__typename?: "Tenant";
+	address?: Maybe<Scalars["String"]>;
+	category: TenantCategory;
+	categoryId: Scalars["Int"];
+	created_at: Scalars["String"];
+	customDomain?: Maybe<Scalars["String"]>;
+	defaultForPreview: Scalars["Boolean"];
+	desc?: Maybe<Scalars["String"]>;
+	font?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	logo?: Maybe<Scalars["String"]>;
+	name: Scalars["String"];
+	subdomain: Scalars["String"];
+	updated_at: Scalars["String"];
+	userId: Scalars["Float"];
+};
+
+export type TenantCategory = {
+	__typename?: "TenantCategory";
+	created_at: Scalars["String"];
+	desc?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	name: Scalars["String"];
+	tenants?: Maybe<Array<Tenant>>;
+	updated_at: Scalars["String"];
+};
+
 export type UpdateCategoryInput = {
 	desc?: InputMaybe<Scalars["String"]>;
 	identifier?: InputMaybe<Scalars["String"]>;
@@ -702,6 +765,7 @@ export type User = {
 	phone_number_verified: Scalars["Boolean"];
 	role: UserRole;
 	roleId: Scalars["Float"];
+	staff?: Maybe<Staff>;
 	updated_at: Scalars["String"];
 };
 
@@ -717,7 +781,7 @@ export type UserRole = {
 	id: Scalars["Int"];
 	name: Scalars["String"];
 	updated_at: Scalars["String"];
-	users: Array<User>;
+	users?: Maybe<Array<User>>;
 };
 
 export type Variant = {

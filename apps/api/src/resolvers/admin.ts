@@ -64,12 +64,12 @@ export class AdminResolver {
 		}
 		if (user.roleId === 1) {
 			return {
-				errors: [{ field: "global", message: "Not Authorized 1" }],
+				errors: [{ field: "global", message: "Not Authorized" }],
 			};
 		}
 		if (!user.staff.tenant.id) {
 			return {
-				errors: [{ field: "global", message: "Not Authorized 2" }],
+				errors: [{ field: "global", message: "Not Authorized" }],
 			};
 		}
 		const valid = await argon2.verify(user.password, password);
@@ -88,7 +88,7 @@ export class AdminResolver {
 	}
 
 	@Mutation(() => UserResponse)
-	async register(
+	async adminRegister(
 		@Arg("options") options: AdminRegisterInput,
 		@Ctx() { redis }: MyContext
 	): Promise<UserResponse> {
@@ -163,7 +163,6 @@ export class AdminResolver {
 
 		await Tenant.save({
 			name: options.tenant_name,
-			desc: options.tenant_desc,
 			categoryId: options.tenant_category_id,
 			subdomain: options.subdomain,
 			defaultForPreview: false,

@@ -18,9 +18,6 @@ export class AdminRegisterInput {
 	tenant_name!: string;
 
 	@Field()
-	tenant_desc!: string;
-
-	@Field()
 	tenant_category_id!: number;
 
 	@Field()

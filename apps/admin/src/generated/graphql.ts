@@ -21,6 +21,25 @@ export type Scalars = {
 	Float: number;
 };
 
+export type Account = {
+	__typename?: "Account";
+	access_token?: Maybe<Scalars["String"]>;
+	created_at: Scalars["String"];
+	expires_at?: Maybe<Scalars["Float"]>;
+	id: Scalars["Int"];
+	id_token?: Maybe<Scalars["String"]>;
+	provider: Scalars["String"];
+	providerAccountId: Scalars["String"];
+	refresh_token?: Maybe<Scalars["String"]>;
+	scope?: Maybe<Scalars["String"]>;
+	session_state?: Maybe<Scalars["String"]>;
+	token_type?: Maybe<Scalars["String"]>;
+	type: Scalars["String"];
+	updated_at: Scalars["String"];
+	user: User;
+	userId: Scalars["Float"];
+};
+
 export type AddProductInput = {
 	categoryId: Scalars["Float"];
 	desc: Scalars["String"];
@@ -58,6 +77,16 @@ export type AddressInput = {
 	zip: Scalars["String"];
 };
 
+export type AdminRegisterInput = {
+	email: Scalars["String"];
+	first_name: Scalars["String"];
+	last_name: Scalars["String"];
+	password: Scalars["String"];
+	subdomain: Scalars["String"];
+	tenant_category_id: Scalars["Float"];
+	tenant_name: Scalars["String"];
+};
+
 export type Cart = {
 	__typename?: "Cart";
 	created_at: Scalars["String"];
@@ -78,6 +107,7 @@ export type CreateOrderInput = {
 export type CreatePaymentResponse = {
 	__typename?: "CreatePaymentResponse";
 	amt?: Maybe<Scalars["Int"]>;
+	paymentId?: Maybe<Scalars["String"]>;
 	paymentUrl?: Maybe<Scalars["String"]>;
 	pdc?: Maybe<Scalars["Int"]>;
 	pid?: Maybe<Scalars["String"]>;
@@ -181,6 +211,8 @@ export type Mutation = {
 	addReview?: Maybe<ProductReview>;
 	addToCart: Cart;
 	addToFavourite: Favourite;
+	adminLogin: UserResponse;
+	adminRegister: UserResponse;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
 	createComment: IssueComment;
@@ -243,6 +275,15 @@ export type MutationAddToCartArgs = {
 
 export type MutationAddToFavouriteArgs = {
 	productId: Scalars["Int"];
+};
+
+export type MutationAdminLoginArgs = {
+	email: Scalars["String"];
+	password: Scalars["String"];
+};
+
+export type MutationAdminRegisterArgs = {
+	options: AdminRegisterInput;
 };
 
 export type MutationChangePasswordArgs = {
@@ -390,7 +431,7 @@ export type OrderDetail = {
 	amount: Scalars["Int"];
 	created_at: Scalars["String"];
 	id: Scalars["String"];
-	orderitems: Array<OrderItem>;
+	orderitems?: Maybe<Array<OrderItem>>;
 	paymentdetails?: Maybe<Array<PaymentDetail>>;
 	promo?: Maybe<Promo>;
 	promoId?: Maybe<Scalars["Int"]>;
@@ -566,6 +607,7 @@ export type Query = {
 	issues: Array<Issue>;
 	issuesWithComments: Issue;
 	me?: Maybe<User>;
+	meStaff?: Maybe<User>;
 	meWithAccount?: Maybe<User>;
 	orderById?: Maybe<OrderDetail>;
 	orders?: Maybe<Array<OrderDetail>>;
@@ -580,7 +622,7 @@ export type Query = {
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
 	shippingmethods: Array<ShippingMethod>;
-	trackById?: Maybe<OrderDetail>;
+	tenantCategories: Array<TenantCategory>;
 	variants: Array<Variant>;
 };
 
@@ -628,10 +670,6 @@ export type QuerySearchProductsArgs = {
 	query: Scalars["String"];
 };
 
-export type QueryTrackByIdArgs = {
-	orderId: Scalars["String"];
-};
-
 export type RegisterInput = {
 	email: Scalars["String"];
 	first_name: Scalars["String"];
@@ -655,6 +693,46 @@ export type ShippingMethod = {
 	updated_at: Scalars["String"];
 };
 
+export type Staff = {
+	__typename?: "Staff";
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	tenant?: Maybe<Tenant>;
+	tenantId: Scalars["Float"];
+	updated_at: Scalars["String"];
+	user?: Maybe<User>;
+	userId: Scalars["Float"];
+};
+
+export type Tenant = {
+	__typename?: "Tenant";
+	address?: Maybe<Scalars["String"]>;
+	category: TenantCategory;
+	categoryId: Scalars["Int"];
+	created_at: Scalars["String"];
+	customDomain?: Maybe<Scalars["String"]>;
+	defaultForPreview: Scalars["Boolean"];
+	desc?: Maybe<Scalars["String"]>;
+	font?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	logo?: Maybe<Scalars["String"]>;
+	name: Scalars["String"];
+	subdomain: Scalars["String"];
+	updated_at: Scalars["String"];
+	userId: Scalars["Float"];
+};
+
+export type TenantCategory = {
+	__typename?: "TenantCategory";
+	created_at: Scalars["String"];
+	desc?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	identifier: Scalars["String"];
+	name: Scalars["String"];
+	tenants?: Maybe<Array<Tenant>>;
+	updated_at: Scalars["String"];
+};
+
 export type UpdateCategoryInput = {
 	desc?: InputMaybe<Scalars["String"]>;
 	identifier?: InputMaybe<Scalars["String"]>;
@@ -671,6 +749,7 @@ export type UpdateDiscountInput = {
 
 export type User = {
 	__typename?: "User";
+	accounts?: Maybe<Array<Account>>;
 	created_at: Scalars["String"];
 	currency: Scalars["String"];
 	email: Scalars["String"];
@@ -686,6 +765,7 @@ export type User = {
 	phone_number_verified: Scalars["Boolean"];
 	role: UserRole;
 	roleId: Scalars["Float"];
+	staff?: Maybe<Staff>;
 	updated_at: Scalars["String"];
 };
 
@@ -701,7 +781,7 @@ export type UserRole = {
 	id: Scalars["Int"];
 	name: Scalars["String"];
 	updated_at: Scalars["String"];
-	users: Array<User>;
+	users?: Maybe<Array<User>>;
 };
 
 export type Variant = {
@@ -722,11 +802,278 @@ export type VariantValue = {
 	variant: Variant;
 };
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
+export type RegularErrorFragment = {
+	__typename?: "FieldError";
+	field: string;
+	message: string;
+};
 
-export type MeQuery = {
+export type StaffFragmentFragment = {
+	__typename?: "Staff";
+	id: number;
+	userId: number;
+	tenantId: number;
+	created_at: string;
+	updated_at: string;
+};
+
+export type TenantFragmentFragment = {
+	__typename?: "Tenant";
+	id: number;
+	name: string;
+	desc?: string | null;
+	address?: string | null;
+	logo?: string | null;
+	font?: string | null;
+	subdomain: string;
+	customDomain?: string | null;
+	defaultForPreview: boolean;
+	userId: number;
+	created_at: string;
+	updated_at: string;
+};
+
+export type UserFragmentFragment = {
+	__typename?: "User";
+	id: number;
+	first_name: string;
+	last_name: string;
+	email: string;
+	email_verified: boolean;
+	phone_number?: string | null;
+	phone_number_verified: boolean;
+	imageUrl?: string | null;
+	roleId: number;
+	language: string;
+	currency: string;
+	marketing_product_news: boolean;
+	marketing_company_news: boolean;
+	created_at: string;
+	updated_at: string;
+};
+
+export type AdminLoginMutationVariables = Exact<{
+	email: Scalars["String"];
+	password: Scalars["String"];
+}>;
+
+export type AdminLoginMutation = {
+	__typename?: "Mutation";
+	adminLogin: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			imageUrl?: string | null;
+			roleId: number;
+			language: string;
+			currency: string;
+			marketing_product_news: boolean;
+			marketing_company_news: boolean;
+			created_at: string;
+			updated_at: string;
+			staff?: {
+				__typename?: "Staff";
+				id: number;
+				userId: number;
+				tenantId: number;
+				created_at: string;
+				updated_at: string;
+				tenant?: {
+					__typename?: "Tenant";
+					id: number;
+					name: string;
+					desc?: string | null;
+					address?: string | null;
+					logo?: string | null;
+					font?: string | null;
+					subdomain: string;
+					customDomain?: string | null;
+					defaultForPreview: boolean;
+					userId: number;
+					created_at: string;
+					updated_at: string;
+				} | null;
+			} | null;
+		} | null;
+	};
+};
+
+export type AdminRegisterMutationVariables = Exact<{
+	options: AdminRegisterInput;
+}>;
+
+export type AdminRegisterMutation = {
+	__typename?: "Mutation";
+	adminRegister: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			imageUrl?: string | null;
+			roleId: number;
+			language: string;
+			currency: string;
+			marketing_product_news: boolean;
+			marketing_company_news: boolean;
+			created_at: string;
+			updated_at: string;
+			staff?: {
+				__typename?: "Staff";
+				id: number;
+				userId: number;
+				tenantId: number;
+				created_at: string;
+				updated_at: string;
+				tenant?: {
+					__typename?: "Tenant";
+					id: number;
+					name: string;
+					desc?: string | null;
+					address?: string | null;
+					logo?: string | null;
+					font?: string | null;
+					subdomain: string;
+					customDomain?: string | null;
+					defaultForPreview: boolean;
+					userId: number;
+					created_at: string;
+					updated_at: string;
+				} | null;
+			} | null;
+		} | null;
+	};
+};
+
+export type ChangePasswordMutationVariables = Exact<{
+	newPassword: Scalars["String"];
+	token: Scalars["String"];
+}>;
+
+export type ChangePasswordMutation = {
+	__typename?: "Mutation";
+	changePassword: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			imageUrl?: string | null;
+			roleId: number;
+			language: string;
+			currency: string;
+			marketing_product_news: boolean;
+			marketing_company_news: boolean;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
+
+export type ForgotPasswordMutationVariables = Exact<{
+	email: Scalars["String"];
+}>;
+
+export type ForgotPasswordMutation = {
+	__typename?: "Mutation";
+	forgotPassword: boolean;
+};
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
+
+export type LogoutMutation = { __typename?: "Mutation"; logout: boolean };
+
+export type ResendVerificationEmailMutationVariables = Exact<{
+	email: Scalars["String"];
+}>;
+
+export type ResendVerificationEmailMutation = {
+	__typename?: "Mutation";
+	resendVerificationEmail: boolean;
+};
+
+export type UpdatePasswordMutationVariables = Exact<{
+	confirmPassword: Scalars["String"];
+	newPassword: Scalars["String"];
+	currentPassword: Scalars["String"];
+}>;
+
+export type UpdatePasswordMutation = {
+	__typename?: "Mutation";
+	updatePassword: {
+		__typename?: "UserResponse";
+		errors?: Array<{
+			__typename?: "FieldError";
+			field: string;
+			message: string;
+		}> | null;
+		user?: {
+			__typename?: "User";
+			id: number;
+			first_name: string;
+			last_name: string;
+			email: string;
+			email_verified: boolean;
+			phone_number?: string | null;
+			phone_number_verified: boolean;
+			imageUrl?: string | null;
+			roleId: number;
+			language: string;
+			currency: string;
+			marketing_product_news: boolean;
+			marketing_company_news: boolean;
+			created_at: string;
+			updated_at: string;
+		} | null;
+	};
+};
+
+export type VerifyEmailMutationVariables = Exact<{
+	token: Scalars["String"];
+}>;
+
+export type VerifyEmailMutation = {
+	__typename?: "Mutation";
+	verifyEmail: boolean;
+};
+
+export type MeStaffQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeStaffQuery = {
 	__typename?: "Query";
-	me?: {
+	meStaff?: {
 		__typename?: "User";
 		id: number;
 		first_name: string;
@@ -736,15 +1083,552 @@ export type MeQuery = {
 		phone_number?: string | null;
 		phone_number_verified: boolean;
 		imageUrl?: string | null;
+		language: string;
+		currency: string;
+		marketing_product_news: boolean;
+		marketing_company_news: boolean;
 		roleId: number;
 		created_at: string;
 		updated_at: string;
+		staff?: {
+			__typename?: "Staff";
+			id: number;
+			userId: number;
+			tenantId: number;
+			created_at: string;
+			updated_at: string;
+			tenant?: {
+				__typename?: "Tenant";
+				id: number;
+				name: string;
+				desc?: string | null;
+				address?: string | null;
+				logo?: string | null;
+				font?: string | null;
+				subdomain: string;
+				customDomain?: string | null;
+				defaultForPreview: boolean;
+				userId: number;
+				categoryId: number;
+				created_at: string;
+				updated_at: string;
+			} | null;
+		} | null;
 	} | null;
 };
 
-export const MeDocument = gql`
-	query Me {
-		me {
+export type TenantCategoriesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TenantCategoriesQuery = {
+	__typename?: "Query";
+	tenantCategories: Array<{
+		__typename?: "TenantCategory";
+		id: number;
+		name: string;
+		identifier: string;
+		desc?: string | null;
+		created_at: string;
+		updated_at: string;
+	}>;
+};
+
+export const RegularErrorFragmentDoc = gql`
+	fragment RegularError on FieldError {
+		field
+		message
+	}
+`;
+export const StaffFragmentFragmentDoc = gql`
+	fragment StaffFragment on Staff {
+		id
+		userId
+		tenantId
+		created_at
+		updated_at
+	}
+`;
+export const TenantFragmentFragmentDoc = gql`
+	fragment TenantFragment on Tenant {
+		id
+		name
+		desc
+		address
+		logo
+		font
+		subdomain
+		customDomain
+		defaultForPreview
+		userId
+		created_at
+		updated_at
+	}
+`;
+export const UserFragmentFragmentDoc = gql`
+	fragment UserFragment on User {
+		id
+		first_name
+		last_name
+		email
+		email_verified
+		phone_number
+		phone_number_verified
+		imageUrl
+		roleId
+		language
+		currency
+		marketing_product_news
+		marketing_company_news
+		created_at
+		updated_at
+	}
+`;
+export const AdminLoginDocument = gql`
+	mutation AdminLogin($email: String!, $password: String!) {
+		adminLogin(email: $email, password: $password) {
+			errors {
+				field
+				message
+			}
+			user {
+				...UserFragment
+				staff {
+					...StaffFragment
+					tenant {
+						...TenantFragment
+					}
+				}
+			}
+		}
+	}
+	${UserFragmentFragmentDoc}
+	${StaffFragmentFragmentDoc}
+	${TenantFragmentFragmentDoc}
+`;
+export type AdminLoginMutationFn = Apollo.MutationFunction<
+	AdminLoginMutation,
+	AdminLoginMutationVariables
+>;
+
+/**
+ * __useAdminLoginMutation__
+ *
+ * To run a mutation, you first call `useAdminLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAdminLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [adminLoginMutation, { data, loading, error }] = useAdminLoginMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useAdminLoginMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AdminLoginMutation,
+		AdminLoginMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<AdminLoginMutation, AdminLoginMutationVariables>(
+		AdminLoginDocument,
+		options
+	);
+}
+export type AdminLoginMutationHookResult = ReturnType<
+	typeof useAdminLoginMutation
+>;
+export type AdminLoginMutationResult =
+	Apollo.MutationResult<AdminLoginMutation>;
+export type AdminLoginMutationOptions = Apollo.BaseMutationOptions<
+	AdminLoginMutation,
+	AdminLoginMutationVariables
+>;
+export const AdminRegisterDocument = gql`
+	mutation AdminRegister($options: AdminRegisterInput!) {
+		adminRegister(options: $options) {
+			errors {
+				field
+				message
+			}
+			user {
+				...UserFragment
+				staff {
+					...StaffFragment
+					tenant {
+						...TenantFragment
+					}
+				}
+			}
+		}
+	}
+	${UserFragmentFragmentDoc}
+	${StaffFragmentFragmentDoc}
+	${TenantFragmentFragmentDoc}
+`;
+export type AdminRegisterMutationFn = Apollo.MutationFunction<
+	AdminRegisterMutation,
+	AdminRegisterMutationVariables
+>;
+
+/**
+ * __useAdminRegisterMutation__
+ *
+ * To run a mutation, you first call `useAdminRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAdminRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [adminRegisterMutation, { data, loading, error }] = useAdminRegisterMutation({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useAdminRegisterMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AdminRegisterMutation,
+		AdminRegisterMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		AdminRegisterMutation,
+		AdminRegisterMutationVariables
+	>(AdminRegisterDocument, options);
+}
+export type AdminRegisterMutationHookResult = ReturnType<
+	typeof useAdminRegisterMutation
+>;
+export type AdminRegisterMutationResult =
+	Apollo.MutationResult<AdminRegisterMutation>;
+export type AdminRegisterMutationOptions = Apollo.BaseMutationOptions<
+	AdminRegisterMutation,
+	AdminRegisterMutationVariables
+>;
+export const ChangePasswordDocument = gql`
+	mutation ChangePassword($newPassword: String!, $token: String!) {
+		changePassword(newPassword: $newPassword, token: $token) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type ChangePasswordMutationFn = Apollo.MutationFunction<
+	ChangePasswordMutation,
+	ChangePasswordMutationVariables
+>;
+
+/**
+ * __useChangePasswordMutation__
+ *
+ * To run a mutation, you first call `useChangePasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangePasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changePasswordMutation, { data, loading, error }] = useChangePasswordMutation({
+ *   variables: {
+ *      newPassword: // value for 'newPassword'
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useChangePasswordMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ChangePasswordMutation,
+		ChangePasswordMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ChangePasswordMutation,
+		ChangePasswordMutationVariables
+	>(ChangePasswordDocument, options);
+}
+export type ChangePasswordMutationHookResult = ReturnType<
+	typeof useChangePasswordMutation
+>;
+export type ChangePasswordMutationResult =
+	Apollo.MutationResult<ChangePasswordMutation>;
+export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<
+	ChangePasswordMutation,
+	ChangePasswordMutationVariables
+>;
+export const ForgotPasswordDocument = gql`
+	mutation ForgotPassword($email: String!) {
+		forgotPassword(email: $email)
+	}
+`;
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<
+	ForgotPasswordMutation,
+	ForgotPasswordMutationVariables
+>;
+
+/**
+ * __useForgotPasswordMutation__
+ *
+ * To run a mutation, you first call `useForgotPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useForgotPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [forgotPasswordMutation, { data, loading, error }] = useForgotPasswordMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useForgotPasswordMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ForgotPasswordMutation,
+		ForgotPasswordMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ForgotPasswordMutation,
+		ForgotPasswordMutationVariables
+	>(ForgotPasswordDocument, options);
+}
+export type ForgotPasswordMutationHookResult = ReturnType<
+	typeof useForgotPasswordMutation
+>;
+export type ForgotPasswordMutationResult =
+	Apollo.MutationResult<ForgotPasswordMutation>;
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<
+	ForgotPasswordMutation,
+	ForgotPasswordMutationVariables
+>;
+export const LogoutDocument = gql`
+	mutation Logout {
+		logout
+	}
+`;
+export type LogoutMutationFn = Apollo.MutationFunction<
+	LogoutMutation,
+	LogoutMutationVariables
+>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		LogoutMutation,
+		LogoutMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(
+		LogoutDocument,
+		options
+	);
+}
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+	LogoutMutation,
+	LogoutMutationVariables
+>;
+export const ResendVerificationEmailDocument = gql`
+	mutation ResendVerificationEmail($email: String!) {
+		resendVerificationEmail(email: $email)
+	}
+`;
+export type ResendVerificationEmailMutationFn = Apollo.MutationFunction<
+	ResendVerificationEmailMutation,
+	ResendVerificationEmailMutationVariables
+>;
+
+/**
+ * __useResendVerificationEmailMutation__
+ *
+ * To run a mutation, you first call `useResendVerificationEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResendVerificationEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resendVerificationEmailMutation, { data, loading, error }] = useResendVerificationEmailMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useResendVerificationEmailMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ResendVerificationEmailMutation,
+		ResendVerificationEmailMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ResendVerificationEmailMutation,
+		ResendVerificationEmailMutationVariables
+	>(ResendVerificationEmailDocument, options);
+}
+export type ResendVerificationEmailMutationHookResult = ReturnType<
+	typeof useResendVerificationEmailMutation
+>;
+export type ResendVerificationEmailMutationResult =
+	Apollo.MutationResult<ResendVerificationEmailMutation>;
+export type ResendVerificationEmailMutationOptions = Apollo.BaseMutationOptions<
+	ResendVerificationEmailMutation,
+	ResendVerificationEmailMutationVariables
+>;
+export const UpdatePasswordDocument = gql`
+	mutation UpdatePassword(
+		$confirmPassword: String!
+		$newPassword: String!
+		$currentPassword: String!
+	) {
+		updatePassword(
+			confirmPassword: $confirmPassword
+			newPassword: $newPassword
+			currentPassword: $currentPassword
+		) {
+			errors {
+				...RegularError
+			}
+			user {
+				...UserFragment
+			}
+		}
+	}
+	${RegularErrorFragmentDoc}
+	${UserFragmentFragmentDoc}
+`;
+export type UpdatePasswordMutationFn = Apollo.MutationFunction<
+	UpdatePasswordMutation,
+	UpdatePasswordMutationVariables
+>;
+
+/**
+ * __useUpdatePasswordMutation__
+ *
+ * To run a mutation, you first call `useUpdatePasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePasswordMutation, { data, loading, error }] = useUpdatePasswordMutation({
+ *   variables: {
+ *      confirmPassword: // value for 'confirmPassword'
+ *      newPassword: // value for 'newPassword'
+ *      currentPassword: // value for 'currentPassword'
+ *   },
+ * });
+ */
+export function useUpdatePasswordMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdatePasswordMutation,
+		UpdatePasswordMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdatePasswordMutation,
+		UpdatePasswordMutationVariables
+	>(UpdatePasswordDocument, options);
+}
+export type UpdatePasswordMutationHookResult = ReturnType<
+	typeof useUpdatePasswordMutation
+>;
+export type UpdatePasswordMutationResult =
+	Apollo.MutationResult<UpdatePasswordMutation>;
+export type UpdatePasswordMutationOptions = Apollo.BaseMutationOptions<
+	UpdatePasswordMutation,
+	UpdatePasswordMutationVariables
+>;
+export const VerifyEmailDocument = gql`
+	mutation VerifyEmail($token: String!) {
+		verifyEmail(token: $token)
+	}
+`;
+export type VerifyEmailMutationFn = Apollo.MutationFunction<
+	VerifyEmailMutation,
+	VerifyEmailMutationVariables
+>;
+
+/**
+ * __useVerifyEmailMutation__
+ *
+ * To run a mutation, you first call `useVerifyEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyEmailMutation, { data, loading, error }] = useVerifyEmailMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useVerifyEmailMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		VerifyEmailMutation,
+		VerifyEmailMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(
+		VerifyEmailDocument,
+		options
+	);
+}
+export type VerifyEmailMutationHookResult = ReturnType<
+	typeof useVerifyEmailMutation
+>;
+export type VerifyEmailMutationResult =
+	Apollo.MutationResult<VerifyEmailMutation>;
+export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<
+	VerifyEmailMutation,
+	VerifyEmailMutationVariables
+>;
+export const MeStaffDocument = gql`
+	query MeStaff {
+		meStaff {
 			id
 			first_name
 			last_name
@@ -753,7 +1637,85 @@ export const MeDocument = gql`
 			phone_number
 			phone_number_verified
 			imageUrl
+			language
+			currency
+			marketing_product_news
+			marketing_company_news
 			roleId
+			created_at
+			updated_at
+			staff {
+				id
+				userId
+				tenantId
+				created_at
+				updated_at
+				tenant {
+					id
+					name
+					desc
+					address
+					logo
+					font
+					subdomain
+					customDomain
+					defaultForPreview
+					userId
+					categoryId
+					created_at
+					updated_at
+				}
+			}
+		}
+	}
+`;
+
+/**
+ * __useMeStaffQuery__
+ *
+ * To run a query within a React component, call `useMeStaffQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeStaffQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeStaffQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeStaffQuery(
+	baseOptions?: Apollo.QueryHookOptions<MeStaffQuery, MeStaffQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<MeStaffQuery, MeStaffQueryVariables>(
+		MeStaffDocument,
+		options
+	);
+}
+export function useMeStaffLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<MeStaffQuery, MeStaffQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<MeStaffQuery, MeStaffQueryVariables>(
+		MeStaffDocument,
+		options
+	);
+}
+export type MeStaffQueryHookResult = ReturnType<typeof useMeStaffQuery>;
+export type MeStaffLazyQueryHookResult = ReturnType<typeof useMeStaffLazyQuery>;
+export type MeStaffQueryResult = Apollo.QueryResult<
+	MeStaffQuery,
+	MeStaffQueryVariables
+>;
+export const TenantCategoriesDocument = gql`
+	query TenantCategories {
+		tenantCategories {
+			id
+			name
+			identifier
+			desc
 			created_at
 			updated_at
 		}
@@ -761,32 +1723,51 @@ export const MeDocument = gql`
 `;
 
 /**
- * __useMeQuery__
+ * __useTenantCategoriesQuery__
  *
- * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
- * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTenantCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTenantCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeQuery({
+ * const { data, loading, error } = useTenantCategoriesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useMeQuery(
-	baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+export function useTenantCategoriesQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		TenantCategoriesQuery,
+		TenantCategoriesQueryVariables
+	>
 ) {
 	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+	return Apollo.useQuery<TenantCategoriesQuery, TenantCategoriesQueryVariables>(
+		TenantCategoriesDocument,
+		options
+	);
 }
-export function useMeLazyQuery(
-	baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+export function useTenantCategoriesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		TenantCategoriesQuery,
+		TenantCategoriesQueryVariables
+	>
 ) {
 	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+	return Apollo.useLazyQuery<
+		TenantCategoriesQuery,
+		TenantCategoriesQueryVariables
+	>(TenantCategoriesDocument, options);
 }
-export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
-export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
-export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export type TenantCategoriesQueryHookResult = ReturnType<
+	typeof useTenantCategoriesQuery
+>;
+export type TenantCategoriesLazyQueryHookResult = ReturnType<
+	typeof useTenantCategoriesLazyQuery
+>;
+export type TenantCategoriesQueryResult = Apollo.QueryResult<
+	TenantCategoriesQuery,
+	TenantCategoriesQueryVariables
+>;

@@ -26,9 +26,9 @@ export class Tenant extends BaseEntity {
 	@Column()
 	name!: string;
 
-	@Field()
-	@Column()
-	desc!: string;
+	@Field({ nullable: true })
+	@Column({ nullable: true })
+	desc?: string;
 
 	@Field({
 		nullable: true,

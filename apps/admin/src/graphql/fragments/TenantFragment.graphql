@@ -1,0 +1,14 @@
+fragment TenantFragment on Tenant {
+	id
+	name
+	desc
+	address
+	logo
+	font
+	subdomain
+	customDomain
+	defaultForPreview
+	userId
+	created_at
+	updated_at
+}

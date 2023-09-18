@@ -21,6 +21,7 @@ import { BsSearch } from "react-icons/bs";
 import { RiAddFill, RiArrowRightUpLine } from "react-icons/ri";
 import { DataTable } from "@/components/ui/table";
 import HeadingGroup from "@/components/ui/HeadingGroup";
+import withProtected from "@/routes/withProtected";
 
 type User = {
 	role: string;
@@ -139,19 +140,6 @@ const columns = [
 	}),
 ];
 
-const ManageStaffsPage = () => (
-	<VStack gap={4} w="full">
-		<HeadingGroup
-			title="Manage Staffs"
-			description="Manage your staffs here."
-		/>
-		<TableActions />
-		<DataTable columns={columns} data={data} />
-	</VStack>
-);
-
-export default ManageStaffsPage;
-
 interface UserProfileProps {
 	name: string;
 	imageUrl: string;
@@ -223,3 +211,16 @@ export const TableActions = () => (
 		</ButtonGroup>
 	</Stack>
 );
+
+const ManageStaffsPage = () => (
+	<VStack gap={4} w="full">
+		<HeadingGroup
+			title="Manage Staffs"
+			description="Manage your staffs here."
+		/>
+		<TableActions />
+		<DataTable columns={columns} data={data} />
+	</VStack>
+);
+
+export default withProtected(ManageStaffsPage);

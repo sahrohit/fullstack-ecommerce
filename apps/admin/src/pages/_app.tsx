@@ -10,7 +10,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 	const router = useRouter();
 
 	const client = new ApolloClient({
-		uri: "http://localhost:4000/graphql",
+		uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
 		cache: new InMemoryCache(),
 		credentials: "include",
 	});
@@ -18,7 +18,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 	return (
 		<ChakraProvider theme={theme}>
 			<ApolloProvider client={client}>
-				{!router.pathname.startsWith("/auth") ? (
+				{router.pathname.startsWith("/dashboard") ? (
 					<SidebarLayout>
 						<Component {...pageProps} />
 					</SidebarLayout>

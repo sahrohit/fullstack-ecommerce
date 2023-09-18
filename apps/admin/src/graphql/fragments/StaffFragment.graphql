@@ -1,0 +1,7 @@
+fragment StaffFragment on Staff {
+	id
+	userId
+	tenantId
+	created_at
+	updated_at
+}
