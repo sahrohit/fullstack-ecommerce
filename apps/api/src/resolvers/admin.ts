@@ -17,7 +17,7 @@ import { Tenant } from "../entities/Tenant";
 export class AdminResolver {
 	@Query(() => User, { nullable: true })
 	async meStaff(@Ctx() { req }: MyContext) {
-		if (!req.session?.userId) {
+		if (!req.session?.userId || !req.session?.tenantId) {
 			return null;
 		}
 		const user = await User.findOne({
@@ -26,7 +26,12 @@ export class AdminResolver {
 					tenant: true,
 				},
 			},
-			where: { id: req.session?.userId },
+			where: {
+				id: req.session?.userId,
+				staff: {
+					tenantId: req.session?.tenantId,
+				},
+			},
 		});
 		if (!user?.staff.tenantId) {
 			return null;
@@ -84,6 +89,7 @@ export class AdminResolver {
 			};
 		}
 		req.session.userId = user.id;
+		req.session.tenantId = user.staff.tenantId;
 		return { user };
 	}
 
