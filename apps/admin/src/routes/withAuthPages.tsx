@@ -20,7 +20,7 @@ const withAuthPages = (Component: any) =>
 
 		if (
 			data?.meStaff?.staff?.tenantId &&
-			data.meStaff.staff.status === "APPROVED"
+			data.meStaff.staff.status === "ACCEPTED"
 		) {
 			if (redirect) {
 				router.push(redirect as string);
