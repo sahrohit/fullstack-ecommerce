@@ -41,7 +41,7 @@ const Result = ({ type, heading, text, dump, children }: ResultProps) => {
 			textAlign="center"
 			py={10}
 			px={6}
-			h="100vh"
+			// h="100vh"
 			justifyContent="center"
 			alignContent="center"
 		>

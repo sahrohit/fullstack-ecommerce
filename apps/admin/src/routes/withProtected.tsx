@@ -17,7 +17,10 @@ const withProtected = (Component: any) =>
 			return <p>{error.message}</p>;
 		}
 
-		if (!data?.meStaff?.staff?.tenantId) {
+		if (
+			!data?.meStaff?.staff?.tenantId ||
+			data.meStaff.staff.status === "REVOKED"
+		) {
 			router.replace(
 				{
 					pathname: "/auth/login",

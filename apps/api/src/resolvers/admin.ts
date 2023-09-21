@@ -67,12 +67,11 @@ export class AdminResolver {
 				errors: [{ field: "email", message: "User doesn't exist" }],
 			};
 		}
-		if (user.roleId === 1) {
-			return {
-				errors: [{ field: "global", message: "Not Authorized" }],
-			};
-		}
-		if (!user.staff.tenant.id) {
+		if (
+			user.roleId === 1 ||
+			!user.staff.tenant.id ||
+			user.staff.status === "REVOKED"
+		) {
 			return {
 				errors: [{ field: "global", message: "Not Authorized" }],
 			};

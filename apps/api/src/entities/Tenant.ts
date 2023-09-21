@@ -8,7 +8,6 @@ import {
 	BaseEntity,
 	ManyToOne,
 	OneToMany,
-	OneToOne,
 	JoinTable,
 } from "typeorm";
 import { User } from "./User";
@@ -85,8 +84,8 @@ export class Tenant extends BaseEntity {
 	@ManyToOne(() => User, (user) => user.tenants)
 	user!: User;
 
-	@OneToOne(() => Staff, (staff) => staff.user)
-	staff!: Staff;
+	@OneToMany(() => Staff, (staffs) => staffs.user)
+	staffs!: Staff[];
 
 	@Field(() => String)
 	@CreateDateColumn()

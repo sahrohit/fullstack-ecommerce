@@ -24,13 +24,20 @@ import { sendEmail } from "../utils/sendEmail";
 import { validateRegister } from "../utils/validator";
 import { RegisterInput } from "./GqlObjets/RegisterInput";
 import { isVerified } from "../middlewares/isVerified";
-import { UserResponse } from "./GqlObjets/User";
+import { UserDataResponse, UserResponse } from "./GqlObjets/User";
+import { hasAdminPanelAccess } from "../middlewares/hasAdminPanelAccess";
 
 @Resolver(User)
 export class UserResolver {
 	@FieldResolver(() => String)
-	email(@Root() user: User, @Ctx() { req }: MyContext) {
+	async email(@Root() user: User, @Ctx() { req }: MyContext) {
 		if (req.session.userId === user.id) {
+			return user.email;
+		}
+		const currentUser = await User.findOne({
+			where: { id: req.session?.userId },
+		});
+		if (currentUser?.roleId && currentUser?.roleId >= user.roleId) {
 			return user.email;
 		}
 		return "";
@@ -57,6 +64,50 @@ export class UserResolver {
 				accounts: true,
 			},
 			where: { id: req.session?.userId },
+		});
+	}
+
+	@Query(() => UserDataResponse)
+	@UseMiddleware(hasAdminPanelAccess)
+	userByEmail(@Arg("email") email: string, @Ctx() { req }: MyContext) {
+		return User.findOneOrFail({
+			select: {
+				id: true,
+				first_name: true,
+				last_name: true,
+				email: true,
+				email_verified: true,
+				phone_number: true,
+				phone_number_verified: true,
+				imageUrl: true,
+				roleId: true,
+				role: {
+					id: true,
+					name: true,
+				},
+				staff: {
+					id: true,
+					userId: true,
+					tenantId: true,
+					status: true,
+					tenant: {
+						id: true,
+						name: true,
+						logo: true,
+						subdomain: true,
+						defaultForPreview: true,
+						userId: true,
+						categoryId: true,
+					},
+				},
+			},
+			relations: {
+				role: true,
+				staff: {
+					tenant: true,
+				},
+			},
+			where: { email },
 		});
 	}
 

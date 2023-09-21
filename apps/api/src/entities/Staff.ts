@@ -6,17 +6,21 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn,
 	BaseEntity,
-	ManyToOne,
-	Unique,
 	OneToOne,
 	JoinColumn,
+	Index,
+	ManyToOne,
 } from "typeorm";
 import { User } from "./User";
 import { Tenant } from "./Tenant";
 
+export const POSSIBLE_STAFF_STATUS = ["REVOKED", "ACCEPTED"];
+
+export type StaffStatus = "REVOKED" | "ACCEPTED";
+
 @ObjectType()
 @Entity()
-@Unique(["userId", "tenantId"])
+@Index(["userId", "tenantId"], { unique: true })
 export class Staff extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
@@ -36,9 +40,17 @@ export class Staff extends BaseEntity {
 	tenantId!: number;
 
 	@Field(() => Tenant, { nullable: true })
-	@OneToOne(() => Tenant, (tenant) => tenant.staff)
+	@ManyToOne(() => Tenant, (tenant) => tenant.staffs)
 	@JoinColumn()
 	tenant!: Tenant;
+
+	@Field(() => String)
+	@Column({
+		type: "enum",
+		enum: POSSIBLE_STAFF_STATUS,
+		default: "ACCEPTED",
+	})
+	status!: StaffStatus;
 
 	@Field(() => String)
 	@CreateDateColumn()

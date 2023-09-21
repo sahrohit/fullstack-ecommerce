@@ -1,0 +1,20 @@
+query Staffs($roleId: Int) {
+	staffs(roleId: $roleId) {
+		...StaffFragment
+		tenant {
+			...TenantFragment
+		}
+		user {
+			first_name
+			last_name
+			email
+			imageUrl
+			roleId
+			created_at
+			updated_at
+			role {
+				...RoleFragment
+			}
+		}
+	}
+}

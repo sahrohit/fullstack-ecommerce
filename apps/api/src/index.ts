@@ -33,6 +33,7 @@ import tenantRouter from "./routers/tenant";
 import { ShippingMethodResolver } from "./resolvers/shipping";
 import { IssueResolver } from "./resolvers/issue";
 import { AdminResolver } from "./resolvers/admin";
+import { StaffResolver } from "./resolvers/staff";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -131,6 +132,7 @@ const Server = async () => {
 				ShippingMethodResolver,
 				IssueResolver,
 				AdminResolver,
+				StaffResolver,
 			],
 			validate: false,
 		}),

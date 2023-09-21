@@ -1,40 +1,10 @@
 query MeStaff {
 	meStaff {
-		id
-		first_name
-		last_name
-		email
-		email_verified
-		phone_number
-		phone_number_verified
-		imageUrl
-		language
-		currency
-		marketing_product_news
-		marketing_company_news
-		roleId
-		created_at
-		updated_at
+		...UserFragment
 		staff {
-			id
-			userId
-			tenantId
-			created_at
-			updated_at
+			...StaffFragment
 			tenant {
-				id
-				name
-				desc
-				address
-				logo
-				font
-				subdomain
-				customDomain
-				defaultForPreview
-				userId
-				categoryId
-				created_at
-				updated_at
+				...TenantFragment
 			}
 		}
 	}

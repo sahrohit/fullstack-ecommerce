@@ -1,0 +1,20 @@
+mutation AddStaff($roleId: Int!, $userId: Int!) {
+	addStaff(roleId: $roleId, userId: $userId) {
+		...StaffFragment
+		tenant {
+			...TenantFragment
+		}
+		user {
+			first_name
+			last_name
+			email
+			imageUrl
+			roleId
+			created_at
+			updated_at
+			role {
+				...RoleFragment
+			}
+		}
+	}
+}
