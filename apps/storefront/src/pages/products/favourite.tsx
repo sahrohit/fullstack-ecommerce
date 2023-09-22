@@ -1,10 +1,3 @@
-import Result from "@/components/shared/Result";
-import {
-	Favourite,
-	useFavouritesWithProductQuery,
-	useMeQuery,
-	useRemoveFromFavouriteMutation,
-} from "@/generated/graphql";
 import {
 	AspectRatio,
 	Box,
@@ -19,9 +12,16 @@ import {
 	VStack,
 	useColorModeValue,
 } from "@chakra-ui/react";
+import Image from "next/image";
+import {
+	Favourite,
+	useFavouritesWithProductQuery,
+	useMeQuery,
+	useRemoveFromFavouriteMutation,
+} from "@/generated/graphql";
+import Result from "@/components/shared/Result";
 // import dayjs from "dayjs";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
-import Image from "next/image";
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import Navbar from "@/components/shared/navbar";
 import { PriceTag } from "@/components/shared/product/PriceTag";
