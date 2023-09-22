@@ -523,6 +523,8 @@ export type ProductCategory = {
 	imageURL: Scalars["String"];
 	name: Scalars["String"];
 	products?: Maybe<Array<Product>>;
+	tenant: Tenant;
+	tenantId: Scalars["Int"];
 	updated_at: Scalars["String"];
 };
 
@@ -536,6 +538,8 @@ export type ProductCategoryWithProductCount = {
 	name: Scalars["String"];
 	product_count: Scalars["Int"];
 	products?: Maybe<Array<Product>>;
+	tenant: Tenant;
+	tenantId: Scalars["Int"];
 	updated_at: Scalars["String"];
 };
 
@@ -1286,6 +1290,23 @@ export type VerifyEmailMutationVariables = Exact<{
 export type VerifyEmailMutation = {
 	__typename?: "Mutation";
 	verifyEmail: boolean;
+};
+
+export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CategoriesQuery = {
+	__typename?: "Query";
+	categories: Array<{
+		__typename?: "ProductCategory";
+		id: number;
+		name: string;
+		identifier: string;
+		desc: string;
+		imageURL: string;
+		tenantId: number;
+		created_at: string;
+		updated_at: string;
+	}>;
 };
 
 export type MeStaffQueryVariables = Exact<{ [key: string]: never }>;
@@ -2212,6 +2233,68 @@ export type VerifyEmailMutationResult =
 export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<
 	VerifyEmailMutation,
 	VerifyEmailMutationVariables
+>;
+export const CategoriesDocument = gql`
+	query Categories {
+		categories {
+			id
+			name
+			identifier
+			desc
+			imageURL
+			tenantId
+			created_at
+			updated_at
+		}
+	}
+`;
+
+/**
+ * __useCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		CategoriesQuery,
+		CategoriesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(
+		CategoriesDocument,
+		options
+	);
+}
+export function useCategoriesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		CategoriesQuery,
+		CategoriesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
+		CategoriesDocument,
+		options
+	);
+}
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesLazyQueryHookResult = ReturnType<
+	typeof useCategoriesLazyQuery
+>;
+export type CategoriesQueryResult = Apollo.QueryResult<
+	CategoriesQuery,
+	CategoriesQueryVariables
 >;
 export const MeStaffDocument = gql`
 	query MeStaff {
