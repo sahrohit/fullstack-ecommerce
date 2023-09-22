@@ -143,7 +143,7 @@ const LoginForm = () => {
 					</Checkbox>
 				</LightMode>
 				<UnderlineLink href="/auth/forgot-password" fontSize="sm">
-					Forgot Password
+					Forgot Password?
 				</UnderlineLink>
 			</Flex>
 			<LightMode>

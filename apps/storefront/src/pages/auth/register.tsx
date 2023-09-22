@@ -15,6 +15,7 @@ import RegisterForm from "@/components/auth/RegisterForm";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import SignInWithGoogle from "@/components/auth/AuthProvider";
 import withAuthPages from "@/routes/withAuthPages";
+import { BRAND_NAME } from "../../../constants";
 
 const RegisterPage = () => (
 	<Box minH="100vh" bg={{ md: mode("gray.100", "inherit") }}>
@@ -44,7 +45,7 @@ const RegisterPage = () => (
 									color={mode("gray.600", "gray.400")}
 									fontWeight="medium"
 								>
-									Enter your info to get started
+									Enter your details to get started
 								</Text>
 							</Box>
 							<Logo
@@ -66,7 +67,7 @@ const RegisterPage = () => (
 						>
 							Already have an account?{" "}
 							<UnderlineLink href="/auth/login">
-								Log in with Hamropasal
+								Log in with {BRAND_NAME}
 							</UnderlineLink>
 						</Text>
 					</Box>
@@ -81,7 +82,9 @@ const RegisterPage = () => (
 					/>
 					<Text mt="8" align="center" fontWeight="medium">
 						Already have an account?{" "}
-						<UnderlineLink href="/auth/login">Log in with Chakra</UnderlineLink>
+						<UnderlineLink href="/auth/login">
+							Log in with {BRAND_NAME}
+						</UnderlineLink>
 					</Text>
 				</Flex>
 			</SimpleGrid>

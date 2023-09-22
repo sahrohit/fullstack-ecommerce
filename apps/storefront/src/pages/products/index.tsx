@@ -7,6 +7,7 @@ import {
 	useQueryProductsQuery,
 	useVariantsQuery,
 } from "@/generated/graphql";
+import Result from "@/components/shared/Result";
 import ProductCard, {
 	ProductCardSkeleton,
 } from "@/components/pages/product/ProductCard";
@@ -15,7 +16,6 @@ import DrawerOptions from "@/components/pages/product/filter/DrawerOption";
 import FilterOptions from "@/components/pages/product/filter/FilterOptions";
 import NavBreadrumb from "@/components/pages/product/filter/NavBreadrumb";
 import Footer from "@/components/shared/Footer";
-import Result from "@/components/shared/Result";
 import Navbar from "@/components/shared/navbar";
 
 const ProductFilterPage = () => {

@@ -31,14 +31,20 @@ const FavouriteButton = ({ productId, ...props }: FavouriteButtonProps) => {
 				bg="white"
 				color="gray.900"
 				size="sm"
-				_hover={{ transform: "scale(1.1)" }}
-				sx={{ ":hover > svg": { transform: "scale(1.1)" } }}
-				transition="all 0.15s ease"
+				// TODO: Fix hover scale while favouriting
+				// _hover={{ transform: "scale(1.1)" }}
+				// sx={{ ":hover > svg": { transform: "scale(1.1)" } }}
+				// transition="all 0.15s ease"
 				icon={
 					<Icon
+						transform={
+							isFavourite
+								? "scale(1.1) rotate(360deg)"
+								: "scale(1.1) rotate(0deg)"
+						}
 						fontSize="lg"
 						as={FiHeart}
-						transition="all 0.15s ease"
+						transition="all 0.25s ease"
 						color={isFavourite ? "red.500" : "gray.500"}
 						fill={isFavourite ? "red" : "none"}
 					/>

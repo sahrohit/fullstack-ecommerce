@@ -9,12 +9,12 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Product, useProductByIdQuery } from "@/generated/graphql";
-import ProductDetails from "@/components/pages/product/ProductDetails";
-import ProductReview from "@/components/pages/product/review/ProductReview";
 import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
-import Navbar from "@/components/shared/navbar";
 import UnderlineLink from "@/components/ui/UnderlineLink";
+import ProductDetails from "@/components/pages/product/ProductDetails";
+import ProductReview from "@/components/pages/product/review/ProductReview";
+import Navbar from "@/components/shared/navbar";
 
 const ProductPage = () => {
 	const router = useRouter();
