@@ -22,6 +22,7 @@ import {
 import Result from "@/components/shared/Result";
 // import dayjs from "dayjs";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
+import withProtected from "@/routes/withProtected";
 import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import Navbar from "@/components/shared/navbar";
 import { PriceTag } from "@/components/shared/product/PriceTag";
@@ -79,7 +80,7 @@ const FavouritePage = () => {
 							/>
 						))
 					) : (
-						<VStack py={8} gap={4}>
+						<VStack py={8} gap={4} gridColumn="1 / span 2">
 							<Image width={300} alt="App screenshot" src={services} />
 							<Box textAlign="center">
 								<Heading as="h3" fontSize="2xl" lineHeight="2">
@@ -97,7 +98,7 @@ const FavouritePage = () => {
 	);
 };
 
-export default FavouritePage;
+export default withProtected(FavouritePage);
 
 const FavouriteProductCard = ({ favourite }: { favourite: Favourite }) => {
 	const [removeFromFavouriteMutation, { loading }] =

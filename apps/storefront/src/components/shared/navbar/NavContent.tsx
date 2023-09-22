@@ -18,10 +18,10 @@ import {
 	AiOutlineUser,
 } from "react-icons/ai";
 import { useMeQuery } from "@/generated/graphql";
+import Logo from "@/components/logo";
 import NavMenu from "@/components/shared/navbar/NavMenu";
 import Submenu from "@/components/shared/navbar/Submenu";
 import ToggleButton from "@/components/shared/navbar/ToggleButton";
-import Logo from "@/components/logo";
 import { links } from "@/config/navbar";
 import NavLink from "@/components/shared/navbar/NavLink";
 import DrawerCart from "@/components/pages/cart/DrawerCart";
