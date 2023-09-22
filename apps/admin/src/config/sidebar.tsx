@@ -1,5 +1,5 @@
 import { FaUser } from "react-icons/fa";
-import { BiPackage, BiHomeAlt, BiSupport } from "react-icons/bi";
+import { BiPackage, BiSupport, BiCategoryAlt } from "react-icons/bi";
 import { TbTruckReturn } from "react-icons/tb";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsArrowReturnLeft } from "react-icons/bs";
@@ -16,27 +16,27 @@ export const ORDER_NAV_LINKS = [
 		icon: TbTruckReturn,
 	},
 	{
-		label: "Address",
-		href: "/dashboard/address",
-		icon: BiHomeAlt,
+		label: "Category",
+		href: "/dashboard/category",
+		icon: BiCategoryAlt,
 	},
 ];
 
 export const ACCOUNT_NAV_LINKS = [
+	// {
+	// 	label: "Account",
+	// 	href: "/dashboard",
+	// 	icon: FaUser,
+	// },
 	{
-		label: "Account",
-		href: "/dashboard",
-		icon: FaUser,
-	},
-	{
-		label: "Preference",
-		href: "/dashboard/preference",
+		label: "Store Settings",
+		href: "/dashboard/settings",
 		icon: AiOutlineSetting,
 	},
 	{
 		label: "Manage Staffs",
 		href: "/dashboard/staffs",
-		icon: AiOutlineSetting,
+		icon: FaUser,
 	},
 ];
 

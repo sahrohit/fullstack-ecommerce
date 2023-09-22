@@ -13,6 +13,7 @@ import {
 import { User } from "./User";
 import { Staff } from "./Staff";
 import { TenantCategory } from "./TenantCategory";
+import { ProductCategory } from "./ProductCategory";
 
 @ObjectType()
 @Entity()
@@ -86,6 +87,9 @@ export class Tenant extends BaseEntity {
 
 	@OneToMany(() => Staff, (staffs) => staffs.user)
 	staffs!: Staff[];
+
+	@OneToMany(() => ProductCategory, (categories) => categories.tenant)
+	categories?: ProductCategory[];
 
 	@Field(() => String)
 	@CreateDateColumn()

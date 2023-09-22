@@ -5,11 +5,13 @@ import {
 	CreateDateColumn,
 	Entity,
 	JoinTable,
+	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
 import { Product } from "./Product";
+import { Tenant } from "./Tenant";
 
 @ObjectType()
 @Entity()
@@ -34,10 +36,19 @@ export class ProductCategory extends BaseEntity {
 	@Column()
 	imageURL!: string;
 
+	@Field(() => Int)
+	@Column()
+	tenantId!: number;
+
 	@Field(() => [Product], { nullable: true })
 	@OneToMany(() => Product, (product) => product.category)
 	@JoinTable({ name: "product_id" })
 	products?: Product[];
+
+	@Field(() => Tenant)
+	@ManyToOne(() => Tenant, (tenant) => tenant.categories)
+	@JoinTable({ name: "tenant_id" })
+	tenant!: Tenant;
 
 	@Field(() => String)
 	@CreateDateColumn()
