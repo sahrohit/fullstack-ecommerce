@@ -37,7 +37,7 @@ export class ProductCategory extends BaseEntity {
 	imageURL!: string;
 
 	@Field(() => Int)
-	@Column({ default: 1 })
+	@Column()
 	tenantId!: number;
 
 	@Field(() => [Product], { nullable: true })
