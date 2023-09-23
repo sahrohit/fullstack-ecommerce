@@ -1,0 +1,15 @@
+mutation UpdateTenant(
+	$address: String!
+	$desc: String!
+	$categoryId: Int!
+	$name: String!
+) {
+	updateTenant(
+		address: $address
+		desc: $desc
+		categoryId: $categoryId
+		name: $name
+	) {
+		...TenantFragment
+	}
+}

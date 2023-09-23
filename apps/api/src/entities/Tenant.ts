@@ -14,6 +14,7 @@ import { User } from "./User";
 import { Staff } from "./Staff";
 import { TenantCategory } from "./TenantCategory";
 import { ProductCategory } from "./ProductCategory";
+import { UserDataResponse } from "../resolvers/GqlObjets/User";
 
 @ObjectType()
 @Entity()
@@ -82,6 +83,7 @@ export class Tenant extends BaseEntity {
 	@JoinTable({ name: "category_id" })
 	category!: TenantCategory;
 
+	@Field(() => UserDataResponse)
 	@ManyToOne(() => User, (user) => user.tenants)
 	user!: User;
 

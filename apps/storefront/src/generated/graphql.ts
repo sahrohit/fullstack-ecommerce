@@ -209,6 +209,7 @@ export type Mutation = {
 	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
 	addReview?: Maybe<ProductReview>;
+	addStaff: Staff;
 	addToCart: Cart;
 	addToFavourite: Favourite;
 	adminLogin: UserResponse;
@@ -223,6 +224,7 @@ export type Mutation = {
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
 	deleteFromCart: Scalars["Boolean"];
+	deleteStaff: Scalars["Boolean"];
 	emailInvoice: Scalars["Boolean"];
 	forgotPassword: Scalars["Boolean"];
 	generateInvoice?: Maybe<Scalars["String"]>;
@@ -242,6 +244,8 @@ export type Mutation = {
 	updatePassword: UserResponse;
 	updateProfile: User;
 	updateReview?: Maybe<ProductReview>;
+	updateRole: Staff;
+	updateStaffStatus: Staff;
 	updateStatus: OrderDetail;
 	verifyEmail: Scalars["Boolean"];
 };
@@ -266,6 +270,11 @@ export type MutationAddReviewArgs = {
 	productId: Scalars["Int"];
 	rating: Scalars["Int"];
 	review: Scalars["String"];
+};
+
+export type MutationAddStaffArgs = {
+	roleId: Scalars["Int"];
+	userId: Scalars["Int"];
 };
 
 export type MutationAddToCartArgs = {
@@ -324,6 +333,10 @@ export type MutationDeleteDiscountArgs = {
 export type MutationDeleteFromCartArgs = {
 	inventoryId: Scalars["Int"];
 	quantity: Scalars["Int"];
+};
+
+export type MutationDeleteStaffArgs = {
+	userId: Scalars["Int"];
 };
 
 export type MutationEmailInvoiceArgs = {
@@ -414,6 +427,16 @@ export type MutationUpdateReviewArgs = {
 	review: Scalars["String"];
 };
 
+export type MutationUpdateRoleArgs = {
+	newroleId: Scalars["Int"];
+	userId: Scalars["Int"];
+};
+
+export type MutationUpdateStaffStatusArgs = {
+	status: Scalars["String"];
+	userId: Scalars["Int"];
+};
+
 export type MutationUpdateStatusArgs = {
 	orderId: Scalars["String"];
 	pidx?: InputMaybe<Scalars["String"]>;
@@ -500,6 +523,8 @@ export type ProductCategory = {
 	imageURL: Scalars["String"];
 	name: Scalars["String"];
 	products?: Maybe<Array<Product>>;
+	tenant: Tenant;
+	tenantId: Scalars["Int"];
 	updated_at: Scalars["String"];
 };
 
@@ -513,6 +538,8 @@ export type ProductCategoryWithProductCount = {
 	name: Scalars["String"];
 	product_count: Scalars["Int"];
 	products?: Maybe<Array<Product>>;
+	tenant: Tenant;
+	tenantId: Scalars["Int"];
 	updated_at: Scalars["String"];
 };
 
@@ -599,6 +626,7 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
+	details: Tenant;
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
@@ -622,7 +650,9 @@ export type Query = {
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
 	shippingmethods: Array<ShippingMethod>;
+	staffs?: Maybe<Array<Staff>>;
 	tenantCategories: Array<TenantCategory>;
+	userByEmail: UserDataResponse;
 	variants: Array<Variant>;
 };
 
@@ -670,6 +700,14 @@ export type QuerySearchProductsArgs = {
 	query: Scalars["String"];
 };
 
+export type QueryStaffsArgs = {
+	roleId?: InputMaybe<Scalars["Int"]>;
+};
+
+export type QueryUserByEmailArgs = {
+	email: Scalars["String"];
+};
+
 export type RegisterInput = {
 	email: Scalars["String"];
 	first_name: Scalars["String"];
@@ -697,6 +735,7 @@ export type Staff = {
 	__typename?: "Staff";
 	created_at: Scalars["String"];
 	id: Scalars["Int"];
+	status: Scalars["String"];
 	tenant?: Maybe<Tenant>;
 	tenantId: Scalars["Float"];
 	updated_at: Scalars["String"];
@@ -719,6 +758,7 @@ export type Tenant = {
 	name: Scalars["String"];
 	subdomain: Scalars["String"];
 	updated_at: Scalars["String"];
+	user: UserDataResponse;
 	userId: Scalars["Float"];
 };
 
@@ -767,6 +807,21 @@ export type User = {
 	roleId: Scalars["Float"];
 	staff?: Maybe<Staff>;
 	updated_at: Scalars["String"];
+};
+
+export type UserDataResponse = {
+	__typename?: "UserDataResponse";
+	email: Scalars["String"];
+	email_verified: Scalars["Boolean"];
+	first_name: Scalars["String"];
+	id: Scalars["Int"];
+	imageUrl?: Maybe<Scalars["String"]>;
+	last_name?: Maybe<Scalars["String"]>;
+	phone_number?: Maybe<Scalars["String"]>;
+	phone_number_verified: Scalars["Boolean"];
+	role: UserRole;
+	roleId: Scalars["Float"];
+	staff?: Maybe<Staff>;
 };
 
 export type UserResponse = {

@@ -34,6 +34,7 @@ import { ShippingMethodResolver } from "./resolvers/shipping";
 import { IssueResolver } from "./resolvers/issue";
 import { AdminResolver } from "./resolvers/admin";
 import { StaffResolver } from "./resolvers/staff";
+import { TenantResolver } from "./resolvers/tenant";
 
 const Server = async () => {
 	AppDataSource.initialize()
@@ -133,6 +134,7 @@ const Server = async () => {
 				IssueResolver,
 				AdminResolver,
 				StaffResolver,
+				TenantResolver,
 			],
 			validate: false,
 		}),

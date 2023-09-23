@@ -247,6 +247,7 @@ export type Mutation = {
 	updateRole: Staff;
 	updateStaffStatus: Staff;
 	updateStatus: OrderDetail;
+	updateTenant: Tenant;
 	verifyEmail: Scalars["Boolean"];
 };
 
@@ -443,6 +444,13 @@ export type MutationUpdateStatusArgs = {
 	refId?: InputMaybe<Scalars["String"]>;
 };
 
+export type MutationUpdateTenantArgs = {
+	address: Scalars["String"];
+	categoryId: Scalars["Int"];
+	desc: Scalars["String"];
+	name: Scalars["String"];
+};
+
 export type MutationVerifyEmailArgs = {
 	token: Scalars["String"];
 };
@@ -626,6 +634,7 @@ export type Query = {
 	allReviews?: Maybe<Array<ProductReview>>;
 	categories: Array<ProductCategory>;
 	categoriesSummary?: Maybe<Array<ProductCategoryWithProductCount>>;
+	details: Tenant;
 	favourites: Array<Favourite>;
 	favouritesWithProduct: Array<Favourite>;
 	fetchCartItems?: Maybe<Array<Cart>>;
@@ -757,6 +766,7 @@ export type Tenant = {
 	name: Scalars["String"];
 	subdomain: Scalars["String"];
 	updated_at: Scalars["String"];
+	user: UserDataResponse;
 	userId: Scalars["Float"];
 };
 
@@ -891,6 +901,7 @@ export type TenantFragmentFragment = {
 	customDomain?: string | null;
 	defaultForPreview: boolean;
 	userId: number;
+	categoryId: number;
 	created_at: string;
 	updated_at: string;
 };
@@ -941,6 +952,7 @@ export type AddStaffMutation = {
 			customDomain?: string | null;
 			defaultForPreview: boolean;
 			userId: number;
+			categoryId: number;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -1000,6 +1012,7 @@ export type UpdateRoleMutation = {
 			customDomain?: string | null;
 			defaultForPreview: boolean;
 			userId: number;
+			categoryId: number;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -1050,6 +1063,7 @@ export type UpdateStaffStatusMutation = {
 			customDomain?: string | null;
 			defaultForPreview: boolean;
 			userId: number;
+			categoryId: number;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -1070,6 +1084,33 @@ export type UpdateStaffStatusMutation = {
 				updated_at: string;
 			};
 		} | null;
+	};
+};
+
+export type UpdateTenantMutationVariables = Exact<{
+	address: Scalars["String"];
+	desc: Scalars["String"];
+	categoryId: Scalars["Int"];
+	name: Scalars["String"];
+}>;
+
+export type UpdateTenantMutation = {
+	__typename?: "Mutation";
+	updateTenant: {
+		__typename?: "Tenant";
+		id: number;
+		name: string;
+		desc?: string | null;
+		address?: string | null;
+		logo?: string | null;
+		font?: string | null;
+		subdomain: string;
+		customDomain?: string | null;
+		defaultForPreview: boolean;
+		userId: number;
+		categoryId: number;
+		created_at: string;
+		updated_at: string;
 	};
 };
 
@@ -1124,6 +1165,7 @@ export type AdminLoginMutation = {
 					customDomain?: string | null;
 					defaultForPreview: boolean;
 					userId: number;
+					categoryId: number;
 					created_at: string;
 					updated_at: string;
 				} | null;
@@ -1182,6 +1224,7 @@ export type AdminRegisterMutation = {
 					customDomain?: string | null;
 					defaultForPreview: boolean;
 					userId: number;
+					categoryId: number;
 					created_at: string;
 					updated_at: string;
 				} | null;
@@ -1350,6 +1393,7 @@ export type MeStaffQuery = {
 				customDomain?: string | null;
 				defaultForPreview: boolean;
 				userId: number;
+				categoryId: number;
 				created_at: string;
 				updated_at: string;
 			} | null;
@@ -1396,6 +1440,7 @@ export type StaffsQuery = {
 			customDomain?: string | null;
 			defaultForPreview: boolean;
 			userId: number;
+			categoryId: number;
 			created_at: string;
 			updated_at: string;
 		} | null;
@@ -1417,6 +1462,28 @@ export type StaffsQuery = {
 			};
 		} | null;
 	}> | null;
+};
+
+export type DetailsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type DetailsQuery = {
+	__typename?: "Query";
+	details: {
+		__typename?: "Tenant";
+		id: number;
+		name: string;
+		desc?: string | null;
+		address?: string | null;
+		logo?: string | null;
+		font?: string | null;
+		subdomain: string;
+		customDomain?: string | null;
+		defaultForPreview: boolean;
+		userId: number;
+		categoryId: number;
+		created_at: string;
+		updated_at: string;
+	};
 };
 
 export type TenantCategoriesQueryVariables = Exact<{ [key: string]: never }>;
@@ -1472,6 +1539,7 @@ export type UserByEmailQuery = {
 				customDomain?: string | null;
 				defaultForPreview: boolean;
 				userId: number;
+				categoryId: number;
 				created_at: string;
 				updated_at: string;
 			} | null;
@@ -1515,6 +1583,7 @@ export const TenantFragmentFragmentDoc = gql`
 		customDomain
 		defaultForPreview
 		userId
+		categoryId
 		created_at
 		updated_at
 	}
@@ -1789,6 +1858,70 @@ export type UpdateStaffStatusMutationResult =
 export type UpdateStaffStatusMutationOptions = Apollo.BaseMutationOptions<
 	UpdateStaffStatusMutation,
 	UpdateStaffStatusMutationVariables
+>;
+export const UpdateTenantDocument = gql`
+	mutation UpdateTenant(
+		$address: String!
+		$desc: String!
+		$categoryId: Int!
+		$name: String!
+	) {
+		updateTenant(
+			address: $address
+			desc: $desc
+			categoryId: $categoryId
+			name: $name
+		) {
+			...TenantFragment
+		}
+	}
+	${TenantFragmentFragmentDoc}
+`;
+export type UpdateTenantMutationFn = Apollo.MutationFunction<
+	UpdateTenantMutation,
+	UpdateTenantMutationVariables
+>;
+
+/**
+ * __useUpdateTenantMutation__
+ *
+ * To run a mutation, you first call `useUpdateTenantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTenantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTenantMutation, { data, loading, error }] = useUpdateTenantMutation({
+ *   variables: {
+ *      address: // value for 'address'
+ *      desc: // value for 'desc'
+ *      categoryId: // value for 'categoryId'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useUpdateTenantMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateTenantMutation,
+		UpdateTenantMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateTenantMutation,
+		UpdateTenantMutationVariables
+	>(UpdateTenantDocument, options);
+}
+export type UpdateTenantMutationHookResult = ReturnType<
+	typeof useUpdateTenantMutation
+>;
+export type UpdateTenantMutationResult =
+	Apollo.MutationResult<UpdateTenantMutation>;
+export type UpdateTenantMutationOptions = Apollo.BaseMutationOptions<
+	UpdateTenantMutation,
+	UpdateTenantMutationVariables
 >;
 export const AdminLoginDocument = gql`
 	mutation AdminLogin($email: String!, $password: String!) {
@@ -2465,6 +2598,54 @@ export type StaffsLazyQueryHookResult = ReturnType<typeof useStaffsLazyQuery>;
 export type StaffsQueryResult = Apollo.QueryResult<
 	StaffsQuery,
 	StaffsQueryVariables
+>;
+export const DetailsDocument = gql`
+	query Details {
+		details {
+			...TenantFragment
+		}
+	}
+	${TenantFragmentFragmentDoc}
+`;
+
+/**
+ * __useDetailsQuery__
+ *
+ * To run a query within a React component, call `useDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDetailsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDetailsQuery(
+	baseOptions?: Apollo.QueryHookOptions<DetailsQuery, DetailsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<DetailsQuery, DetailsQueryVariables>(
+		DetailsDocument,
+		options
+	);
+}
+export function useDetailsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<DetailsQuery, DetailsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<DetailsQuery, DetailsQueryVariables>(
+		DetailsDocument,
+		options
+	);
+}
+export type DetailsQueryHookResult = ReturnType<typeof useDetailsQuery>;
+export type DetailsLazyQueryHookResult = ReturnType<typeof useDetailsLazyQuery>;
+export type DetailsQueryResult = Apollo.QueryResult<
+	DetailsQuery,
+	DetailsQueryVariables
 >;
 export const TenantCategoriesDocument = gql`
 	query TenantCategories {

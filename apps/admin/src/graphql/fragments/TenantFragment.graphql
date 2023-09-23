@@ -9,6 +9,7 @@ fragment TenantFragment on Tenant {
 	customDomain
 	defaultForPreview
 	userId
+	categoryId
 	created_at
 	updated_at
 }
