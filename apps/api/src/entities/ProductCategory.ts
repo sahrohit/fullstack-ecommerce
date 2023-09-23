@@ -40,15 +40,15 @@ export class ProductCategory extends BaseEntity {
 	@Column()
 	tenantId!: number;
 
-	@Field(() => [Product], { nullable: true })
-	@OneToMany(() => Product, (product) => product.category)
-	@JoinTable({ name: "product_id" })
-	products?: Product[];
-
 	@Field(() => Tenant)
 	@ManyToOne(() => Tenant, (tenant) => tenant.categories)
 	@JoinTable({ name: "tenant_id" })
 	tenant!: Tenant;
+
+	@Field(() => [Product], { nullable: true })
+	@OneToMany(() => Product, (product) => product.category)
+	@JoinTable({ name: "product_id" })
+	products?: Product[];
 
 	@Field(() => String)
 	@CreateDateColumn()

@@ -1,0 +1,9 @@
+mutation CreateShippingMethod(
+	$price: Int!
+	$dispatch_in: Int!
+	$name: String!
+) {
+	createShippingMethod(price: $price, dispatch_in: $dispatch_in, name: $name) {
+		...ShippingMethodFragment
+	}
+}

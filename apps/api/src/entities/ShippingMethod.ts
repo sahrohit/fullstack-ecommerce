@@ -7,8 +7,11 @@ import {
 	BaseEntity,
 	Column,
 	OneToMany,
+	JoinTable,
+	ManyToOne,
 } from "typeorm";
 import { OrderDetail } from "./OrderDetail";
+import { Tenant } from "./Tenant";
 
 @ObjectType()
 @Entity()
@@ -31,6 +34,15 @@ export class ShippingMethod extends BaseEntity {
 
 	@OneToMany(() => OrderDetail, (orderdetails) => orderdetails.address)
 	orderdetails!: OrderDetail[];
+
+	@Field(() => Int)
+	@Column({ default: 1 })
+	tenantId!: number;
+
+	@Field(() => Tenant)
+	@ManyToOne(() => Tenant, (tenant) => tenant.categories)
+	@JoinTable({ name: "tenant_id" })
+	tenant!: Tenant;
 
 	@Field(() => String)
 	@CreateDateColumn()

@@ -220,10 +220,12 @@ export type Mutation = {
 	createIssue: Issue;
 	createOrder: OrderDetail;
 	createPayment: CreatePaymentResponse;
+	createShippingMethod: ShippingMethod;
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
 	deleteFromCart: Scalars["Boolean"];
+	deleteShippingMethod: Scalars["Boolean"];
 	deleteStaff: Scalars["Boolean"];
 	emailInvoice: Scalars["Boolean"];
 	forgotPassword: Scalars["Boolean"];
@@ -245,6 +247,7 @@ export type Mutation = {
 	updateProfile: User;
 	updateReview?: Maybe<ProductReview>;
 	updateRole: Staff;
+	updateShippingMethod: ShippingMethod;
 	updateStaffStatus: Staff;
 	updateStatus: OrderDetail;
 	updateTenant: Tenant;
@@ -319,6 +322,12 @@ export type MutationCreatePaymentArgs = {
 	provider: Scalars["String"];
 };
 
+export type MutationCreateShippingMethodArgs = {
+	dispatch_in: Scalars["Int"];
+	name: Scalars["String"];
+	price: Scalars["Int"];
+};
+
 export type MutationDeleteAddressArgs = {
 	id: Scalars["Int"];
 };
@@ -334,6 +343,10 @@ export type MutationDeleteDiscountArgs = {
 export type MutationDeleteFromCartArgs = {
 	inventoryId: Scalars["Int"];
 	quantity: Scalars["Int"];
+};
+
+export type MutationDeleteShippingMethodArgs = {
+	id: Scalars["Int"];
 };
 
 export type MutationDeleteStaffArgs = {
@@ -431,6 +444,13 @@ export type MutationUpdateReviewArgs = {
 export type MutationUpdateRoleArgs = {
 	newroleId: Scalars["Int"];
 	userId: Scalars["Int"];
+};
+
+export type MutationUpdateShippingMethodArgs = {
+	dispatch_in: Scalars["Int"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	price: Scalars["Int"];
 };
 
 export type MutationUpdateStaffStatusArgs = {
@@ -658,6 +678,7 @@ export type Query = {
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
 	shippingmethods: Array<ShippingMethod>;
+	shippingmethodsByTenant: Array<ShippingMethod>;
 	staffs?: Maybe<Array<Staff>>;
 	tenantCategories: Array<TenantCategory>;
 	userByEmail: UserDataResponse;
@@ -736,6 +757,8 @@ export type ShippingMethod = {
 	id: Scalars["Int"];
 	name: Scalars["String"];
 	price: Scalars["Int"];
+	tenant: Tenant;
+	tenantId: Scalars["Int"];
 	updated_at: Scalars["String"];
 };
 
@@ -879,6 +902,17 @@ export type RoleFragmentFragment = {
 	updated_at: string;
 };
 
+export type ShippingMethodFragmentFragment = {
+	__typename?: "ShippingMethod";
+	id: number;
+	name: string;
+	price: number;
+	dispatch_in: number;
+	tenantId: number;
+	created_at: string;
+	updated_at: string;
+};
+
 export type StaffFragmentFragment = {
 	__typename?: "Staff";
 	id: number;
@@ -923,6 +957,56 @@ export type UserFragmentFragment = {
 	marketing_company_news: boolean;
 	created_at: string;
 	updated_at: string;
+};
+
+export type CreateShippingMethodMutationVariables = Exact<{
+	price: Scalars["Int"];
+	dispatch_in: Scalars["Int"];
+	name: Scalars["String"];
+}>;
+
+export type CreateShippingMethodMutation = {
+	__typename?: "Mutation";
+	createShippingMethod: {
+		__typename?: "ShippingMethod";
+		id: number;
+		name: string;
+		price: number;
+		dispatch_in: number;
+		tenantId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
+export type DeleteShippingMethodMutationVariables = Exact<{
+	id: Scalars["Int"];
+}>;
+
+export type DeleteShippingMethodMutation = {
+	__typename?: "Mutation";
+	deleteShippingMethod: boolean;
+};
+
+export type UpdateShippingMethodMutationVariables = Exact<{
+	price: Scalars["Int"];
+	dispatch_in: Scalars["Int"];
+	name: Scalars["String"];
+	id: Scalars["Int"];
+}>;
+
+export type UpdateShippingMethodMutation = {
+	__typename?: "Mutation";
+	updateShippingMethod: {
+		__typename?: "ShippingMethod";
+		id: number;
+		name: string;
+		price: number;
+		dispatch_in: number;
+		tenantId: number;
+		created_at: string;
+		updated_at: string;
+	};
 };
 
 export type AddStaffMutationVariables = Exact<{
@@ -1414,6 +1498,24 @@ export type RolesQuery = {
 	}>;
 };
 
+export type ShippingmethodsByTenantQueryVariables = Exact<{
+	[key: string]: never;
+}>;
+
+export type ShippingmethodsByTenantQuery = {
+	__typename?: "Query";
+	shippingmethodsByTenant: Array<{
+		__typename?: "ShippingMethod";
+		id: number;
+		name: string;
+		price: number;
+		dispatch_in: number;
+		tenantId: number;
+		created_at: string;
+		updated_at: string;
+	}>;
+};
+
 export type StaffsQueryVariables = Exact<{
 	roleId?: InputMaybe<Scalars["Int"]>;
 }>;
@@ -1561,6 +1663,17 @@ export const RoleFragmentFragmentDoc = gql`
 		updated_at
 	}
 `;
+export const ShippingMethodFragmentFragmentDoc = gql`
+	fragment ShippingMethodFragment on ShippingMethod {
+		id
+		name
+		price
+		dispatch_in
+		tenantId
+		created_at
+		updated_at
+	}
+`;
 export const StaffFragmentFragmentDoc = gql`
 	fragment StaffFragment on Staff {
 		id
@@ -1607,6 +1720,179 @@ export const UserFragmentFragmentDoc = gql`
 		updated_at
 	}
 `;
+export const CreateShippingMethodDocument = gql`
+	mutation CreateShippingMethod(
+		$price: Int!
+		$dispatch_in: Int!
+		$name: String!
+	) {
+		createShippingMethod(
+			price: $price
+			dispatch_in: $dispatch_in
+			name: $name
+		) {
+			...ShippingMethodFragment
+		}
+	}
+	${ShippingMethodFragmentFragmentDoc}
+`;
+export type CreateShippingMethodMutationFn = Apollo.MutationFunction<
+	CreateShippingMethodMutation,
+	CreateShippingMethodMutationVariables
+>;
+
+/**
+ * __useCreateShippingMethodMutation__
+ *
+ * To run a mutation, you first call `useCreateShippingMethodMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateShippingMethodMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createShippingMethodMutation, { data, loading, error }] = useCreateShippingMethodMutation({
+ *   variables: {
+ *      price: // value for 'price'
+ *      dispatch_in: // value for 'dispatch_in'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreateShippingMethodMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		CreateShippingMethodMutation,
+		CreateShippingMethodMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		CreateShippingMethodMutation,
+		CreateShippingMethodMutationVariables
+	>(CreateShippingMethodDocument, options);
+}
+export type CreateShippingMethodMutationHookResult = ReturnType<
+	typeof useCreateShippingMethodMutation
+>;
+export type CreateShippingMethodMutationResult =
+	Apollo.MutationResult<CreateShippingMethodMutation>;
+export type CreateShippingMethodMutationOptions = Apollo.BaseMutationOptions<
+	CreateShippingMethodMutation,
+	CreateShippingMethodMutationVariables
+>;
+export const DeleteShippingMethodDocument = gql`
+	mutation DeleteShippingMethod($id: Int!) {
+		deleteShippingMethod(id: $id)
+	}
+`;
+export type DeleteShippingMethodMutationFn = Apollo.MutationFunction<
+	DeleteShippingMethodMutation,
+	DeleteShippingMethodMutationVariables
+>;
+
+/**
+ * __useDeleteShippingMethodMutation__
+ *
+ * To run a mutation, you first call `useDeleteShippingMethodMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteShippingMethodMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteShippingMethodMutation, { data, loading, error }] = useDeleteShippingMethodMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteShippingMethodMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		DeleteShippingMethodMutation,
+		DeleteShippingMethodMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		DeleteShippingMethodMutation,
+		DeleteShippingMethodMutationVariables
+	>(DeleteShippingMethodDocument, options);
+}
+export type DeleteShippingMethodMutationHookResult = ReturnType<
+	typeof useDeleteShippingMethodMutation
+>;
+export type DeleteShippingMethodMutationResult =
+	Apollo.MutationResult<DeleteShippingMethodMutation>;
+export type DeleteShippingMethodMutationOptions = Apollo.BaseMutationOptions<
+	DeleteShippingMethodMutation,
+	DeleteShippingMethodMutationVariables
+>;
+export const UpdateShippingMethodDocument = gql`
+	mutation UpdateShippingMethod(
+		$price: Int!
+		$dispatch_in: Int!
+		$name: String!
+		$id: Int!
+	) {
+		updateShippingMethod(
+			price: $price
+			dispatch_in: $dispatch_in
+			name: $name
+			id: $id
+		) {
+			...ShippingMethodFragment
+		}
+	}
+	${ShippingMethodFragmentFragmentDoc}
+`;
+export type UpdateShippingMethodMutationFn = Apollo.MutationFunction<
+	UpdateShippingMethodMutation,
+	UpdateShippingMethodMutationVariables
+>;
+
+/**
+ * __useUpdateShippingMethodMutation__
+ *
+ * To run a mutation, you first call `useUpdateShippingMethodMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateShippingMethodMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateShippingMethodMutation, { data, loading, error }] = useUpdateShippingMethodMutation({
+ *   variables: {
+ *      price: // value for 'price'
+ *      dispatch_in: // value for 'dispatch_in'
+ *      name: // value for 'name'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateShippingMethodMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateShippingMethodMutation,
+		UpdateShippingMethodMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateShippingMethodMutation,
+		UpdateShippingMethodMutationVariables
+	>(UpdateShippingMethodDocument, options);
+}
+export type UpdateShippingMethodMutationHookResult = ReturnType<
+	typeof useUpdateShippingMethodMutation
+>;
+export type UpdateShippingMethodMutationResult =
+	Apollo.MutationResult<UpdateShippingMethodMutation>;
+export type UpdateShippingMethodMutationOptions = Apollo.BaseMutationOptions<
+	UpdateShippingMethodMutation,
+	UpdateShippingMethodMutationVariables
+>;
 export const AddStaffDocument = gql`
 	mutation AddStaff($roleId: Int!, $userId: Int!) {
 		addStaff(roleId: $roleId, userId: $userId) {
@@ -2532,6 +2818,64 @@ export type RolesLazyQueryHookResult = ReturnType<typeof useRolesLazyQuery>;
 export type RolesQueryResult = Apollo.QueryResult<
 	RolesQuery,
 	RolesQueryVariables
+>;
+export const ShippingmethodsByTenantDocument = gql`
+	query ShippingmethodsByTenant {
+		shippingmethodsByTenant {
+			...ShippingMethodFragment
+		}
+	}
+	${ShippingMethodFragmentFragmentDoc}
+`;
+
+/**
+ * __useShippingmethodsByTenantQuery__
+ *
+ * To run a query within a React component, call `useShippingmethodsByTenantQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShippingmethodsByTenantQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShippingmethodsByTenantQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useShippingmethodsByTenantQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		ShippingmethodsByTenantQuery,
+		ShippingmethodsByTenantQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		ShippingmethodsByTenantQuery,
+		ShippingmethodsByTenantQueryVariables
+	>(ShippingmethodsByTenantDocument, options);
+}
+export function useShippingmethodsByTenantLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		ShippingmethodsByTenantQuery,
+		ShippingmethodsByTenantQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		ShippingmethodsByTenantQuery,
+		ShippingmethodsByTenantQueryVariables
+	>(ShippingmethodsByTenantDocument, options);
+}
+export type ShippingmethodsByTenantQueryHookResult = ReturnType<
+	typeof useShippingmethodsByTenantQuery
+>;
+export type ShippingmethodsByTenantLazyQueryHookResult = ReturnType<
+	typeof useShippingmethodsByTenantLazyQuery
+>;
+export type ShippingmethodsByTenantQueryResult = Apollo.QueryResult<
+	ShippingmethodsByTenantQuery,
+	ShippingmethodsByTenantQueryVariables
 >;
 export const StaffsDocument = gql`
 	query Staffs($roleId: Int) {

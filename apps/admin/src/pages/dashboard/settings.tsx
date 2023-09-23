@@ -14,6 +14,7 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import { type IconType } from "react-icons";
 import HeadingGroup from "@/components/ui/HeadingGroup";
 import StoreDetails from "@/components/pages/settings/StoreDetails";
+import DeliveryOptions from "@/components/pages/settings/DeliveryOptions";
 
 const SETTING_TABS = [
 	{
@@ -34,7 +35,7 @@ const SETTING_TABS = [
 	{
 		icon: CiDeliveryTruck,
 		heading: "Delivery Options",
-		component: () => <p>Delivery Options</p>,
+		component: () => <DeliveryOptions />,
 	},
 	{
 		icon: GrDomain,
@@ -71,12 +72,16 @@ const StoreSettings = () => (
 		>
 			<TabList>
 				{SETTING_TABS.map((tab) => (
-					<TabHeader key={tab.heading} icon={tab.icon} heading={tab.heading} />
+					<TabHeader
+						key={`tab-heading-${tab.heading}`}
+						icon={tab.icon}
+						heading={tab.heading}
+					/>
 				))}
 			</TabList>
 			<TabPanels>
 				{SETTING_TABS.map((tab) => (
-					<TabPanel>
+					<TabPanel key={`tab-content-${tab.heading}`}>
 						<tab.component />
 					</TabPanel>
 				))}

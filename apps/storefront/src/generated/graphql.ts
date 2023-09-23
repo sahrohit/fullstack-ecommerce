@@ -220,6 +220,7 @@ export type Mutation = {
 	createIssue: Issue;
 	createOrder: OrderDetail;
 	createPayment: CreatePaymentResponse;
+	createShippingMethod: ShippingMethod;
 	deleteAddress: Scalars["Boolean"];
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
@@ -247,6 +248,7 @@ export type Mutation = {
 	updateRole: Staff;
 	updateStaffStatus: Staff;
 	updateStatus: OrderDetail;
+	updateTenant: Tenant;
 	verifyEmail: Scalars["Boolean"];
 };
 
@@ -316,6 +318,12 @@ export type MutationCreateOrderArgs = {
 export type MutationCreatePaymentArgs = {
 	orderId: Scalars["String"];
 	provider: Scalars["String"];
+};
+
+export type MutationCreateShippingMethodArgs = {
+	dispatch_in: Scalars["Int"];
+	name: Scalars["String"];
+	price: Scalars["Int"];
 };
 
 export type MutationDeleteAddressArgs = {
@@ -441,6 +449,13 @@ export type MutationUpdateStatusArgs = {
 	orderId: Scalars["String"];
 	pidx?: InputMaybe<Scalars["String"]>;
 	refId?: InputMaybe<Scalars["String"]>;
+};
+
+export type MutationUpdateTenantArgs = {
+	address: Scalars["String"];
+	categoryId: Scalars["Int"];
+	desc: Scalars["String"];
+	name: Scalars["String"];
 };
 
 export type MutationVerifyEmailArgs = {
@@ -650,6 +665,7 @@ export type Query = {
 	roles: Array<UserRole>;
 	searchProducts?: Maybe<Array<Product>>;
 	shippingmethods: Array<ShippingMethod>;
+	shippingmethodsByTenant: Array<ShippingMethod>;
 	staffs?: Maybe<Array<Staff>>;
 	tenantCategories: Array<TenantCategory>;
 	userByEmail: UserDataResponse;
@@ -728,6 +744,8 @@ export type ShippingMethod = {
 	id: Scalars["Int"];
 	name: Scalars["String"];
 	price: Scalars["Int"];
+	tenant: Tenant;
+	tenantId: Scalars["Int"];
 	updated_at: Scalars["String"];
 };
 

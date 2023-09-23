@@ -15,6 +15,7 @@ import { Staff } from "./Staff";
 import { TenantCategory } from "./TenantCategory";
 import { ProductCategory } from "./ProductCategory";
 import { UserDataResponse } from "../resolvers/GqlObjets/User";
+import { ShippingMethod } from "./ShippingMethod";
 
 @ObjectType()
 @Entity()
@@ -92,6 +93,9 @@ export class Tenant extends BaseEntity {
 
 	@OneToMany(() => ProductCategory, (categories) => categories.tenant)
 	categories?: ProductCategory[];
+
+	@OneToMany(() => ShippingMethod, (shippingmethods) => shippingmethods.tenant)
+	shippingmethods?: ShippingMethod[];
 
 	@Field(() => String)
 	@CreateDateColumn()

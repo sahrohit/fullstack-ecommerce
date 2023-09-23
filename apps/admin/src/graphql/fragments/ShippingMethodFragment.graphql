@@ -1,0 +1,9 @@
+fragment ShippingMethodFragment on ShippingMethod {
+	id
+	name
+	price
+	dispatch_in
+	tenantId
+	created_at
+	updated_at
+}
