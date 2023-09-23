@@ -36,7 +36,7 @@ export class ShippingMethod extends BaseEntity {
 	orderdetails!: OrderDetail[];
 
 	@Field(() => Int)
-	@Column({ default: 1 })
+	@Column()
 	tenantId!: number;
 
 	@Field(() => Tenant)

@@ -361,7 +361,7 @@ const DeliveryOptions = () => {
 	return (
 		<VStack gap={4} w="full">
 			<HeadingGroup
-				title="Manage ShippingMethods"
+				title="Manage Shipping Methods"
 				description="Manage various shipping options, you customer can select."
 			/>
 			<TableActions searchText={searchText} setSearchText={setSearchText} />
