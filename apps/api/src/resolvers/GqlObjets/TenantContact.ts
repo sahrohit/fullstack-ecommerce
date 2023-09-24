@@ -2,8 +2,8 @@ import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class TenantContactInput {
-	@Field(() => String)
-	primary!: string;
+	@Field(() => String, { nullable: true })
+	primary?: string;
 
 	@Field(() => String, { nullable: true })
 	secondary?: string;

@@ -717,7 +717,7 @@ export type Query = {
 	shippingmethodsByTenant: Array<ShippingMethod>;
 	staffs?: Maybe<Array<Staff>>;
 	tenantCategories: Array<TenantCategory>;
-	tenantContacts: TenantContact;
+	tenantContacts?: Maybe<TenantContact>;
 	userByEmail: UserDataResponse;
 	variants: Array<Variant>;
 	verifyDomain: VerifyDomainResponse;
@@ -854,7 +854,7 @@ export type TenantContact = {
 	instagram?: Maybe<Scalars["String"]>;
 	ncell?: Maybe<Scalars["String"]>;
 	ntc?: Maybe<Scalars["String"]>;
-	primary: Scalars["String"];
+	primary?: Maybe<Scalars["String"]>;
 	secondary?: Maybe<Scalars["String"]>;
 	tenantId: Scalars["Int"];
 	tiktok?: Maybe<Scalars["String"]>;
@@ -869,7 +869,7 @@ export type TenantContactInput = {
 	instagram?: InputMaybe<Scalars["String"]>;
 	ncell?: InputMaybe<Scalars["String"]>;
 	ntc?: InputMaybe<Scalars["String"]>;
-	primary: Scalars["String"];
+	primary?: InputMaybe<Scalars["String"]>;
 	secondary?: InputMaybe<Scalars["String"]>;
 	tiktok?: InputMaybe<Scalars["String"]>;
 	twitter?: InputMaybe<Scalars["String"]>;
@@ -1342,7 +1342,7 @@ export type UpdateTenantContactMutation = {
 	updateTenantContact: {
 		__typename?: "TenantContact";
 		id: number;
-		primary: string;
+		primary?: string | null;
 		secondary?: string | null;
 		ntc?: string | null;
 		ncell?: string | null;
@@ -1803,10 +1803,10 @@ export type TenantContactsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TenantContactsQuery = {
 	__typename?: "Query";
-	tenantContacts: {
+	tenantContacts?: {
 		__typename?: "TenantContact";
 		id: number;
-		primary: string;
+		primary?: string | null;
 		secondary?: string | null;
 		ntc?: string | null;
 		ncell?: string | null;
@@ -1819,7 +1819,7 @@ export type TenantContactsQuery = {
 		tenantId: number;
 		created_at: string;
 		updated_at: string;
-	};
+	} | null;
 };
 
 export type UserByEmailQueryVariables = Exact<{

@@ -18,9 +18,9 @@ export class TenantContact extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id!: number;
 
-	@Field(() => String)
-	@Column({ default: "9800000000" })
-	primary!: string;
+	@Field(() => String, { nullable: true })
+	@Column({ nullable: true })
+	primary?: string;
 
 	@Field(() => String, { nullable: true })
 	@Column({ nullable: true })

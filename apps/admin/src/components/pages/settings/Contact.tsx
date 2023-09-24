@@ -96,7 +96,7 @@ const StoreContacts = () => {
 	const { data, loading, error } = useTenantContactsQuery({
 		onCompleted: (supportsData) => {
 			supportReset({
-				primary: supportsData?.tenantContacts?.primary,
+				primary: supportsData?.tenantContacts?.primary ?? "",
 				secondary: supportsData?.tenantContacts?.secondary ?? "",
 				ntc: supportsData?.tenantContacts?.ntc ?? "",
 				ncell: supportsData?.tenantContacts?.ncell ?? "",
@@ -165,10 +165,10 @@ const StoreContacts = () => {
 										ncell: values.ncell,
 										whatsapp: values.whatsapp,
 										viber: values.viber,
-										facebook: data?.tenantContacts.facebook,
-										instagram: data?.tenantContacts.instagram,
-										tiktok: data?.tenantContacts.tiktok,
-										twitter: data?.tenantContacts.twitter,
+										facebook: data?.tenantContacts?.facebook || "",
+										instagram: data?.tenantContacts?.instagram || "",
+										tiktok: data?.tenantContacts?.tiktok || "",
+										twitter: data?.tenantContacts?.twitter || "",
 									},
 								},
 							});
@@ -270,12 +270,12 @@ const StoreContacts = () => {
 							updateTenantContact({
 								variables: {
 									option: {
-										primary: data?.tenantContacts.primary!,
-										secondary: data?.tenantContacts.secondary,
-										ntc: data?.tenantContacts.ntc,
-										ncell: data?.tenantContacts.ncell,
-										whatsapp: data?.tenantContacts.whatsapp,
-										viber: data?.tenantContacts.viber,
+										primary: data?.tenantContacts?.primary || "",
+										secondary: data?.tenantContacts?.secondary || "",
+										ntc: data?.tenantContacts?.ntc || "",
+										ncell: data?.tenantContacts?.ncell || "",
+										whatsapp: data?.tenantContacts?.whatsapp || "",
+										viber: data?.tenantContacts?.viber || "",
 										facebook: values.facebook,
 										instagram: values.instagram,
 										tiktok: values.tiktok,

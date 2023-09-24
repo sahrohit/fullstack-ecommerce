@@ -53,7 +53,7 @@ export class TenantResolver {
 		});
 	}
 
-	@Query(() => TenantContact)
+	@Query(() => TenantContact, { nullable: true })
 	@UseMiddleware(isVerified)
 	tenantContacts(@Ctx() { req }: MyContext): Promise<TenantContact | null> {
 		return TenantContact.findOne({
@@ -69,12 +69,14 @@ export class TenantResolver {
 		@Ctx() { req }: MyContext,
 		@Arg("options", () => TenantContactInput) options: TenantContactInput
 	): Promise<TenantContact> {
-		await TenantContact.update(
+		await TenantContact.upsert(
 			{
+				...options,
 				tenantId: req.session.tenantId,
 			},
 			{
-				...options,
+				conflictPaths: ["tenantId"],
+				skipUpdateIfNoValuesChanged: true,
 			}
 		);
 

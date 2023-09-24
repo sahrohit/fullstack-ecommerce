@@ -167,20 +167,6 @@ export class AdminResolver {
 			);
 		}
 
-		await AppDataSource.manager.transaction(
-			async (transactionalEntityManager) => {
-				const res = await transactionalEntityManager.save(Tenant, {
-					name: options.tenant_name,
-					categoryId: options.tenant_category_id,
-					subdomain: options.subdomain,
-					defaultForPreview: false,
-				});
-				await transactionalEntityManager.save(TenantContact, {
-					tenantId: res.id,
-				});
-			}
-		);
-
 		await Tenant.save({
 			name: options.tenant_name,
 			categoryId: options.tenant_category_id,
