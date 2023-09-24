@@ -5,6 +5,7 @@ import {
 	TabPanels,
 	Tabs,
 	Icon,
+	Text,
 } from "@chakra-ui/react";
 import { BiStoreAlt } from "react-icons/bi";
 import { IoShareSocialSharp } from "react-icons/io5";
@@ -15,6 +16,7 @@ import { type IconType } from "react-icons";
 import HeadingGroup from "@/components/ui/HeadingGroup";
 import StoreDetails from "@/components/pages/settings/StoreDetails";
 import DeliveryOptions from "@/components/pages/settings/DeliveryOptions";
+import Domains from "@/components/pages/settings/Domains";
 
 const SETTING_TABS = [
 	{
@@ -35,12 +37,12 @@ const SETTING_TABS = [
 	{
 		icon: CiDeliveryTruck,
 		heading: "Delivery Options",
-		component: () => <DeliveryOptions />,
+		component: DeliveryOptions,
 	},
 	{
 		icon: GrDomain,
 		heading: "Domains",
-		component: () => <p>Domains</p>,
+		component: Domains,
 	},
 ];
 
@@ -51,9 +53,9 @@ export const TabHeader = ({
 	icon: IconType;
 	heading: string;
 }) => (
-	<Tab alignItems="center" gap={2}>
+	<Tab flexDirection={["column", "column", "row"]} alignItems="center" gap={2}>
 		<Icon as={icon} />
-		{heading}
+		<Text>{heading}</Text>
 	</Tab>
 );
 

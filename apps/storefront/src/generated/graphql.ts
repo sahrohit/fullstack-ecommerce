@@ -137,6 +137,27 @@ export type DiscountResponse = {
 	name: Scalars["String"];
 };
 
+export type DomainErrorResponse = {
+	__typename?: "DomainErrorResponse";
+	code: Scalars["String"];
+	message: Scalars["String"];
+};
+
+export type DomainJsonResponse = {
+	__typename?: "DomainJsonResponse";
+	apexName?: Maybe<Scalars["String"]>;
+	createdAt?: Maybe<Scalars["String"]>;
+	error?: Maybe<DomainErrorResponse>;
+	gitBranch?: Maybe<Scalars["String"]>;
+	name?: Maybe<Scalars["String"]>;
+	projectId?: Maybe<Scalars["String"]>;
+	redirect?: Maybe<Scalars["String"]>;
+	redirectStatusCode?: Maybe<Scalars["Int"]>;
+	updatedAt?: Maybe<Scalars["String"]>;
+	verification?: Maybe<Array<VerificationResponse>>;
+	verified?: Maybe<Scalars["String"]>;
+};
+
 export type Favourite = {
 	__typename?: "Favourite";
 	created_at: Scalars["String"];
@@ -225,6 +246,7 @@ export type Mutation = {
 	deleteCategory: Scalars["Boolean"];
 	deleteDiscount?: Maybe<Scalars["Boolean"]>;
 	deleteFromCart: Scalars["Boolean"];
+	deleteShippingMethod: Scalars["Boolean"];
 	deleteStaff: Scalars["Boolean"];
 	emailInvoice: Scalars["Boolean"];
 	forgotPassword: Scalars["Boolean"];
@@ -246,6 +268,7 @@ export type Mutation = {
 	updateProfile: User;
 	updateReview?: Maybe<ProductReview>;
 	updateRole: Staff;
+	updateShippingMethod: ShippingMethod;
 	updateStaffStatus: Staff;
 	updateStatus: OrderDetail;
 	updateTenant: Tenant;
@@ -343,6 +366,10 @@ export type MutationDeleteFromCartArgs = {
 	quantity: Scalars["Int"];
 };
 
+export type MutationDeleteShippingMethodArgs = {
+	id: Scalars["Int"];
+};
+
 export type MutationDeleteStaffArgs = {
 	userId: Scalars["Int"];
 };
@@ -438,6 +465,13 @@ export type MutationUpdateReviewArgs = {
 export type MutationUpdateRoleArgs = {
 	newroleId: Scalars["Int"];
 	userId: Scalars["Int"];
+};
+
+export type MutationUpdateShippingMethodArgs = {
+	dispatch_in: Scalars["Int"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	price: Scalars["Int"];
 };
 
 export type MutationUpdateStaffStatusArgs = {
@@ -670,6 +704,7 @@ export type Query = {
 	tenantCategories: Array<TenantCategory>;
 	userByEmail: UserDataResponse;
 	variants: Array<Variant>;
+	verifyDomain: VerifyDomainResponse;
 };
 
 export type QueryAllReviewsArgs = {
@@ -722,6 +757,10 @@ export type QueryStaffsArgs = {
 
 export type QueryUserByEmailArgs = {
 	email: Scalars["String"];
+};
+
+export type QueryVerifyDomainArgs = {
+	domain: Scalars["String"];
 };
 
 export type RegisterInput = {
@@ -873,6 +912,20 @@ export type VariantValue = {
 	value: Scalars["String"];
 	value_id: Scalars["Int"];
 	variant: Variant;
+};
+
+export type VerificationResponse = {
+	__typename?: "VerificationResponse";
+	domain: Scalars["String"];
+	reason: Scalars["String"];
+	type: Scalars["String"];
+	value: Scalars["String"];
+};
+
+export type VerifyDomainResponse = {
+	__typename?: "VerifyDomainResponse";
+	domainJson: DomainJsonResponse;
+	status: Scalars["String"];
 };
 
 export type AddressFragmentFragment = {

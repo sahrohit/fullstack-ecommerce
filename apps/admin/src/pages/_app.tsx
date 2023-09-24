@@ -6,14 +6,13 @@ import { useRouter } from "next/router";
 import theme from "@/config/theme";
 import SidebarLayout from "@/components/shared/sidebar";
 
+export const client = new ApolloClient({
+	uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
+	cache: new InMemoryCache(),
+	credentials: "include",
+});
 const App = ({ Component, pageProps }: AppProps) => {
 	const router = useRouter();
-
-	const client = new ApolloClient({
-		uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
-		cache: new InMemoryCache(),
-		credentials: "include",
-	});
 
 	return (
 		<ChakraProvider theme={theme}>

@@ -9,6 +9,7 @@ import {
 	ManyToOne,
 	OneToMany,
 	JoinTable,
+	Unique,
 } from "typeorm";
 import { User } from "./User";
 import { Staff } from "./Staff";
@@ -19,6 +20,7 @@ import { ShippingMethod } from "./ShippingMethod";
 
 @ObjectType()
 @Entity()
+@Unique(["subdomain"])
 export class Tenant extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()
