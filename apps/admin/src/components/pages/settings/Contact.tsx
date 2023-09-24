@@ -36,7 +36,7 @@ interface SocialFormValues {
 }
 
 const SupportFormSchema = Yup.object({
-	primary: Yup.string().required("Required"),
+	primary: Yup.string(),
 	secondary: Yup.string(),
 	ntc: Yup.string(),
 	ncell: Yup.string(),
@@ -186,7 +186,6 @@ const StoreContacts = () => {
 									autoComplete="phone_number"
 									label="Primary Contact Number"
 									placeholder=""
-									required
 								/>
 								<InputField
 									register={{ ...registerSupport("secondary") }}
