@@ -14,9 +14,9 @@ import {
 	useUpdateCartMutation,
 } from "@/generated/graphql";
 import { UnderlineButton } from "@/components/ui/UnderlineLink";
+import { capitalize } from "@/utils/helpers";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import QuantitySelect from "@/components/shared/cart/QuantitySelect";
-import { capitalize } from "@/utils/helpers";
 import { CartProductMeta } from "./CartProductMeta";
 
 type CartItemProps = {

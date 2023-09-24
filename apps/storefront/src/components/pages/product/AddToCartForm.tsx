@@ -179,7 +179,6 @@ const AddToCartForm = ({ product }: AddToCartFormProps) => {
 export default AddToCartForm;
 
 const FavouriteButton = ({ productId }: { productId: number }) => {
-	const toast = useToast();
 	const { data, loading, error } = useFavouritesQuery();
 	const [addToFavouriteMutation] = useAddToFavouriteMutation({
 		refetchQueries: ["Favourites"],
@@ -217,24 +216,13 @@ const FavouriteButton = ({ productId }: { productId: number }) => {
 							productId,
 						},
 					});
-					toast({
-						title: "Removed from favourites",
-						status: "success",
-						duration: 2000,
-						isClosable: true,
-					});
+
 					return;
 				}
 				addToFavouriteMutation({
 					variables: {
 						productId,
 					},
-				});
-				toast({
-					title: "Added to favourites",
-					status: "success",
-					duration: 2000,
-					isClosable: true,
 				});
 			}}
 		>

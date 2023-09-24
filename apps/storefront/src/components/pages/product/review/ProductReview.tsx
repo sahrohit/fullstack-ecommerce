@@ -21,9 +21,9 @@ import {
 	useReviewSummaryQuery,
 	useReviewsQuery,
 } from "@/generated/graphql";
-import Rating from "@/components/shared/product/Rating";
 import Result from "@/components/shared/Result";
 import ModalButton from "@/components/ui/ModalButton";
+import Rating from "@/components/shared/product/Rating";
 import ReviewCard, { ReviewCardSkeleton } from "./ReviewCard";
 import ReviewForm from "./ReviewForm";
 

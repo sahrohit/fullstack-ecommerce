@@ -15,6 +15,7 @@ import UnderlineLink from "@/components/ui/UnderlineLink";
 import ProductDetails from "@/components/pages/product/ProductDetails";
 import ProductReview from "@/components/pages/product/review/ProductReview";
 import Navbar from "@/components/shared/navbar";
+import Footer from "@/components/shared/Footer";
 
 const ProductPage = () => {
 	const router = useRouter();
@@ -74,6 +75,7 @@ const ProductPage = () => {
 					</VStack>
 				</SimpleGrid>
 			)}
+			<Footer />
 		</>
 	);
 };

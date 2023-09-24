@@ -14,9 +14,9 @@ import {
 	useUpdateCartMutation,
 } from "@/generated/graphql";
 import { UnderlineButton } from "@/components/ui/UnderlineLink";
+import { capitalize } from "@/utils/helpers";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import QuantitySelect from "@/components/shared/cart/QuantitySelect";
-import { capitalize } from "@/utils/helpers";
 
 type CartItemProps = {
 	cartItem: Cart;
@@ -46,20 +46,12 @@ const DrawerCartItem = ({ cartItem }: CartItemProps) => {
 
 	const handleQuanityChange = async (value: string | number) => {
 		if (value === quantity) return;
-		const res = await updateCartMutation({
+		await updateCartMutation({
 			variables: {
 				inventoryId: Number(inventory!.inventory_id),
 				quantity: Number(value),
 			},
 		});
-		if (res.data?.updateCart) {
-			toast({
-				title: "Cart updated",
-				status: "success",
-				duration: 2000,
-				isClosable: true,
-			});
-		}
 	};
 
 	return (
