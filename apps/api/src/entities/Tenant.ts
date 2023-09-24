@@ -10,6 +10,7 @@ import {
 	OneToMany,
 	JoinTable,
 	Unique,
+	OneToOne,
 } from "typeorm";
 import { User } from "./User";
 import { Staff } from "./Staff";
@@ -17,6 +18,7 @@ import { TenantCategory } from "./TenantCategory";
 import { ProductCategory } from "./ProductCategory";
 import { UserDataResponse } from "../resolvers/GqlObjets/User";
 import { ShippingMethod } from "./ShippingMethod";
+import { TenantContact } from "./TenantContant";
 
 @ObjectType()
 @Entity()
@@ -98,6 +100,9 @@ export class Tenant extends BaseEntity {
 
 	@OneToMany(() => ShippingMethod, (shippingmethods) => shippingmethods.tenant)
 	shippingmethods?: ShippingMethod[];
+
+	@OneToOne(() => TenantContact, (contact) => contact.tenant)
+	contact!: TenantContact;
 
 	@Field(() => String)
 	@CreateDateColumn()

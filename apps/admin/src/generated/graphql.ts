@@ -274,6 +274,7 @@ export type Mutation = {
 	updateStatus: OrderDetail;
 	updateSubDomain: Tenant;
 	updateTenant: Tenant;
+	updateTenantContact: TenantContact;
 	verifyEmail: Scalars["Boolean"];
 };
 
@@ -502,6 +503,10 @@ export type MutationUpdateTenantArgs = {
 	name: Scalars["String"];
 };
 
+export type MutationUpdateTenantContactArgs = {
+	options: TenantContactInput;
+};
+
 export type MutationVerifyEmailArgs = {
 	token: Scalars["String"];
 };
@@ -712,6 +717,7 @@ export type Query = {
 	shippingmethodsByTenant: Array<ShippingMethod>;
 	staffs?: Maybe<Array<Staff>>;
 	tenantCategories: Array<TenantCategory>;
+	tenantContacts: TenantContact;
 	userByEmail: UserDataResponse;
 	variants: Array<Variant>;
 	verifyDomain: VerifyDomainResponse;
@@ -838,6 +844,37 @@ export type TenantCategory = {
 	name: Scalars["String"];
 	tenants?: Maybe<Array<Tenant>>;
 	updated_at: Scalars["String"];
+};
+
+export type TenantContact = {
+	__typename?: "TenantContact";
+	created_at: Scalars["String"];
+	facebook?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	instagram?: Maybe<Scalars["String"]>;
+	ncell?: Maybe<Scalars["String"]>;
+	ntc?: Maybe<Scalars["String"]>;
+	primary: Scalars["String"];
+	secondary?: Maybe<Scalars["String"]>;
+	tenantId: Scalars["Int"];
+	tiktok?: Maybe<Scalars["String"]>;
+	twitter?: Maybe<Scalars["String"]>;
+	updated_at: Scalars["String"];
+	viber?: Maybe<Scalars["String"]>;
+	whatsapp?: Maybe<Scalars["String"]>;
+};
+
+export type TenantContactInput = {
+	facebook?: InputMaybe<Scalars["String"]>;
+	instagram?: InputMaybe<Scalars["String"]>;
+	ncell?: InputMaybe<Scalars["String"]>;
+	ntc?: InputMaybe<Scalars["String"]>;
+	primary: Scalars["String"];
+	secondary?: InputMaybe<Scalars["String"]>;
+	tiktok?: InputMaybe<Scalars["String"]>;
+	twitter?: InputMaybe<Scalars["String"]>;
+	viber?: InputMaybe<Scalars["String"]>;
+	whatsapp?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateCategoryInput = {
@@ -1296,6 +1333,31 @@ export type UpdateTenantMutation = {
 	};
 };
 
+export type UpdateTenantContactMutationVariables = Exact<{
+	option: TenantContactInput;
+}>;
+
+export type UpdateTenantContactMutation = {
+	__typename?: "Mutation";
+	updateTenantContact: {
+		__typename?: "TenantContact";
+		id: number;
+		primary: string;
+		secondary?: string | null;
+		ntc?: string | null;
+		ncell?: string | null;
+		facebook?: string | null;
+		instagram?: string | null;
+		tiktok?: string | null;
+		twitter?: string | null;
+		whatsapp?: string | null;
+		viber?: string | null;
+		tenantId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
 export type AdminLoginMutationVariables = Exact<{
 	email: Scalars["String"];
 	password: Scalars["String"];
@@ -1735,6 +1797,29 @@ export type TenantCategoriesQuery = {
 		created_at: string;
 		updated_at: string;
 	}>;
+};
+
+export type TenantContactsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TenantContactsQuery = {
+	__typename?: "Query";
+	tenantContacts: {
+		__typename?: "TenantContact";
+		id: number;
+		primary: string;
+		secondary?: string | null;
+		ntc?: string | null;
+		ncell?: string | null;
+		facebook?: string | null;
+		instagram?: string | null;
+		tiktok?: string | null;
+		twitter?: string | null;
+		whatsapp?: string | null;
+		viber?: string | null;
+		tenantId: number;
+		created_at: string;
+		updated_at: string;
+	};
 };
 
 export type UserByEmailQueryVariables = Exact<{
@@ -2466,6 +2551,69 @@ export type UpdateTenantMutationResult =
 export type UpdateTenantMutationOptions = Apollo.BaseMutationOptions<
 	UpdateTenantMutation,
 	UpdateTenantMutationVariables
+>;
+export const UpdateTenantContactDocument = gql`
+	mutation UpdateTenantContact($option: TenantContactInput!) {
+		updateTenantContact(options: $option) {
+			id
+			primary
+			secondary
+			ntc
+			ncell
+			facebook
+			instagram
+			tiktok
+			twitter
+			whatsapp
+			viber
+			tenantId
+			created_at
+			updated_at
+		}
+	}
+`;
+export type UpdateTenantContactMutationFn = Apollo.MutationFunction<
+	UpdateTenantContactMutation,
+	UpdateTenantContactMutationVariables
+>;
+
+/**
+ * __useUpdateTenantContactMutation__
+ *
+ * To run a mutation, you first call `useUpdateTenantContactMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTenantContactMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTenantContactMutation, { data, loading, error }] = useUpdateTenantContactMutation({
+ *   variables: {
+ *      option: // value for 'option'
+ *   },
+ * });
+ */
+export function useUpdateTenantContactMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateTenantContactMutation,
+		UpdateTenantContactMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateTenantContactMutation,
+		UpdateTenantContactMutationVariables
+	>(UpdateTenantContactDocument, options);
+}
+export type UpdateTenantContactMutationHookResult = ReturnType<
+	typeof useUpdateTenantContactMutation
+>;
+export type UpdateTenantContactMutationResult =
+	Apollo.MutationResult<UpdateTenantContactMutation>;
+export type UpdateTenantContactMutationOptions = Apollo.BaseMutationOptions<
+	UpdateTenantContactMutation,
+	UpdateTenantContactMutationVariables
 >;
 export const AdminLoginDocument = gql`
 	mutation AdminLogin($email: String!, $password: String!) {
@@ -3389,6 +3537,76 @@ export type TenantCategoriesLazyQueryHookResult = ReturnType<
 export type TenantCategoriesQueryResult = Apollo.QueryResult<
 	TenantCategoriesQuery,
 	TenantCategoriesQueryVariables
+>;
+export const TenantContactsDocument = gql`
+	query TenantContacts {
+		tenantContacts {
+			id
+			primary
+			secondary
+			ntc
+			ncell
+			facebook
+			instagram
+			tiktok
+			twitter
+			whatsapp
+			viber
+			tenantId
+			created_at
+			updated_at
+		}
+	}
+`;
+
+/**
+ * __useTenantContactsQuery__
+ *
+ * To run a query within a React component, call `useTenantContactsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTenantContactsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTenantContactsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTenantContactsQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		TenantContactsQuery,
+		TenantContactsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<TenantContactsQuery, TenantContactsQueryVariables>(
+		TenantContactsDocument,
+		options
+	);
+}
+export function useTenantContactsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		TenantContactsQuery,
+		TenantContactsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<TenantContactsQuery, TenantContactsQueryVariables>(
+		TenantContactsDocument,
+		options
+	);
+}
+export type TenantContactsQueryHookResult = ReturnType<
+	typeof useTenantContactsQuery
+>;
+export type TenantContactsLazyQueryHookResult = ReturnType<
+	typeof useTenantContactsLazyQuery
+>;
+export type TenantContactsQueryResult = Apollo.QueryResult<
+	TenantContactsQuery,
+	TenantContactsQueryVariables
 >;
 export const UserByEmailDocument = gql`
 	query UserByEmail($email: String!) {

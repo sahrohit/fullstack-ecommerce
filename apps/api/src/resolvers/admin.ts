@@ -12,6 +12,7 @@ import { verifyEmailTemplate } from "../static/verifyEmailTemplate";
 import { AdminRegisterInput } from "./GqlObjets/Admin";
 import { TenantCategory } from "../entities/TenantCategory";
 import { Tenant } from "../entities/Tenant";
+import { TenantContact } from "../entities/TenantContant";
 
 @Resolver()
 export class AdminResolver {
@@ -165,6 +166,20 @@ export class AdminResolver {
 				)
 			);
 		}
+
+		await AppDataSource.manager.transaction(
+			async (transactionalEntityManager) => {
+				const res = await transactionalEntityManager.save(Tenant, {
+					name: options.tenant_name,
+					categoryId: options.tenant_category_id,
+					subdomain: options.subdomain,
+					defaultForPreview: false,
+				});
+				await transactionalEntityManager.save(TenantContact, {
+					tenantId: res.id,
+				});
+			}
+		);
 
 		await Tenant.save({
 			name: options.tenant_name,

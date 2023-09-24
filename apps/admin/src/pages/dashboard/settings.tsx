@@ -7,8 +7,7 @@ import {
 	Icon,
 	Text,
 } from "@chakra-ui/react";
-import { BiStoreAlt } from "react-icons/bi";
-import { IoShareSocialSharp } from "react-icons/io5";
+import { BiStoreAlt, BiSupport } from "react-icons/bi";
 import { FiUserCheck } from "react-icons/fi";
 import { GrDomain } from "react-icons/gr";
 import { CiDeliveryTruck } from "react-icons/ci";
@@ -17,6 +16,7 @@ import HeadingGroup from "@/components/ui/HeadingGroup";
 import StoreDetails from "@/components/pages/settings/StoreDetails";
 import DeliveryOptions from "@/components/pages/settings/DeliveryOptions";
 import Domains from "@/components/pages/settings/Domains";
+import StoreContacts from "@/components/pages/settings/Contact";
 
 const SETTING_TABS = [
 	{
@@ -25,9 +25,9 @@ const SETTING_TABS = [
 		component: StoreDetails,
 	},
 	{
-		icon: IoShareSocialSharp,
-		heading: "Social Accounts",
-		component: () => <p>Social Accounts</p>,
+		icon: BiSupport,
+		heading: "Contact",
+		component: () => <StoreContacts />,
 	},
 	{
 		icon: FiUserCheck,
@@ -72,7 +72,7 @@ const StoreSettings = () => (
 			colorScheme="primary"
 			size="lg"
 		>
-			<TabList>
+			<TabList position="sticky" top={0} zIndex={10}>
 				{SETTING_TABS.map((tab) => (
 					<TabHeader
 						key={`tab-heading-${tab.heading}`}
