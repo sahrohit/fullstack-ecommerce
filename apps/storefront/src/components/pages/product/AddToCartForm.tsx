@@ -8,11 +8,13 @@ import {
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { FiHeart } from "react-icons/fi";
+import { useRouter } from "next/router";
 import {
 	Product,
 	useAddToCartMutation,
 	useAddToFavouriteMutation,
 	useFavouritesQuery,
+	useMeQuery,
 	useRemoveFromFavouriteMutation,
 } from "@/generated/graphql";
 import QuantitySelect from "@/components/shared/cart/QuantitySelect";
@@ -31,6 +33,8 @@ const removePrice = (obj: Record<string, string | number | null>) => {
 };
 
 const AddToCartForm = ({ product }: AddToCartFormProps) => {
+	const { data: me } = useMeQuery();
+	const router = useRouter();
 	const { validCombinations, allCombinations, keys } = useMemo(
 		() => ({
 			// ? The ! operator is used because this Add to Cart is conditionally
@@ -75,19 +79,34 @@ const AddToCartForm = ({ product }: AddToCartFormProps) => {
 	);
 
 	const handleAddToCart = async () => {
-		const response = await addToCartMutation({
-			variables: {
-				quantity,
-				inventoryId: Number(result?.inventoryId),
-			},
-		});
-		if (response.data?.addToCart) {
-			toast({
-				title: "Added to cart",
-				status: "success",
-				duration: 2000,
-				isClosable: true,
+		if (me?.me?.id) {
+			const response = await addToCartMutation({
+				variables: {
+					quantity,
+					inventoryId: Number(result?.inventoryId),
+				},
 			});
+			if (response.data?.addToCart) {
+				toast({
+					title: "Added to cart",
+					status: "success",
+					duration: 2000,
+					isClosable: true,
+				});
+			}
+		} else {
+			router.replace(
+				{
+					pathname: "/auth/login",
+					query: {
+						redirect: router.asPath,
+					},
+				},
+				undefined,
+				{
+					shallow: true,
+				}
+			);
 		}
 	};
 
