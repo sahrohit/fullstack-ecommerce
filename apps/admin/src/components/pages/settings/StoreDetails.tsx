@@ -127,7 +127,7 @@ const StoreDetails = () => {
 						description="Change your store details here"
 					>
 						<VStack>
-							<HStack w="full">
+							<HStack w="full" flexDirection={{ base: "column", lg: "row" }}>
 								<InputField
 									register={{ ...registerDetails("name") }}
 									error={detailErrors.name}

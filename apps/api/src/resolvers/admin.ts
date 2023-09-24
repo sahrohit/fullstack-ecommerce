@@ -12,6 +12,7 @@ import { verifyEmailTemplate } from "../static/verifyEmailTemplate";
 import { AdminRegisterInput } from "./GqlObjets/Admin";
 import { TenantCategory } from "../entities/TenantCategory";
 import { Tenant } from "../entities/Tenant";
+import { TenantContact } from "../entities/TenantContant";
 
 @Resolver()
 export class AdminResolver {

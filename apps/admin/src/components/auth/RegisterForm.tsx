@@ -56,7 +56,10 @@ const RegisterFormSchema = Yup.object({
 	tenant_category_id: Yup.number().required("Required"),
 	subdomain: Yup.string()
 		.required("Required")
-		.matches(/^(\S+$)/, "No blankspaces"),
+		.matches(
+			/^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/,
+			"Invalid Domain"
+		),
 	alreadyAUser: Yup.boolean(),
 });
 

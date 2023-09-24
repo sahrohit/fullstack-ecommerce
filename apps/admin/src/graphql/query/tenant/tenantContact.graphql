@@ -1,0 +1,18 @@
+query TenantContacts {
+	tenantContacts {
+		id
+		primary
+		secondary
+		ntc
+		ncell
+		facebook
+		instagram
+		tiktok
+		twitter
+		whatsapp
+		viber
+		tenantId
+		created_at
+		updated_at
+	}
+}

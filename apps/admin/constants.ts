@@ -8,3 +8,5 @@ export const APP_URL = !PROD
 	: "https://www.rudejellyfish.live";
 
 export const GOOGLE_OAUTH_REDIRECT_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/google/callback`;
+
+export const DOMAIN_NAME = PROD ? "rudejellyfish.live" : "vercel.app";

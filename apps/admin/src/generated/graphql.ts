@@ -137,6 +137,27 @@ export type DiscountResponse = {
 	name: Scalars["String"];
 };
 
+export type DomainErrorResponse = {
+	__typename?: "DomainErrorResponse";
+	code: Scalars["String"];
+	message: Scalars["String"];
+};
+
+export type DomainJsonResponse = {
+	__typename?: "DomainJsonResponse";
+	apexName?: Maybe<Scalars["String"]>;
+	createdAt?: Maybe<Scalars["String"]>;
+	error?: Maybe<DomainErrorResponse>;
+	gitBranch?: Maybe<Scalars["String"]>;
+	name?: Maybe<Scalars["String"]>;
+	projectId?: Maybe<Scalars["String"]>;
+	redirect?: Maybe<Scalars["String"]>;
+	redirectStatusCode?: Maybe<Scalars["Int"]>;
+	updatedAt?: Maybe<Scalars["String"]>;
+	verification?: Maybe<Array<VerificationResponse>>;
+	verified?: Maybe<Scalars["String"]>;
+};
+
 export type Favourite = {
 	__typename?: "Favourite";
 	created_at: Scalars["String"];
@@ -239,6 +260,7 @@ export type Mutation = {
 	updateAddress: Address;
 	updateCart: Cart;
 	updateCategory: ProductCategory;
+	updateCustomDomain: Tenant;
 	updateDiscount?: Maybe<DiscountResponse>;
 	updateIssue: Issue;
 	updateLanguagePreference: Scalars["Boolean"];
@@ -250,7 +272,9 @@ export type Mutation = {
 	updateShippingMethod: ShippingMethod;
 	updateStaffStatus: Staff;
 	updateStatus: OrderDetail;
+	updateSubDomain: Tenant;
 	updateTenant: Tenant;
+	updateTenantContact: TenantContact;
 	verifyEmail: Scalars["Boolean"];
 };
 
@@ -402,6 +426,10 @@ export type MutationUpdateCategoryArgs = {
 	options: UpdateCategoryInput;
 };
 
+export type MutationUpdateCustomDomainArgs = {
+	customDomain: Scalars["String"];
+};
+
 export type MutationUpdateDiscountArgs = {
 	options: UpdateDiscountInput;
 };
@@ -464,11 +492,19 @@ export type MutationUpdateStatusArgs = {
 	refId?: InputMaybe<Scalars["String"]>;
 };
 
+export type MutationUpdateSubDomainArgs = {
+	subdomain: Scalars["String"];
+};
+
 export type MutationUpdateTenantArgs = {
 	address: Scalars["String"];
 	categoryId: Scalars["Int"];
 	desc: Scalars["String"];
 	name: Scalars["String"];
+};
+
+export type MutationUpdateTenantContactArgs = {
+	options: TenantContactInput;
 };
 
 export type MutationVerifyEmailArgs = {
@@ -681,8 +717,10 @@ export type Query = {
 	shippingmethodsByTenant: Array<ShippingMethod>;
 	staffs?: Maybe<Array<Staff>>;
 	tenantCategories: Array<TenantCategory>;
+	tenantContacts?: Maybe<TenantContact>;
 	userByEmail: UserDataResponse;
 	variants: Array<Variant>;
+	verifyDomain: VerifyDomainResponse;
 };
 
 export type QueryAllReviewsArgs = {
@@ -735,6 +773,10 @@ export type QueryStaffsArgs = {
 
 export type QueryUserByEmailArgs = {
 	email: Scalars["String"];
+};
+
+export type QueryVerifyDomainArgs = {
+	domain: Scalars["String"];
 };
 
 export type RegisterInput = {
@@ -802,6 +844,37 @@ export type TenantCategory = {
 	name: Scalars["String"];
 	tenants?: Maybe<Array<Tenant>>;
 	updated_at: Scalars["String"];
+};
+
+export type TenantContact = {
+	__typename?: "TenantContact";
+	created_at: Scalars["String"];
+	facebook?: Maybe<Scalars["String"]>;
+	id: Scalars["Int"];
+	instagram?: Maybe<Scalars["String"]>;
+	ncell?: Maybe<Scalars["String"]>;
+	ntc?: Maybe<Scalars["String"]>;
+	primary?: Maybe<Scalars["String"]>;
+	secondary?: Maybe<Scalars["String"]>;
+	tenantId: Scalars["Int"];
+	tiktok?: Maybe<Scalars["String"]>;
+	twitter?: Maybe<Scalars["String"]>;
+	updated_at: Scalars["String"];
+	viber?: Maybe<Scalars["String"]>;
+	whatsapp?: Maybe<Scalars["String"]>;
+};
+
+export type TenantContactInput = {
+	facebook?: InputMaybe<Scalars["String"]>;
+	instagram?: InputMaybe<Scalars["String"]>;
+	ncell?: InputMaybe<Scalars["String"]>;
+	ntc?: InputMaybe<Scalars["String"]>;
+	primary?: InputMaybe<Scalars["String"]>;
+	secondary?: InputMaybe<Scalars["String"]>;
+	tiktok?: InputMaybe<Scalars["String"]>;
+	twitter?: InputMaybe<Scalars["String"]>;
+	viber?: InputMaybe<Scalars["String"]>;
+	whatsapp?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateCategoryInput = {
@@ -888,6 +961,20 @@ export type VariantValue = {
 	variant: Variant;
 };
 
+export type VerificationResponse = {
+	__typename?: "VerificationResponse";
+	domain: Scalars["String"];
+	reason: Scalars["String"];
+	type: Scalars["String"];
+	value: Scalars["String"];
+};
+
+export type VerifyDomainResponse = {
+	__typename?: "VerifyDomainResponse";
+	domainJson: DomainJsonResponse;
+	status: Scalars["String"];
+};
+
 export type RegularErrorFragment = {
 	__typename?: "FieldError";
 	field: string;
@@ -957,6 +1044,54 @@ export type UserFragmentFragment = {
 	marketing_company_news: boolean;
 	created_at: string;
 	updated_at: string;
+};
+
+export type UpdateCustomDomainMutationVariables = Exact<{
+	customDomain: Scalars["String"];
+}>;
+
+export type UpdateCustomDomainMutation = {
+	__typename?: "Mutation";
+	updateCustomDomain: {
+		__typename?: "Tenant";
+		id: number;
+		name: string;
+		desc?: string | null;
+		address?: string | null;
+		logo?: string | null;
+		font?: string | null;
+		subdomain: string;
+		customDomain?: string | null;
+		defaultForPreview: boolean;
+		userId: number;
+		categoryId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
+export type UpdateSubDomainMutationVariables = Exact<{
+	subdomain: Scalars["String"];
+}>;
+
+export type UpdateSubDomainMutation = {
+	__typename?: "Mutation";
+	updateSubDomain: {
+		__typename?: "Tenant";
+		id: number;
+		name: string;
+		desc?: string | null;
+		address?: string | null;
+		logo?: string | null;
+		font?: string | null;
+		subdomain: string;
+		customDomain?: string | null;
+		defaultForPreview: boolean;
+		userId: number;
+		categoryId: number;
+		created_at: string;
+		updated_at: string;
+	};
 };
 
 export type CreateShippingMethodMutationVariables = Exact<{
@@ -1193,6 +1328,31 @@ export type UpdateTenantMutation = {
 		defaultForPreview: boolean;
 		userId: number;
 		categoryId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
+export type UpdateTenantContactMutationVariables = Exact<{
+	option: TenantContactInput;
+}>;
+
+export type UpdateTenantContactMutation = {
+	__typename?: "Mutation";
+	updateTenantContact: {
+		__typename?: "TenantContact";
+		id: number;
+		primary?: string | null;
+		secondary?: string | null;
+		ntc?: string | null;
+		ncell?: string | null;
+		facebook?: string | null;
+		instagram?: string | null;
+		tiktok?: string | null;
+		twitter?: string | null;
+		whatsapp?: string | null;
+		viber?: string | null;
+		tenantId: number;
 		created_at: string;
 		updated_at: string;
 	};
@@ -1436,6 +1596,42 @@ export type CategoriesQuery = {
 	}>;
 };
 
+export type VerifyDomainQueryVariables = Exact<{
+	domain: Scalars["String"];
+}>;
+
+export type VerifyDomainQuery = {
+	__typename?: "Query";
+	verifyDomain: {
+		__typename?: "VerifyDomainResponse";
+		status: string;
+		domainJson: {
+			__typename?: "DomainJsonResponse";
+			name?: string | null;
+			apexName?: string | null;
+			projectId?: string | null;
+			redirect?: string | null;
+			redirectStatusCode?: number | null;
+			gitBranch?: string | null;
+			updatedAt?: string | null;
+			createdAt?: string | null;
+			verified?: string | null;
+			verification?: Array<{
+				__typename?: "VerificationResponse";
+				type: string;
+				domain: string;
+				value: string;
+				reason: string;
+			}> | null;
+			error?: {
+				__typename?: "DomainErrorResponse";
+				code: string;
+				message: string;
+			} | null;
+		};
+	};
+};
+
 export type MeStaffQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeStaffQuery = {
@@ -1603,6 +1799,29 @@ export type TenantCategoriesQuery = {
 	}>;
 };
 
+export type TenantContactsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TenantContactsQuery = {
+	__typename?: "Query";
+	tenantContacts?: {
+		__typename?: "TenantContact";
+		id: number;
+		primary?: string | null;
+		secondary?: string | null;
+		ntc?: string | null;
+		ncell?: string | null;
+		facebook?: string | null;
+		instagram?: string | null;
+		tiktok?: string | null;
+		twitter?: string | null;
+		whatsapp?: string | null;
+		viber?: string | null;
+		tenantId: number;
+		created_at: string;
+		updated_at: string;
+	} | null;
+};
+
 export type UserByEmailQueryVariables = Exact<{
 	email: Scalars["String"];
 }>;
@@ -1720,6 +1939,130 @@ export const UserFragmentFragmentDoc = gql`
 		updated_at
 	}
 `;
+export const UpdateCustomDomainDocument = gql`
+	mutation UpdateCustomDomain($customDomain: String!) {
+		updateCustomDomain(customDomain: $customDomain) {
+			id
+			name
+			desc
+			address
+			logo
+			font
+			subdomain
+			customDomain
+			defaultForPreview
+			userId
+			categoryId
+			created_at
+			updated_at
+		}
+	}
+`;
+export type UpdateCustomDomainMutationFn = Apollo.MutationFunction<
+	UpdateCustomDomainMutation,
+	UpdateCustomDomainMutationVariables
+>;
+
+/**
+ * __useUpdateCustomDomainMutation__
+ *
+ * To run a mutation, you first call `useUpdateCustomDomainMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCustomDomainMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCustomDomainMutation, { data, loading, error }] = useUpdateCustomDomainMutation({
+ *   variables: {
+ *      customDomain: // value for 'customDomain'
+ *   },
+ * });
+ */
+export function useUpdateCustomDomainMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateCustomDomainMutation,
+		UpdateCustomDomainMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateCustomDomainMutation,
+		UpdateCustomDomainMutationVariables
+	>(UpdateCustomDomainDocument, options);
+}
+export type UpdateCustomDomainMutationHookResult = ReturnType<
+	typeof useUpdateCustomDomainMutation
+>;
+export type UpdateCustomDomainMutationResult =
+	Apollo.MutationResult<UpdateCustomDomainMutation>;
+export type UpdateCustomDomainMutationOptions = Apollo.BaseMutationOptions<
+	UpdateCustomDomainMutation,
+	UpdateCustomDomainMutationVariables
+>;
+export const UpdateSubDomainDocument = gql`
+	mutation UpdateSubDomain($subdomain: String!) {
+		updateSubDomain(subdomain: $subdomain) {
+			id
+			name
+			desc
+			address
+			logo
+			font
+			subdomain
+			customDomain
+			defaultForPreview
+			userId
+			categoryId
+			created_at
+			updated_at
+		}
+	}
+`;
+export type UpdateSubDomainMutationFn = Apollo.MutationFunction<
+	UpdateSubDomainMutation,
+	UpdateSubDomainMutationVariables
+>;
+
+/**
+ * __useUpdateSubDomainMutation__
+ *
+ * To run a mutation, you first call `useUpdateSubDomainMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSubDomainMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSubDomainMutation, { data, loading, error }] = useUpdateSubDomainMutation({
+ *   variables: {
+ *      subdomain: // value for 'subdomain'
+ *   },
+ * });
+ */
+export function useUpdateSubDomainMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateSubDomainMutation,
+		UpdateSubDomainMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateSubDomainMutation,
+		UpdateSubDomainMutationVariables
+	>(UpdateSubDomainDocument, options);
+}
+export type UpdateSubDomainMutationHookResult = ReturnType<
+	typeof useUpdateSubDomainMutation
+>;
+export type UpdateSubDomainMutationResult =
+	Apollo.MutationResult<UpdateSubDomainMutation>;
+export type UpdateSubDomainMutationOptions = Apollo.BaseMutationOptions<
+	UpdateSubDomainMutation,
+	UpdateSubDomainMutationVariables
+>;
 export const CreateShippingMethodDocument = gql`
 	mutation CreateShippingMethod(
 		$price: Int!
@@ -2208,6 +2551,69 @@ export type UpdateTenantMutationResult =
 export type UpdateTenantMutationOptions = Apollo.BaseMutationOptions<
 	UpdateTenantMutation,
 	UpdateTenantMutationVariables
+>;
+export const UpdateTenantContactDocument = gql`
+	mutation UpdateTenantContact($option: TenantContactInput!) {
+		updateTenantContact(options: $option) {
+			id
+			primary
+			secondary
+			ntc
+			ncell
+			facebook
+			instagram
+			tiktok
+			twitter
+			whatsapp
+			viber
+			tenantId
+			created_at
+			updated_at
+		}
+	}
+`;
+export type UpdateTenantContactMutationFn = Apollo.MutationFunction<
+	UpdateTenantContactMutation,
+	UpdateTenantContactMutationVariables
+>;
+
+/**
+ * __useUpdateTenantContactMutation__
+ *
+ * To run a mutation, you first call `useUpdateTenantContactMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTenantContactMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTenantContactMutation, { data, loading, error }] = useUpdateTenantContactMutation({
+ *   variables: {
+ *      option: // value for 'option'
+ *   },
+ * });
+ */
+export function useUpdateTenantContactMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateTenantContactMutation,
+		UpdateTenantContactMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateTenantContactMutation,
+		UpdateTenantContactMutationVariables
+	>(UpdateTenantContactDocument, options);
+}
+export type UpdateTenantContactMutationHookResult = ReturnType<
+	typeof useUpdateTenantContactMutation
+>;
+export type UpdateTenantContactMutationResult =
+	Apollo.MutationResult<UpdateTenantContactMutation>;
+export type UpdateTenantContactMutationOptions = Apollo.BaseMutationOptions<
+	UpdateTenantContactMutation,
+	UpdateTenantContactMutationVariables
 >;
 export const AdminLoginDocument = gql`
 	mutation AdminLogin($email: String!, $password: String!) {
@@ -2715,6 +3121,85 @@ export type CategoriesQueryResult = Apollo.QueryResult<
 	CategoriesQuery,
 	CategoriesQueryVariables
 >;
+export const VerifyDomainDocument = gql`
+	query VerifyDomain($domain: String!) {
+		verifyDomain(domain: $domain) {
+			status
+			domainJson {
+				name
+				apexName
+				projectId
+				redirect
+				redirectStatusCode
+				gitBranch
+				updatedAt
+				createdAt
+				verified
+				verification {
+					type
+					domain
+					value
+					reason
+				}
+				error {
+					code
+					message
+				}
+			}
+		}
+	}
+`;
+
+/**
+ * __useVerifyDomainQuery__
+ *
+ * To run a query within a React component, call `useVerifyDomainQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVerifyDomainQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVerifyDomainQuery({
+ *   variables: {
+ *      domain: // value for 'domain'
+ *   },
+ * });
+ */
+export function useVerifyDomainQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		VerifyDomainQuery,
+		VerifyDomainQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<VerifyDomainQuery, VerifyDomainQueryVariables>(
+		VerifyDomainDocument,
+		options
+	);
+}
+export function useVerifyDomainLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		VerifyDomainQuery,
+		VerifyDomainQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<VerifyDomainQuery, VerifyDomainQueryVariables>(
+		VerifyDomainDocument,
+		options
+	);
+}
+export type VerifyDomainQueryHookResult = ReturnType<
+	typeof useVerifyDomainQuery
+>;
+export type VerifyDomainLazyQueryHookResult = ReturnType<
+	typeof useVerifyDomainLazyQuery
+>;
+export type VerifyDomainQueryResult = Apollo.QueryResult<
+	VerifyDomainQuery,
+	VerifyDomainQueryVariables
+>;
 export const MeStaffDocument = gql`
 	query MeStaff {
 		meStaff {
@@ -3052,6 +3537,76 @@ export type TenantCategoriesLazyQueryHookResult = ReturnType<
 export type TenantCategoriesQueryResult = Apollo.QueryResult<
 	TenantCategoriesQuery,
 	TenantCategoriesQueryVariables
+>;
+export const TenantContactsDocument = gql`
+	query TenantContacts {
+		tenantContacts {
+			id
+			primary
+			secondary
+			ntc
+			ncell
+			facebook
+			instagram
+			tiktok
+			twitter
+			whatsapp
+			viber
+			tenantId
+			created_at
+			updated_at
+		}
+	}
+`;
+
+/**
+ * __useTenantContactsQuery__
+ *
+ * To run a query within a React component, call `useTenantContactsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTenantContactsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTenantContactsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTenantContactsQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		TenantContactsQuery,
+		TenantContactsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<TenantContactsQuery, TenantContactsQueryVariables>(
+		TenantContactsDocument,
+		options
+	);
+}
+export function useTenantContactsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		TenantContactsQuery,
+		TenantContactsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<TenantContactsQuery, TenantContactsQueryVariables>(
+		TenantContactsDocument,
+		options
+	);
+}
+export type TenantContactsQueryHookResult = ReturnType<
+	typeof useTenantContactsQuery
+>;
+export type TenantContactsLazyQueryHookResult = ReturnType<
+	typeof useTenantContactsLazyQuery
+>;
+export type TenantContactsQueryResult = Apollo.QueryResult<
+	TenantContactsQuery,
+	TenantContactsQueryVariables
 >;
 export const UserByEmailDocument = gql`
 	query UserByEmail($email: String!) {

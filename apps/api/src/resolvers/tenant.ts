@@ -10,6 +10,8 @@ import {
 	UseMiddleware,
 } from "type-graphql";
 import { MyContext } from "../types";
+import { TenantContact } from "../entities/TenantContant";
+import { TenantContactInput } from "./GqlObjets/TenantContact";
 
 @Resolver()
 export class TenantResolver {
@@ -47,6 +49,40 @@ export class TenantResolver {
 		return Tenant.findOneOrFail({
 			where: {
 				id: req.session.tenantId,
+			},
+		});
+	}
+
+	@Query(() => TenantContact, { nullable: true })
+	@UseMiddleware(isVerified)
+	tenantContacts(@Ctx() { req }: MyContext): Promise<TenantContact | null> {
+		return TenantContact.findOne({
+			where: {
+				tenantId: req.session.tenantId,
+			},
+		});
+	}
+
+	@Mutation(() => TenantContact)
+	@UseMiddleware(isVerified)
+	async updateTenantContact(
+		@Ctx() { req }: MyContext,
+		@Arg("options", () => TenantContactInput) options: TenantContactInput
+	): Promise<TenantContact> {
+		await TenantContact.upsert(
+			{
+				...options,
+				tenantId: req.session.tenantId,
+			},
+			{
+				conflictPaths: ["tenantId"],
+				skipUpdateIfNoValuesChanged: true,
+			}
+		);
+
+		return TenantContact.findOneOrFail({
+			where: {
+				tenantId: req.session.tenantId,
 			},
 		});
 	}
