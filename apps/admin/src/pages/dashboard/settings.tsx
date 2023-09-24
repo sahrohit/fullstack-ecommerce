@@ -55,7 +55,14 @@ export const TabHeader = ({
 }) => (
 	<Tab flexDirection={["column", "column", "row"]} alignItems="center" gap={2}>
 		<Icon as={icon} />
-		<Text>{heading}</Text>
+		<Text
+			display={{
+				base: "none",
+				md: "block",
+			}}
+		>
+			{heading}
+		</Text>
 	</Tab>
 );
 

@@ -175,7 +175,7 @@ const StoreContacts = () => {
 						})}
 					>
 						<VStack gap={3}>
-							<HStack w="full">
+							<HStack w="full" flexDirection={{ base: "column", lg: "row" }}>
 								<InputField
 									register={{ ...registerSupport("primary") }}
 									error={supportErrors.primary}
@@ -200,7 +200,7 @@ const StoreContacts = () => {
 									placeholder=""
 								/>
 							</HStack>
-							<HStack w="full">
+							<HStack w="full" flexDirection={{ base: "column", lg: "row" }}>
 								<InputField
 									register={{ ...registerSupport("ntc") }}
 									error={supportErrors.ntc}
@@ -224,7 +224,7 @@ const StoreContacts = () => {
 									placeholder=""
 								/>
 							</HStack>
-							<HStack w="full">
+							<HStack w="full" flexDirection={{ base: "column", lg: "row" }}>
 								<InputField
 									register={{ ...registerSupport("whatsapp") }}
 									error={supportErrors.whatsapp}
@@ -286,7 +286,7 @@ const StoreContacts = () => {
 						})}
 					>
 						<VStack gap={3}>
-							<HStack w="full">
+							<HStack w="full" flexDirection={{ base: "column", lg: "row" }}>
 								<InputField
 									register={{ ...registerSocial("facebook") }}
 									error={socialErrors.facebook}
@@ -310,7 +310,7 @@ const StoreContacts = () => {
 									placeholder=""
 								/>
 							</HStack>
-							<HStack w="full">
+							<HStack w="full" flexDirection={{ base: "column", lg: "row" }}>
 								<InputField
 									register={{ ...registerSocial("tiktok") }}
 									error={socialErrors.tiktok}
