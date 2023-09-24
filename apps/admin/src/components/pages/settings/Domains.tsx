@@ -115,7 +115,8 @@ const Domains = () => {
 					) : (
 						<DomainStatusByName domain={data?.details.subdomain ?? ""} />
 					)}
-					{(!data?.details.customDomain || type === editing) && (
+					{((!data?.details.customDomain && type === "Custom Domain") ||
+						type === editing) && (
 						<DomainForm
 							label={type}
 							value={
