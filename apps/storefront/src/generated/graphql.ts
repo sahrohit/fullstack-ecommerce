@@ -255,6 +255,7 @@ export type Mutation = {
 	logout: Scalars["Boolean"];
 	register: UserResponse;
 	removeFromFavourite: Scalars["Boolean"];
+	requestKYCVerfication: TenantKyc;
 	resendVerificationEmail: Scalars["Boolean"];
 	resolveByCustomer: Scalars["Boolean"];
 	updateAddress: Address;
@@ -401,6 +402,10 @@ export type MutationRegisterArgs = {
 
 export type MutationRemoveFromFavouriteArgs = {
 	productId: Scalars["Int"];
+};
+
+export type MutationRequestKycVerficationArgs = {
+	options: TenantKycInput;
 };
 
 export type MutationResendVerificationEmailArgs = {
@@ -717,7 +722,8 @@ export type Query = {
 	shippingmethodsByTenant: Array<ShippingMethod>;
 	staffs?: Maybe<Array<Staff>>;
 	tenantCategories: Array<TenantCategory>;
-	tenantContacts: TenantContact;
+	tenantContacts?: Maybe<TenantContact>;
+	tenantKYC?: Maybe<TenantKyc>;
 	userByEmail: UserDataResponse;
 	variants: Array<Variant>;
 	verifyDomain: VerifyDomainResponse;
@@ -854,7 +860,7 @@ export type TenantContact = {
 	instagram?: Maybe<Scalars["String"]>;
 	ncell?: Maybe<Scalars["String"]>;
 	ntc?: Maybe<Scalars["String"]>;
-	primary: Scalars["String"];
+	primary?: Maybe<Scalars["String"]>;
 	secondary?: Maybe<Scalars["String"]>;
 	tenantId: Scalars["Int"];
 	tiktok?: Maybe<Scalars["String"]>;
@@ -869,12 +875,44 @@ export type TenantContactInput = {
 	instagram?: InputMaybe<Scalars["String"]>;
 	ncell?: InputMaybe<Scalars["String"]>;
 	ntc?: InputMaybe<Scalars["String"]>;
-	primary: Scalars["String"];
+	primary?: InputMaybe<Scalars["String"]>;
 	secondary?: InputMaybe<Scalars["String"]>;
 	tiktok?: InputMaybe<Scalars["String"]>;
 	twitter?: InputMaybe<Scalars["String"]>;
 	viber?: InputMaybe<Scalars["String"]>;
 	whatsapp?: InputMaybe<Scalars["String"]>;
+};
+
+export type TenantKycInput = {
+	account_name: Scalars["String"];
+	account_number: Scalars["String"];
+	address: Scalars["String"];
+	bank_branch: Scalars["String"];
+	bank_name: Scalars["String"];
+	name: Scalars["String"];
+	pan_document: Scalars["String"];
+	pan_number: Scalars["String"];
+	phone_number: Scalars["String"];
+	registration_document: Scalars["String"];
+};
+
+export type TenantKyc = {
+	__typename?: "TenantKyc";
+	account_name: Scalars["String"];
+	account_number: Scalars["String"];
+	address: Scalars["String"];
+	bank_branch: Scalars["String"];
+	bank_name: Scalars["String"];
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	pan_document: Scalars["String"];
+	pan_number: Scalars["String"];
+	phone_number: Scalars["String"];
+	registration_document: Scalars["String"];
+	status: Scalars["String"];
+	tenantId: Scalars["Int"];
+	updated_at: Scalars["String"];
 };
 
 export type UpdateCategoryInput = {

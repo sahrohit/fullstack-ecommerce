@@ -5,10 +5,9 @@ const f = createUploadthing();
 export const ourFileRouter = {
 	// Router for uploading documents
 	kycDocumentUploader: f({
-		image: { maxFileCount: 5 },
-		pdf: { maxFileCount: 5 },
+		image: { maxFileCount: 1 },
 	}).onUploadComplete(async ({ file }) => {
-		console.log("file url", file.url);
+		console.log("KYC Document Uploded", file.name, file.url);
 	}),
 } satisfies FileRouter;
 

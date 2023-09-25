@@ -12,6 +12,8 @@ import {
 import { MyContext } from "../types";
 import { TenantContact } from "../entities/TenantContant";
 import { TenantContactInput } from "./GqlObjets/TenantContact";
+import { TenantKyc } from "../entities/TenantKyc";
+import { TenantKYCInput } from "./GqlObjets/TenantKYC";
 
 @Resolver()
 export class TenantResolver {
@@ -81,6 +83,41 @@ export class TenantResolver {
 		);
 
 		return TenantContact.findOneOrFail({
+			where: {
+				tenantId: req.session.tenantId,
+			},
+		});
+	}
+
+	@Query(() => TenantKyc, { nullable: true })
+	@UseMiddleware(isVerified)
+	tenantKYC(@Ctx() { req }: MyContext): Promise<TenantKyc | null> {
+		return TenantKyc.findOne({
+			where: {
+				tenantId: req.session.tenantId,
+			},
+		});
+	}
+
+	@Mutation(() => TenantKyc)
+	@UseMiddleware(isVerified)
+	async requestKYCVerfication(
+		@Ctx() { req }: MyContext,
+		@Arg("options", () => TenantKYCInput) options: TenantKYCInput
+	): Promise<TenantKyc> {
+		await TenantKyc.upsert(
+			{
+				...options,
+				tenantId: req.session.tenantId,
+				status: "IN_PROGRESS",
+			},
+			{
+				conflictPaths: ["tenantId"],
+				skipUpdateIfNoValuesChanged: true,
+			}
+		);
+
+		return TenantKyc.findOneOrFail({
 			where: {
 				tenantId: req.session.tenantId,
 			},

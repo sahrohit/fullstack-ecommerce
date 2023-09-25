@@ -29,6 +29,7 @@ import { IssueComment } from "./entities/IssueComment";
 import { Staff } from "./entities/Staff";
 import { TenantCategory } from "./entities/TenantCategory";
 import { TenantContact } from "./entities/TenantContant";
+import { TenantKyc } from "./entities/TenantKyc";
 
 export const AppDataSource = new DataSource({
 	type: "postgres",
@@ -64,6 +65,7 @@ export const AppDataSource = new DataSource({
 		Staff,
 		TenantCategory,
 		TenantContact,
+		TenantKyc,
 	],
 	migrations: ["dist/migration/**/*.js"],
 	subscribers: [],

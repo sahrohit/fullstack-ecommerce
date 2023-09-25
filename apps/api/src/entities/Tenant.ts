@@ -19,6 +19,7 @@ import { ProductCategory } from "./ProductCategory";
 import { UserDataResponse } from "../resolvers/GqlObjets/User";
 import { ShippingMethod } from "./ShippingMethod";
 import { TenantContact } from "./TenantContant";
+import { TenantKyc } from "./TenantKyc";
 
 @ObjectType()
 @Entity()
@@ -103,6 +104,9 @@ export class Tenant extends BaseEntity {
 
 	@OneToOne(() => TenantContact, (contact) => contact.tenant)
 	contact!: TenantContact;
+
+	@OneToOne(() => TenantKyc, (kyc) => kyc.tenant)
+	kyc!: TenantKyc;
 
 	@Field(() => String)
 	@CreateDateColumn()

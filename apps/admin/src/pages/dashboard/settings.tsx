@@ -17,6 +17,7 @@ import StoreDetails from "@/components/pages/settings/StoreDetails";
 import DeliveryOptions from "@/components/pages/settings/DeliveryOptions";
 import Domains from "@/components/pages/settings/Domains";
 import StoreContacts from "@/components/pages/settings/Contact";
+import TenantKYC from "@/components/pages/settings/KYC";
 
 const SETTING_TABS = [
 	{
@@ -27,12 +28,12 @@ const SETTING_TABS = [
 	{
 		icon: BiSupport,
 		heading: "Contact",
-		component: () => <StoreContacts />,
+		component: StoreContacts,
 	},
 	{
 		icon: FiUserCheck,
 		heading: "KYC",
-		component: () => <p>KYC Page</p>,
+		component: TenantKYC,
 	},
 	{
 		icon: CiDeliveryTruck,

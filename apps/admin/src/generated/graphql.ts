@@ -255,6 +255,7 @@ export type Mutation = {
 	logout: Scalars["Boolean"];
 	register: UserResponse;
 	removeFromFavourite: Scalars["Boolean"];
+	requestKYCVerfication: TenantKyc;
 	resendVerificationEmail: Scalars["Boolean"];
 	resolveByCustomer: Scalars["Boolean"];
 	updateAddress: Address;
@@ -401,6 +402,10 @@ export type MutationRegisterArgs = {
 
 export type MutationRemoveFromFavouriteArgs = {
 	productId: Scalars["Int"];
+};
+
+export type MutationRequestKycVerficationArgs = {
+	options: TenantKycInput;
 };
 
 export type MutationResendVerificationEmailArgs = {
@@ -718,6 +723,7 @@ export type Query = {
 	staffs?: Maybe<Array<Staff>>;
 	tenantCategories: Array<TenantCategory>;
 	tenantContacts?: Maybe<TenantContact>;
+	tenantKYC?: Maybe<TenantKyc>;
 	userByEmail: UserDataResponse;
 	variants: Array<Variant>;
 	verifyDomain: VerifyDomainResponse;
@@ -875,6 +881,38 @@ export type TenantContactInput = {
 	twitter?: InputMaybe<Scalars["String"]>;
 	viber?: InputMaybe<Scalars["String"]>;
 	whatsapp?: InputMaybe<Scalars["String"]>;
+};
+
+export type TenantKycInput = {
+	account_name: Scalars["String"];
+	account_number: Scalars["String"];
+	address: Scalars["String"];
+	bank_branch: Scalars["String"];
+	bank_name: Scalars["String"];
+	name: Scalars["String"];
+	pan_document: Scalars["String"];
+	pan_number: Scalars["String"];
+	phone_number: Scalars["String"];
+	registration_document: Scalars["String"];
+};
+
+export type TenantKyc = {
+	__typename?: "TenantKyc";
+	account_name: Scalars["String"];
+	account_number: Scalars["String"];
+	address: Scalars["String"];
+	bank_branch: Scalars["String"];
+	bank_name: Scalars["String"];
+	created_at: Scalars["String"];
+	id: Scalars["Int"];
+	name: Scalars["String"];
+	pan_document: Scalars["String"];
+	pan_number: Scalars["String"];
+	phone_number: Scalars["String"];
+	registration_document: Scalars["String"];
+	status: Scalars["String"];
+	tenantId: Scalars["Int"];
+	updated_at: Scalars["String"];
 };
 
 export type UpdateCategoryInput = {
@@ -1089,6 +1127,32 @@ export type UpdateSubDomainMutation = {
 		defaultForPreview: boolean;
 		userId: number;
 		categoryId: number;
+		created_at: string;
+		updated_at: string;
+	};
+};
+
+export type RequestKycVerficationMutationVariables = Exact<{
+	options: TenantKycInput;
+}>;
+
+export type RequestKycVerficationMutation = {
+	__typename?: "Mutation";
+	requestKYCVerfication: {
+		__typename?: "TenantKyc";
+		id: number;
+		name: string;
+		address: string;
+		phone_number: string;
+		pan_number: string;
+		bank_name: string;
+		bank_branch: string;
+		account_number: string;
+		account_name: string;
+		registration_document: string;
+		pan_document: string;
+		status: string;
+		tenantId: number;
 		created_at: string;
 		updated_at: string;
 	};
@@ -1822,6 +1886,30 @@ export type TenantContactsQuery = {
 	} | null;
 };
 
+export type TenantKycQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TenantKycQuery = {
+	__typename?: "Query";
+	tenantKYC?: {
+		__typename?: "TenantKyc";
+		id: number;
+		name: string;
+		address: string;
+		phone_number: string;
+		pan_number: string;
+		bank_name: string;
+		bank_branch: string;
+		account_number: string;
+		account_name: string;
+		registration_document: string;
+		pan_document: string;
+		status: string;
+		tenantId: number;
+		created_at: string;
+		updated_at: string;
+	} | null;
+};
+
 export type UserByEmailQueryVariables = Exact<{
 	email: Scalars["String"];
 }>;
@@ -2062,6 +2150,70 @@ export type UpdateSubDomainMutationResult =
 export type UpdateSubDomainMutationOptions = Apollo.BaseMutationOptions<
 	UpdateSubDomainMutation,
 	UpdateSubDomainMutationVariables
+>;
+export const RequestKycVerficationDocument = gql`
+	mutation RequestKYCVerfication($options: TenantKYCInput!) {
+		requestKYCVerfication(options: $options) {
+			id
+			name
+			address
+			phone_number
+			pan_number
+			bank_name
+			bank_branch
+			account_number
+			account_name
+			registration_document
+			pan_document
+			status
+			tenantId
+			created_at
+			updated_at
+		}
+	}
+`;
+export type RequestKycVerficationMutationFn = Apollo.MutationFunction<
+	RequestKycVerficationMutation,
+	RequestKycVerficationMutationVariables
+>;
+
+/**
+ * __useRequestKycVerficationMutation__
+ *
+ * To run a mutation, you first call `useRequestKycVerficationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestKycVerficationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestKycVerficationMutation, { data, loading, error }] = useRequestKycVerficationMutation({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useRequestKycVerficationMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		RequestKycVerficationMutation,
+		RequestKycVerficationMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		RequestKycVerficationMutation,
+		RequestKycVerficationMutationVariables
+	>(RequestKycVerficationDocument, options);
+}
+export type RequestKycVerficationMutationHookResult = ReturnType<
+	typeof useRequestKycVerficationMutation
+>;
+export type RequestKycVerficationMutationResult =
+	Apollo.MutationResult<RequestKycVerficationMutation>;
+export type RequestKycVerficationMutationOptions = Apollo.BaseMutationOptions<
+	RequestKycVerficationMutation,
+	RequestKycVerficationMutationVariables
 >;
 export const CreateShippingMethodDocument = gql`
 	mutation CreateShippingMethod(
@@ -3607,6 +3759,72 @@ export type TenantContactsLazyQueryHookResult = ReturnType<
 export type TenantContactsQueryResult = Apollo.QueryResult<
 	TenantContactsQuery,
 	TenantContactsQueryVariables
+>;
+export const TenantKycDocument = gql`
+	query TenantKYC {
+		tenantKYC {
+			id
+			name
+			address
+			phone_number
+			pan_number
+			bank_name
+			bank_branch
+			account_number
+			account_name
+			registration_document
+			pan_document
+			status
+			tenantId
+			created_at
+			updated_at
+		}
+	}
+`;
+
+/**
+ * __useTenantKycQuery__
+ *
+ * To run a query within a React component, call `useTenantKycQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTenantKycQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTenantKycQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTenantKycQuery(
+	baseOptions?: Apollo.QueryHookOptions<TenantKycQuery, TenantKycQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<TenantKycQuery, TenantKycQueryVariables>(
+		TenantKycDocument,
+		options
+	);
+}
+export function useTenantKycLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		TenantKycQuery,
+		TenantKycQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<TenantKycQuery, TenantKycQueryVariables>(
+		TenantKycDocument,
+		options
+	);
+}
+export type TenantKycQueryHookResult = ReturnType<typeof useTenantKycQuery>;
+export type TenantKycLazyQueryHookResult = ReturnType<
+	typeof useTenantKycLazyQuery
+>;
+export type TenantKycQueryResult = Apollo.QueryResult<
+	TenantKycQuery,
+	TenantKycQueryVariables
 >;
 export const UserByEmailDocument = gql`
 	query UserByEmail($email: String!) {
