@@ -5,6 +5,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import theme from "@/config/theme";
 import SidebarLayout from "@/components/shared/sidebar";
+import "@uploadthing/react/styles.css";
 
 export const client = new ApolloClient({
 	uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
