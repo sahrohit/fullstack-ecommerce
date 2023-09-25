@@ -23,8 +23,8 @@ import {
 } from "react-icons/md";
 import { Control, useController } from "react-hook-form";
 import { Address, useAddressesQuery } from "@/generated/graphql";
-import ListRadioBox from "@/components/ui/radio/list/ListRadioBox";
 import Result from "@/components/shared/Result";
+import ListRadioBox from "@/components/ui/radio/list/ListRadioBox";
 import { CheckoutForm } from "@/pages/cart/checkout";
 
 interface AddressSelectorProps {

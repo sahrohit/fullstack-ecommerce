@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { Control, useController } from "react-hook-form";
 import { useShippingmethodsQuery } from "@/generated/graphql";
-import { CheckoutForm } from "@/pages/cart/checkout";
 import Result from "@/components/shared/Result";
+import { CheckoutForm } from "@/pages/cart/checkout";
 
 interface ShippingMethodProps extends UseRadioGroupProps {
 	control: Control<CheckoutForm, any>;

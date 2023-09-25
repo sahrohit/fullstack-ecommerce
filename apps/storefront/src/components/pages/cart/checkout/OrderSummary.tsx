@@ -28,9 +28,9 @@ import {
 } from "@/generated/graphql";
 import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
+import { capitalize } from "@/utils/helpers";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import { CheckoutForm } from "@/pages/cart/checkout";
-import { capitalize } from "@/utils/helpers";
 
 interface OrderSummaryProps {
 	setFormPromoCode: (promoCode: string) => void;
@@ -201,7 +201,13 @@ const OrderSummary = ({ watch, setFormPromoCode }: OrderSummaryProps) => {
 						currency="NPR"
 					/>
 				</HStack>
-				<Button size="xl" w="full" colorScheme="primary" type="submit">
+				<Button
+					size="xl"
+					w="full"
+					colorScheme="primary"
+					type="submit"
+					form="checkout-form"
+				>
 					Place Order
 				</Button>
 			</VStack>

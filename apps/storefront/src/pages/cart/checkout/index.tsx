@@ -19,12 +19,12 @@ import {
 	useCreateOrderMutation,
 	useCreatePaymentMutation,
 } from "@/generated/graphql";
+import ModalButton from "@/components/ui/ModalButton";
 import AddressForm from "@/components/pages/account/address/AddressForm";
 import AddressSelector from "@/components/pages/cart/checkout/AddressSelector";
 import OrderSummary from "@/components/pages/cart/checkout/OrderSummary";
 import PaymentSelector from "@/components/pages/cart/checkout/PaymentSelector";
 import ShippingMethod from "@/components/pages/cart/checkout/ShippingMethod";
-import ModalButton from "@/components/ui/ModalButton";
 
 export interface CheckoutForm {
 	addressId: string;
@@ -195,7 +195,7 @@ const CheckoutPage = () => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit(handleCheckout)}>
+		<form onSubmit={handleSubmit(handleCheckout)} id="checkout-form">
 			<Stack w="full" direction={["column", "column", "row", "row", "row"]}>
 				<VStack flexGrow={1} mx={{ base: 4, lg: 16 }} gap={4}>
 					<Heading fontSize="2xl">Shipping Information</Heading>

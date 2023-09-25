@@ -81,6 +81,7 @@ const AddressForm = ({
 
 	return (
 		<form
+			id="address-form"
 			onSubmit={handleSubmit((values) => {
 				if (id && defaultValues) {
 					updateAddressMutation({
@@ -284,6 +285,7 @@ const AddressForm = ({
 
 				<Button
 					type="submit"
+					form="address-form"
 					colorScheme="primary"
 					size="lg"
 					fontSize="md"
