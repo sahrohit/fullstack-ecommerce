@@ -137,7 +137,7 @@ const AddressSelectorRadioSkeleton = () => (
 					House no 6, Surya Colony, Tikathali, Lalitpur
 				</Skeleton>
 			</VStack>
-			<Skeleton>123456789</Skeleton>
+			<Skeleton>98765432</Skeleton>
 		</HStack>
 	</Box>
 );
