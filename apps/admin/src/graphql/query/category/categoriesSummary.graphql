@@ -1,0 +1,13 @@
+query CategoriesSummary {
+	categoriesSummary {
+		id
+		name
+		identifier
+		desc
+		imageURL
+		tenantId
+		product_count
+		created_at
+		updated_at
+	}
+}

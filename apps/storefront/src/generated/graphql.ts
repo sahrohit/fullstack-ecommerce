@@ -227,7 +227,6 @@ export type IssueInput = {
 export type Mutation = {
 	__typename?: "Mutation";
 	addAddress: Address;
-	addCategory: ProductCategory;
 	addDiscount?: Maybe<DiscountResponse>;
 	addReview?: Maybe<ProductReview>;
 	addStaff: Staff;
@@ -237,6 +236,7 @@ export type Mutation = {
 	adminRegister: UserResponse;
 	changePassword: UserResponse;
 	clearCart: Scalars["Boolean"];
+	createCategory: ProductCategory;
 	createComment: IssueComment;
 	createIssue: Issue;
 	createOrder: OrderDetail;
@@ -283,12 +283,6 @@ export type MutationAddAddressArgs = {
 	input: AddressInput;
 };
 
-export type MutationAddCategoryArgs = {
-	desc: Scalars["String"];
-	identifier: Scalars["String"];
-	name: Scalars["String"];
-};
-
 export type MutationAddDiscountArgs = {
 	options: AddProductInput;
 };
@@ -329,6 +323,12 @@ export type MutationChangePasswordArgs = {
 	token: Scalars["String"];
 };
 
+export type MutationCreateCategoryArgs = {
+	desc: Scalars["String"];
+	imageURL: Scalars["String"];
+	name: Scalars["String"];
+};
+
 export type MutationCreateCommentArgs = {
 	content: Scalars["String"];
 	issueId: Scalars["Int"];
@@ -358,7 +358,7 @@ export type MutationDeleteAddressArgs = {
 };
 
 export type MutationDeleteCategoryArgs = {
-	id: Scalars["Float"];
+	id: Scalars["Int"];
 };
 
 export type MutationDeleteDiscountArgs = {
@@ -427,7 +427,7 @@ export type MutationUpdateCartArgs = {
 };
 
 export type MutationUpdateCategoryArgs = {
-	id: Scalars["Float"];
+	id: Scalars["Int"];
 	options: UpdateCategoryInput;
 };
 
@@ -917,7 +917,7 @@ export type TenantKyc = {
 
 export type UpdateCategoryInput = {
 	desc?: InputMaybe<Scalars["String"]>;
-	identifier?: InputMaybe<Scalars["String"]>;
+	imageURL?: InputMaybe<Scalars["String"]>;
 	name?: InputMaybe<Scalars["String"]>;
 };
 

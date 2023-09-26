@@ -4,6 +4,7 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	Index,
 	JoinTable,
 	ManyToOne,
 	OneToMany,
@@ -15,6 +16,8 @@ import { Tenant } from "./Tenant";
 
 @ObjectType()
 @Entity()
+@Index(["tenantId"])
+@Index(["id", "identifier"], { unique: true })
 export class ProductCategory extends BaseEntity {
 	@Field(() => Int)
 	@PrimaryGeneratedColumn()

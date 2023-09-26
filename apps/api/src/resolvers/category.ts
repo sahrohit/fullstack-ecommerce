@@ -12,6 +12,7 @@ import {
 import { ProductCategory } from "../entities/ProductCategory";
 import UpdateCategoryInput from "./GqlObjets/UpdateCategoryInput";
 import { MyContext } from "../types";
+import { nanoid } from "nanoid";
 
 @ObjectType()
 class ProductCategoryWithProductCount extends ProductCategory {
@@ -49,35 +50,41 @@ export class CategoryResolver {
 	}
 
 	@Mutation(() => ProductCategory)
-	async addCategory(
+	async createCategory(
 		@Arg("name") name: string,
 		@Arg("desc") desc: string,
-		@Arg("identifier") identifier: string,
+		@Arg("imageURL") imageURL: string,
 		@Ctx() { req }: MyContext
 	): Promise<ProductCategory> {
 		return ProductCategory.create({
 			name,
 			desc,
-			identifier,
+			imageURL,
+			identifier: name.replace(/\s+/g, "-").toLowerCase() + "-" + nanoid(6),
 			tenantId: req.session.tenantId,
 		}).save();
 	}
 
 	@Mutation(() => ProductCategory)
 	async updateCategory(
-		@Arg("id") id: number,
+		@Arg("id", () => Int) id: number,
 		@Arg("options") options: UpdateCategoryInput,
 		@Ctx() { req }: MyContext
 	): Promise<ProductCategory> {
-		await ProductCategory.save({ id, ...options });
+		await ProductCategory.save({
+			id,
+			...options,
+			tenantId: req.session.tenantId,
+		});
 		return ProductCategory.findOneByOrFail({
 			id,
+			tenantId: req.session.tenantId,
 		});
 	}
 
 	@Mutation(() => Boolean)
 	async deleteCategory(
-		@Arg("id") id: number,
+		@Arg("id", () => Int) id: number,
 		@Ctx() { req }: MyContext
 	): Promise<boolean> {
 		await ProductCategory.delete({ id, tenantId: req.session.tenantId });

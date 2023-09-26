@@ -9,5 +9,5 @@ export default class UpdateCategoryInput {
 	desc?: string;
 
 	@Field({ nullable: true })
-	identifier?: string;
+	imageURL?: string;
 }

@@ -43,7 +43,7 @@ export const DataTable = <Data extends object>({
 
 	return (
 		<Table>
-			<Thead>
+			<Thead position="sticky" top={0}>
 				{table.getHeaderGroups().map((headerGroup) => (
 					<Tr key={headerGroup.id}>
 						{headerGroup.headers.map((header) => {
