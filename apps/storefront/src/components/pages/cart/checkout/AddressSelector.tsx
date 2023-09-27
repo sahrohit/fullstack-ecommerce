@@ -132,7 +132,7 @@ const AddressSelectorRadioSkeleton = () => (
 			<Skeleton w="24px">.</Skeleton>
 			<SkeletonCircle />
 			<VStack flex="1" w="full" alignItems="flex-start">
-				<Skeleton w="1/2">Rohit Kumar Sah (9818506752)</Skeleton>
+				<Skeleton w="1/2">Rohit Kumar Sah (9865071231)</Skeleton>
 				<Skeleton w="2/3">
 					House no 6, Surya Colony, Tikathali, Lalitpur
 				</Skeleton>
