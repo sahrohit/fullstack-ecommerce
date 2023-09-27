@@ -23,11 +23,6 @@ export const ORDER_NAV_LINKS = [
 ];
 
 export const ACCOUNT_NAV_LINKS = [
-	// {
-	// 	label: "Account",
-	// 	href: "/dashboard",
-	// 	icon: FaUser,
-	// },
 	{
 		label: "Store Settings",
 		href: "/dashboard/settings",
@@ -42,13 +37,13 @@ export const ACCOUNT_NAV_LINKS = [
 
 export const SUPPORT_NAV_LINKS = [
 	{
+		label: "Issue Tickets",
+		href: "/dashboard/tickets",
+		icon: BiSupport,
+	},
+	{
 		label: "Go Back Shopping",
 		href: "/",
 		icon: BsArrowReturnLeft,
-	},
-	{
-		label: "Help Center",
-		href: "/dashboard/helpcenter",
-		icon: BiSupport,
 	},
 ];
