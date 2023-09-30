@@ -1,3 +1,7 @@
+const { resolve } = require("node:path");
+
+const project = resolve(process.cwd(), "tsconfig.json");
+
 module.exports = {
 	env: {
 		browser: true,
@@ -14,6 +18,13 @@ module.exports = {
 		"prettier",
 	],
 	plugins: ["@typescript-eslint", "import"],
+	parserOptions: {
+		project,
+	},
+	globals: {
+		React: true,
+		JSX: true,
+	},
 	settings: {
 		"import/parsers": {
 			"@typescript-eslint/parser": [".ts", ".tsx"],
@@ -21,22 +32,21 @@ module.exports = {
 		"import/resolver": {
 			typescript: {
 				alwaysTryTypes: true,
-				project: ["apps/*/tsconfig.json"],
+				project,
 			},
 		},
 	},
+	ignorePatterns: ["node_modules/", "dist/"],
+	// add rules configurations here
 	rules: {
-		// react
+		"import/no-default-export": "off",
 		"react/function-component-definition": [
 			2,
 			{
 				namedComponents: "arrow-function",
 			},
 		],
-
-		// next
 		"@next/next/no-html-link-for-pages": "off",
-
 		"react/jsx-props-no-spreading": "off",
 		"no-use-before-define": "off",
 		"@typescript-eslint/no-use-before-define": "off",
