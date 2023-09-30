@@ -1,0 +1,22 @@
+{
+	"name": "logger",
+	"version": "0.0.0",
+	"private": true,
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist/**"
+	],
+	"scripts": {
+		"build": "tsup",
+		"watch": "tsup --watch",
+		"lint": "eslint src/",
+		"typecheck": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"@types/node": "^18.11.9",
+		"tsconfig": "workspace:*",
+		"tsup": "^7.2.0",
+		"typescript": "^5.2.2"
+	}
+}

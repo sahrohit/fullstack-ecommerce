@@ -1,0 +1,19 @@
+query Me {
+	me {
+		id
+		first_name
+		last_name
+		email
+		email_verified
+		phone_number
+		phone_number_verified
+		imageUrl
+		roleId
+		language
+		currency
+		marketing_product_news
+		marketing_company_news
+		created_at
+		updated_at
+	}
+}

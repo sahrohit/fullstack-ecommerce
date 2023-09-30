@@ -4,6 +4,7 @@ const nextConfig = {
 	images: {
 		domains: ["images.unsplash.com", "utfs.io"],
 	},
+	transpilePackages: ["ui"],
 };
 
 module.exports = nextConfig;
