@@ -3,7 +3,16 @@ const { resolve } = require("node:path");
 const project = resolve(process.cwd(), "tsconfig.json");
 
 module.exports = {
-	extends: ["eslint:recommended", "turbo", "prettier"].map(require.resolve),
+	extends: [
+		"eslint:recommended",
+		"turbo",
+		"next",
+		"airbnb/base",
+		"airbnb-typescript/base",
+		"plugin:import/recommended",
+		"plugin:import/typescript",
+		"prettier",
+	],
 	parserOptions: {
 		project,
 		ecmaVersion: "latest",
