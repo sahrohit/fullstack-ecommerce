@@ -13,7 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { BiMailSend } from "react-icons/bi";
 import { useEffect } from "react";
-import { useForgotPasswordMutation } from "@/generated/graphql";
+import { useForgotPasswordMutation } from "generated-graphql";
 import InputField from "@/components/ui/InputField";
 
 import UnderlineLink from "@/components/ui/UnderlineLink";

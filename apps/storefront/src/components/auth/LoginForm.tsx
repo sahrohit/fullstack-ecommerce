@@ -10,7 +10,7 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useLoginMutation } from "@/generated/graphql";
+import { useLoginMutation } from "generated-graphql";
 import UnderlineLink from "@/components/ui/UnderlineLink";
 import InputField from "../ui/InputField";
 

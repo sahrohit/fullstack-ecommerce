@@ -1,0 +1,17 @@
+query allReviews($productId: Int!) {
+	allReviews(productId: $productId) {
+		id
+		productId
+		userId
+		rating
+		desc
+		review
+		isAnonymous
+		created_at
+		updated_at
+		user {
+			first_name
+			last_name
+		}
+	}
+}

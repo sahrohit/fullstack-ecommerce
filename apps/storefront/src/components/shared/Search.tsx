@@ -19,7 +19,7 @@ import { Command } from "cmdk";
 import { AiOutlineSearch } from "react-icons/ai";
 import debounce from "lodash.debounce";
 import { Link } from "@chakra-ui/next-js";
-import { useSearchProductsLazyQuery } from "@/generated/graphql";
+import { useSearchProductsLazyQuery } from "generated-graphql";
 
 const Search = () => {
 	const [value, setValue] = useState("not-found");

@@ -1,6 +1,6 @@
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
-import { useMeStaffQuery } from "@/generated/graphql";
+import { useMeStaffQuery } from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
 
 const withAuthPages = (Component: any) =>

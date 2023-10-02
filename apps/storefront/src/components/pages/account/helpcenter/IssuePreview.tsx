@@ -30,7 +30,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import {
 	useCreateCommentMutation,
 	useIssuesWithCommentsQuery,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import Result from "@/components/shared/Result";
 import PageLoader from "@/components/shared/PageLoader";
 import colorFromStatus from "@/config/color";

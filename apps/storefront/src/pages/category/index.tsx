@@ -1,5 +1,5 @@
 import { Box, HStack, Heading } from "@chakra-ui/react";
-import { useCategoriesQuery } from "@/generated/graphql";
+import { useCategoriesQuery } from "generated-graphql";
 import CategoryCard from "@/components/pages/category/CategoryCard";
 import CategoryGrid from "@/components/pages/category/CategoryGrid";
 import Footer from "@/components/shared/Footer";

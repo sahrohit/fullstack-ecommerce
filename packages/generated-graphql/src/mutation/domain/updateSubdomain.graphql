@@ -1,0 +1,17 @@
+mutation UpdateSubDomain($subdomain: String!) {
+	updateSubDomain(subdomain: $subdomain) {
+		id
+		name
+		desc
+		address
+		logo
+		font
+		subdomain
+		customDomain
+		defaultForPreview
+		userId
+		categoryId
+		created_at
+		updated_at
+	}
+}

@@ -1,0 +1,9 @@
+mutation UpdateMarketingPreference(
+	$marketing_company_news: Boolean!
+	$marketing_product_news: Boolean!
+) {
+	updateMarketingPreference(
+		marketing_company_news: $marketing_company_news
+		marketing_product_news: $marketing_product_news
+	)
+}

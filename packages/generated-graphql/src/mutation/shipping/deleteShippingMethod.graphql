@@ -1,0 +1,3 @@
+mutation DeleteShippingMethod($id: Int!) {
+	deleteShippingMethod(id: $id)
+}

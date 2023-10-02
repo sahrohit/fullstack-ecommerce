@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function CounterButton(): JSX.Element {
+const CounterButton = (): JSX.Element => {
 	const [count, setCount] = useState(0);
 
 	return (
@@ -45,4 +45,6 @@ export function CounterButton(): JSX.Element {
 			</div>
 		</div>
 	);
-}
+};
+
+export default CounterButton;

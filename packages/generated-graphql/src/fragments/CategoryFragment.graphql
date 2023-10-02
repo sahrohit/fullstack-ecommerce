@@ -1,0 +1,10 @@
+fragment CategoryFragment on ProductCategory {
+	id
+	name
+	identifier
+	desc
+	imageURL
+	tenantId
+	created_at
+	updated_at
+}

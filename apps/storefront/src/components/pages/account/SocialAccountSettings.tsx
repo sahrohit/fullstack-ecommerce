@@ -1,7 +1,7 @@
 import type { StackProps } from "@chakra-ui/react";
 import { Spinner, Stack } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
-import { useMeWithAccountQuery } from "@/generated/graphql";
+import { useMeWithAccountQuery } from "generated-graphql";
 import Result from "@/components/shared/Result";
 import { capitalize, parseJwt } from "@/utils/helpers";
 import { getGoogleOAuthUrl } from "@/components/auth/AuthProvider";

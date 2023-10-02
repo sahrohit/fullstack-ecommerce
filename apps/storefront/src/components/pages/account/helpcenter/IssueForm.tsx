@@ -17,7 +17,7 @@ import * as Yup from "yup";
 import {
 	useCreateIssueMutation,
 	useIssueCategoriesQuery,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import InputField from "@/components/ui/InputField";
 
 type IssueFormValues = {

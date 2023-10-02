@@ -22,7 +22,7 @@ import { useRouter } from "next/router";
 import { ReactNode, useMemo } from "react";
 import { MdOutlineContentCopy } from "react-icons/md";
 import Link from "next/link";
-import { type Cart, useMeQuery, useOrderByIdQuery } from "@/generated/graphql";
+import { type Cart, useMeQuery, useOrderByIdQuery } from "generated-graphql";
 import { OrderSummaryItem } from "@/components/pages/cart/checkout/OrderSummary";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import { capitalize } from "@/utils/helpers";

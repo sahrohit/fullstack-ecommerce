@@ -14,7 +14,7 @@ module.exports = {
 				reactApolloVersion: 3,
 			},
 			hooks: {
-				afterOneFileWrite: ["prettier --write"],
+				afterOneFileWrite: ["eslint --fix", "prettier --write"],
 			},
 		},
 	},

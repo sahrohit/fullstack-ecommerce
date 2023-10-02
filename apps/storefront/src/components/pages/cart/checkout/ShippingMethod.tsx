@@ -11,7 +11,7 @@ import {
 	Spinner,
 } from "@chakra-ui/react";
 import { Control, useController } from "react-hook-form";
-import { useShippingmethodsQuery } from "@/generated/graphql";
+import { useShippingmethodsQuery } from "generated-graphql";
 import Result from "@/components/shared/Result";
 import { CheckoutForm } from "@/pages/cart/checkout";
 

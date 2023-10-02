@@ -1,0 +1,11 @@
+query Variants {
+	variants {
+		...VariantFragment
+		variant_values {
+			value_id
+			value
+			created_at
+			updated_at
+		}
+	}
+}

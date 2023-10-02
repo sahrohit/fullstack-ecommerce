@@ -24,7 +24,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Image from "next/image";
-import { Cart, useFetchCartItemsQuery } from "@/generated/graphql";
+import { Cart, useFetchCartItemsQuery } from "generated-graphql";
 import Result from "@/components/shared/Result";
 import { formatPrice } from "@/components/shared/product/PriceTag";
 import DrawerCartItem from "./DrawerCartItem";

@@ -1,0 +1,13 @@
+query Promo($code: String!) {
+	promo(code: $code) {
+		id
+		name
+		code
+		discount_amount
+		isDiscountAmountPercentage
+		starts_at
+		expires_at
+		created_at
+		updated_at
+	}
+}

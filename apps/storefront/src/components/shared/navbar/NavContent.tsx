@@ -17,7 +17,7 @@ import {
 	AiOutlineShoppingCart,
 	AiOutlineUser,
 } from "react-icons/ai";
-import { useMeQuery } from "@/generated/graphql";
+import { useMeQuery } from "generated-graphql";
 import Logo from "@/components/logo";
 import NavMenu from "@/components/shared/navbar/NavMenu";
 import Submenu from "@/components/shared/navbar/Submenu";

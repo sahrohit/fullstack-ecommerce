@@ -26,7 +26,7 @@ import {
 	useDetailsQuery,
 	useUpdateCustomDomainMutation,
 	useUpdateSubDomainMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import DomainConfiguration, {
 	DomainStatusByName,
 } from "@/components/ui/Domain";

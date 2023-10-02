@@ -1,0 +1,10 @@
+query TenantCategories {
+	tenantCategories {
+		id
+		name
+		identifier
+		desc
+		created_at
+		updated_at
+	}
+}

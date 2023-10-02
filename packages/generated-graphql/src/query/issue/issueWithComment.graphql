@@ -1,0 +1,27 @@
+query IssuesWithComments($issueId: Int!) {
+	issuesWithComments(issueId: $issueId) {
+		...IssueFragment
+		comments {
+			...IssueCommentFragment
+			user {
+				first_name
+				last_name
+				role {
+					name
+				}
+				imageUrl
+			}
+		}
+		category {
+			...IssueCategoryFragment
+		}
+		user {
+			first_name
+			last_name
+			role {
+				name
+			}
+			imageUrl
+		}
+	}
+}

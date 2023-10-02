@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
-import { Cart as ICart, useFetchCartItemsQuery } from "@/generated/graphql";
+import { Cart as ICart, useFetchCartItemsQuery } from "generated-graphql";
 import Result from "@/components/shared/Result";
 import PageLoader from "@/components/shared/PageLoader";
 import CartItem, { CartItemSkeleton } from "./CartItem";

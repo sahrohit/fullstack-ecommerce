@@ -8,7 +8,7 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { Product, useProductByIdQuery } from "@/generated/graphql";
+import { Product, useProductByIdQuery } from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import UnderlineLink from "@/components/ui/UnderlineLink";

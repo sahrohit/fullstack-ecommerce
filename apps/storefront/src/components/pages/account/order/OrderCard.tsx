@@ -31,7 +31,7 @@ import {
 	OrderItem,
 	useCreatePaymentMutation,
 	useGenerateInvoiceMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import {
 	OrderInfo,
 	PaymentProviderLogo,

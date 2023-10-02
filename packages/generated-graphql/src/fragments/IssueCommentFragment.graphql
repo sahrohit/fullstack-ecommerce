@@ -1,0 +1,10 @@
+fragment IssueCommentFragment on IssueComment {
+	id
+	content
+	html
+	completed_at
+	issueId
+	userId
+	created_at
+	updated_at
+}

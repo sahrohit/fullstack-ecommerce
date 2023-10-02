@@ -17,10 +17,7 @@ import { MdWorkOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { BiTrash } from "react-icons/bi";
 import { useRef } from "react";
-import {
-	useAddressesQuery,
-	useDeleteAddressMutation,
-} from "@/generated/graphql";
+import { useAddressesQuery, useDeleteAddressMutation } from "generated-graphql";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import ModalButton from "@/components/ui/ModalButton";
 import AddressForm from "./AddressForm";

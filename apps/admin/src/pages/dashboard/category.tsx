@@ -33,7 +33,7 @@ import {
 	useCreateCategoryMutation,
 	useUpdateCategoryMutation,
 	useDeleteCategoryMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import ModalButton from "@/components/ui/ModalButton";
 import InputField from "@/components/ui/InputField";

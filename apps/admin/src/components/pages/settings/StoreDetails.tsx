@@ -19,7 +19,7 @@ import {
 	useDetailsQuery,
 	useTenantCategoriesQuery,
 	useUpdateTenantMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import InputField from "@/components/ui/InputField";

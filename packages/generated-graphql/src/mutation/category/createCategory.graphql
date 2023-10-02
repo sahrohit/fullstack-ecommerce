@@ -1,0 +1,12 @@
+mutation CreateCategory($name: String!, $desc: String!, $imageURL: String!) {
+	createCategory(name: $name, desc: $desc, imageURL: $imageURL) {
+		id
+		name
+		identifier
+		desc
+		imageURL
+		tenantId
+		created_at
+		updated_at
+	}
+}

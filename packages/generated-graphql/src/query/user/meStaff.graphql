@@ -1,0 +1,11 @@
+query MeStaff {
+	meStaff {
+		...UserFragment
+		staff {
+			...StaffFragment
+			tenant {
+				...TenantFragment
+			}
+		}
+	}
+}

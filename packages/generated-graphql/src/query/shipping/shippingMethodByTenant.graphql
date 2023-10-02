@@ -1,0 +1,5 @@
+query ShippingmethodsByTenant {
+	shippingmethodsByTenant {
+		...ShippingMethodFragment
+	}
+}

@@ -23,7 +23,7 @@ import {
 	Issue as IIssue,
 	useIssuesQuery,
 	useResolveByCustomerMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 import ModalButton from "@/components/ui/ModalButton";
 import colorFromStatus from "@/config/color";

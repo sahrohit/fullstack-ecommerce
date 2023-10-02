@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
-import { useChangePasswordMutation } from "@/generated/graphql";
+import { useChangePasswordMutation } from "generated-graphql";
 import InputField from "@/components/ui/InputField";
 
 import UnderlineLink from "@/components/ui/UnderlineLink";

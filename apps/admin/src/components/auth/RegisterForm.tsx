@@ -24,7 +24,7 @@ import { MdPassword } from "react-icons/md";
 import {
 	useAdminRegisterMutation,
 	useTenantCategoriesQuery,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import InputField from "../ui/InputField";
 import Result from "../shared/Result";
 import { List, ListItem } from "../ui/timeline";

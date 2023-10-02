@@ -1,0 +1,5 @@
+mutation UpdateAddress($input: AddressInput!, $updateAddressId: Int!) {
+	updateAddress(input: $input, id: $updateAddressId) {
+		...AddressFragment
+	}
+}

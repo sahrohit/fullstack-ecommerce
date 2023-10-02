@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
-import { Product, useProductsQuery } from "@/generated/graphql";
+import { Product, useProductsQuery } from "generated-graphql";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
 import ProductGrid from "@/components/pages/product/ProductGrid";

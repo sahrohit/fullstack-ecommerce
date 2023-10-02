@@ -12,7 +12,7 @@ import {
 	Cart,
 	useDeleteFromCartMutation,
 	useUpdateCartMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import { UnderlineButton } from "@/components/ui/UnderlineLink";
 import { capitalize } from "@/utils/helpers";
 import { PriceTag } from "@/components/shared/product/PriceTag";

@@ -7,7 +7,7 @@ import {
 	VStack,
 	useToast,
 } from "@chakra-ui/react";
-import { useLogoutMutation, useMeQuery } from "@/generated/graphql";
+import { useLogoutMutation, useMeQuery } from "generated-graphql";
 import PageLoader from "../PageLoader";
 
 const UserProfile = () => {

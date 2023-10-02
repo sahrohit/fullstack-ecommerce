@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import {
 	useCreateOrderMutation,
 	useCreatePaymentMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import ModalButton from "@/components/ui/ModalButton";
 import AddressForm from "@/components/pages/account/address/AddressForm";
 import AddressSelector from "@/components/pages/cart/checkout/AddressSelector";

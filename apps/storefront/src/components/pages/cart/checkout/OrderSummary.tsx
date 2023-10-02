@@ -25,7 +25,7 @@ import {
 	useFetchCartItemsQuery,
 	usePromoLazyQuery,
 	useShippingmethodsQuery,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
 import Result from "@/components/shared/Result";
 import { capitalize } from "@/utils/helpers";

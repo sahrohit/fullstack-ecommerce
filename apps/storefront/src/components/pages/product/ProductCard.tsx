@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Product } from "@/generated/graphql";
+import { Product } from "generated-graphql";
 import { PriceTag } from "@/components/shared/product/PriceTag";
 import Rating from "@/components/shared/product/Rating";
 import FavouriteButton from "./FavouriteButton";

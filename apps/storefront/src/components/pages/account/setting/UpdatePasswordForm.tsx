@@ -2,7 +2,7 @@ import { Button, Stack, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useUpdatePasswordMutation } from "@/generated/graphql";
+import { useUpdatePasswordMutation } from "generated-graphql";
 import InputField from "@/components/ui/InputField";
 
 type UpdatePasswordFormValues = {

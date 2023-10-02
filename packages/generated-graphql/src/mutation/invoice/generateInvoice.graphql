@@ -1,0 +1,3 @@
+mutation GenerateInvoice($orderId: String!) {
+	generateInvoice(orderId: $orderId)
+}

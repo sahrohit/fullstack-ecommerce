@@ -20,7 +20,7 @@ import {
 	useReviewByUserAndProductQuery,
 	useReviewSummaryQuery,
 	useReviewsQuery,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import Result from "@/components/shared/Result";
 import ModalButton from "@/components/ui/ModalButton";
 import Rating from "@/components/shared/product/Rating";

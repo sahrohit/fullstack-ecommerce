@@ -1,4 +1,4 @@
-import { Product, ProductImage } from "@/generated/graphql";
+import { Product, ProductImage } from "generated-graphql";
 import { Box, HStack, Heading, Stack, VStack } from "@chakra-ui/react";
 import Rating from "@/components/shared/product/Rating";
 import AddToCartForm from "./AddToCartForm";

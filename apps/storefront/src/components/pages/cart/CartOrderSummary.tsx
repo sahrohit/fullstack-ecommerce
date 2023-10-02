@@ -9,7 +9,7 @@ import {
 import { useMemo } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { Cart } from "@/generated/graphql";
+import { Cart } from "generated-graphql";
 import { formatPrice } from "@/components/shared/product/PriceTag";
 
 type OrderSummaryBillItemProps = {

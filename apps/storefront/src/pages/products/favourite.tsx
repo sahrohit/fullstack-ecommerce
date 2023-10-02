@@ -18,7 +18,7 @@ import {
 	useFavouritesWithProductQuery,
 	useMeQuery,
 	useRemoveFromFavouriteMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import Result from "@/components/shared/Result";
 // import dayjs from "dayjs";
 import ConfirmationModal from "@/components/helpers/ConfirmationModal";

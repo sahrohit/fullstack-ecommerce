@@ -1,0 +1,15 @@
+mutation UpdateShippingMethod(
+	$price: Int!
+	$dispatch_in: Int!
+	$name: String!
+	$id: Int!
+) {
+	updateShippingMethod(
+		price: $price
+		dispatch_in: $dispatch_in
+		name: $name
+		id: $id
+	) {
+		...ShippingMethodFragment
+	}
+}

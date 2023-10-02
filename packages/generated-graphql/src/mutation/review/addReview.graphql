@@ -1,0 +1,25 @@
+mutation AddReview(
+	$isAnonymous: Boolean!
+	$desc: String!
+	$rating: Int!
+	$productId: Int!
+	$review: String!
+) {
+	addReview(
+		isAnonymous: $isAnonymous
+		desc: $desc
+		rating: $rating
+		productId: $productId
+		review: $review
+	) {
+		id
+		productId
+		userId
+		rating
+		review
+		desc
+		isAnonymous
+		created_at
+		updated_at
+	}
+}

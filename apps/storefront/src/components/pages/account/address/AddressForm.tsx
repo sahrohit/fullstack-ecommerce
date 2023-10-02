@@ -8,7 +8,7 @@ import { MdWorkOutline } from "react-icons/md";
 import {
 	useAddAddressMutation,
 	useUpdateAddressMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import InputField from "@/components/ui/InputField";
 import { ToggleButtonGroup, ToggleButton } from "@/components/ui/ToggleButton";
 

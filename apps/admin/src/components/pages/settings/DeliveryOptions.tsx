@@ -26,7 +26,7 @@ import {
 	useDeleteShippingMethodMutation,
 	useShippingmethodsByTenantQuery,
 	useUpdateShippingMethodMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import HeadingGroup from "@/components/ui/HeadingGroup";
 import { DataTable } from "@/components/ui/table";
 import Result from "@/components/shared/Result";
