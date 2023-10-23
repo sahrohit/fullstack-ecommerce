@@ -1,3 +1,0 @@
-mutation UpdateLanguagePreference($currency: String!, $language: String!) {
-	updateLanguagePreference(currency: $currency, language: $language)
-}

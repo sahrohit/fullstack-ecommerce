@@ -1,3 +1,0 @@
-mutation EmailInvoice($email: String!, $orderId: String!) {
-	emailInvoice(email: $email, orderId: $orderId)
-}

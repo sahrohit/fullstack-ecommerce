@@ -1,8 +1,0 @@
-fragment StaffFragment on Staff {
-	id
-	userId
-	tenantId
-	status
-	created_at
-	updated_at
-}

@@ -1,9 +1,0 @@
-mutation AddToFavourite($productId: Int!) {
-	addToFavourite(productId: $productId) {
-		id
-		userId
-		productId
-		created_at
-		updated_at
-	}
-}

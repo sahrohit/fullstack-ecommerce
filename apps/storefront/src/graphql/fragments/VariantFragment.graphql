@@ -1,6 +1,0 @@
-fragment VariantFragment on Variant {
-	variant_id
-	variant_name
-	created_at
-	updated_at
-}

@@ -1,6 +1,0 @@
-query ReviewSummary($productId: Int!) {
-	reviewSummary(productId: $productId) {
-		count
-		rating
-	}
-}

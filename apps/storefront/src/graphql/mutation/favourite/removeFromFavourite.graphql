@@ -1,3 +1,0 @@
-mutation RemoveFromFavourite($productId: Int!) {
-	removeFromFavourite(productId: $productId)
-}

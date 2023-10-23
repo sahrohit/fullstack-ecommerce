@@ -1,8 +1,0 @@
-fragment ProductVariantFragment on ProductVariant {
-	product_variant_id
-	variant_value {
-		...VariantValueFragment
-	}
-	created_at
-	updated_at
-}

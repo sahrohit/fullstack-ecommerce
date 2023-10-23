@@ -1,5 +1,0 @@
-query IssueCategories {
-	issueCategories {
-		...IssueCategoryFragment
-	}
-}

@@ -1,5 +1,0 @@
-query Categories {
-	categories {
-		...CategoryFragment
-	}
-}

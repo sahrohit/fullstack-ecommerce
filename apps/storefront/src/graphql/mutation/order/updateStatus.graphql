@@ -1,5 +1,0 @@
-mutation UpdateStatus($pidx: String, $refId: String, $orderId: String!) {
-	updateStatus(pidx: $pidx, refId: $refId, orderId: $orderId) {
-		...OrderDetailFragment
-	}
-}

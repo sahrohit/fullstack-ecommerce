@@ -1,5 +1,0 @@
-mutation createComment($issueId: Int!, $content: String!) {
-	createComment(issueId: $issueId, content: $content) {
-		...IssueCommentFragment
-	}
-}

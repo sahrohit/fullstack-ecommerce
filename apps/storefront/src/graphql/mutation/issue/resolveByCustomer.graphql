@@ -1,3 +1,0 @@
-mutation resolveByCustomer($issueId: Int!) {
-	resolveByCustomer(issueId: $issueId)
-}

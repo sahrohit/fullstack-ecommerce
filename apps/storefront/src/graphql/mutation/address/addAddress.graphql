@@ -1,5 +1,0 @@
-mutation AddAddress($input: AddressInput!) {
-	addAddress(input: $input) {
-		...AddressFragment
-	}
-}

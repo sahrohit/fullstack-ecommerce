@@ -1,7 +1,0 @@
-query ProductsSummary {
-	productsSummary {
-		max
-		min
-		count
-	}
-}
