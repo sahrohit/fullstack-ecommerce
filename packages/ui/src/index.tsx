@@ -7,6 +7,8 @@ export * from "./step";
 export * from "./table";
 export * from "./timeline";
 
+export * from "./utils/helpers";
+
 // input folder
 export { InputField, type InputFieldProps } from "./input/InputField";
 export {

@@ -30,7 +30,7 @@ import {
 import DomainConfiguration, {
 	DomainStatusByName,
 } from "@/components/ui/Domain";
-import Result from "@/components/shared/Result";
+import { Result } from "ui";
 import { client } from "@/pages/_app";
 import { DOMAIN_NAME } from "../../../../constants";
 

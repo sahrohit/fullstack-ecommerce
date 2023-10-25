@@ -15,8 +15,7 @@ import {
 	useUpdateTenantContactMutation,
 } from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
-import Result from "@/components/shared/Result";
-import InputField from "@/components/ui/InputField";
+import { InputField, Result } from "ui";
 import FieldGroup from "./FieldGroup";
 
 interface SupportFormValues {

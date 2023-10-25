@@ -25,9 +25,7 @@ import {
 	useAdminRegisterMutation,
 	useTenantCategoriesQuery,
 } from "generated-graphql";
-import InputField from "../ui/InputField";
-import Result from "../shared/Result";
-import { List, ListItem } from "../ui/timeline";
+import { List, ListItem, InputField, Result } from "ui";
 import { BRAND_NAME } from "../../../constants";
 
 type RegisterFormValues = {

@@ -31,8 +31,6 @@ import { type Dispatch, type SetStateAction, useState, useRef } from "react";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { DataTable } from "@/components/ui/table";
-import HeadingGroup from "@/components/ui/HeadingGroup";
 import withProtected from "@/routes/withProtected";
 import {
 	Staff,
@@ -47,11 +45,15 @@ import {
 	useUserByEmailLazyQuery,
 } from "generated-graphql";
 import colorFromStatus from "@/config/color";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
-import { capitalize } from "@/utils/helpers";
-import Result from "@/components/shared/Result";
-import ModalButton from "@/components/ui/ModalButton";
-import InputField from "@/components/ui/InputField";
+import {
+	Result,
+	ModalButton,
+	InputField,
+	HeadingGroup,
+	DataTable,
+	ConfirmationModal,
+	capitalize,
+} from "ui";
 import { BRAND_NAME } from "../../../constants";
 
 const columnHelper = createColumnHelper<Staff>();

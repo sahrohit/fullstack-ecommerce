@@ -24,9 +24,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { RiAddFill } from "react-icons/ri";
-import Result from "@/components/shared/Result";
-import HeadingGroup from "@/components/ui/HeadingGroup";
-import { DataTable } from "@/components/ui/table";
+import {
+	DataTable,
+	Result,
+	HeadingGroup,
+	ConfirmationModal,
+	ModalButton,
+	InputField,
+} from "ui";
 import {
 	type ProductCategoryWithProductCount,
 	useCategoriesSummaryQuery,
@@ -34,9 +39,6 @@ import {
 	useUpdateCategoryMutation,
 	useDeleteCategoryMutation,
 } from "generated-graphql";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
-import ModalButton from "@/components/ui/ModalButton";
-import InputField from "@/components/ui/InputField";
 import FileUploadInputField from "@/components/ui/FileUploadInputField";
 
 interface TableActionsProps {

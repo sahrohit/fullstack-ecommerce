@@ -14,11 +14,9 @@ import * as Yup from "yup";
 import { BiMailSend } from "react-icons/bi";
 import { useEffect } from "react";
 import { useForgotPasswordMutation } from "generated-graphql";
-import InputField from "@/components/ui/InputField";
+import { InputField, UnderlineLink, useLocalStorage } from "ui";
 
-import UnderlineLink from "@/components/ui/UnderlineLink";
 import Logo from "@/components/logo";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import withAuthPages from "@/routes/withAuthPages";
 import { PROD } from "../../../constants";
 
