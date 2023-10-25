@@ -8,7 +8,8 @@
 	"types": "./src/index.tsx",
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"lint": "eslint src/"
+		"lint:check": "eslint .",
+		"lint:fix": "eslint --fix ."
 	},
 	"devDependencies": {
 		"@chakra-ui/next-js": "^2.1.5",

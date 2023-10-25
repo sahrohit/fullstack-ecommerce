@@ -16,7 +16,8 @@
 		"dev": "tsup src/index.ts --format esm,cjs --watch --dts --external react",
 		"codegen": "graphql-codegen --config ./graphql.config.js",
 		"typecheck": "tsc --noEmit",
-		"lint": "eslint src/"
+		"lint:check": "eslint .",
+		"lint:fix": "eslint --fix ."
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "2.6.2",

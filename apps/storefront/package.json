@@ -10,7 +10,7 @@
 		"start": "next start",
 		"gen-env": "gen-env-types .env -o env.d.ts -e .",
 		"lint:check": "eslint .",
-		"lint:fix": "eslint . --fix"
+		"lint:fix": "eslint --fix ."
 	},
 	"dependencies": {
 		"@apollo/client": "^3.8.4",

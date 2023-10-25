@@ -9,7 +9,8 @@
 		"lint": "next lint",
 		"start": "next start",
 		"gen-env": "gen-env-types .env -o env.d.ts -e .",
-		"lint:fix": "eslint --fix",
+		"lint:check": "eslint .",
+		"lint:fix": "eslint --fix .",
 		"codegen": "graphql-codegen --config ./graphql.config.js"
 	},
 	"dependencies": {
