@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
+import * as React from "react";
 
 const CounterButton = (): JSX.Element => {
 	const [count, setCount] = useState(0);

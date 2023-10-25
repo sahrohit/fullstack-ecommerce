@@ -6,6 +6,6 @@
 			"@/*": ["./src/*"]
 		}
 	},
-	"include": ["**/*.ts", "**/*.tsx"],
+	"include": ["**/*.ts", "**/*.tsx", "react-table.d.ts"],
 	"exclude": ["node_modules"]
 }
