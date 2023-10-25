@@ -10,7 +10,7 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
-import { Product } from "@/generated/graphql";
+import { Product } from "generated-graphql";
 import ProductDetails from "../ProductDetails";
 
 interface QuickViewProps {

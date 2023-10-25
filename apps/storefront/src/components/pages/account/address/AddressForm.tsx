@@ -8,9 +8,8 @@ import { MdWorkOutline } from "react-icons/md";
 import {
 	useAddAddressMutation,
 	useUpdateAddressMutation,
-} from "@/generated/graphql";
-import InputField from "@/components/ui/InputField";
-import { ToggleButtonGroup, ToggleButton } from "@/components/ui/ToggleButton";
+} from "generated-graphql";
+import { InputField, ToggleButtonGroup, ToggleButton } from "ui";
 
 type AddressFormValues = {
 	name: string;

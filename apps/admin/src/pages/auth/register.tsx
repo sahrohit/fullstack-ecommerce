@@ -11,7 +11,7 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import Logo from "@/components/logo";
 import RegisterForm from "@/components/auth/RegisterForm";
 import withAuthPages from "@/routes/withAuthPages";
-import UnderlineLink from "@/components/ui/UnderlineLink";
+import { UnderlineLink } from "ui";
 
 const RegisterPage = () => (
 	<Flex minH="100vh" direction={{ base: "column", md: "row" }}>

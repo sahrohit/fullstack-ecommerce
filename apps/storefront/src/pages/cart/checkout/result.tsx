@@ -16,10 +16,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { Link } from "@chakra-ui/next-js";
-import { useUpdateStatusMutation } from "@/generated/graphql";
-import UnderlineLink from "@/components/ui/UnderlineLink";
-import { capitalize } from "@/utils/helpers";
-import Result from "@/components/shared/Result";
+import { useUpdateStatusMutation } from "generated-graphql";
+import { UnderlineLink, capitalize, Result } from "ui";
 import PageLoader from "@/components/shared/PageLoader";
 import colorFromStatus from "@/config/color";
 

@@ -23,11 +23,9 @@ import {
 	Issue as IIssue,
 	useIssuesQuery,
 	useResolveByCustomerMutation,
-} from "@/generated/graphql";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
-import ModalButton from "@/components/ui/ModalButton";
+} from "generated-graphql";
 import colorFromStatus from "@/config/color";
-import Result from "@/components/shared/Result";
+import { Result, ModalButton, ConfirmationModal } from "ui";
 import IssuePreview from "./IssuePreview";
 import IssueForm from "./IssueForm";
 
@@ -201,6 +199,7 @@ export const Issue = ({ issue }: IssueProps) => {
 					</Text>
 				) : (
 					<ConfirmationModal
+						confirmButtonProps={{}}
 						colorScheme="green"
 						leftIcon={<BiCheck />}
 						onSuccess={() => {

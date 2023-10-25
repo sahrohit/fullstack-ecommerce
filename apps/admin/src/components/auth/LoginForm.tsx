@@ -11,9 +11,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
-import { useAdminLoginMutation } from "@/generated/graphql";
-import UnderlineLink from "@/components/ui/UnderlineLink";
-import InputField from "../ui/InputField";
+import { useAdminLoginMutation } from "generated-graphql";
+import { InputField, UnderlineLink } from "ui";
 
 interface FormValues {
 	email: string;

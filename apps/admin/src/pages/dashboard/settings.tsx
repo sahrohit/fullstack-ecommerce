@@ -12,7 +12,7 @@ import { FiUserCheck } from "react-icons/fi";
 import { GrDomain } from "react-icons/gr";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { type IconType } from "react-icons";
-import HeadingGroup from "@/components/ui/HeadingGroup";
+import { HeadingGroup } from "ui";
 import StoreDetails from "@/components/pages/settings/StoreDetails";
 import DeliveryOptions from "@/components/pages/settings/DeliveryOptions";
 import Domains from "@/components/pages/settings/Domains";

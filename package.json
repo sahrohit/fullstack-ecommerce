@@ -8,18 +8,19 @@
 		"format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"lint": "turbo run lint --no-daemon",
+		"lint:fix": "turbo run lint:fix --no-daemon",
 		"test": "turbo run test",
 		"gen-env": "turbo run gen-env --no-daemon",
 		"prepare": "husky install",
 		"codegen": "turbo run codegen --no-daemon"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^17.7.1",
+		"@commitlint/cli": "^17.7.2",
 		"@commitlint/config-conventional": "^17.7.0",
 		"husky": "^8.0.3",
 		"lint-staged": "^13.3.0",
-		"prettier": "^2.8.8",
-		"turbo": "^1.10.14"
+		"prettier": "^3.0.3",
+		"turbo": "^1.10.16"
 	},
 	"packageManager": "pnpm@7.15.0"
 }

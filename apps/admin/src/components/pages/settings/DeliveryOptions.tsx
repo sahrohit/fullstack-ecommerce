@@ -26,14 +26,16 @@ import {
 	useDeleteShippingMethodMutation,
 	useShippingmethodsByTenantQuery,
 	useUpdateShippingMethodMutation,
-} from "@/generated/graphql";
-import HeadingGroup from "@/components/ui/HeadingGroup";
+} from "generated-graphql";
+import {
+	HeadingGroup,
+	Result,
+	InputField,
+	ModalButton,
+	PriceTag,
+	ConfirmationModal,
+} from "ui";
 import { DataTable } from "@/components/ui/table";
-import Result from "@/components/shared/Result";
-import InputField from "@/components/ui/InputField";
-import ModalButton from "@/components/ui/ModalButton";
-import { PriceTag } from "@/components/shared/PriceTag";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
 
 const columnHelper = createColumnHelper<ShippingMethod>();
 

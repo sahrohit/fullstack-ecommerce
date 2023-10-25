@@ -12,7 +12,7 @@ import {
 	SimpleGrid,
 	HStack,
 } from "@chakra-ui/react";
-import UnderlineLink from "@/components/ui/UnderlineLink";
+import { UnderlineLink } from "ui";
 
 interface VariantSelectorProps {
 	options: string[];

@@ -1,3 +1,4 @@
+import { log } from "logger";
 import { createUploadthing, type FileRouter } from "uploadthing/next-legacy";
 
 const f = createUploadthing();
@@ -7,7 +8,7 @@ export const ourFileRouter = {
 	kycDocumentUploader: f({
 		image: { maxFileCount: 1 },
 	}).onUploadComplete(async ({ file }) => {
-		console.log("KYC Document Uploded", file.name, file.url);
+		log("KYC Document Uploded", file.name, file.url);
 	}),
 } satisfies FileRouter;
 

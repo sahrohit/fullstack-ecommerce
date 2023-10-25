@@ -26,11 +26,11 @@ import {
 	useDetailsQuery,
 	useUpdateCustomDomainMutation,
 	useUpdateSubDomainMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import DomainConfiguration, {
 	DomainStatusByName,
 } from "@/components/ui/Domain";
-import Result from "@/components/shared/Result";
+import { Result } from "ui";
 import { client } from "@/pages/_app";
 import { DOMAIN_NAME } from "../../../../constants";
 

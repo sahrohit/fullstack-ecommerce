@@ -16,8 +16,8 @@ import {
 	useMeQuery,
 	useUpdateLanguagePreferenceMutation,
 	useUpdateMarketingPreferenceMutation,
-} from "@/generated/graphql";
-import Result from "@/components/shared/Result";
+} from "generated-graphql";
+import { Result } from "ui";
 import Card from "./Card";
 import FieldGroup from "./FieldGroup";
 

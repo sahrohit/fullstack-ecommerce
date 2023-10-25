@@ -1,7 +1,7 @@
 import { Stack } from "@chakra-ui/react";
+import { HeadingGroup } from "ui";
 import AccountSettings from "@/components/pages/account/AccountSetting";
 import DangerZone from "@/components/pages/account/DangerZone";
-import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import SocialAccountSettings from "@/components/pages/account/SocialAccountSettings";
 import withProtected from "@/routes/withProtected";
 

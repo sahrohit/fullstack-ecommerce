@@ -8,7 +8,7 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import UnderlineLink from "@/components/ui/UnderlineLink";
+import { UnderlineLink } from "ui";
 
 const PageNotFound = () => (
 	<SimpleGrid placeItems="center" minH="100vh">

@@ -1,8 +1,0 @@
-fragment ShippingMethodFragment on ShippingMethod {
-	id
-	name
-	price
-	dispatch_in
-	created_at
-	updated_at
-}

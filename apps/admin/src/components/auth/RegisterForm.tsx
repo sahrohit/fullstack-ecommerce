@@ -24,10 +24,8 @@ import { MdPassword } from "react-icons/md";
 import {
 	useAdminRegisterMutation,
 	useTenantCategoriesQuery,
-} from "@/generated/graphql";
-import InputField from "../ui/InputField";
-import Result from "../shared/Result";
-import { List, ListItem } from "../ui/timeline";
+} from "generated-graphql";
+import { List, ListItem, InputField, Result } from "ui";
 import { BRAND_NAME } from "../../../constants";
 
 type RegisterFormValues = {

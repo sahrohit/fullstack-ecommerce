@@ -1,4 +1,4 @@
-import { ProductInventory } from "@/generated/graphql";
+import { ProductInventory } from "generated-graphql";
 
 /**
  * This method return all the possible variants that could be made

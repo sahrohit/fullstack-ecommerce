@@ -16,10 +16,9 @@ import {
 	useFavouritesQuery,
 	useMeQuery,
 	useRemoveFromFavouriteMutation,
-} from "@/generated/graphql";
-import QuantitySelect from "@/components/shared/cart/QuantitySelect";
+} from "generated-graphql";
+import { PriceTag, QuantitySelect } from "ui";
 import { ColorSelector } from "@/components/shared/product/ColorSelector";
-import { PriceTag } from "@/components/shared/product/PriceTag";
 import { VariantSelector } from "@/components/shared/product/VariantSelector";
 import { validVariants, allVariants, selectorsToKeys } from "@/utils/mappers";
 

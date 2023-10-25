@@ -1,6 +1,6 @@
 import { Stack } from "@chakra-ui/react";
+import { HeadingGroup } from "ui";
 import AccountPreference from "@/components/pages/account/AccountPreference";
-import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import withProtected from "@/routes/withProtected";
 
 const AccountPage = () => (

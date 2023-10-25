@@ -4,7 +4,7 @@ import {
 	useAddToFavouriteMutation,
 	useFavouritesQuery,
 	useRemoveFromFavouriteMutation,
-} from "@/generated/graphql";
+} from "generated-graphql";
 
 interface FavouriteButtonProps extends IconButtonProps {
 	productId: number;

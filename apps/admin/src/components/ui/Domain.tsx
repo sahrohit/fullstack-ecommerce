@@ -15,8 +15,8 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useVerifyDomainQuery } from "@/generated/graphql";
-import Result from "../shared/Result";
+import { useVerifyDomainQuery } from "generated-graphql";
+import { Result } from "ui";
 
 export const getSubdomain = (name: string, apexName: string) => {
 	if (name === apexName) return null;

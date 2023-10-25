@@ -25,12 +25,10 @@ import {
 	useFetchCartItemsQuery,
 	usePromoLazyQuery,
 	useShippingmethodsQuery,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
-import Result from "@/components/shared/Result";
-import { capitalize } from "@/utils/helpers";
-import { PriceTag } from "@/components/shared/product/PriceTag";
 import { CheckoutForm } from "@/pages/cart/checkout";
+import { Result, PriceTag, capitalize } from "ui";
 
 interface OrderSummaryProps {
 	setFormPromoCode: (promoCode: string) => void;

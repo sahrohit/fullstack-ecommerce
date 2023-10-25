@@ -11,7 +11,7 @@ import SignInWithGoogle from "@/components/auth/AuthProvider";
 import LoginForm from "@/components/auth/LoginForm";
 import withAuthPages from "@/routes/withAuthPages";
 import Logo from "@/components/logo";
-import DividerWithText from "@/components/ui/DividerWithText";
+import { DividerWithText } from "ui";
 
 const LoginPage = () => (
 	<Flex minH="100vh" direction={{ base: "column", md: "row" }}>

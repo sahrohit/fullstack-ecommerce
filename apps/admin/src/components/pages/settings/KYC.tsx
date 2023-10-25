@@ -20,12 +20,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
 	useRequestKycVerficationMutation,
 	useTenantKycQuery,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
-import Result from "@/components/shared/Result";
-import InputField from "@/components/ui/InputField";
-import { capitalize } from "@/utils/helpers";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
+import { Result, InputField, capitalize, ConfirmationModal } from "ui";
 import FileUploadInputField from "@/components/ui/FileUploadInputField";
 import FieldGroup from "./FieldGroup";
 import { BRAND_NAME } from "../../../../constants";

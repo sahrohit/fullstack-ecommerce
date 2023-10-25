@@ -1,10 +1,10 @@
 import { Box, HStack, Heading } from "@chakra-ui/react";
-import { useCategoriesQuery } from "@/generated/graphql";
+import { useCategoriesQuery } from "generated-graphql";
+import { Result } from "ui";
 import CategoryCard from "@/components/pages/category/CategoryCard";
 import CategoryGrid from "@/components/pages/category/CategoryGrid";
 import Footer from "@/components/shared/Footer";
 import PageLoader from "@/components/shared/PageLoader";
-import Result from "@/components/shared/Result";
 import Navbar from "@/components/shared/navbar";
 
 const CategoryPage = () => {

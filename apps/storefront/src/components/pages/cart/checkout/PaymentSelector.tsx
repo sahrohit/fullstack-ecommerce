@@ -3,7 +3,7 @@ import { Box, Heading } from "@chakra-ui/react";
 import { Control, useController } from "react-hook-form";
 import { BsCashStack } from "react-icons/bs";
 import { CheckoutForm } from "@/pages/cart/checkout";
-import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
+import { LargeButtonRadioGroup } from "ui";
 import { EsewaLogoFull, KhaltiLogoFull } from "@/config/brands";
 
 interface PaymentSelectorProps {

@@ -31,8 +31,6 @@ import { type Dispatch, type SetStateAction, useState, useRef } from "react";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { DataTable } from "@/components/ui/table";
-import HeadingGroup from "@/components/ui/HeadingGroup";
 import withProtected from "@/routes/withProtected";
 import {
 	Staff,
@@ -45,13 +43,17 @@ import {
 	useUpdateRoleMutation,
 	useUpdateStaffStatusMutation,
 	useUserByEmailLazyQuery,
-} from "@/generated/graphql";
+} from "generated-graphql";
 import colorFromStatus from "@/config/color";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
-import { capitalize } from "@/utils/helpers";
-import Result from "@/components/shared/Result";
-import ModalButton from "@/components/ui/ModalButton";
-import InputField from "@/components/ui/InputField";
+import {
+	Result,
+	ModalButton,
+	InputField,
+	HeadingGroup,
+	ConfirmationModal,
+	capitalize,
+} from "ui";
+import { DataTable } from "@/components/ui/table";
 import { BRAND_NAME } from "../../../constants";
 
 const columnHelper = createColumnHelper<Staff>();
@@ -156,9 +158,8 @@ const RoleSelector = ({ info }: RoleSelectorProps) => {
 		onCompleted(data) {
 			toast({
 				title: "Role Updated Successfully",
-				description: `${
-					info.row.original.user?.first_name
-				}'s role is updated to ${capitalize(
+				description: `${info.row.original.user
+					?.first_name}'s role is updated to ${capitalize(
 					data.updateRole.user?.role.name ?? ""
 				)}`,
 				status: "success",
@@ -275,9 +276,8 @@ export const TableActions = ({
 		onCompleted(data) {
 			toast({
 				title: "Staff Added Successfully",
-				description: `${
-					data.addStaff.user?.first_name
-				}'s access is ${capitalize(data.addStaff.status)}`,
+				description: `${data.addStaff.user
+					?.first_name}'s access is ${capitalize(data.addStaff.status)}`,
 				status: "success",
 				duration: 5000,
 				isClosable: true,
@@ -574,9 +574,10 @@ export const StaffActions = ({
 		onCompleted(data) {
 			toast({
 				title: "Staff Updated Successfully",
-				description: `${
-					data.updateStaffStatus.user?.first_name
-				}'s access is ${capitalize(data.updateStaffStatus.status)}`,
+				description: `${data.updateStaffStatus.user
+					?.first_name}'s access is ${capitalize(
+					data.updateStaffStatus.status
+				)}`,
 				status: "success",
 				duration: 5000,
 				isClosable: true,

@@ -9,10 +9,9 @@ import {
 	useColorModeValue as mode,
 } from "@chakra-ui/react";
 
-import DividerWithText from "@/components/ui/DividerWithText";
+import { DividerWithText, UnderlineLink } from "ui";
 import Logo from "@/components/logo";
 import RegisterForm from "@/components/auth/RegisterForm";
-import UnderlineLink from "@/components/ui/UnderlineLink";
 import SignInWithGoogle from "@/components/auth/AuthProvider";
 import withAuthPages from "@/routes/withAuthPages";
 import { BRAND_NAME } from "../../../constants";

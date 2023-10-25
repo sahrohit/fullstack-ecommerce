@@ -6,8 +6,8 @@ import {
 	Variant,
 	useQueryProductsQuery,
 	useVariantsQuery,
-} from "@/generated/graphql";
-import Result from "@/components/shared/Result";
+} from "generated-graphql";
+import { Result } from "ui";
 import ProductCard, {
 	ProductCardSkeleton,
 } from "@/components/pages/product/ProductCard";

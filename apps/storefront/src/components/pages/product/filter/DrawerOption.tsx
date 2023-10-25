@@ -12,8 +12,8 @@ import {
 	IconButton,
 } from "@chakra-ui/react";
 import { BiFilter } from "react-icons/bi";
-import { Dispatch, SetStateAction } from "react";
-import { Variant } from "@/generated/graphql";
+import type { Dispatch, SetStateAction } from "react";
+import { type Variant } from "generated-graphql";
 import FilterOptions from "./FilterOptions";
 
 interface DrawerOptionsProps extends ButtonProps {
