@@ -11,13 +11,12 @@ import {
 	Tooltip,
 	Select,
 } from "@chakra-ui/react";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { Variant } from "generated-graphql";
+import { PriceTag, capitalize } from "ui";
 import { ColorSelector } from "@/components/shared/product/ColorSelector";
 import PriceSelector from "@/components/shared/product/PriceSelector";
-import { PriceTag } from "@/components/shared/product/PriceTag";
 import { VariantSelector } from "@/components/shared/product/VariantSelector";
-import { capitalize } from "@/utils/helpers";
 
 interface FilterOptionsProps extends StackProps {
 	variants: Variant[];

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Control, useController } from "react-hook-form";
 import { useShippingmethodsQuery } from "generated-graphql";
-import Result from "@/components/shared/Result";
+import { Result } from "ui";
 import { CheckoutForm } from "@/pages/cart/checkout";
 
 interface ShippingMethodProps extends UseRadioGroupProps {

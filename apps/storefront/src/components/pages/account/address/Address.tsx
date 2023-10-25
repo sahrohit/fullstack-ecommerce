@@ -18,8 +18,7 @@ import { FiEdit } from "react-icons/fi";
 import { BiTrash } from "react-icons/bi";
 import { useRef } from "react";
 import { useAddressesQuery, useDeleteAddressMutation } from "generated-graphql";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
-import ModalButton from "@/components/ui/ModalButton";
+import { ConfirmationModal, ModalButton } from "ui";
 import AddressForm from "./AddressForm";
 
 const AddressSection = () => {
@@ -156,6 +155,7 @@ export const Address = ({ address }: AddressProps) => {
 				</ModalButton>
 
 				<ConfirmationModal
+					confirmButtonProps={{}}
 					colorScheme="red"
 					leftIcon={<BiTrash />}
 					onSuccess={() => {

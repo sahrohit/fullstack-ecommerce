@@ -29,13 +29,13 @@ import {
 } from "generated-graphql";
 import {
 	HeadingGroup,
-	DataTable,
 	Result,
 	InputField,
 	ModalButton,
 	PriceTag,
 	ConfirmationModal,
 } from "ui";
+import { DataTable } from "@/components/ui/table";
 
 const columnHelper = createColumnHelper<ShippingMethod>();
 

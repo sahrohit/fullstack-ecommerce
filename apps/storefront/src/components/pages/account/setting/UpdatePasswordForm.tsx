@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useUpdatePasswordMutation } from "generated-graphql";
-import InputField from "@/components/ui/InputField";
+import { InputField } from "ui";
 
 type UpdatePasswordFormValues = {
 	currentpassword: string;

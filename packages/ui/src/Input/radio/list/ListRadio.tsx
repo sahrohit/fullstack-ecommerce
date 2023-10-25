@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
-import ListRadioBox from "./ListRadioBox";
+import { ListRadioBox } from "./ListRadioBox";
 
 export interface ListRadioProps extends UseRadioProps {
 	icon: React.ReactElement;

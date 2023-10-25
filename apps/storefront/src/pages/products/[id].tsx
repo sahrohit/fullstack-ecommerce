@@ -9,9 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Product, useProductByIdQuery } from "generated-graphql";
+import { Result, UnderlineLink } from "ui";
 import PageLoader from "@/components/shared/PageLoader";
-import Result from "@/components/shared/Result";
-import UnderlineLink from "@/components/ui/UnderlineLink";
 import ProductDetails from "@/components/pages/product/ProductDetails";
 import ProductReview from "@/components/pages/product/review/ProductReview";
 import Navbar from "@/components/shared/navbar";

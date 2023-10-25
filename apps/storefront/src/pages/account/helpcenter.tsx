@@ -1,8 +1,7 @@
 import { Stack } from "@chakra-ui/react";
 import { useRef } from "react";
 import { IoAdd } from "react-icons/io5";
-import HeadingGroup from "@/components/pages/account/HeadingGroup";
-import ModalButton from "@/components/ui/ModalButton";
+import { HeadingGroup, ModalButton } from "ui";
 import withProtected from "@/routes/withProtected";
 import IssueForm from "@/components/pages/account/helpcenter/IssueForm";
 import IssueSection from "@/components/pages/account/helpcenter/Issue";

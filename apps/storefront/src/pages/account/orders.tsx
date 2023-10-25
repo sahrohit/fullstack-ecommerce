@@ -1,10 +1,9 @@
 import { Heading, SimpleGrid, Stack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { OrderDetail, useOrdersQuery } from "generated-graphql";
-import HeadingGroup from "@/components/pages/account/HeadingGroup";
+import { HeadingGroup, Result } from "ui";
 import OrderCard from "@/components/pages/account/order/OrderCard";
 import PageLoader from "@/components/shared/PageLoader";
-import Result from "@/components/shared/Result";
 import withProtected from "@/routes/withProtected";
 import noComments from "../../../public/assets/no-comments.svg";
 

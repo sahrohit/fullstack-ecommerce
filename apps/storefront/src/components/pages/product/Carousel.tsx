@@ -10,7 +10,7 @@ import {
 	HStack,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import useDetectSwipe from "@/hooks/useDetectSwipe";
+import { useDetectSwipe } from "ui";
 
 interface ProductImageProps {
 	images: {

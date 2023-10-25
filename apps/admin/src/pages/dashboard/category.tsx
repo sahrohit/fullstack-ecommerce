@@ -25,7 +25,6 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { RiAddFill } from "react-icons/ri";
 import {
-	DataTable,
 	Result,
 	HeadingGroup,
 	ConfirmationModal,
@@ -40,6 +39,7 @@ import {
 	useDeleteCategoryMutation,
 } from "generated-graphql";
 import FileUploadInputField from "@/components/ui/FileUploadInputField";
+import { DataTable } from "@/components/ui/table";
 
 interface TableActionsProps {
 	searchText: string;

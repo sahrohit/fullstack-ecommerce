@@ -24,7 +24,6 @@
 		"react-hook-form": "^7.46.2",
 		"tsconfig": "workspace:*",
 		"typescript": "^5.2.2",
-		"@tanstack/react-table": "^8.10.3",
 		"react-icons": "^4.11.0"
 	}
 }

@@ -12,7 +12,7 @@ import {
 	RangeSliderTrack,
 	VStack,
 } from "@chakra-ui/react";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useProductsSummaryQuery } from "generated-graphql";
 
 interface PriceSelectorProps {

@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { AiOutlineMail } from "react-icons/ai";
-import InputField from "@/components/ui/InputField";
+import { InputField } from "ui";
 import Logo from "@/components/logo";
 import { EsewaLogoFull, KhaltiLogoFull } from "@/config/brands";
 import { ThemeSwitchButton } from "./ThemeSwitch";

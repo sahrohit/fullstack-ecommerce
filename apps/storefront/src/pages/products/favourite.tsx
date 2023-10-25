@@ -19,13 +19,9 @@ import {
 	useMeQuery,
 	useRemoveFromFavouriteMutation,
 } from "generated-graphql";
-import Result from "@/components/shared/Result";
-// import dayjs from "dayjs";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
+import { Result, HeadingGroup, PriceTag, ConfirmationModal } from "ui";
 import withProtected from "@/routes/withProtected";
-import HeadingGroup from "@/components/pages/account/HeadingGroup";
 import Navbar from "@/components/shared/navbar";
-import { PriceTag } from "@/components/shared/product/PriceTag";
 import services from "../../../public/assets/services.svg";
 
 const FavouritePage = () => {
@@ -182,6 +178,7 @@ const FavouriteProductCard = ({ favourite }: { favourite: Favourite }) => {
 						View Product
 					</Button>
 					<ConfirmationModal
+						confirmButtonProps={{}}
 						isLoading={loading}
 						headerText="Remove from Favourites"
 						bodyText={`Are you sure you want to remove ${favourite.product.name} from your favourites?`}

@@ -1,8 +1,8 @@
 import type { StackProps } from "@chakra-ui/react";
 import { Button, Stack, Text, useToast } from "@chakra-ui/react";
 
+import { HeadingGroup } from "ui";
 import Card from "./Card";
-import HeadingGroup from "./HeadingGroup";
 
 const DangerZone = (props: StackProps) => {
 	const toast = useToast();

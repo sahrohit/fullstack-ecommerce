@@ -10,9 +10,7 @@
 		"start": "next start",
 		"gen-env": "gen-env-types .env -o env.d.ts -e .",
 		"lint:check": "eslint .",
-		"lint:fix": "eslint . --fix",
-		"codegen": "graphql-codegen --config ./graphql.config.js",
-		"codegen:watch": "graphql-codegen --watch --config ./graphql.config.js"
+		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.8.4",
@@ -35,14 +33,10 @@
 		"react-dom": "18.2.0",
 		"react-hook-form": "^7.46.2",
 		"react-icons": "^4.11.0",
+		"ui": "workspace:*",
 		"yup": "^0.32.11"
 	},
 	"devDependencies": {
-		"@graphql-codegen/cli": "^3.3.1",
-		"@graphql-codegen/client-preset": "^3.0.1",
-		"@graphql-codegen/typescript": "^3.0.4",
-		"@graphql-codegen/typescript-operations": "^3.0.4",
-		"@graphql-codegen/typescript-react-apollo": "^3.3.7",
 		"@next/eslint-plugin-next": "^13.5.3",
 		"@types/lodash.debounce": "^4.0.7",
 		"@types/node": "18.15.11",

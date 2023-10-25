@@ -33,16 +33,18 @@ import {
 	useGenerateInvoiceMutation,
 } from "generated-graphql";
 import {
+	PriceTag,
+	ModalButton,
+	DividerWithText,
+	ConfirmationModal,
+	capitalize,
+	LargeButtonRadioGroup,
+} from "ui";
+import {
 	OrderInfo,
 	PaymentProviderLogo,
 	orderPageTextFromStatus,
 } from "@/pages/order/[id]";
-import { PriceTag } from "@/components/shared/product/PriceTag";
-import { capitalize } from "@/utils/helpers";
-import ConfirmationModal from "@/components/helpers/ConfirmationModal";
-import ModalButton from "@/components/ui/ModalButton";
-import DividerWithText from "@/components/ui/DividerWithText";
-import LargeButtonRadioGroup from "@/components/ui/radio/large/LargeButtonRadioGroup";
 import colorFromStatus from "@/config/color";
 import { paymentOptions } from "../../cart/checkout/PaymentSelector";
 import { CreateReviewButton } from "../../product/review/ProductReview";
@@ -203,6 +205,7 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
 					/> */}
 
 					<ConfirmationModal
+						confirmButtonProps={{}}
 						bodyText="Are you sure you want to cancel this delivery?"
 						onSuccess={() =>
 							toast({

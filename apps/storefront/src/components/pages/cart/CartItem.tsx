@@ -13,10 +13,7 @@ import {
 	useDeleteFromCartMutation,
 	useUpdateCartMutation,
 } from "generated-graphql";
-import { UnderlineButton } from "@/components/ui/UnderlineLink";
-import { capitalize } from "@/utils/helpers";
-import { PriceTag } from "@/components/shared/product/PriceTag";
-import QuantitySelect from "@/components/shared/cart/QuantitySelect";
+import { UnderlineButton, capitalize, PriceTag, QuantitySelect } from "ui";
 import { CartProductMeta } from "./CartProductMeta";
 
 type CartItemProps = {

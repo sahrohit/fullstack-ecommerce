@@ -50,10 +50,10 @@ import {
 	ModalButton,
 	InputField,
 	HeadingGroup,
-	DataTable,
 	ConfirmationModal,
 	capitalize,
 } from "ui";
+import { DataTable } from "@/components/ui/table";
 import { BRAND_NAME } from "../../../constants";
 
 const columnHelper = createColumnHelper<Staff>();

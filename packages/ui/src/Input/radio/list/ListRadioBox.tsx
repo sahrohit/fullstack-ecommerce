@@ -1,6 +1,7 @@
+/* eslint-disable import/prefer-default-export */
 import { Box, BoxProps, useColorModeValue } from "@chakra-ui/react";
 
-const ListRadioBox = (props: BoxProps) => (
+export const ListRadioBox = (props: BoxProps) => (
 	<Box
 		// borderWidth="2px"
 		px="4"
@@ -16,5 +17,3 @@ const ListRadioBox = (props: BoxProps) => (
 		{...props}
 	/>
 );
-
-export default ListRadioBox;

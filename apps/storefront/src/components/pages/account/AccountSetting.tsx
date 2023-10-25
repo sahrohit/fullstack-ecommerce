@@ -16,7 +16,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { MdVerified } from "react-icons/md";
 import { useMeQuery } from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
-import ModalButton from "@/components/ui/ModalButton";
+import { ModalButton } from "ui";
 import UpdatePasswordForm from "@/components/pages/account/setting/UpdatePasswordForm";
 import Card from "./Card";
 import FieldGroup from "./FieldGroup";

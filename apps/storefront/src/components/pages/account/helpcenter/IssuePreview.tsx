@@ -31,7 +31,7 @@ import {
 	useCreateCommentMutation,
 	useIssuesWithCommentsQuery,
 } from "generated-graphql";
-import Result from "@/components/shared/Result";
+import { Result } from "ui";
 import PageLoader from "@/components/shared/PageLoader";
 import colorFromStatus from "@/config/color";
 

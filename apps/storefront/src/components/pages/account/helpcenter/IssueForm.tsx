@@ -18,7 +18,7 @@ import {
 	useCreateIssueMutation,
 	useIssueCategoriesQuery,
 } from "generated-graphql";
-import InputField from "@/components/ui/InputField";
+import { InputField } from "ui";
 
 type IssueFormValues = {
 	subject: string;

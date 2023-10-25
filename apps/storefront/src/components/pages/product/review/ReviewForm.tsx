@@ -6,7 +6,7 @@ import {
 	useAddReviewMutation,
 	useUpdateReviewMutation,
 } from "generated-graphql";
-import InputField from "@/components/ui/InputField";
+import { InputField } from "ui";
 import { RatingButton } from "@/components/shared/product/Rating";
 
 type ReviewFormValues = {

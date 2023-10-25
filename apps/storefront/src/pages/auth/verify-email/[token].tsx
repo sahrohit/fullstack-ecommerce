@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useVerifyEmailMutation } from "generated-graphql";
-import Result from "@/components/shared/Result";
+import { Result } from "ui";
 import PageLoader from "@/components/shared/PageLoader";
 
 const VerifyEmailPage: NextPage = () => {

@@ -49,7 +49,8 @@ ToggleButton.defaultProps = {
 	radioProps: {},
 };
 
-interface ToggleButtonGroupProps<T> extends Omit<ButtonGroupProps, "onChange"> {
+export interface ToggleButtonGroupProps<T>
+	extends Omit<ButtonGroupProps, "onChange"> {
 	name?: string;
 	defaultValue?: string;
 	onChange?: (value: T) => void;

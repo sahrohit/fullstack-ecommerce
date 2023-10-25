@@ -2,11 +2,9 @@ import type { StackProps } from "@chakra-ui/react";
 import { Spinner, Stack } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { useMeWithAccountQuery } from "generated-graphql";
-import Result from "@/components/shared/Result";
-import { capitalize, parseJwt } from "@/utils/helpers";
 import { getGoogleOAuthUrl } from "@/components/auth/AuthProvider";
+import { HeadingGroup, Result, capitalize, parseJwt } from "ui";
 import Card from "./Card";
-import HeadingGroup from "./HeadingGroup";
 import SocialAccount from "./SocialAccount";
 
 const providers = [

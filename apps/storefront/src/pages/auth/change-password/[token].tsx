@@ -13,9 +13,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { useChangePasswordMutation } from "generated-graphql";
-import InputField from "@/components/ui/InputField";
+import { InputField, UnderlineLink } from "ui";
 
-import UnderlineLink from "@/components/ui/UnderlineLink";
 import Logo from "@/components/logo";
 import withAuthPages from "@/routes/withAuthPages";
 
