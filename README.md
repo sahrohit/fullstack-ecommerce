@@ -63,11 +63,13 @@ For other commands, check `scripts` in package.json.
 
 ## Apps
 
-| Apps       | Description                           |
-| ---------- | ------------------------------------- |
-| api        | Backend Server for the infrastructure |
-| admin      | Frontend Nextjs app for Managment     |
-| storefront | Frontend Nextjs app for end users     |
+| Apps              | Description                                     |
+| ----------------- | ----------------------------------------------- |
+| api               | Backend Server for the infrastructure           |
+| admin             | Frontend Nextjs app for Managment               |
+| storefront        | Frontend Nextjs app for end users               |
+| generated-graphql | Generated Apollo React Hooks using graphql      |
+| ui                | Shared UI package for both admin and storefront |
 
 ## Built With
 

@@ -192,7 +192,7 @@ const AddressForm = ({
 					/>
 					<ToggleButtonGroup<"home" | "work">
 						name={register("type").name}
-						onChange={(value) => setValue("type", value)}
+						onChange={(value: "home" | "work") => setValue("type", value)}
 						size="lg"
 						defaultValue={defaultValues?.type ?? "home"}
 						isAttached
