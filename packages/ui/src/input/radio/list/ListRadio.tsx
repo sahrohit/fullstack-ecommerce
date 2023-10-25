@@ -5,12 +5,13 @@ import {
 	Text,
 	useColorModeValue as mode,
 	useId,
-	UseRadioProps,
+	type UseRadioProps,
 	useRadio,
+	type BoxProps,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
-import { ListRadioBox } from "./ListRadioBox";
 
 export interface ListRadioProps extends UseRadioProps {
 	icon: React.ReactElement;
@@ -64,3 +65,20 @@ export const ListRadio = (props: ListRadioProps) => {
 ListRadio.defaultProps = {
 	anotherDescription: null,
 };
+
+export const ListRadioBox = (props: BoxProps) => (
+	<Box
+		// borderWidth="2px"
+		px="4"
+		py="3"
+		borderRadius="md"
+		cursor="pointer"
+		transition="all 0.2s"
+		_focus={{ shadow: "outline" }}
+		_checked={{
+			bg: useColorModeValue("gray.50", "whiteAlpha.100"),
+			borderColor: useColorModeValue("primary.500", "primary.300"),
+		}}
+		{...props}
+	/>
+);
