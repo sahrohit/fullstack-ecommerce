@@ -26,7 +26,6 @@
 		"dayjs": "^1.11.10",
 		"framer-motion": "^6.5.1",
 		"generated-graphql": "workspace:*",
-		"graphql": "^16.8.1",
 		"lodash.debounce": "^4.0.8",
 		"next": "latest",
 		"react": "18.2.0",
