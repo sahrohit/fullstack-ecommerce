@@ -1,7 +1,7 @@
 import { COMPANY } from "../constants";
 import { OrderDetail } from "../entities/OrderDetail";
 import { Arg, Mutation, Resolver, UseMiddleware } from "type-graphql";
-import easyinvoice from "easyinvoice";
+import easyinvoice, { InvoiceData } from "easyinvoice";
 import { sendEmailWithAttachment } from "../utils/sendEmail";
 import { invoiceTemplate } from "../static/invoiceTemplate";
 import { isAuth } from "../middlewares/isAuth";
@@ -13,7 +13,11 @@ export class InvoiceResolver {
 	async generateInvoice(
 		@Arg("orderId", () => String) orderId: string
 	): Promise<string> {
-		return (await easyinvoice.createInvoice(await getSampleData(orderId))).pdf;
+		return (
+			await easyinvoice.createInvoice(
+				(await getSampleData(orderId)) as InvoiceData
+			)
+		).pdf;
 	}
 
 	@Mutation(() => Boolean)
@@ -23,7 +27,7 @@ export class InvoiceResolver {
 		@Arg("email", () => String) email: string
 	): Promise<boolean> {
 		await easyinvoice.createInvoice(
-			await getSampleData(orderId),
+			(await getSampleData(orderId)) as InvoiceData,
 			async function (result) {
 				await sendEmailWithAttachment(
 					email,
