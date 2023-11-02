@@ -52,9 +52,10 @@ const Server = async () => {
 
 	app.use(
 		cors({
-			origin: (process.env.ALLOWED_ORIGINS!.split(",") || "").map(
-				(origin) => origin
-			),
+			// origin: (process.env.ALLOWED_ORIGINS!.split(",") || "").map(
+			// 	(origin) => origin
+			// ),
+			origin: true,
 			credentials: true,
 		})
 	);
@@ -83,7 +84,7 @@ const Server = async () => {
 	);
 
 	app.get("/", (_req, res) => {
-		console.log("Request Home");
+		console.log("Home Requested", new Date().toDateString());
 		res.json({ status: "ok" });
 	});
 
@@ -147,6 +148,12 @@ const Server = async () => {
 
 	app.use(
 		"/graphql",
+		cors<cors.CorsRequest>({
+			// origin: (process.env.ALLOWED_ORIGINS!.split(",") || "").map(
+			// 	(origin) => origin
+			// ),
+			origin: true,
+		}),
 		json(),
 		expressMiddleware(apolloServer, {
 			context: async ({ req, res }): Promise<MyContext> => ({

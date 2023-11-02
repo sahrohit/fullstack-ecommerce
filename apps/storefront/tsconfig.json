@@ -2,7 +2,8 @@
 	"extends": "tsconfig/nextjs.json",
 	"compilerOptions": {
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@/constants": ["./constants"]
 		},
 		"plugins": [
 			{
