@@ -2,9 +2,9 @@
 import { Box, Heading } from "@chakra-ui/react";
 import { Control, useController } from "react-hook-form";
 import { BsCashStack } from "react-icons/bs";
-import { CheckoutForm } from "@/pages/cart/checkout";
 import { LargeButtonRadioGroup } from "ui";
 import { EsewaLogoFull, KhaltiLogoFull } from "@/config/brands";
+import { CheckoutForm } from "@/pages/_sites/[site]/cart/checkout";
 
 interface PaymentSelectorProps {
 	control: Control<CheckoutForm, any>;

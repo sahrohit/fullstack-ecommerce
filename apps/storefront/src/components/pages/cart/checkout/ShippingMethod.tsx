@@ -13,7 +13,7 @@ import {
 import { Control, useController } from "react-hook-form";
 import { useShippingmethodsQuery } from "generated-graphql";
 import { Result } from "ui";
-import { CheckoutForm } from "@/pages/cart/checkout";
+import { CheckoutForm } from "@/pages/_sites/[site]/cart/checkout";
 
 interface ShippingMethodProps extends UseRadioGroupProps {
 	control: Control<CheckoutForm, any>;

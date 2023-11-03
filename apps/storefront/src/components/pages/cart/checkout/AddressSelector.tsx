@@ -24,7 +24,7 @@ import {
 import { Control, useController } from "react-hook-form";
 import { Address, useAddressesQuery } from "generated-graphql";
 import { Result, ListRadioBox } from "ui";
-import { CheckoutForm } from "@/pages/cart/checkout";
+import { CheckoutForm } from "@/pages/_sites/[site]/cart/checkout";
 
 interface AddressSelectorProps {
 	control: Control<CheckoutForm, any>;
