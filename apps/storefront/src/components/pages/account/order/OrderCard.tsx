@@ -40,12 +40,9 @@ import {
 	capitalize,
 	LargeButtonRadioGroup,
 } from "ui";
-import {
-	OrderInfo,
-	PaymentProviderLogo,
-	orderPageTextFromStatus,
-} from "@/pages/order/[id]";
+
 import colorFromStatus from "@/config/color";
+import { OrderInfo, orderPageTextFromStatus, PaymentProviderLogo } from "@/pages/_sites/[site]/order/[id]";
 import { paymentOptions } from "../../cart/checkout/PaymentSelector";
 import { CreateReviewButton } from "../../product/review/ProductReview";
 import EmailInvoice from "./EmailInvoice";

@@ -5,7 +5,7 @@ import { User } from "../entities/User";
 import argon2 from "argon2";
 import { AppDataSource } from "../data-source";
 import { validateAdminRegister } from "../utils/validator";
-import { VERIFY_EMAIL_PREFIX } from "../constants";
+import { COMPANY, VERIFY_EMAIL_PREFIX } from "../constants";
 import { v4 } from "uuid";
 import { sendEmail } from "../utils/sendEmail";
 import { verifyEmailTemplate } from "../static/verifyEmailTemplate";
@@ -13,6 +13,8 @@ import { AdminRegisterInput } from "./GqlObjets/Admin";
 import { TenantCategory } from "../entities/TenantCategory";
 import { Tenant } from "../entities/Tenant";
 import { TenantContact } from "../entities/TenantContant";
+import { Staff } from "../entities/Staff";
+import { addDomainToVercel } from "./domain";
 
 @Resolver()
 export class AdminResolver {
@@ -100,9 +102,12 @@ export class AdminResolver {
 	): Promise<UserResponse> {
 		// Validating User Input
 		const errors = validateAdminRegister(options);
+
 		if (errors) {
 			return { errors };
 		}
+
+		let userId;
 
 		// Check if user already exists
 		const exisitingUser = await User.findOne({
@@ -121,6 +126,8 @@ export class AdminResolver {
 			}
 			// Update the role if the user already exists
 			await User.update({ id: exisitingUser.id }, { roleId: 5 });
+
+			userId = exisitingUser.id;
 		} else {
 			// Create new user
 			let user;
@@ -165,14 +172,24 @@ export class AdminResolver {
 					`${process.env.CLIENT_URL}/auth/verify-email/${token}`
 				)
 			);
+			userId = user.id;
 		}
 
-		await Tenant.save({
+		const tenant = await Tenant.save({
 			name: options.tenant_name,
 			categoryId: options.tenant_category_id,
 			subdomain: options.subdomain,
 			defaultForPreview: false,
+			userId,
 		});
+
+		await Staff.save({
+			userId,
+			tenantId: tenant.id,
+			status: "ACCEPTED",
+		});
+
+		await addDomainToVercel(`${options.subdomain}${COMPANY.domain}`);
 
 		return {
 			user: await User.findOneOrFail({

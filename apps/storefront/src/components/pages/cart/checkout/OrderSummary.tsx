@@ -27,8 +27,8 @@ import {
 	useShippingmethodsQuery,
 } from "generated-graphql";
 import PageLoader from "@/components/shared/PageLoader";
-import { CheckoutForm } from "@/pages/cart/checkout";
 import { Result, PriceTag, capitalize } from "ui";
+import { CheckoutForm } from "@/pages/_sites/[site]/cart/checkout";
 
 interface OrderSummaryProps {
 	setFormPromoCode: (promoCode: string) => void;

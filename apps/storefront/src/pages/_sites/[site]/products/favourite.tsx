@@ -22,7 +22,7 @@ import {
 import { Result, HeadingGroup, PriceTag, ConfirmationModal } from "ui";
 import withProtected from "@/routes/withProtected";
 import Navbar from "@/components/shared/navbar";
-import services from "../../../public/assets/services.svg";
+import services from "../../../../../public/assets/services.svg";
 
 const FavouritePage = () => {
 	const { data: user, loading: userLoading, error: userError } = useMeQuery();

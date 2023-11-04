@@ -30,7 +30,7 @@ import TrackingTimeline from "@/components/pages/account/order/TrackingTimelines
 import { EsewaLogoFull, KhaltiLogoFull } from "@/config/brands";
 import Navbar from "@/components/shared/navbar";
 import Footer from "@/components/shared/Footer";
-import { BRAND_NAME } from "../../../constants";
+import { BRAND_NAME } from "@/constants";
 
 export const PaymentProviderLogo = {
 	khalti: <KhaltiLogoFull />,

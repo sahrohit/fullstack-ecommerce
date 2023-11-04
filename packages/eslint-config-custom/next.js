@@ -31,8 +31,8 @@ module.exports = {
 		},
 		"import/resolver": {
 			typescript: {
-				// alwaysTryTypes: true,
-				// project,
+				alwaysTryTypes: true,
+				project,
 			},
 		},
 	},

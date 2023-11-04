@@ -1,7 +1,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import "@/styles/globals.css";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import theme from "@/config/theme";
@@ -42,7 +42,11 @@ const App = ({ Component, pageProps }: AppProps) => {
 	return (
 		<ChakraProvider theme={theme}>
 			<ApolloProvider client={client}>
-				{router.pathname.startsWith("/account") ? (
+				<Box position="fixed" bottom={0} right={0}>
+					<p>{router.query.site}</p>
+				</Box>
+
+				{router.pathname.startsWith("/_sites/[site]/account") ? (
 					<SidebarLayout>
 						<Component {...pageProps} />
 					</SidebarLayout>

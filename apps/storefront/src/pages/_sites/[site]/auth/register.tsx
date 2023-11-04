@@ -14,7 +14,7 @@ import Logo from "@/components/logo";
 import RegisterForm from "@/components/auth/RegisterForm";
 import SignInWithGoogle from "@/components/auth/AuthProvider";
 import withAuthPages from "@/routes/withAuthPages";
-import { BRAND_NAME } from "../../../constants";
+import { BRAND_NAME } from "@/constants";
 
 const RegisterPage = () => (
 	<Box minH="100vh" bg={{ md: mode("gray.100", "inherit") }}>

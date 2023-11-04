@@ -5,7 +5,7 @@ import { HeadingGroup, Result } from "ui";
 import OrderCard from "@/components/pages/account/order/OrderCard";
 import PageLoader from "@/components/shared/PageLoader";
 import withProtected from "@/routes/withProtected";
-import noComments from "../../../public/assets/no-comments.svg";
+import noComments from "../../../../../public/assets/no-comments.svg";
 
 const OrdersPage = () => {
 	const { data, loading, error } = useOrdersQuery();

@@ -9,7 +9,7 @@ import ProductCard, {
 	ProductCardSkeleton,
 } from "@/components/pages/product/ProductCard";
 import Banner from "@/components/shared/banner";
-import { BRAND_NAME } from "../../constants";
+import { BRAND_NAME } from "@/constants";
 
 const HomePage = () => {
 	const { data, loading, error } = useProductsQuery();

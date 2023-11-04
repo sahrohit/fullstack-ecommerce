@@ -18,10 +18,10 @@ const registerAdminSchema = Joi.object({
 		minDomainSegments: 2,
 		tlds: { allow: ["com", "net", "edu"] },
 	}),
-	first_name: Joi.string().required(),
-	last_name: Joi.string(),
+	first_name: Joi.string().allow("").optional(),
+	last_name: Joi.string().allow("").optional(),
 	tenant_name: Joi.string().required(),
-	tenant_desc: Joi.string().required(),
+	tenant_desc: Joi.string().allow("").optional(),
 	tenant_category_id: Joi.number().required(),
 	subdomain: Joi.string().required(),
 });
@@ -42,6 +42,9 @@ export const validateRegister = (options: RegisterInput) => {
 
 export const validateAdminRegister = (options: AdminRegisterInput) => {
 	const { error } = registerAdminSchema.validate(options);
+
+	console.log("schema", registerAdminSchema);
+	console.log("wtf", registerAdminSchema.validate(options));
 
 	if (error) {
 		return [

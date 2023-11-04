@@ -54,10 +54,7 @@ const RegisterFormSchema = Yup.object({
 	tenant_category_id: Yup.number().required("Required"),
 	subdomain: Yup.string()
 		.required("Required")
-		.matches(
-			/^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/,
-			"Invalid Domain"
-		),
+		.matches(/^[a-z0-9-]{1,63}$/, "Invalid Domain"),
 	alreadyAUser: Yup.boolean(),
 });
 
@@ -69,6 +66,7 @@ const RegisterForm = () => {
 		formState: { errors, touchedFields },
 		setError,
 		watch,
+		reset,
 	} = useForm<RegisterFormValues>({
 		defaultValues: {
 			first_name: "",
@@ -113,6 +111,7 @@ const RegisterForm = () => {
 					duration: 5000,
 					isClosable: true,
 				});
+				reset();
 			}
 		},
 		onError: (error) => {
@@ -139,10 +138,18 @@ const RegisterForm = () => {
 
 	return (
 		<form
-			onSubmit={handleSubmit((values) => {
-				registerMutation({
+			onSubmit={handleSubmit(async (values) => {
+				await registerMutation({
 					variables: {
-						options: values,
+						options: {
+							email: values.email,
+							password: values.password,
+							first_name: values.first_name,
+							last_name: values.last_name,
+							tenant_name: values.tenant_name,
+							tenant_category_id: values.tenant_category_id,
+							subdomain: values.subdomain,
+						},
 					},
 				});
 			})}
@@ -157,7 +164,7 @@ const RegisterForm = () => {
 				<List spacing="12" w="full">
 					<ListItem
 						title="Business Details"
-						subTitle="Posted by Mark Chandler"
+						subTitle="Details about your business"
 						icon={<Icon as={AiFillShop} boxSize="6" />}
 					>
 						<VStack w="full">

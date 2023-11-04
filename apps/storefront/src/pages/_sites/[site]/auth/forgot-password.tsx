@@ -17,7 +17,7 @@ import { useForgotPasswordMutation } from "generated-graphql";
 import { InputField, UnderlineLink, useLocalStorage } from "ui";
 import Logo from "@/components/logo";
 import withAuthPages from "@/routes/withAuthPages";
-import { PROD } from "../../../constants";
+import { PROD } from "@/constants";
 
 const ForgotPasswordPage = () => (
 	<Box
