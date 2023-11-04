@@ -5,7 +5,7 @@ import { User } from "../entities/User";
 import argon2 from "argon2";
 import { AppDataSource } from "../data-source";
 import { validateAdminRegister } from "../utils/validator";
-import { VERIFY_EMAIL_PREFIX } from "../constants";
+import { COMPANY, VERIFY_EMAIL_PREFIX } from "../constants";
 import { v4 } from "uuid";
 import { sendEmail } from "../utils/sendEmail";
 import { verifyEmailTemplate } from "../static/verifyEmailTemplate";
@@ -14,6 +14,7 @@ import { TenantCategory } from "../entities/TenantCategory";
 import { Tenant } from "../entities/Tenant";
 import { TenantContact } from "../entities/TenantContant";
 import { Staff } from "../entities/Staff";
+import { addDomainToVercel } from "./domain";
 
 @Resolver()
 export class AdminResolver {
@@ -187,6 +188,8 @@ export class AdminResolver {
 			tenantId: tenant.id,
 			status: "ACCEPTED",
 		});
+
+		await addDomainToVercel(`${options.subdomain}${COMPANY.domain}`);
 
 		return {
 			user: await User.findOneOrFail({

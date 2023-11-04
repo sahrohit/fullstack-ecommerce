@@ -10,6 +10,7 @@ export const COMPANY = {
 	zip: "44708",
 	city: "Kathmandu",
 	country: "Nepal",
+	domain: ".rudejellyfish.live",
 };
 export const GOOGLE_OAUTH_REDIRECT_URL = `${process.env.API_URL}/auth/google/callback`;
 export const ESEWA_MERCHANT_CODE = "EPAYTEST";

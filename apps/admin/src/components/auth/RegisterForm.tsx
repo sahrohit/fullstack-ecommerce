@@ -66,6 +66,7 @@ const RegisterForm = () => {
 		formState: { errors, touchedFields },
 		setError,
 		watch,
+		reset,
 	} = useForm<RegisterFormValues>({
 		defaultValues: {
 			first_name: "",
@@ -110,6 +111,7 @@ const RegisterForm = () => {
 					duration: 5000,
 					isClosable: true,
 				});
+				reset();
 			}
 		},
 		onError: (error) => {
@@ -136,8 +138,8 @@ const RegisterForm = () => {
 
 	return (
 		<form
-			onSubmit={handleSubmit((values) => {
-				registerMutation({
+			onSubmit={handleSubmit(async (values) => {
+				await registerMutation({
 					variables: {
 						options: {
 							email: values.email,
@@ -162,7 +164,7 @@ const RegisterForm = () => {
 				<List spacing="12" w="full">
 					<ListItem
 						title="Business Details"
-						subTitle="Posted by Mark Chandler"
+						subTitle="Details about your business"
 						icon={<Icon as={AiFillShop} boxSize="6" />}
 					>
 						<VStack w="full">
