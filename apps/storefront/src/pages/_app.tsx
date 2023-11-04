@@ -46,7 +46,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<p>{router.query.site}</p>
 				</Box>
 
-				{router.pathname.startsWith("/account") ? (
+				{router.pathname.startsWith("/_sites/[site]/account") ? (
 					<SidebarLayout>
 						<Component {...pageProps} />
 					</SidebarLayout>
