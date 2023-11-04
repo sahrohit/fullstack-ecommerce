@@ -1,7 +1,6 @@
 import { FaUser } from "react-icons/fa";
 import { BiPackage, BiSupport, BiCategoryAlt } from "react-icons/bi";
-import { TbTruckReturn } from "react-icons/tb";
-import { AiOutlineSetting } from "react-icons/ai";
+import { AiOutlineSetting, AiOutlineShop } from "react-icons/ai";
 import { BsArrowReturnLeft } from "react-icons/bs";
 
 export const ORDER_NAV_LINKS = [
@@ -11,9 +10,9 @@ export const ORDER_NAV_LINKS = [
 		icon: BiPackage,
 	},
 	{
-		label: "Returns",
-		href: "/dashboard/returns",
-		icon: TbTruckReturn,
+		label: "Products",
+		href: "/dashboard/products",
+		icon: AiOutlineShop,
 	},
 	{
 		label: "Category",

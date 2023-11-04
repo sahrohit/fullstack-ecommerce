@@ -18,6 +18,7 @@ import DeliveryOptions from "@/components/pages/settings/DeliveryOptions";
 import Domains from "@/components/pages/settings/Domains";
 import StoreContacts from "@/components/pages/settings/Contact";
 import TenantKYC from "@/components/pages/settings/KYC";
+import withProtected from "@/routes/withProtected";
 
 const SETTING_TABS = [
 	{
@@ -100,4 +101,4 @@ const StoreSettings = () => (
 	</>
 );
 
-export default StoreSettings;
+export default withProtected(StoreSettings);
