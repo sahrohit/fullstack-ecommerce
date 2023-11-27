@@ -30,7 +30,7 @@
 			"outputs": ["coverage/**"],
 			"dependsOn": []
 		},
-		"lint": {
+		"lint:check": {
 			"dependsOn": ["^build"]
 		},
 		"lint:fix": {

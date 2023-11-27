@@ -7,7 +7,7 @@
 		"dev:store": "turbo run dev --no-daemon --parallel --no-cache --continue --filter=storefront",
 		"format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
-		"lint": "turbo run lint --no-daemon",
+		"lint:check": "turbo run lint:check --no-daemon",
 		"lint:fix": "turbo run lint:fix --no-daemon",
 		"test": "turbo run test",
 		"gen-env": "turbo run gen-env --no-daemon",
@@ -15,10 +15,10 @@
 		"codegen": "turbo run codegen --no-daemon"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^17.7.2",
-		"@commitlint/config-conventional": "^17.7.0",
+		"@commitlint/cli": "^18.2.0",
+		"@commitlint/config-conventional": "^18.1.0",
 		"husky": "^8.0.3",
-		"lint-staged": "^13.3.0",
+		"lint-staged": "^15.0.2",
 		"prettier": "^3.0.3",
 		"turbo": "^1.10.16"
 	},

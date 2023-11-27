@@ -1,5 +1,5 @@
 {
-	"apps/**/*.{ts,tsx,js,jsx}": ["eslint --fix"],
-	"packages/**/*.{ts,tsx,js,jsx}": ["eslint --fix"],
+	"apps/**/*.{ts,tsx,js,jsx,astro}": ["eslint --fix"],
+	"packages/**/*.{ts,tsx,js,jsx,astro}": ["eslint --fix"],
 	"**/*.{md,mdx,yml,json,babelrc,eslintrc,prettierrc}": ["prettier --write"]
 }
