@@ -40,6 +40,7 @@ import {
 } from "generated-graphql";
 import FileUploadInputField from "@/components/ui/FileUploadInputField";
 import { DataTable } from "@/components/ui/table";
+import withProtected from "@/routes/withProtected";
 
 interface TableActionsProps {
 	searchText: string;
@@ -405,4 +406,4 @@ const CategoryPage = () => {
 	);
 };
 
-export default CategoryPage;
+export default withProtected(CategoryPage);
