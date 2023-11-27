@@ -18,7 +18,11 @@ const CommitLintConfiguration = {
 				"test",
 			],
 		],
-		"scope-enum": [2, "always", ["root", "admin", "api", "web", "storefront", "generated-graphql", "ui"]],
+		"scope-enum": [
+			2,
+			"always",
+			["root", "admin", "api", "blog", "storefront", "generated-graphql", "ui"],
+		],
 		"scope-case": [2, "always", "kebab-case"],
 	},
 };
