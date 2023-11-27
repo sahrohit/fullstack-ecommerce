@@ -1,5 +1,3 @@
-import { cartesian } from "@/utils/helpers";
-import { UploadButton } from "@/utils/uploadthing";
 import {
 	VStack,
 	HStack,
@@ -11,6 +9,7 @@ import {
 	Select,
 	Switch,
 	useToast,
+	Image,
 } from "@chakra-ui/react";
 import {
 	AutoComplete,
@@ -21,11 +20,13 @@ import {
 } from "@choc-ui/chakra-autocomplete";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCategoriesQuery, useVariantsQuery } from "generated-graphql";
-import Image from "next/image";
 import { useEffect, useMemo } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
 import { InputField } from "ui";
 import * as Yup from "yup";
+import { Reorder } from "framer-motion";
+import { UploadButton } from "@/utils/uploadthing";
+import { cartesian } from "@/utils/helpers";
 
 interface NewProductFormValues {
 	name: string;
@@ -162,6 +163,12 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 		control, // control props comes from useForm (optional: if you are using FormContext)
 		name: "images", // unique name for your Field Array
 	});
+
+	const reorderImages = (
+		images: FieldArrayWithId<NewProductFormValues, "images", "id">[]
+	) => {
+		setValue("images", images);
+	};
 
 	const combinations = useMemo(() => {
 		const variantCombinations = variants?.variants
@@ -366,34 +373,50 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 				))}
 
 				<HStack>
-					{imageFields.map((field) => (
-						<Image
-							key={field.url}
-							src={field.url}
-							width={200}
-							height={200}
-							draggable="false"
-							alt="Product Image"
+					<Reorder.Group
+						axis="x"
+						onReorder={reorderImages}
+						values={imageFields}
+						as="div"
+						style={{
+							display: "grid",
+							gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+							gap: "2rem",
+							listStyle: "none",
+						}}
+					>
+						{imageFields.map((field) => (
+							<Reorder.Item value={field} id={field.id}>
+								<Image
+									key={field.url}
+									src={field.url}
+									width={160}
+									height={160}
+									draggable="false"
+									alt="Product Image"
+									objectFit="cover"
+								/>
+							</Reorder.Item>
+						))}
+						<UploadButton
+							endpoint="kycDocumentUploader"
+							onClientUploadComplete={(res) => {
+								appendImage({
+									url: res?.[0].url as string,
+									sequence: imageFields.length,
+								});
+							}}
+							onUploadError={(uploadError: Error) => {
+								toast({
+									title: "KYC Document Upload Failed",
+									description: uploadError.message,
+									status: "error",
+									duration: 5000,
+									isClosable: true,
+								});
+							}}
 						/>
-					))}
-					<UploadButton
-						endpoint="kycDocumentUploader"
-						onClientUploadComplete={(res) => {
-							appendImage({
-								url: res?.[0].url as string,
-								sequence: imageFields.length,
-							});
-						}}
-						onUploadError={(uploadError: Error) => {
-							toast({
-								title: "KYC Document Upload Failed",
-								description: uploadError.message,
-								status: "error",
-								duration: 5000,
-								isClosable: true,
-							});
-						}}
-					/>
+					</Reorder.Group>
 				</HStack>
 
 				{/* TODO: Add Multiple File Upload & View Shared Component */}
