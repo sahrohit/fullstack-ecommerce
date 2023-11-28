@@ -17,6 +17,7 @@
 		"@chakra-ui/next-js": "^2.1.5",
 		"@chakra-ui/pro-theme": "^0.0.65",
 		"@chakra-ui/react": "^2.8.1",
+		"@choc-ui/chakra-autocomplete": "^5.2.8",
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
 		"@hookform/resolvers": "^2.9.11",
@@ -35,11 +36,6 @@
 		"yup": "^0.32.11"
 	},
 	"devDependencies": {
-		"@graphql-codegen/cli": "2.6.2",
-		"@graphql-codegen/client-preset": "^3.0.1",
-		"@graphql-codegen/typescript": "2.5.1",
-		"@graphql-codegen/typescript-operations": "2.4.2",
-		"@graphql-codegen/typescript-react-apollo": "3.2.16",
 		"@next/eslint-plugin-next": "^13.5.3",
 		"@types/node": "18.15.11",
 		"@types/react": "18.0.31",
