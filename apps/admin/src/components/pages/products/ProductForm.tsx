@@ -10,6 +10,8 @@ import {
 	Switch,
 	useToast,
 	Image,
+	IconButton,
+	FormHelperText,
 } from "@chakra-ui/react";
 import {
 	AutoComplete,
@@ -24,9 +26,11 @@ import { useEffect, useMemo } from "react";
 import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
 import { InputField } from "ui";
 import * as Yup from "yup";
-import { Reorder } from "framer-motion";
-import { UploadButton } from "@/utils/uploadthing";
+import { Reorder, useMotionValue } from "framer-motion";
+import { AiOutlineClose } from "react-icons/ai";
+import { UploadDropzone } from "@/utils/uploadthing";
 import { cartesian } from "@/utils/helpers";
+import useRaisedShadow from "@/hooks/useRaisedShadow";
 
 interface NewProductFormValues {
 	name: string;
@@ -84,6 +88,9 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 
 	const { data: categories, loading: categoriesLoading } = useCategoriesQuery();
 	const { data: variants } = useVariantsQuery();
+
+	const y = useMotionValue(0);
+	const boxShadow = useRaisedShadow(y);
 
 	// const [createProduct] = useCreateProductMutation({
 	// 	refetchQueries: ["Products", "ShippingmethodsByTenant"],
@@ -155,13 +162,13 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 	});
 
 	const { fields: variantFields } = useFieldArray({
-		control, // control props comes from useForm (optional: if you are using FormContext)
-		name: "combinations", // unique name for your Field Array
+		control,
+		name: "combinations",
 	});
 
 	const { fields: imageFields, append: appendImage } = useFieldArray({
-		control, // control props comes from useForm (optional: if you are using FormContext)
-		name: "images", // unique name for your Field Array
+		control,
+		name: "images",
 	});
 
 	const reorderImages = (
@@ -198,12 +205,15 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 				quantity: 0,
 				sku: "",
 				isPublished: false,
-			}))
+			})) ?? []
 		);
 	}, [combinations, setValue]);
 
 	return (
-		<form
+		<VStack
+			gap={4}
+			w="full"
+			as="form"
 			onSubmit={handleSubmit(async (values) => {
 				console.log("Values", values);
 				// if (defaultValues) {
@@ -221,51 +231,147 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 				// }
 			})}
 		>
-			<VStack gap={4} w="full">
-				<HStack w="full" gap={2}>
-					<InputField
-						register={{ ...register("name") }}
-						error={errors.name}
-						touched={dirtyFields.name}
-						required
-						name="name"
-						type="text"
-						label="Product Name"
-						autoComplete="name"
-						placeholder="Nike Air Force"
-						size="lg"
-					/>
-					<FormControl
-						id="category_id"
-						isInvalid={!!errors.category_id && touchedFields.category_id}
-					>
-						<HStack justifyContent="space-between">
-							<FormLabel>Product Category</FormLabel>
-							<FormErrorMessage>{errors.category_id?.message}</FormErrorMessage>
-						</HStack>
-						<Select size="lg" {...register("category_id")}>
-							{categoriesLoading
-								? ["Loading..."].map(() => (
-										<option key="product-category-option-loading" value={1}>
-											Loading...
-										</option>
-								  ))
-								: categories?.categories.map((category) => (
-										<option key={category.identifier} value={category.id}>
-											{category.name}
-										</option>
-								  ))}
-						</Select>
-					</FormControl>
-				</HStack>
-				<FormControl id="desc" isInvalid={!!errors.desc && dirtyFields.desc}>
+			<HStack w="full" gap={2}>
+				<InputField
+					register={{ ...register("name") }}
+					error={errors.name}
+					touched={dirtyFields.name}
+					required
+					name="name"
+					type="text"
+					label="Product Name"
+					autoComplete="name"
+					placeholder="Nike Air Force"
+					size="lg"
+				/>
+				<FormControl
+					id="category_id"
+					isInvalid={!!errors.category_id && touchedFields.category_id}
+				>
 					<HStack justifyContent="space-between">
-						<FormLabel>Product Description</FormLabel>
-						<FormErrorMessage>{errors.desc?.message}</FormErrorMessage>
+						<FormLabel>Product Category</FormLabel>
+						<FormErrorMessage>{errors.category_id?.message}</FormErrorMessage>
 					</HStack>
-					<Textarea {...register("desc")} />
+					<Select size="lg" {...register("category_id")}>
+						{categoriesLoading
+							? ["Loading..."].map(() => (
+									<option key="product-category-option-loading" value={1}>
+										Loading...
+									</option>
+							  ))
+							: categories?.categories.map((category) => (
+									<option key={category.identifier} value={category.id}>
+										{category.name}
+									</option>
+							  ))}
+					</Select>
 				</FormControl>
-				<FormControl id="variants" w="60">
+			</HStack>
+			<HStack w="full" alignItems="flex-start" gap={2}>
+				<VStack w="full">
+					<FormControl id="desc" isInvalid={!!errors.desc && dirtyFields.desc}>
+						<HStack justifyContent="space-between">
+							<FormLabel>Product Description</FormLabel>
+							<FormErrorMessage>{errors.desc?.message}</FormErrorMessage>
+						</HStack>
+						<Textarea {...register("desc")} />
+					</FormControl>
+					<FormControl id="images">
+						<HStack justifyContent="space-between">
+							<FormLabel>Images</FormLabel>
+							<FormHelperText fontSize="xs">
+								{!errors.images?.message && "Delete & Upload Again to Reorder"}
+							</FormHelperText>
+							<FormErrorMessage>{errors.images?.message}</FormErrorMessage>
+						</HStack>
+
+						{/* TODO: This needs to be reworked, as it is sketchy and not working properly  */}
+						<Reorder.Group
+							axis="x"
+							onReorder={reorderImages}
+							values={imageFields}
+							as="div"
+							style={{
+								width: "100%",
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center",
+								justifyContent: "flex-start",
+								gap: "1rem",
+								listStyle: "none",
+								flexWrap: "wrap",
+							}}
+						>
+							{imageFields.map((field) => (
+								<Reorder.Item
+									style={{
+										position: "relative",
+										boxShadow,
+										y,
+										cursor: "grab",
+									}}
+									key={field.url}
+									value={field}
+									id={field.url}
+								>
+									<Image
+										key={field.url}
+										src={field.url}
+										width={120}
+										height={120}
+										draggable="false"
+										alt="Product Image"
+										objectFit="cover"
+										border="2px dotted"
+										borderColor="gray.500"
+										borderRadius="md"
+									/>
+									<IconButton
+										onClick={() => {
+											setValue(
+												"images",
+												imageFields.filter((item) => item.url !== field.url)
+											);
+										}}
+										size="xs"
+										position="absolute"
+										top="2"
+										right="2"
+										colorScheme="red"
+										aria-label="Delete Image"
+										icon={<AiOutlineClose />}
+									/>
+								</Reorder.Item>
+							))}
+						</Reorder.Group>
+						<UploadDropzone
+							appearance={{
+								container: {
+									width: "100%",
+								},
+							}}
+							endpoint="productImageUploader"
+							onClientUploadComplete={(res) => {
+								res?.forEach((image) => {
+									appendImage({
+										url: image.url as string,
+										sequence: imageFields.length,
+									});
+								});
+							}}
+							onUploadError={(uploadError: Error) => {
+								toast({
+									title: "Product Image Upload Failed",
+									description: uploadError.message,
+									status: "error",
+									duration: 5000,
+									isClosable: true,
+								});
+							}}
+						/>
+					</FormControl>
+				</VStack>
+				<FormControl id="variants">
 					<HStack justifyContent="space-between">
 						<FormLabel>Variants</FormLabel>
 						<FormErrorMessage>{errors.variants?.message}</FormErrorMessage>
@@ -277,7 +383,7 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 							setValue("variants", vals);
 						}}
 					>
-						<AutoCompleteInput size="lg" autoComplete="off">
+						<AutoCompleteInput w="full" size="lg" autoComplete="off">
 							{({ tags }) =>
 								tags.map((tag, tid) => (
 									<AutoCompleteTag
@@ -303,124 +409,82 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 							))}
 						</AutoCompleteList>
 					</AutoComplete>
-				</FormControl>
-
-				{variantFields.map((field, index) => (
-					<HStack>
-						<InputField
-							register={{ ...register(`combinations.${index}.price`) }}
-							error={errors?.combinations?.[index]?.price}
-							touched={dirtyFields?.combinations?.[index]?.price}
-							required
-							name="name"
-							type="text"
-							label={`Product Price (${
-								field.variants.length > 1
-									? field.variants.join(", ")
-									: field.variants[0]
-							})`}
-							autoComplete="price"
-							placeholder="e.g. 9000"
-							size="lg"
-						/>
-						<InputField
-							register={{ ...register(`combinations.${index}.quantity`) }}
-							error={errors?.combinations?.[index]?.quantity}
-							touched={dirtyFields?.combinations?.[index]?.quantity}
-							required
-							name="name"
-							type="text"
-							label={`Product Quantity (${
-								field.variants.length > 1
-									? field.variants.join(", ")
-									: field.variants[0]
-							})`}
-							autoComplete="quantity"
-							placeholder="e.g. 30"
-							size="lg"
-						/>
-						<InputField
-							register={{ ...register(`combinations.${index}.sku`) }}
-							error={errors?.combinations?.[index]?.sku}
-							touched={dirtyFields?.combinations?.[index]?.sku}
-							required
-							name="name"
-							type="text"
-							label={`Product Sku (${
-								field.variants.length > 1
-									? field.variants.join(", ")
-									: field.variants[0]
-							})`}
-							autoComplete="sku"
-							placeholder="e.g. red-green"
-							size="lg"
-						/>
-						<FormControl
-							isInvalid={
-								!!errors?.combinations?.[index]?.isPublished &&
-								dirtyFields?.combinations?.[index]?.isPublished
-							}
-						>
-							<HStack justifyContent="space-between">
-								<FormLabel>Is Published</FormLabel>
-								<FormErrorMessage>
-									{errors?.combinations?.[index]?.isPublished?.message}
-								</FormErrorMessage>
-							</HStack>
-							<Switch size="lg" {...register} />
-						</FormControl>
-					</HStack>
-				))}
-
-				<HStack>
-					<Reorder.Group
-						axis="x"
-						onReorder={reorderImages}
-						values={imageFields}
-						as="div"
-						style={{
-							display: "grid",
-							gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-							gap: "2rem",
-							listStyle: "none",
-						}}
-					>
-						{imageFields.map((field) => (
-							<Reorder.Item value={field} id={field.id}>
-								<Image
-									key={field.url}
-									src={field.url}
-									width={160}
-									height={160}
-									draggable="false"
-									alt="Product Image"
-									objectFit="cover"
+					<VStack p={4} w="full" alignItems="flex-start">
+						{variantFields.map((field, index) => (
+							<HStack w="full">
+								<InputField
+									register={{ ...register(`combinations.${index}.price`) }}
+									error={errors?.combinations?.[index]?.price}
+									touched={dirtyFields?.combinations?.[index]?.price}
+									required
+									name="name"
+									type="text"
+									label={`Price (${
+										field.variants.length > 1
+											? field.variants.join(", ")
+											: field.variants[0]
+									})`}
+									autoComplete="price"
+									placeholder="e.g. 9000"
+									size="md"
 								/>
-							</Reorder.Item>
+								<InputField
+									register={{ ...register(`combinations.${index}.quantity`) }}
+									error={errors?.combinations?.[index]?.quantity}
+									touched={dirtyFields?.combinations?.[index]?.quantity}
+									required
+									name="name"
+									type="text"
+									label={`Quantity (${
+										field.variants.length > 1
+											? field.variants.join(", ")
+											: field.variants[0]
+									})`}
+									autoComplete="quantity"
+									placeholder="e.g. 30"
+									size="md"
+								/>
+								<InputField
+									register={{ ...register(`combinations.${index}.sku`) }}
+									error={errors?.combinations?.[index]?.sku}
+									touched={dirtyFields?.combinations?.[index]?.sku}
+									required
+									name="name"
+									type="text"
+									label={`Sku (${
+										field.variants.length > 1
+											? field.variants.join(", ")
+											: field.variants[0]
+									})`}
+									autoComplete="sku"
+									placeholder="e.g. red-green"
+									size="md"
+								/>
+								<FormControl
+									isInvalid={
+										!!errors?.combinations?.[index]?.isPublished &&
+										dirtyFields?.combinations?.[index]?.isPublished
+									}
+								>
+									<HStack justifyContent="space-between">
+										<FormLabel>Is Published</FormLabel>
+										<FormErrorMessage>
+											{errors?.combinations?.[index]?.isPublished?.message}
+										</FormErrorMessage>
+									</HStack>
+									<Switch
+										size="md"
+										{...register(`combinations.${index}.isPublished`)}
+									/>
+								</FormControl>
+							</HStack>
 						))}
-						<UploadButton
-							endpoint="kycDocumentUploader"
-							onClientUploadComplete={(res) => {
-								appendImage({
-									url: res?.[0].url as string,
-									sequence: imageFields.length,
-								});
-							}}
-							onUploadError={(uploadError: Error) => {
-								toast({
-									title: "KYC Document Upload Failed",
-									description: uploadError.message,
-									status: "error",
-									duration: 5000,
-									isClosable: true,
-								});
-							}}
-						/>
-					</Reorder.Group>
-				</HStack>
+					</VStack>
+				</FormControl>
+			</HStack>
 
-				{/* TODO: Add Multiple File Upload & View Shared Component */}
-				{/* <MultipleFileUploadInputField<NewProductFormValues>
+			{/* TODO: Add Multiple File Upload & View Shared Component */}
+			{/* <MultipleFileUploadInputField<NewProductFormValues>
 					control={control}
 					name="images"
 					error={errors?.images?.[0]}
@@ -434,11 +498,10 @@ const ProductForm = ({ onSuccess, defaultValues }: ProductFormProps) => {
 					value="abcdef"
 				/> */}
 
-				<Button mb={4} w="full" type="submit" colorScheme="primary">
-					{defaultValues ? "Update" : "Add"} Create New Product
-				</Button>
-			</VStack>
-		</form>
+			<Button mb={4} w="full" type="submit" colorScheme="primary">
+				{defaultValues ? "Update" : "Add"} Create New Product
+			</Button>
+		</VStack>
 	);
 };
 
