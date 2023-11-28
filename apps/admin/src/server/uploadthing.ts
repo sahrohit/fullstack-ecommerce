@@ -10,6 +10,11 @@ export const ourFileRouter = {
 	}).onUploadComplete(async ({ file }) => {
 		log("KYC Document Uploded", file.name, file.url);
 	}),
+	productImageUploader: f({
+		image: { maxFileCount: 8, maxFileSize: "8MB" },
+	}).onUploadComplete(async ({ file }) => {
+		log("KYC Document Uploded", file.name, file.url);
+	}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

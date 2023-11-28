@@ -25,9 +25,9 @@ export class CategoryResolver {
 	@Query(() => [ProductCategory])
 	async categories(@Ctx() { req }: MyContext): Promise<ProductCategory[]> {
 		return ProductCategory.find({
-			where: {
-				tenantId: req.session?.tenantId,
-			},
+			// where: {
+			// 	tenantId: req.session?.tenantId,
+			// },
 		});
 	}
 
